@@ -25,11 +25,17 @@
     <Filter Include="assimp">
       <UniqueIdentifier>{e26ec669-5054-4dcc-8747-112871a9cd8e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SRC">
+    <Filter Include="Engine_Header">
+      <UniqueIdentifier>{dde62a5a-30ab-4c75-8883-25c1c7935d2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine_SRC">
       <UniqueIdentifier>{6d46248c-c7b1-4a28-85e0-84ae2c032ca3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header">
-      <UniqueIdentifier>{dde62a5a-30ab-4c75-8883-25c1c7935d2e}</UniqueIdentifier>
+    <Filter Include="GAME_SOURCE">
+      <UniqueIdentifier>{fed2e1d0-d347-42a8-b459-b2265210858e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME_HEADER">
+      <UniqueIdentifier>{9c07cc8a-75b2-4a70-b69c-144445d0687c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -87,20 +93,14 @@
     <ClCompile Include="framebuffer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="input.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Time.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="character.cpp">
-      <Filter>SRC</Filter>
+      <Filter>Engine_SRC</Filter>
     </ClCompile>
     <ClCompile Include="a.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="GameManager.cpp">
-      <Filter>SRC</Filter>
+      <Filter>Engine_SRC</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -158,32 +158,29 @@
     <ClInclude Include="framebuffer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="input.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Time.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="character.h">
-      <Filter>Header</Filter>
+      <Filter>Engine_Header</Filter>
     </ClInclude>
     <ClInclude Include="a.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
-      <Filter>Header</Filter>
+      <Filter>Engine_Header</Filter>
     </ClInclude>
-    <ClInclude Include="Actor.h">
-      <Filter>Header</Filter>
+    <ClInclude Include="Gameobject.h">
+      <Filter>Engine_Header</Filter>
     </ClInclude>
     <ClInclude Include="GameManager.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Header</Filter>
+      <Filter>Engine_Header</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
-      <Filter>Header</Filter>
+      <Filter>Engine_Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Layer.h">
+      <Filter>Engine_Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Engine_Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

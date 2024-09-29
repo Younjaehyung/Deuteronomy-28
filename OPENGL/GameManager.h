@@ -4,7 +4,7 @@
 #include "program.h"
 #include "context.h"
 
-#include "Actor.h"
+#include "Gameobject.h"
 
 class GameManager
 {

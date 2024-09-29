@@ -1,43 +1,39 @@
 ﻿#pragma once
-#include "Actor.h"
-#include "Component.h"
-#include <vector>
+#include "Layer.h"
 
 
 class Scene {
 private:
-	std::vector <Actor*> Gameobjects;
+	std::vector <Layer*> Layers;
 public:
+	Scene ( );
+	virtual ~Scene ( );
 
-	void Update ( )
+	virtual void Update ( )
 	{
-		for (auto& _Gameobject : Gameobjects ) {
-			_Gameobject->Update ( );
+		for ( auto& _Layer : Layers ) {
+			_Layer->Update ( );
 		}
 	}
 
-	void Initialize ( )
+	virtual void Initialize ( )
 	{
-		for ( auto& _Gameobject : Gameobjects ) {
-			
+		for ( auto& _Layer : Layers ) {
+			_Layer->Initialize ( );
 		}
 	}
 
-	void FixedUpdate ( )
+	virtual void FixedUpdate ( )
 	{
-		for ( auto& _Gameobject : Gameobjects ) {
-			_Gameobject->FixedUpdate ( );
+		for ( auto& _Layer : Layers ) {
+			_Layer->FixedUpdate ( );
 		}
 	}
 
-	void AddGameobjects ( const Actor* actor ) {
-		Gameobjects.push_back ( actor );
-	}
-
-	void Render ( )
+	virtual void Render ( )
 	{
-		for ( auto& _Gameobject : Gameobjects ) {
-			_Gameobject->Render ( );
+		for ( auto& _Layer : Layers ) {
+			_Layer->Render ( );
 		}
 
 	}

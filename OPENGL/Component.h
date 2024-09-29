@@ -1,19 +1,23 @@
 ﻿#pragma once
 
-class Actor;
+class Gameobject;
 
 class Component {
 public:
-	Component ( Actor* pOwner ) { m_pOwner = pOwner; }
+	Component ( Gameobject* pOwner ) { m_pOwner = pOwner; }
 	virtual ~Component ( ) = default;
 
 	virtual void Update ( float deltaTime ) = 0;
+	virtual void FixedUpdate ( ) = 0;
+	virtual void Render ( ) = 0;
+
 
 	//리턴값
-	Actor* GenOwner ( ) { return m_pOwner; }	
-	const Actor* GetOwner ( ) const { return m_pOwner; }
+	Gameobject* GenOwner ( ) { return m_pOwner; }
+	const Gameobject* GetOwner ( ) const { return m_pOwner; }
+
 private:
-	Actor* m_pOwner = nullptr;	//Actor 자료형.
+	Gameobject* m_pOwner = nullptr;	//Gameobject 자료형.
 };
 
 class PhysicsComponent : public Component {
