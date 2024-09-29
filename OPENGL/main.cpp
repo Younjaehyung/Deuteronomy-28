@@ -1,7 +1,4 @@
-﻿#include "common_include.h"
-#include "shader.h"
-#include "program.h"
-#include "context.h"
+﻿#include "GameManager.h"
 
 void OnMouseButton ( GLFWwindow* window , int button , int action , int modifier );
 void OnFramebufferSizeChange ( GLFWwindow* window , int width , int height );
@@ -100,7 +97,7 @@ int main ( )
 
            context-> Render ( );    //출력
 
-    
+            
            ImGui::Render ( );    //imgui 정보 종합
            ImGui_ImplOpenGL3_RenderDrawData ( ImGui::GetDrawData ( ) ); //imgui 그려줌
 
