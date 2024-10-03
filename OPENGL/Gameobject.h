@@ -3,6 +3,7 @@
 #include "Component.h"
 #include <vector>
 #include "Common.h"
+#include "CameraManager.h"
 #include "common_include.h"
 
 class Component;	//부품
@@ -89,26 +90,12 @@ public:
 		return nullptr;
 	}
 
+	void Update ( float deltaTime );
 
-	//Update
-	void Update ( float deltaTime ) {
-		for ( auto& _components : m_vecComponent ) {
-			_components->Update ( deltaTime );
-		}
-	}
+	void FixedUpdate ( );
 
-	void FixedUpdate ( ) {
-		for ( auto& _components : m_vecComponent ) {
-			_components->FixedUpdate (  );
-		}
-	}
-
-
-	void Render ( ) {
-		for ( auto& _components : m_vecComponent ) {
-			_components->Render (  );
-		}
-	}
+	void Render ( );
+		
 
 
 

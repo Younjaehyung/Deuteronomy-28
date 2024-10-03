@@ -136,6 +136,7 @@
     <ClCompile Include="context.cpp" />
     <ClCompile Include="framebuffer.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="Gameobject.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -146,13 +147,16 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mesh_user.cpp" />
     <ClCompile Include="model.cpp" />
+    <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="program.cpp" />
+    <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="vertex_layout.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="a.h" />
+    <ClInclude Include="CameraManager.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="Gameobject.h" />
     <ClInclude Include="buffer.h" />
@@ -172,8 +176,10 @@
     <ClInclude Include="include\assimp-master\include\assimp\scene.h" />
     <ClInclude Include="mesh_user.h" />
     <ClInclude Include="model.h" />
+    <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="program.h" />
     <ClInclude Include="Layer.h" />
+    <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="texture.h" />
