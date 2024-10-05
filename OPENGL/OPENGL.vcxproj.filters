@@ -40,6 +40,12 @@
     <Filter Include="Engine_Header\Component">
       <UniqueIdentifier>{91090d44-44ee-48dc-9c0b-b9de37f42861}</UniqueIdentifier>
     </Filter>
+    <Filter Include="OPENGL_CPP">
+      <UniqueIdentifier>{8628f869-64c4-4224-beca-8228aa2c113f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OPENGL_H">
+      <UniqueIdentifier>{a053a2f4-a846-43ee-adb5-7ed88b52668b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -48,25 +54,7 @@
     <ClCompile Include="common_include.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="shader.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="program.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="context.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="buffer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="vertex_layout.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="image.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="texture.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">
@@ -87,15 +75,6 @@
     <ClCompile Include="imgui\imgui_impl_opengl3.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
-    <ClCompile Include="mesh_user.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="model.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="framebuffer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="character.cpp">
       <Filter>Engine_SRC</Filter>
     </ClCompile>
@@ -114,36 +93,48 @@
     <ClCompile Include="Gameobject.cpp">
       <Filter>Engine_SRC</Filter>
     </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="InputComponent.cpp">
+      <Filter>Engine_Header\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="script.cpp">
+      <Filter>Engine_SRC</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh_user.cpp">
+      <Filter>OPENGL_CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="model.cpp">
+      <Filter>OPENGL_CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="program.cpp">
+      <Filter>OPENGL_CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="shader.cpp">
+      <Filter>OPENGL_CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="texture.cpp">
+      <Filter>OPENGL_CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="vertex_layout.cpp">
+      <Filter>OPENGL_CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="image.cpp">
+      <Filter>OPENGL_CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="framebuffer.cpp">
+      <Filter>OPENGL_CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="buffer.cpp">
+      <Filter>OPENGL_CPP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common_include.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="shader.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="program.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="context.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="buffer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="vertex_layout.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="image.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="texture.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="mesh_user.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="model.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="include\assimp-master\include\assimp\defs.h">
@@ -166,9 +157,6 @@
     </ClInclude>
     <ClInclude Include="include\assimp-master\include\assimp\quaternion.h">
       <Filter>assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="framebuffer.h">
-      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="character.h">
       <Filter>Engine_Header</Filter>
@@ -202,6 +190,42 @@
     </ClInclude>
     <ClInclude Include="CameraManager.h">
       <Filter>Engine_Header</Filter>
+    </ClInclude>
+    <ClInclude Include="InputComponent.h">
+      <Filter>Engine_Header\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScene1.h">
+      <Filter>Engine_Header</Filter>
+    </ClInclude>
+    <ClInclude Include="vertex_layout.h">
+      <Filter>OPENGL_H</Filter>
+    </ClInclude>
+    <ClInclude Include="texture.h">
+      <Filter>OPENGL_H</Filter>
+    </ClInclude>
+    <ClInclude Include="shader.h">
+      <Filter>OPENGL_H</Filter>
+    </ClInclude>
+    <ClInclude Include="program.h">
+      <Filter>OPENGL_H</Filter>
+    </ClInclude>
+    <ClInclude Include="model.h">
+      <Filter>OPENGL_H</Filter>
+    </ClInclude>
+    <ClInclude Include="mesh_user.h">
+      <Filter>OPENGL_H</Filter>
+    </ClInclude>
+    <ClInclude Include="image.h">
+      <Filter>OPENGL_H</Filter>
+    </ClInclude>
+    <ClInclude Include="framebuffer.h">
+      <Filter>OPENGL_H</Filter>
+    </ClInclude>
+    <ClInclude Include="buffer.h">
+      <Filter>OPENGL_H</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

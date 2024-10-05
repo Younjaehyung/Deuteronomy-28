@@ -39,7 +39,7 @@ public:
 	}
 
 	void SetGravity ( float value ) {
-		_gravity = value
+		_gravity = value;
 	}
 	float GetGravity ( ) const {
 		return _gravity;

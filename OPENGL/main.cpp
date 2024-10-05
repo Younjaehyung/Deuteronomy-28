@@ -1,4 +1,5 @@
 ﻿#include "GameManager.h"
+#include "context.h"
 
 void OnMouseButton ( GLFWwindow* window , int button , int action , int modifier );
 void OnFramebufferSizeChange ( GLFWwindow* window , int width , int height );
@@ -63,6 +64,10 @@ int main ( )
     ImGui_ImplOpenGL3_CreateFontsTexture ( );
     ImGui_ImplOpenGL3_CreateDeviceObjects ( );
 
+    //GameManager 생성
+    GameManager* Game = new GameManager();
+    Game->Initialize ( );
+
 
     //context 객체 생성
     auto context = Context::Create ( );
@@ -93,10 +98,14 @@ int main ( )
            ImGui_ImplGlfw_NewFrame ( );    //imgui 새 랜더링 프레임이라고 알려줌
            ImGui::NewFrame ( );
 
-           context->ProcessInput ( window );    //입력 
+           //context->ProcessInput ( window );    //입력 
 
-           context-> Render ( );    //출력
+           //context-> Render ( );    //출력
 
+           Game->Run ( );
+           
+
+           input::Update (window );
             
            ImGui::Render ( );    //imgui 정보 종합
            ImGui_ImplOpenGL3_RenderDrawData ( ImGui::GetDrawData ( ) ); //imgui 그려줌

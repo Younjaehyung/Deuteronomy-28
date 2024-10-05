@@ -6,8 +6,8 @@ class Scene {
 private:
 	std::vector <Layer*> Layers;
 public:
-	Scene ( );
-	virtual ~Scene ( );
+	Scene ( ) {}
+	virtual ~Scene ( ) {}
 
 	virtual void Update ( )
 	{
@@ -28,6 +28,10 @@ public:
 		for ( auto& _Layer : Layers ) {
 			_Layer->FixedUpdate ( );
 		}
+	}
+
+	virtual void AddLayer ( Layer* _Layer ) {
+		Layers.push_back ( _Layer );
 	}
 
 	virtual void Render ( )

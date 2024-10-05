@@ -12,7 +12,7 @@ enum class eKeyState {
 enum class eKeyCode {
 	Q, W, E, R, T, Y, U, I, O, P,
 	A, S, D, F, G, H, J, K, L,
-	Z, X, C, V, B, N, M, LEFT, RIGHT, DOWN, UP,p1_a,p1_b,p2_a,p2_b,F1,F2,F3,F4,SPACE, ESCAPE,
+	Z, X, C, V, B, N, M,
 	NUM1, NUM2, NUM3, NUM4, NUM5,NUM6,
 	End,
 };
@@ -29,16 +29,16 @@ public:
 		bool bPressed;
 	};
 	static void Initialize();
-	static void Update();
+	static void Update( GLFWwindow* window );
 
 	static bool GetKeyDown(eKeyCode code) {
-		return mKeys[(UINT)code].state == eKeyState::Down;
+		return mKeys[( uint8_t )code].state == eKeyState::Down;
 	}
 	static bool GetKey(eKeyCode code) {
-		return mKeys[(UINT)code].state == eKeyState::Pressed;
+		return mKeys[(uint8_t)code].state == eKeyState::Pressed;
 	}
 	static bool GetKeyUp(eKeyCode code) {
-		return mKeys[(UINT)code].state == eKeyState::Up;
+		return mKeys[( uint8_t )code].state == eKeyState::Up;
 	}
 	
 private:

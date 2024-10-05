@@ -4,6 +4,6 @@
 void RenderComponent::Update(){
     modelTransform =
         glm::translate ( glm::mat4 ( 1.0f ) , GenOwner()->GetPos() ) *
-        GenOwner()->GetDir()*
+        glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 40.0f ) , GenOwner ( )->GetDir ( ) ) *
         glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 1.5f , 1.5f , 1.5f ) );
 }

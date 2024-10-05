@@ -12,11 +12,13 @@ private:
 	glm::mat4 modelTransform;
 
 public:
-	RenderComponent ( Gameobject* pOwner , ModelUPtr model = {} ,ImageUPtr image={} )
+	RenderComponent ( Gameobject* pOwner ,
+	glm::mat4 Transform ,ModelUPtr model = {} , ProgramUPtr shader = {},ImageUPtr image = {} )
 	:Component(pOwner){
+		modelTransform = std::move ( Transform );
 		_model = std::move ( model );
 		_image = std::move ( image);
-	
+		_shader = std::move ( shader );
 	}
 	~RenderComponent ( ) {
 
@@ -31,7 +33,7 @@ public:
 		_shader->SetUniform ( "model" , modelTransform );
 		_shader->SetUniform ( "view" , view );
 		_shader->SetUniform ( "projection" , projection );
-		_shader->SetUniform ( "cameraPos" , GenOwner ( )->GetPos ( ) );
+		//_shader->SetUniform ( "cameraPos" , GenOwner ( )->GetPos ( ) );
 		
 		_model->Draw ( _shader.get ( ) );
 

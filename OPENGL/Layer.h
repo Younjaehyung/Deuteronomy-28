@@ -2,7 +2,7 @@
 #include "Gameobject.h"
 #include "Component.h"
 #include <vector>
-
+#include "character.h"
 
 class Layer {
 private:
@@ -12,12 +12,13 @@ public:
 	void Update ( )
 	{
 		for (auto& _Gameobject : Gameobjects ) {
-			_Gameobject->Update ( );
+			_Gameobject->Update (0.0f );
 		}
 	}
 
 	void Initialize ( )
 	{
+		Gameobjects.push_back ( new character );
 		for ( auto& _Gameobject : Gameobjects ) {
 			
 		}

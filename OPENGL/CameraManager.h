@@ -17,7 +17,6 @@ private:
 	glm::vec3 m_cameraFront{ glm::vec3 ( 0.0f, 0.0f, -1.0f ) };	//카메라가 보고 있는 방향
 	glm::vec3 m_cameraUp{ glm::vec3 ( 0.0f, 1.0f, 0.0f ) };		//카메라 up벡터
 
-	glm::mat4 m_cameraPos;
 	glm::mat4 view;
 	glm::mat4 projection;
 
@@ -38,7 +37,8 @@ public:
 		return instance;
 	}
 
-	void MouseMove ( double x , double y ) {
+
+	void CameraAngle ( double x , double y ) {
 		if ( !m_cameraControl )
 			return;
 		auto pos = glm::vec2 ( ( float ) x , ( float ) y );
@@ -58,6 +58,30 @@ public:
 		m_prevMousePos = pos;
 	}
 
+	void CameraPos ( glm::vec3 Pos ) {
+
+		m_cameraPos = Pos;
+		/*const float cameraSpeed = 0.05f;
+		if ( glfwGetKey ( window , GLFW_KEY_W ) == GLFW_PRESS )
+			m_cameraPos += cameraSpeed * m_cameraFront;
+		if ( glfwGetKey ( window , GLFW_KEY_S ) == GLFW_PRESS )
+			m_cameraPos -= cameraSpeed * m_cameraFront;
+
+		auto cameraRight = glm::normalize ( glm::cross ( m_cameraUp , -m_cameraFront ) );
+		if ( glfwGetKey ( window , GLFW_KEY_D ) == GLFW_PRESS )
+			m_cameraPos += cameraSpeed * cameraRight;
+		if ( glfwGetKey ( window , GLFW_KEY_A ) == GLFW_PRESS )
+			m_cameraPos -= cameraSpeed * cameraRight;
+
+		auto cameraUp = glm::normalize ( glm::cross ( -m_cameraFront , cameraRight ) );
+		if ( glfwGetKey ( window , GLFW_KEY_E ) == GLFW_PRESS )
+			m_cameraPos += cameraSpeed * cameraUp;
+		if ( glfwGetKey ( window , GLFW_KEY_Q ) == GLFW_PRESS )
+			m_cameraPos -= cameraSpeed * cameraUp;*/
+
+
+	}
+
 	void CameraCalcul ( ) {
 		m_cameraFront =
 			glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( m_cameraYaw ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) )
@@ -71,6 +95,10 @@ public:
 		view = glm::lookAt ( m_cameraPos , m_cameraPos + m_cameraFront , m_cameraUp );
 	}
 
+
+	glm::vec3& GetPosition(){
+		return m_cameraPos;
+	}
 
 	glm::mat4& GetProjection ( ) {
 		return projection;

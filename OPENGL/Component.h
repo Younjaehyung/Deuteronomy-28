@@ -1,6 +1,8 @@
 ﻿#pragma once
 
-
+#include "include/glm/glm.hpp"
+#include "include/glm/ext.hpp"
+#include "include/glm/gtc/matrix_transform.hpp"
 
 
 class Gameobject;
@@ -12,8 +14,8 @@ public:
 	virtual ~Component ( ) = default;
 
 	virtual void Update ( float deltaTime ) = 0;
-	virtual void FixedUpdate ( ) = 0;
-	virtual void Render ( glm::mat4 projection, glm::mat4 view ) = 0;
+	virtual void FixedUpdate ( ) {}
+	virtual void Render ( glm::mat4 projection , glm::mat4 view ) {}
 
 
 	//리턴값

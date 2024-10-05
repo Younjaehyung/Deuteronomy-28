@@ -3,10 +3,10 @@
 #include "Component.h"
 #include <vector>
 #include "Common.h"
-#include "CameraManager.h"
 #include "common_include.h"
-
-class Component;	//부품
+#include <typeinfo>
+#include "InputComponent.h"  // 반드시 필요한 컴포넌트 헤더 포함
+#include "RenderComponent.h"
 
 using ComponentPtr = std::shared_ptr<Component>;
 
@@ -33,14 +33,15 @@ public:
 		
 		//새로운 component를 추가
 		//소유자는 자기로 설정
-		ComponentPtr spComponent = std::make_shared<TComponent> ( this );
-
+		//ComponentPtr spComponent = std::make_shared<TComponent> ( this );
+		auto spComponent = std::make_shared<TComponent> ( this );
 		if ( spComponent == nullptr ) {
 			
 			return false;
 		}
 		
-		m_vecComponent.push_back ( spComponent );
+		//m_vecComponent.push_back ( spComponent );
+		m_vecComponent.push_back ( std::static_pointer_cast< Component >( spComponent ) );
 
 
 		return true;
@@ -73,22 +74,21 @@ public:
 	template <typename TComponent>
 	TComponent* FindComponent ( bool bCheckHiearachy = false )
 	{
-		// 컴파일 단계에서 막기
+		// 컴파일 단계에서 상속 관계 확인
 		static_assert( std::is_base_of_v<Component , TComponent> , "It's not component!" );
 
-		for ( ComponentPtr spComponent : m_vecComponent )
-		{
-			// 현재 컴포넌트가 원하는 타입인지 확인
-			TComponent* pComponent = dynamic_cast< TComponent* >( spComponent.get ( ) );
+		for ( auto spComponent : m_vecComponent ) {
+			// 스마트 포인터 간 캐스팅 사용
+			auto pComponent = std::dynamic_pointer_cast< TComponent >( spComponent );
 
-			if ( pComponent != nullptr )
-			{
-				return pComponent;
+			if ( pComponent != nullptr ) {
+				return pComponent.get ( );
 			}
 		}
 
 		return nullptr;
 	}
+
 
 	void Update ( float deltaTime );
 
