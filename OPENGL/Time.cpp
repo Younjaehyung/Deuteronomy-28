@@ -1,52 +1,27 @@
 ﻿#include "Time.h"
 
-LARGE_INTEGER Time::CpuFrequency = {};
-LARGE_INTEGER Time::PrevFrequency = {};
-LARGE_INTEGER Time::CurrentFrequency = {};
+std::chrono::high_resolution_clock::time_point Time::PrevTime;
+std::chrono::high_resolution_clock::time_point Time::CurrentTime;
 float Time::DeltaTimeValue = 0.0f;
 
-void Time::Initailize ( )	//Time 초기화용 Update()
-{
-	// Cpu 고유 진동수
-	QueryPerformanceFrequency ( &CpuFrequency );
-
-	// 프로그램이 시작 했을 때 현재 진동수
-	QueryPerformanceCounter ( &PrevFrequency );
+void Time::Initialize ( ) {
+    // 프로그램 시작 시 시간 초기화
+    PrevTime = std::chrono::high_resolution_clock::now ( );
 }
 
-void Time::Update ( )	//deltatime 갱신용 Update()
-{
-	QueryPerformanceCounter ( &CurrentFrequency );
-
-	float differenceFrequency
-		= static_cast< float >( CurrentFrequency.QuadPart - PrevFrequency.QuadPart );
-	DeltaTimeValue = differenceFrequency / static_cast< float >( CpuFrequency.QuadPart );
-	PrevFrequency.QuadPart = CurrentFrequency.QuadPart;
-
-	Timer::Updatetimer ( DeltaTime ( ) );
+void Time::Update ( ) {
+    // 현재 시간을 얻고, deltatime 계산
+    CurrentTime = std::chrono::high_resolution_clock::now ( );
+    std::chrono::duration<float> deltaTime = CurrentTime - PrevTime;
+    DeltaTimeValue = deltaTime.count ( );
+    PrevTime = CurrentTime;
 }
 
-void Time::Render ( HDC hdc )	//화면 프레임 체크용 Render()
-{
+void Time::Render ( ) {
+    // 프레임 체크용 코드
+    float fps = 1.0f / DeltaTimeValue;
 
-	static float time = 0.0f;
-	
-
-	float fps = 1.0f / DeltaTimeValue;
-
-	wchar_t str[ 50 ] = L"";
-
-
-	if ( fps < 100 ) {	//100 fps 이하시 콘솔창 출력
-	//	std::cout<<"time" << (int)fps << std::endl;
-	}
-	
-	wsprintf ( str , L"fps : %d" , (int)fps );
-		
-	
-	int len = wcsnlen_s ( str , 50 );
-	
-//	TextOut ( hdc , 10 , 900 , str , len );
-
-
+    if ( fps < 100 ) {   // 100 fps 이하일 경우 출력
+        std::wcout << L"FPS: " << static_cast< int >( fps ) << std::endl;
+    }
 }
