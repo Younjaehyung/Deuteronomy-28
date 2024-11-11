@@ -17,7 +17,7 @@ private:
 	glm::vec3 m_cameraFront{ glm::vec3 ( 0.0f, 0.0f, -1.0f ) };	//카메라가 보고 있는 방향
 	glm::vec3 m_cameraUp{ glm::vec3 ( 0.0f, 1.0f, 0.0f ) };		//카메라 up벡터
 
-	glm::mat4 m_cameraPos;
+
 	glm::mat4 view;
 	glm::mat4 projection;
 
@@ -76,6 +76,10 @@ public:
 		return projection;
 	}
 
+	glm::vec3& GetCameraFront ( ) {
+		return m_cameraFront;
+	}
+	
 	glm::mat4& GetView ( ) {
 		return view;
 	}

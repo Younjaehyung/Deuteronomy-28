@@ -1,9 +1,9 @@
 ﻿#pragma once
 
-
-
-
 class Gameobject;
+#include "include/glm/glm.hpp"
+#include "include/glm/ext.hpp"
+#include "include/glm/gtc/matrix_transform.hpp"
 
 
 class Component {

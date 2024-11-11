@@ -2,7 +2,7 @@
 #include "Component.h"
 #include "image.h"
 #include "model.h"
-
+#include "Gameobject.h"
 
 class RenderComponent : public Component {
 private:
@@ -31,8 +31,9 @@ public:
 		_shader->SetUniform ( "model" , modelTransform );
 		_shader->SetUniform ( "view" , view );
 		_shader->SetUniform ( "projection" , projection );
-		_shader->SetUniform ( "cameraPos" , GenOwner ( )->GetPos ( ) );
-		
+		if ( GenOwner() != nullptr ) {
+			_shader->SetUniform ( "cameraPos" , GenOwner ( )->GetPos ( ) );
+		}
 		_model->Draw ( _shader.get ( ) );
 
 	}

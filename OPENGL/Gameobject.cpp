@@ -22,7 +22,6 @@ void Gameobject::Render ( ) {
 
 	for ( auto& _components : m_vecComponent ) {
 		_components->Render ( 
-			CameraFront ,
 			Projection ,
 			View );
 	}

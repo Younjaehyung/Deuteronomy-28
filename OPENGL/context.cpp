@@ -266,7 +266,7 @@ bool Context::Init ( )
     m_box = Mesh::CreateBox ( );
     m_plane = Mesh::CreatePlane ( );
 
-    m_model = Model::Load ( "./model/FOX_GIRL/FOX_GIRL.obj" );
+    m_model = Model::Load ( "./model/submarine/Submarine.obj" );
 
     if ( !m_model ) {
         std::cerr << "program UserSetError id : " << m_model->Get ( ) << std::endl;
