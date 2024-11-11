@@ -152,6 +152,7 @@
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="texture.cpp" />
+    <ClCompile Include="Time.cpp" />
     <ClCompile Include="vertex_layout.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -183,6 +184,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="texture.h" />
+    <ClInclude Include="Time.h" />
     <ClInclude Include="vertex_layout.h" />
   </ItemGroup>
   <ItemGroup>

@@ -8,7 +8,9 @@
 #include "mesh_user.h"
 #include "model.h"
 #include "framebuffer.h"
-
+class GameManager;
+#include "Time.h"
+#include "GameManager.h"
 CLASS_PTR(Context)
 
 class Context{
@@ -16,6 +18,7 @@ public:
 	static ContextUPtr Create ( );
 	void Render ( );
 	void ProcessInput ( GLFWwindow* window );
+	void Update ( );
 
 	void Reshape ( int width , int height );
 	void MouseMove ( double x , double y );
@@ -50,6 +53,11 @@ private:
 	CubeTextureUPtr m_cubeTexture;
 	ProgramUPtr m_skyboxProgram;
 	ProgramUPtr m_envMapProgram;
+
+	//Game
+	GameManager* Game;
+	
+
 
 	//model
 	ModelUPtr m_model;

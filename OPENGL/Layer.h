@@ -2,7 +2,7 @@
 #include "Gameobject.h"
 #include "Component.h"
 #include <vector>
-
+#include <time.h>
 
 class Layer {
 private:
@@ -12,7 +12,7 @@ public:
 	void Update ( )
 	{
 		for (auto& _Gameobject : Gameobjects ) {
-			_Gameobject->Update ( );
+			_Gameobject->Update (Time::DeltaTime() );
 		}
 	}
 

@@ -23,6 +23,11 @@ public:
 		}
 	}
 
+	virtual void AddScene ( Layer* addscene )
+	{
+		Layers.push_back ( addscene );
+	}
+
 	virtual void FixedUpdate ( )
 	{
 		for ( auto& _Layer : Layers ) {

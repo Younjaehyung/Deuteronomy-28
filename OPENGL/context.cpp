@@ -139,6 +139,8 @@ void Context::Render ( ) {
     m_framebuffer->GetColorAttachment ( )->Bind ( );
     m_textureProgram->SetUniform ( "tex" , 0 );
     m_plane->Draw ( m_textureProgram.get ( ) );
+
+    Game->Render ( );
 }
 
 void Context::ProcessInput ( GLFWwindow* window ) {
@@ -163,6 +165,13 @@ void Context::ProcessInput ( GLFWwindow* window ) {
         m_cameraPos += cameraSpeed * cameraUp;
     if ( glfwGetKey ( window , GLFW_KEY_Q ) == GLFW_PRESS )
         m_cameraPos -= cameraSpeed * cameraUp;
+    
+}
+
+void Context::Update ( )
+{
+    Game->Update ( );
+    Time::Update ( );
 }
 
 void Context::Reshape ( int width , int height ) {
@@ -334,7 +343,21 @@ bool Context::Init ( )
    
 
     glClearColor ( 0.1f , 0.2f , 0.3f , 0.0f );
-     
+    std::cerr << "GameManager Init Start" << std::endl;
+    Time::Initailize ( );
+    Game = new GameManager;
+    if ( Game != nullptr ) {
+        Game->Initialize ( );
+        std::cerr << "GameManager Init" << std::endl;
+        return true;
+    }
+    else {
+        
+        std::cerr << "GameManager Init Error" << std::endl;
+        return false;
+    }
+
+    
 
   return true;
 }

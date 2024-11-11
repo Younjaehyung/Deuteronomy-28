@@ -94,7 +94,7 @@ int main ( )
            ImGui::NewFrame ( );
 
            context->ProcessInput ( window );    //입력 
-
+           context->Update ( );
            context-> Render ( );    //출력
 
             
