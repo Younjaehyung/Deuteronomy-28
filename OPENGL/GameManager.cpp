@@ -1,36 +1,61 @@
 ﻿#include "GameManager.h"
+#include "Player.h"
+
 
 void GameManager::Update ( )
 {
-	
-	playing_Scene->Update ( );
+	for ( auto _Gameobjects : Gameobjects ) {
+
+
+		_Gameobjects->Update ( );
+
+	}
 	
 	
 }
 
-void GameManager::AddScene ( )
-{
-	Scenes.push_back ( addscene );
-}
 
 void GameManager::Initialize ( )
 {
-	Add
+	Player* player = new Player("player" );
+	Gameobjects.push_back ( player );
 
-	for ( auto _Scenes : Scenes ) {
-		_Scenes->Initialize ( );
+
+	for ( auto _Gameobjects : Gameobjects ) {
+
+
+		_Gameobjects->Initialize ( );
+
 	}
+}
 
-	playing_Scene = Scenes[ playing_index ];
+void GameManager::Input ( GLFWwindow* window )
+{
+	for ( auto _Gameobjects : Gameobjects ) {
+
+
+		_Gameobjects->Input ( window );
+
+	}
 }
 
 void GameManager::FixedUpdate ( )
 {
-	playing_Scene->FixedUpdate ( );
+	for ( auto _Gameobjects : Gameobjects ) {
+
+
+		_Gameobjects->FixedUpdate ( );
+
+	}
 }
 
 void GameManager::Render ( )
 {
-	playing_Scene->Render ( );
+	
+	for ( auto _Gameobjects : Gameobjects ) {
 
+
+		_Gameobjects->Render ( );
+
+	}
 }

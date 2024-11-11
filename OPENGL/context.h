@@ -67,18 +67,8 @@ private:
 	MeshUPtr m_plane;
 	// material parameter
 	MaterialPtr m_material;
+     
 
-	//마우스
-	glm::vec2 m_prevMousePos{ glm::vec2 ( 0.0f ) };
-
-	//카메라
-	float m_cameraPitch{ 0.0f };
-	float m_cameraYaw{ 0.0f };
-	
-
-	glm::vec3 m_cameraPos{ glm::vec3 ( 0.0f, 0.0f, 3.0f ) };	//카메라의 위치
-	glm::vec3 m_cameraFront{ glm::vec3 ( 0.0f, 0.0f, -1.0f ) };	//카메라가 보고 있는 방향
-	glm::vec3 m_cameraUp{ glm::vec3 ( 0.0f, 1.0f, 0.0f ) };		//카메라 up벡터
 
 	glm::vec4 m_clearColor{ glm::vec4 ( 0.1f, 0.2f, 0.3f, 0.0f ) };
 

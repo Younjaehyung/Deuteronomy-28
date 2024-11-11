@@ -90,13 +90,13 @@ public:
 		return nullptr;
 	}
 
-	void Update ( float deltaTime );
+	virtual void Update ( float deltaTime );
+	virtual void Input ( GLFWwindow* window ) {};
+	virtual void FixedUpdate ( );
 
-	void FixedUpdate ( );
-
-	void Render ( );
+	virtual void Render ( );
 		
-
+	virtual void Initialize ( );
 
 
 

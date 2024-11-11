@@ -13,7 +13,7 @@ private:
 	float m_cameraPitch{ 0.0f };
 	float m_cameraYaw{ 0.0f };
 
-	glm::vec3 m_cameraPos{ glm::vec3 ( 0.0f, 0.0f, 3.0f ) };	//카메라의 위치
+	glm::vec3 m_cameraPos{ glm::vec3 ( 0.0f, 0.5f, 3.0f ) };	//카메라의 위치
 	glm::vec3 m_cameraFront{ glm::vec3 ( 0.0f, 0.0f, -1.0f ) };	//카메라가 보고 있는 방향
 	glm::vec3 m_cameraUp{ glm::vec3 ( 0.0f, 1.0f, 0.0f ) };		//카메라 up벡터
 
@@ -28,14 +28,23 @@ private:
 	float Widht=800.f;
 	float Height = 600.f;
 	
+
 	CameraManager ( ) {
 
 	}
-
 public:
 	static CameraManager& getInstance ( ) {
 		static CameraManager instance;
 		return instance;
+	}
+
+
+	void Update (glm::vec3 deltaPos, glm::vec3 rotate ) {
+		m_cameraPos += deltaPos;
+
+
+		CameraCalcul ( );
+
 	}
 
 	void MouseMove ( double x , double y ) {
@@ -82,5 +91,9 @@ public:
 	
 	glm::mat4& GetView ( ) {
 		return view;
+	}
+
+	glm::vec3& GetPos ( ) {
+		return m_cameraPos;
 	}
 };

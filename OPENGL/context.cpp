@@ -56,30 +56,19 @@ void Context::Render ( ) {
     glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT ); //GL_DEPTH_BUFFER_BIT : DEPTH Buffer clear 세팅
     glEnable ( GL_DEPTH_TEST ); // DEPTH Buffer 사용 설정
 
-    //카메라가 바라보는 방향
-    m_cameraFront =
-        glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( m_cameraYaw ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) ) 
-        *glm::rotate ( glm::mat4 ( 1.0f ) ,glm::radians ( m_cameraPitch ) , glm::vec3 ( 1.0f , 0.0f , 0.0f ) ) 
-        *  glm::vec4 ( 0.0f , 0.0f , -1.0f , 0.0f );   //방향벡터에는 4번째 항에 0을 넣음
-
-
-    auto projection = glm::perspective ( glm::radians ( 45.0f ) ,( float ) 800 / ( float ) 600 , 0.1f , 300.0f );   //원근투영
-
-    //카메라 위치 함수
-    auto view = glm::lookAt ( m_cameraPos ,  m_cameraPos + m_cameraFront , m_cameraUp );
     
     //world 좌표츅 출력///////////////////
     //world_coord_render ( projection , view );
     
-    //cubebox
-    auto skyboxModelTransform =
-        glm::translate ( glm::mat4 ( 1.0 ) , m_cameraPos ) *
-        glm::scale ( glm::mat4 ( 1.0 ) , glm::vec3 ( 50.0f ) );
-    m_skyboxProgram->Use ( );
-    m_cubeTexture->Bind ( );
-    m_skyboxProgram->SetUniform ( "skybox" , 0 );
-    m_skyboxProgram->SetUniform ( "transform" , projection * view * skyboxModelTransform );
-    m_box->Draw ( m_skyboxProgram.get ( ) );
+    ////cubebox
+    //auto skyboxModelTransform =
+    //    glm::translate ( glm::mat4 ( 1.0 ) , m_cameraPos ) *
+    //    glm::scale ( glm::mat4 ( 1.0 ) , glm::vec3 ( 50.0f ) );
+    //m_skyboxProgram->Use ( );
+    //m_cubeTexture->Bind ( );
+    //m_skyboxProgram->SetUniform ( "skybox" , 0 );
+    //m_skyboxProgram->SetUniform ( "transform" , projection * view * skyboxModelTransform );
+    //m_box->Draw ( m_skyboxProgram.get ( ) );
 
     //envmap
     auto modelTransform =
@@ -200,7 +189,7 @@ void Context::MouseMove ( double x , double y ) {
     if ( m_cameraPitch > 89.0f )  m_cameraPitch = 89.0f;
     if ( m_cameraPitch < -89.0f ) m_cameraPitch = -89.0f;
 
-
+    
     m_prevMousePos = pos;
 }
 
@@ -217,55 +206,6 @@ void Context::MouseButton ( int button , int action , double x , double y ) {
     }
 }
 
-void Context::world_coord_init( ) {
-    /////////world 좌표축//////////////////////////////////////////
-    float vertices_world_xyz[] = {
-        -1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,  // 시작점
-        1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,  // 끝점
-
-        0.0f, -1.0f, 0.0f, 0.3f, 1.0f, 0.1f,  // 시작점
-        0.0f, 1.0f, 0.0f, 0.3f, 1.0f, 0.1f,  // 끝점
-
-        0.0f, 0.0f, -1.0f, 0.1f, 0.3f, 1.0f,  // 시작점
-        0.0f, 0.0f, 1.0f, 0.1f, 0.3f, 1.0f   // 끝점
-    };
-
-    uint32_t indicess_world_xyz[] = {
-        0,1,2,3,4,5,
-    };
-    m_world_vertexLayout = VertexLayout::Create ( );
-    m_world_vertexBuffer = Buffer::CreateWithData ( GL_ARRAY_BUFFER , GL_STATIC_DRAW , vertices_world_xyz , sizeof ( vertices_world_xyz ) , 1 );
-
-    m_world_vertexLayout->SetAttrib ( 0 , 3 , GL_FLOAT , GL_FALSE , sizeof ( float ) * 6 , 0 );
-    m_world_vertexLayout->SetAttrib ( 1 , 3 , GL_FLOAT , GL_FALSE , sizeof ( float ) * 6 , 3 );
-
-    m_world_indexBuffer = Buffer::CreateWithData ( GL_ELEMENT_ARRAY_BUFFER , GL_STATIC_DRAW , indicess_world_xyz , sizeof ( vertices_world_xyz ) , sizeof ( indicess_world_xyz ) );
-
-    /////////world 좌표축//////////////////////////////////////////
-    m_world_coord = Program::Create ( "./shader/world_coord.vs" , "./shader/world_coord.fs" );
-    Program::UserSetError ( m_world_coord );
-
-    ///////////////////////////////////////////////////
-}
-
-template <typename T>
-void Context::world_coord_render ( T& projection , T& view )
-{
-    //world 좌표츅/////////////////////
-
-
-    m_world_coord->Use ( );
-    m_world_vertexLayout->Bind ( );
-    m_world_indexBuffer->Bind ( );
-
-    auto ModelTransform =
-        glm::scale ( glm::mat4 ( 1.0 ) , glm::vec3 ( 200.0f ) );
-    m_world_coord->SetUniform ( "transform" , projection * view * ModelTransform );
-
-    glDrawElements ( GL_LINES , 6 , GL_UNSIGNED_INT , 0 );
-    ///////////////////////////////////////////////////
-
-}
 
 bool Context::Init ( )
 {

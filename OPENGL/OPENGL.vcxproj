@@ -131,11 +131,11 @@
   <ItemGroup>
     <ClCompile Include="a.cpp" />
     <ClCompile Include="buffer.cpp" />
-    <ClCompile Include="character.cpp" />
     <ClCompile Include="common_include.cpp" />
     <ClCompile Include="context.cpp" />
     <ClCompile Include="framebuffer.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="Gameobject.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
@@ -148,6 +148,7 @@
     <ClCompile Include="mesh_user.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="program.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="shader.cpp" />
@@ -159,9 +160,9 @@
     <ClInclude Include="a.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="GameMap.h" />
     <ClInclude Include="Gameobject.h" />
     <ClInclude Include="buffer.h" />
-    <ClInclude Include="character.h" />
     <ClInclude Include="common_include.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="context.h" />
@@ -178,10 +179,9 @@
     <ClInclude Include="mesh_user.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="PhysicsComponent.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="program.h" />
-    <ClInclude Include="Layer.h" />
     <ClInclude Include="RenderComponent.h" />
-    <ClInclude Include="Scene.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="Time.h" />
