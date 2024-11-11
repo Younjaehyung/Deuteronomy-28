@@ -108,11 +108,11 @@ void Context::Render ( ) {
     m_box->Draw ( m_simpleProgram.get());
     ///////////////////////////////////////////////////
 
-
+    //손전등
     m_program->Use ( );
     m_program->SetUniform ( "viewPos" , m_cameraPos );
-    m_program->SetUniform ( "light.position" , m_light.position );
-    m_program->SetUniform ( "light.direction" , m_light.direction );
+    m_program->SetUniform ( "light.position" , m_cameraPos );
+    m_program->SetUniform ( "light.direction" , m_cameraFront );
     m_program->SetUniform ( "light.cutoff" , glm::vec2 (
         cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
         cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) ) );
@@ -127,12 +127,14 @@ void Context::Render ( ) {
     m_program->SetUniform ( "transform" , transform );
     m_program->SetUniform ( "modelTransform" , modelTransform );
     //m_material->SetToProgram ( m_program.get ( ) );
-    m_model->Draw ( m_program.get ( ) );
+    map->Draw ( m_program.get ( ) );
 
     Framebuffer::BindToDefault ( );
     
     glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
 
+
+    //이중버퍼링
     m_textureProgram->Use ( );
     m_textureProgram->SetUniform ( "transform" ,
         glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 2.0f , 1.0f ) ) );
@@ -144,25 +146,25 @@ void Context::Render ( ) {
 void Context::ProcessInput ( GLFWwindow* window ) {
     if ( !m_cameraControl )
         return;
-
-
+    
+    glm::vec3 cameraDirectionXZ = glm::normalize ( glm::vec3 ( m_cameraFront.x , 0.0f , m_cameraFront.z ) );
     const float cameraSpeed = 0.05f;
     if ( glfwGetKey ( window , GLFW_KEY_W ) == GLFW_PRESS )
-        m_cameraPos += cameraSpeed * m_cameraFront;
+        m_cameraPos += cameraSpeed * cameraDirectionXZ;
     if ( glfwGetKey ( window , GLFW_KEY_S ) == GLFW_PRESS )
-        m_cameraPos -= cameraSpeed * m_cameraFront;
+        m_cameraPos -= cameraSpeed * cameraDirectionXZ;
 
-    auto cameraRight = glm::normalize ( glm::cross ( m_cameraUp , -m_cameraFront ) );
+    auto cameraRight = glm::normalize ( glm::cross ( -m_cameraUp , cameraDirectionXZ ) );
     if ( glfwGetKey ( window , GLFW_KEY_D ) == GLFW_PRESS )
         m_cameraPos += cameraSpeed * cameraRight;
     if ( glfwGetKey ( window , GLFW_KEY_A ) == GLFW_PRESS )
         m_cameraPos -= cameraSpeed * cameraRight;
 
     auto cameraUp = glm::normalize ( glm::cross ( -m_cameraFront , cameraRight ) );
-    if ( glfwGetKey ( window , GLFW_KEY_E ) == GLFW_PRESS )
-        m_cameraPos += cameraSpeed * cameraUp;
-    if ( glfwGetKey ( window , GLFW_KEY_Q ) == GLFW_PRESS )
-        m_cameraPos -= cameraSpeed * cameraUp;
+    if ( glfwGetKey ( window , GLFW_KEY_D ) == GLFW_PRESS )
+        m_cameraPos += cameraSpeed * cameraRight;
+    if ( glfwGetKey ( window , GLFW_KEY_A ) == GLFW_PRESS )
+        m_cameraPos -= cameraSpeed * cameraRight;
 }
 
 void Context::Reshape ( int width , int height ) {
@@ -208,68 +210,17 @@ void Context::MouseButton ( int button , int action , double x , double y ) {
     }
 }
 
-void Context::world_coord_init( ) {
-    /////////world 좌표축//////////////////////////////////////////
-    float vertices_world_xyz[] = {
-        -1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,  // 시작점
-        1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,  // 끝점
-
-        0.0f, -1.0f, 0.0f, 0.3f, 1.0f, 0.1f,  // 시작점
-        0.0f, 1.0f, 0.0f, 0.3f, 1.0f, 0.1f,  // 끝점
-
-        0.0f, 0.0f, -1.0f, 0.1f, 0.3f, 1.0f,  // 시작점
-        0.0f, 0.0f, 1.0f, 0.1f, 0.3f, 1.0f   // 끝점
-    };
-
-    uint32_t indicess_world_xyz[] = {
-        0,1,2,3,4,5,
-    };
-    m_world_vertexLayout = VertexLayout::Create ( );
-    m_world_vertexBuffer = Buffer::CreateWithData ( GL_ARRAY_BUFFER , GL_STATIC_DRAW , vertices_world_xyz , sizeof ( vertices_world_xyz ) , 1 );
-
-    m_world_vertexLayout->SetAttrib ( 0 , 3 , GL_FLOAT , GL_FALSE , sizeof ( float ) * 6 , 0 );
-    m_world_vertexLayout->SetAttrib ( 1 , 3 , GL_FLOAT , GL_FALSE , sizeof ( float ) * 6 , 3 );
-
-    m_world_indexBuffer = Buffer::CreateWithData ( GL_ELEMENT_ARRAY_BUFFER , GL_STATIC_DRAW , indicess_world_xyz , sizeof ( vertices_world_xyz ) , sizeof ( indicess_world_xyz ) );
-
-    /////////world 좌표축//////////////////////////////////////////
-    m_world_coord = Program::Create ( "./shader/world_coord.vs" , "./shader/world_coord.fs" );
-    Program::UserSetError ( m_world_coord );
-
-    ///////////////////////////////////////////////////
-}
-
-template <typename T>
-void Context::world_coord_render ( T& projection , T& view )
-{
-    //world 좌표츅/////////////////////
-
-
-    m_world_coord->Use ( );
-    m_world_vertexLayout->Bind ( );
-    m_world_indexBuffer->Bind ( );
-
-    auto ModelTransform =
-        glm::scale ( glm::mat4 ( 1.0 ) , glm::vec3 ( 200.0f ) );
-    m_world_coord->SetUniform ( "transform" , projection * view * ModelTransform );
-
-    glDrawElements ( GL_LINES , 6 , GL_UNSIGNED_INT , 0 );
-    ///////////////////////////////////////////////////
-
-}
 
 bool Context::Init ( )
 {
-    world_coord_init ( );
 
-   
     m_box = Mesh::CreateBox ( );
     m_plane = Mesh::CreatePlane ( );
 
-    m_model = Model::Load ( "./model/submarine/Submarine.obj" );
+    map = Model::Load ( "./model/submarine/Stage.obj" );
 
-    if ( !m_model ) {
-        std::cerr << "program UserSetError id : " << m_model->Get ( ) << std::endl;
+    if ( !map ) {
+        std::cerr << "program UserSetError id : " << map->Get ( ) << std::endl;
         return false;
 
 
