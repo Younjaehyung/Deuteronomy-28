@@ -9,6 +9,7 @@
 #include "model.h"
 #include "CameraManager.h"
 #include "Player.h"
+#include "Map.h"
 #include "framebuffer.h"
 
 CLASS_PTR(Context)
@@ -46,7 +47,7 @@ private:
 	glm::mat4 Camera_Transform;
 
 	Player* player;
-
+	Map* map;
 
 
 
@@ -71,8 +72,6 @@ private:
 	ProgramUPtr m_skyboxProgram;
 	ProgramUPtr m_envMapProgram;
 
-	//model
-	ModelUPtr map;
 
 	//VAO,VBO,ELM 버퍼 포인터
 	MeshUPtr m_box;

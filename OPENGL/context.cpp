@@ -110,7 +110,7 @@ void Context::Render ( ) {
     m_program->SetUniform ( "transform" , transform );
     m_program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
     //m_material->SetToProgram ( m_program.get ( ) );
-    map->Draw ( m_program.get ( ) );
+    map->Render ( m_program.get ( ) );
 
     Framebuffer::BindToDefault ( );
     
@@ -188,14 +188,14 @@ bool Context::Init ( )
     m_box = Mesh::CreateBox ( );
     m_plane = Mesh::CreatePlane ( );
 
-    map = Model::Load ( "./model/submarine/Submarine.obj" );
+    //map = Model::Load ( "./model/submarine/Submarine.obj" );
 
-    if ( !map ) {
-        std::cerr << "program UserSetError id : " << map->Get ( ) << std::endl;
-        return false;
+    //if ( !map ) {
+    //    std::cerr << "program UserSetError id : " << map->Get ( ) << std::endl;
+    //    return false;
 
 
-    }
+    //}
 
     
     auto cubeRight = Image::Load ( "./model/skybox/right.jpg" , false );
@@ -252,6 +252,8 @@ bool Context::Init ( )
 
     mainCamera = new Camera;
     player = new Player;
+    map = new Map;
+    map->Initialize ("./model/submarine/Submarine.obj" );
     player->Initialize ( );
     CameraManager::getInstance ( ).SetCamera ( player->camera );
     glDisable ( GL_STENCIL_TEST );
