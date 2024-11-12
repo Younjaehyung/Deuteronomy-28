@@ -1,6 +1,6 @@
 ﻿#include "context.h"
 #include "image.h"
-
+#include "Time.h"
 ContextUPtr Context::Create ( )
 {
     auto context = ContextUPtr ( new Context ( ) ); //context uniquePointer 생성
@@ -50,50 +50,34 @@ void Context::Render ( ) {
         
     }
     ImGui::End ( );
-
+    
     m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
 
     glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT ); //GL_DEPTH_BUFFER_BIT : DEPTH Buffer clear 세팅
     glEnable ( GL_DEPTH_TEST ); // DEPTH Buffer 사용 설정
 
-    //카메라가 바라보는 방향
-    m_cameraFront =
-        glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( m_cameraYaw ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) ) 
-        *glm::rotate ( glm::mat4 ( 1.0f ) ,glm::radians ( m_cameraPitch ) , glm::vec3 ( 1.0f , 0.0f , 0.0f ) ) 
-        *  glm::vec4 ( 0.0f , 0.0f , -1.0f , 0.0f );   //방향벡터에는 4번째 항에 0을 넣음
-
-
-    auto projection = glm::perspective ( glm::radians ( 45.0f ) ,( float ) 800 / ( float ) 600 , 0.1f , 300.0f );   //원근투영
-
-    //카메라 위치 함수
-    auto view = glm::lookAt ( m_cameraPos ,  m_cameraPos + m_cameraFront , m_cameraUp );
-    
-    //world 좌표츅 출력///////////////////
-    //world_coord_render ( projection , view );
-    
     //cubebox
-    auto skyboxModelTransform =
-        glm::translate ( glm::mat4 ( 1.0 ) , m_cameraPos ) *
-        glm::scale ( glm::mat4 ( 1.0 ) , glm::vec3 ( 50.0f ) );
-    m_skyboxProgram->Use ( );
-    m_cubeTexture->Bind ( );
-    m_skyboxProgram->SetUniform ( "skybox" , 0 );
-    m_skyboxProgram->SetUniform ( "transform" , projection * view * skyboxModelTransform );
-    m_box->Draw ( m_skyboxProgram.get ( ) );
+    //auto skyboxModelTransform =
+    //    glm::translate ( glm::mat4 ( 1.0 ) , m_cameraPos ) *
+    //    glm::scale ( glm::mat4 ( 1.0 ) , glm::vec3 ( 50.0f ) );
+    //m_skyboxProgram->Use ( );
+    //m_cubeTexture->Bind ( );
+    //m_skyboxProgram->SetUniform ( "skybox" , 0 );
+    //m_skyboxProgram->SetUniform ( "transform" , Camera_Transform * skyboxModelTransform );
+    //m_box->Draw ( m_skyboxProgram.get ( ) );
 
     //envmap
-    auto modelTransform =
+    /*auto modelTransform =
         glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 1.0f , 0.75f , -2.0f ) ) *
         glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 40.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) ) *
         glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 1.5f , 1.5f , 1.5f ) );
     m_envMapProgram->Use ( );
     m_envMapProgram->SetUniform ( "model" , modelTransform );
-    m_envMapProgram->SetUniform ( "view" , view );
-    m_envMapProgram->SetUniform ( "projection" , projection );
+    m_envMapProgram->SetUniform ( "camera" , Camera_Transform );
     m_envMapProgram->SetUniform ( "cameraPos" , m_cameraPos );
     m_cubeTexture->Bind ( );
     m_envMapProgram->SetUniform ( "skybox" , 0 );
-    m_box->Draw ( m_envMapProgram.get ( ) );
+    m_box->Draw ( m_envMapProgram.get ( ) );*/
 
     //광원/////////////////////////////////////////////
    
@@ -104,7 +88,7 @@ void Context::Render ( ) {
     m_simpleProgram->Use ( );
 
     m_simpleProgram->SetUniform ( "color" , glm::vec4 ( m_light.ambient + m_light.diffuse , 1.0f ) );
-    m_simpleProgram->SetUniform ( "transform" , projection * view * lightModelTransform );
+    m_simpleProgram->SetUniform ( "transform" , Camera_Transform * lightModelTransform );
     m_box->Draw ( m_simpleProgram.get());
     ///////////////////////////////////////////////////
 
@@ -121,11 +105,10 @@ void Context::Render ( ) {
     m_program->SetUniform ( "light.diffuse" , m_light.diffuse );
     m_program->SetUniform ( "light.specular" , m_light.specular );
 
-    
-    modelTransform = glm::mat4 ( 1.0f );
-    auto transform = projection * view * modelTransform;
+
+    auto transform = Camera_Transform * glm::mat4 ( 1.0f );
     m_program->SetUniform ( "transform" , transform );
-    m_program->SetUniform ( "modelTransform" , modelTransform );
+    m_program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
     //m_material->SetToProgram ( m_program.get ( ) );
     map->Draw ( m_program.get ( ) );
 
@@ -143,11 +126,17 @@ void Context::Render ( ) {
     m_plane->Draw ( m_textureProgram.get ( ) );
 }
 
+void Context :: Update ( ) {
+    Time::Update ( );
+    CameraManager::getInstance ( ).Update ( );
+    Camera_Transform = CameraManager::getInstance ( ).Camera_transform( );
+    player->Update ( );
+}
+
 void Context::ProcessInput ( GLFWwindow* window ) {
-    if ( !m_cameraControl )
-        return;
     
-    glm::vec3 cameraDirectionXZ = glm::normalize ( glm::vec3 ( m_cameraFront.x , 0.0f , m_cameraFront.z ) );
+    player->Input ( window );
+   /* glm::vec3 cameraDirectionXZ = glm::normalize ( glm::vec3 ( m_cameraFront.x , 0.0f , m_cameraFront.z ) );
     const float cameraSpeed = 0.05f;
     if ( glfwGetKey ( window , GLFW_KEY_W ) == GLFW_PRESS )
         m_cameraPos += cameraSpeed * cameraDirectionXZ;
@@ -164,7 +153,7 @@ void Context::ProcessInput ( GLFWwindow* window ) {
     if ( glfwGetKey ( window , GLFW_KEY_D ) == GLFW_PRESS )
         m_cameraPos += cameraSpeed * cameraRight;
     if ( glfwGetKey ( window , GLFW_KEY_A ) == GLFW_PRESS )
-        m_cameraPos -= cameraSpeed * cameraRight;
+        m_cameraPos -= cameraSpeed * cameraRight;*/
 }
 
 void Context::Reshape ( int width , int height ) {
@@ -177,25 +166,7 @@ void Context::Reshape ( int width , int height ) {
     
 }
 
-void Context::MouseMove ( double x , double y ) {
-    if ( !m_cameraControl )
-        return;
-    auto pos = glm::vec2 ( ( float ) x , ( float ) y );
-    auto deltaPos = pos - m_prevMousePos;
 
-    const float cameraRotSpeed = 0.8f;
-    m_cameraYaw -= deltaPos.x * cameraRotSpeed;
-    m_cameraPitch -= deltaPos.y * cameraRotSpeed;
-
-    if ( m_cameraYaw < 0.0f )   m_cameraYaw += 360.0f;
-    if ( m_cameraYaw > 360.0f ) m_cameraYaw -= 360.0f;
-
-    if ( m_cameraPitch > 89.0f )  m_cameraPitch = 89.0f;
-    if ( m_cameraPitch < -89.0f ) m_cameraPitch = -89.0f;
-
-
-    m_prevMousePos = pos;
-}
 
 void Context::MouseButton ( int button , int action , double x , double y ) {
     if ( button == GLFW_MOUSE_BUTTON_RIGHT ) {
@@ -217,7 +188,7 @@ bool Context::Init ( )
     m_box = Mesh::CreateBox ( );
     m_plane = Mesh::CreatePlane ( );
 
-    map = Model::Load ( "./model/submarine/Stage.obj" );
+    map = Model::Load ( "./model/submarine/Submarine.obj" );
 
     if ( !map ) {
         std::cerr << "program UserSetError id : " << map->Get ( ) << std::endl;
@@ -277,12 +248,14 @@ bool Context::Init ( )
 
     m_material->specular = Texture::CreateFromImage ( Image::CreateSingleColorImage ( 4 , 4 ,
         glm::vec4 ( 0.5f , 0.5f , 0.5f , 1.0f ) ).get ( ) );
+    Time::Initailize ( );
 
-
-   
-     
+    mainCamera = new Camera;
+    player = new Player;
+    player->Initialize ( );
+    CameraManager::getInstance ( ).SetCamera ( player->camera );
     glDisable ( GL_STENCIL_TEST );
-   
+    
 
     glClearColor ( 0.1f , 0.2f , 0.3f , 0.0f );
      

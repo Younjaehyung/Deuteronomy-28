@@ -23,7 +23,7 @@ void Time::Update ( )	//deltatime 갱신용 Update()
 	DeltaTimeValue = differenceFrequency / static_cast< float >( CpuFrequency.QuadPart );
 	PrevFrequency.QuadPart = CurrentFrequency.QuadPart;
 
-	Timer::Updatetimer ( DeltaTime ( ) );
+	
 }
 
 void Time::Render ( HDC hdc )	//화면 프레임 체크용 Render()

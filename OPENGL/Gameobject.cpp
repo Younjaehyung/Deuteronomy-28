@@ -16,13 +16,13 @@ void Gameobject::FixedUpdate ( ) {
 
 void Gameobject::Render ( ) {
 	
-	auto CameraFront = CameraManager::getInstance ( ).GetCameraFront();
+	/*auto CameraFront = CameraManager::getInstance ( ).GetCameraFront();
 	auto Projection = CameraManager::getInstance ( ).GetProjection();
-	auto View=	CameraManager::getInstance ( ).GetView() ;
+	auto View=	CameraManager::getInstance ( ).GetView() ;*/
 
-	for ( auto& _components : m_vecComponent ) {
+	/*for ( auto& _components : m_vecComponent ) {
 		_components->Render ( 
 			Projection ,
 			View );
-	}
+	}*/
 }

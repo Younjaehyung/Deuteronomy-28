@@ -114,6 +114,15 @@
     <ClCompile Include="Gameobject.cpp">
       <Filter>Engine_SRC</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Engine_SRC</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common_include.h">
@@ -203,6 +212,15 @@
     <ClInclude Include="CameraManager.h">
       <Filter>Engine_Header</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Engine_SRC</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\simple.fs">
@@ -232,13 +250,13 @@
     <None Include="skybox.vs">
       <Filter>shader</Filter>
     </None>
-    <None Include="env_map.vs">
-      <Filter>shader</Filter>
-    </None>
     <None Include="env_map.fs">
       <Filter>shader</Filter>
     </None>
     <None Include="Shader\skybox.fs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="Shader\env_map.vs">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

@@ -7,6 +7,8 @@
 #include "texture.h"
 #include "mesh_user.h"
 #include "model.h"
+#include "CameraManager.h"
+#include "Player.h"
 #include "framebuffer.h"
 
 CLASS_PTR(Context)
@@ -25,11 +27,13 @@ struct Light {
 class Context{
 public:
 	static ContextUPtr Create ( );
+	void Update ( );
 	void Render ( );
 	void ProcessInput ( GLFWwindow* window );
 
+	
 	void Reshape ( int width , int height );
-	void MouseMove ( double x , double y );
+
 	void MouseButton ( int button , int action , double x , double y );
 
 private:
@@ -38,9 +42,10 @@ private:
 	
 	std::vector<Light> Lights;
 
+	Camera* mainCamera;
+	glm::mat4 Camera_Transform;
 
-
-
+	Player* player;
 
 
 

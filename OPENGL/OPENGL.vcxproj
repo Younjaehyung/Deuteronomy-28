@@ -131,6 +131,7 @@
   <ItemGroup>
     <ClCompile Include="a.cpp" />
     <ClCompile Include="buffer.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="common_include.cpp" />
     <ClCompile Include="context.cpp" />
@@ -148,14 +149,17 @@
     <ClCompile Include="mesh_user.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="program.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="texture.cpp" />
+    <ClCompile Include="Time.cpp" />
     <ClCompile Include="vertex_layout.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="a.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="Gameobject.h" />
@@ -177,17 +181,19 @@
     <ClInclude Include="mesh_user.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="PhysicsComponent.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="program.h" />
     <ClInclude Include="Layer.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="texture.h" />
+    <ClInclude Include="Time.h" />
     <ClInclude Include="vertex_layout.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="env_map.fs" />
-    <None Include="env_map.vs" />
+    <None Include="Shader\env_map.vs" />
     <None Include="Shader\lighting.fs" />
     <None Include="Shader\lighting.vs" />
     <None Include="Shader\simple.fs" />

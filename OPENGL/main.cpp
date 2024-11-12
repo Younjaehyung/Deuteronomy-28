@@ -94,7 +94,7 @@ int main ( )
            ImGui::NewFrame ( );
 
            context->ProcessInput ( window );    //입력 
-
+           context->Update ( );
            context-> Render ( );    //출력
 
             
@@ -144,7 +144,8 @@ void key_pressed ( GLFWwindow* window , int key , int scancode , int action , in
 
 void OnCursorPos ( GLFWwindow* window , double x , double y ) {
     auto context = ( Context* ) glfwGetWindowUserPointer ( window );
-    context->MouseMove ( x , y );
+    //context->MouseMove ( x , y );
+    CameraManager::getInstance ( ).Input ( x , y );
 }
 
 void OnMouseButton ( GLFWwindow* window , int button , int action , int modifier ) {
