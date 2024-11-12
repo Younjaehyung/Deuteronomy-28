@@ -105,7 +105,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Programming\OpenGL_FRAMEWORK\OPENGL\include\assimp-master\include;C:\Users\Admin\OneDrive - 한국공학대학교\프로그래밍\2학년 여름방학\OPENGL\include\assimp-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Programming\OpenGL_FRAMEWORK\OPENGL\include\assimp-master\include;C:\Users\Admin\OneDrive - 한국공학대학교\프로그래밍\2학년 여름방학\OPENGL\include\assimp-master\include;$(ProjectDir)include\assimp-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
