@@ -444,6 +444,8 @@ FodyWeavers.xsd
 !.vscode/extensions.json
 *.code-workspace
 
+!OPENGL/model/*.obj
+
 # Local History for Visual Studio Code
 .history/
 
