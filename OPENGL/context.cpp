@@ -284,7 +284,7 @@ bool Context::Init ( )
     map = new Map;
     object1 = new character;
     map->Initialize ("./model/Stage/Stage.obj" );
-    object1->Initialize ( "./model/6-1.glb" );
+    object1->Initialize ( "./model/6-2.glb" );
     player->Initialize ( );
     CameraManager::getInstance ( ).SetCamera ( player->camera );
     glDisable ( GL_STENCIL_TEST );
