@@ -1,6 +1,7 @@
 ﻿#include "context.h"
 #include "image.h"
 #include "Time.h"
+#include "Sound.h"
 ContextUPtr Context::Create ( )
 {
     auto context = ContextUPtr ( new Context ( ) ); //context uniquePointer 생성
@@ -278,12 +279,12 @@ bool Context::Init ( )
     m_material->specular = Texture::CreateFromImage ( Image::CreateSingleColorImage ( 4 , 4 ,
         glm::vec4 ( 0.5f , 0.5f , 0.5f , 1.0f ) ).get ( ) );
     Time::Initailize ( );
-    
+    SoundManager::getInstance ( ).Initialize ( );
     mainCamera = new Camera;
     player = new Player;
     map = new Map;
     object1 = new character;
-    object1->Initialize ( "./model/SlowRun.gltf" );
+    object1->Initialize ( "./model/Goat1.glb" );
     map->Initialize ("./model/submarine/Submarine.obj" );
     
     player->Initialize ( );

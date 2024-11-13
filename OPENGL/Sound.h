@@ -1,11 +1,11 @@
 ﻿#pragma once
-#pragma comment(lib,"fmod/lib/x64/fmod_vc.lib")
-#include "fmod/inc/fmod.hpp"
-#include "fmod/inc/fmod_errors.h"
+#pragma comment(lib,"include/fmod/lib/x64/fmod_vc.lib")
+#include "include/fmod/inc/fmod.hpp"
+#include "include/fmod/inc/fmod_errors.h"
 #include <iostream>
 #include <string>
 #include <unordered_map>
-#include "Debugging.h"
+
 //system은 다이렉트 디바이스와 유사하다. 사운드 시스템.
 //sound은 사운드 포인터로 실제 사운드 메모리이다.
 //channel은 최대 32채널을 갖고 중복적으로 실행이 되기 위해서 필요함.

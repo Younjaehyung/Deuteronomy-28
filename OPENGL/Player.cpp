@@ -1,5 +1,6 @@
 ﻿#include "Player.h"
 #include "Time.h"
+#include "Sound.h"
 
 void Player::Update ( )
 {
@@ -44,6 +45,7 @@ void Player::Input ( GLFWwindow* window ) {
 	float speed = 10 * Time::DeltaTime ( );
 	if ( glfwGetKey ( window , GLFW_KEY_W ) == GLFW_PRESS ) {
 		Pos += speed * cameraDirectionXZ;
+		//SoundManager::getInstance ( ).GetSoundID ( "charge" )->ReplaySound ( );
 	}
 	if ( glfwGetKey ( window , GLFW_KEY_S ) == GLFW_PRESS ) {
 		Pos -= speed * cameraDirectionXZ;

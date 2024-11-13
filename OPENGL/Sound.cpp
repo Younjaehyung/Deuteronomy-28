@@ -21,39 +21,8 @@ bool SoundManager::Initialize ( ) {
 
 inline void SoundManager::CreateSoundlist ( ) {
 	//기본 음원을 넣는 포멧. 마지막에 숫자 0 : 음원루프x /숫자 1 : 음원루프O
-	Channel.emplace ( "testMP3" , CreateSound ( "Whale_06_R.P.G._Shine.mp3",1 ) );
-	Channel.emplace ( "Explosion" , CreateSound ( "BFI_Explosion.wav" , 0 ) );
-	Channel.emplace ( "Menu" , CreateSound ( "BFI_Menu.wav" , 0 ) );
-	Channel.emplace ( "Hit" , CreateSound ( "BFI_Hit.mp3" , 0 ) );
-	Channel.emplace ( "Start" , CreateSound ( "BFI_Start.wav" , 0 ) );
-	Channel.emplace ( "Shoot" , CreateSound ( "BFI_Shoot.wav" , 0 ) );
-	Channel.emplace ( "Item" , CreateSound ( "BFI_Item.wav" , 0 ) );
-	Channel.emplace ( "Laser" , CreateSound ( "BFI_Laser.wav" , 0 ) );
-	Channel.emplace ( "Stage1" , CreateSound ( "BFI_ST_1_The Origin.wav" , 1 ));
-	Channel.emplace ( "Stage2" , CreateSound ( "BFI_ST_2_8bit Dungeon Bossc.wav" , 1 ));
-	Channel.emplace ( "Stage3" , CreateSound ( "BFI_ST_3_Funk Modulator.wav" , 1 ));
-	Channel.emplace ( "Stage4" , CreateSound ( "BFI_ST_4_Scrub Slayer.wav" , 1 ));
-	Channel.emplace ( "Stage5" , CreateSound ( "BFI_ST_5_Welcome Player.wav" , 1 ));
-	Channel.emplace( "Stage6", CreateSound ("BFI_ST6_The_FinalBattle.mp3" , 1 ) );
-	Channel.emplace ( "Title" , CreateSound ( "BFI_Title_Good Old Times.wav" , 1 ) );
-	Channel.emplace ( "Dash" , CreateSound ( "BFI_Dash.wav" , 0 ) );
-	Channel.emplace ( "Reload" , CreateSound ( "BFI_Reload.wav" , 0 ) );
-	Channel.emplace ( "Move" , CreateSound ( "BFI_Move.mp3" , 0 ) );
-	Channel.emplace ( "Clear" , CreateSound ( "BFI_GameClear.wav" , 0 ) );
-	Channel.emplace ( "Over" , CreateSound ( "BFI_Gameover.wav" , 1 ) );
-	Channel.emplace ( "Trim" , CreateSound ( "BFI_monster_trim1.mp3" , 0 ) );
-	Channel.emplace ( "Trim2" , CreateSound ( "BFI_monster_trim2.mp3" , 0 ) );
-	Channel.emplace ( "angry" , CreateSound ( "BFI_monster_angry.mp3" , 0 ) );
-	Channel.emplace ( "missile1" , CreateSound ( "BFI_monster_missile.mp3" , 0 ) );
-	Channel.emplace ( "missile2" , CreateSound ( "BFI_monster_missile2.mp3" , 0 ) );
-	Channel.emplace ( "ele" , CreateSound ( "BFI_monster_ele.mp3" , 0 ) );
-	Channel.emplace ( "cine" , CreateSound ( "BFI_monster_Cinematic.mp3" , 0 ) );
-	Channel.emplace ( "stomp1" , CreateSound ( "BFI_monster_stomp1.mp3" , 0 ) );
-	Channel.emplace ( "stomp2" , CreateSound ( "BFI_monster_stomp2.mp3" , 0 ) );
-	Channel.emplace ( "stomp3" , CreateSound ( "BFI_monster_stomp3.mp3" , 0 ) );
-	Channel.emplace ( "cute" , CreateSound ( "BFI_monster_cute.mp3" , 0 ) );
-	Channel.emplace ( "bip" , CreateSound ( "BFI_monster_bipbip.mp3" , 0 ) );
-	Channel.emplace ( "charge" , CreateSound ( "BFI_monster_Charge.mp3" , 0 ));
+	
+	Channel.emplace ( "charge" , CreateSound ( "Sound/BFI_monster_Charge.mp3" , 0 ));
 }
 
 void SoundManager::Update ( )
@@ -154,11 +123,11 @@ void Sounds::ReplaySound (float volume ) {
 		//else {
 		//	Channel->setPosition ( position , FMOD_TIMEUNIT_MS );
 		//}
-		Debugging::STRINPUT ( "if" );
+		
 	}
 	else {
 		playSound ( volume );
-		Debugging::STRINPUT ( "else" );
+		
 	}
 }
 
