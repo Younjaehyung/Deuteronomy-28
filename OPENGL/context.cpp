@@ -283,7 +283,7 @@ bool Context::Init ( )
     player = new Player;
     map = new Map;
     object1 = new character;
-    object1->Initialize ( "./model/cat_BaseColor_v2/cat_Idleglb.glb" );
+    object1->Initialize ( "./model/SlowRun.gltf" );
     map->Initialize ("./model/submarine/Submarine.obj" );
     
     player->Initialize ( );

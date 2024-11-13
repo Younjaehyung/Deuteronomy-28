@@ -81,6 +81,8 @@ public:
 
 
 		m_prevMousePos = pos;
+
+
 	}
 
 	glm::mat4 GetTransform ( ) {

@@ -35,9 +35,11 @@ bool Model::LoadByAssimp ( const std::string& filename ) {
             // Assimp 내장 텍스처일 경우 처리
             int textureIndex = std::stoi ( filepath.C_Str ( ) + 1 ); // "*0"에서 인덱스 추출
             auto embeddedTexture = scene->mTextures[ textureIndex ];
-            std::cerr << "Texture embeddedTexture : " << embeddedTexture->pcData << std::endl;
+
+            std::cerr << "Texture embeddedTexture : "<< dirname<<"::" << embeddedTexture->pcData << std::endl;
             if ( embeddedTexture && embeddedTexture->mHeight == 0 ) {
                 // 텍스처가 메모리에 포함되어 있음 (compressed format)
+                std::cerr << "Texture embeddedTexture == 0: " << embeddedTexture->pcData << std::endl;
                 auto image = Image::LoadFromMemory ( reinterpret_cast< const unsigned char* >( embeddedTexture->pcData ) ,
                                                    embeddedTexture->mWidth , false ); // flipVertical 값을 설정
                 return Texture::CreateFromImage ( image.get ( ) );
