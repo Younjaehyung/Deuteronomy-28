@@ -118,16 +118,16 @@ void Context::Render ( ) {
 
     m_animationProgram->Use ( );
     //손전등
-    m_program->SetUniform ( "viewPos" , CameraManager::getInstance().GetCameraPos() );
-    m_program->SetUniform ( "light.position" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    m_program->SetUniform ( "light.direction" , -CameraManager::getInstance ( ).GetCameraPos ( ) );
-    m_program->SetUniform ( "light.cutoff" , glm::vec2 (
+    m_animationProgram->SetUniform ( "viewPos" , CameraManager::getInstance().GetCameraPos() );
+    m_animationProgram->SetUniform ( "light.position" , CameraManager::getInstance ( ).GetCameraPos ( ) );
+    m_animationProgram->SetUniform ( "light.direction" , -CameraManager::getInstance ( ).GetCameraPos ( ) );
+    m_animationProgram->SetUniform ( "light.cutoff" , glm::vec2 (
         cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
         cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) ) );
-    m_program->SetUniform ( "light.attenuation" , GetAttenuationCoeff ( m_light.distance ) );
-    m_program->SetUniform ( "light.ambient" , m_light.ambient );
-    m_program->SetUniform ( "light.diffuse" , m_light.diffuse );
-    m_program->SetUniform ( "light.specular" , m_light.specular );
+    m_animationProgram->SetUniform ( "light.attenuation" , GetAttenuationCoeff ( m_light.distance ) );
+    m_animationProgram->SetUniform ( "light.ambient" , m_light.ambient );
+    m_animationProgram->SetUniform ( "light.diffuse" , m_light.diffuse );
+    m_animationProgram->SetUniform ( "light.specular" , m_light.specular );
 
 
     object1->Render ( m_animationProgram.get ( ) );
@@ -193,10 +193,12 @@ void Context::MouseButton ( int button , int action , double x , double y ) {
         if ( action == GLFW_PRESS ) {
             // 마우스 조작 시작 시점에 현재 마우스 커서 위치 저장
             m_prevMousePos = glm::vec2 ( ( float ) x , ( float ) y );
-            m_cameraControl = true;
+            
+            CameraManager::getInstance().ClickCamera ( ) = true;
         }
         else if ( action == GLFW_RELEASE ) {
-            m_cameraControl = false;
+           
+            CameraManager::getInstance ().ClickCamera ( )  = false;
         }
     }
 }
@@ -282,7 +284,7 @@ bool Context::Init ( )
     map = new Map;
     object1 = new character;
     map->Initialize ("./model/Stage/Stage.obj" );
-    object1->Initialize ( "./model/6.glb" );
+    object1->Initialize ( "./model/6-1.glb" );
     player->Initialize ( );
     CameraManager::getInstance ( ).SetCamera ( player->camera );
     glDisable ( GL_STENCIL_TEST );

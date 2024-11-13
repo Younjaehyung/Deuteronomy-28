@@ -93,10 +93,13 @@ glm::mat4 Bone::InterpolatePosition ( float animationTime )
 
 	int p0Index = GetPositionIndex ( animationTime );
 	int p1Index = p0Index + 1;
+
 	float scaleFactor = GetScaleFactor ( positions[ p0Index ].timeStamp ,
 		positions[ p1Index ].timeStamp , animationTime );
+
 	glm::vec3 finalPosition = glm::mix ( positions[ p0Index ].position ,
 		positions[ p1Index ].position , scaleFactor );
+
 	return glm::translate ( glm::mat4 ( 1.f ) , finalPosition );
 }
 

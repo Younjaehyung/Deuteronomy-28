@@ -42,9 +42,6 @@ public:
 	}
 
 	void Update ( ) {
-		if (!m_cameraControl ) {
-			return;
-		}
 		
 		m_cameraFront =
 			glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( m_cameraYaw ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) )
@@ -64,6 +61,11 @@ public:
 
 	void MouseMove ( double x , double y ) {
 		Debugging ( );
+		if ( !m_cameraControl ) {
+			return;
+		}
+
+
 		auto pos = glm::vec2 ( ( float ) x , ( float ) y );
 		auto deltaPos = pos - m_prevMousePos;
 

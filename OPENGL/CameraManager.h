@@ -16,6 +16,10 @@ public:
 		return instance;
 	}
 
+	bool& ClickCamera ( ) {
+		return using_Camera->cameraControl();
+	}
+
 	void Update ( ) {
 		/*for ( auto _Camera : Cameras ) {
 			_Camera->Update ( );
@@ -37,6 +41,8 @@ public:
 	glm::mat4 Camera_transform ( ) {
 		return using_Camera->GetTransform();
 	}
+
+
 
 	void SetCamera ( Camera* setCamera ) {
 		if ( using_Camera != nullptr ) {
