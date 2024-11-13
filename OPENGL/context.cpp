@@ -117,6 +117,19 @@ void Context::Render ( ) {
 
 
     m_animationProgram->Use ( );
+    //손전등
+    m_program->SetUniform ( "viewPos" , CameraManager::getInstance().GetCameraPos() );
+    m_program->SetUniform ( "light.position" , CameraManager::getInstance ( ).GetCameraPos ( ) );
+    m_program->SetUniform ( "light.direction" , -CameraManager::getInstance ( ).GetCameraPos ( ) );
+    m_program->SetUniform ( "light.cutoff" , glm::vec2 (
+        cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
+        cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) ) );
+    m_program->SetUniform ( "light.attenuation" , GetAttenuationCoeff ( m_light.distance ) );
+    m_program->SetUniform ( "light.ambient" , m_light.ambient );
+    m_program->SetUniform ( "light.diffuse" , m_light.diffuse );
+    m_program->SetUniform ( "light.specular" , m_light.specular );
+
+
     object1->Render ( m_animationProgram.get ( ) );
 
     Framebuffer::BindToDefault ( );
@@ -269,7 +282,7 @@ bool Context::Init ( )
     map = new Map;
     object1 = new character;
     map->Initialize ("./model/Stage/Stage.obj" );
-    object1->Initialize ( "./model/Goat1.fbx" );
+    object1->Initialize ( "./model/6.glb" );
     player->Initialize ( );
     CameraManager::getInstance ( ).SetCamera ( player->camera );
     glDisable ( GL_STENCIL_TEST );

@@ -32,9 +32,10 @@ struct Vertex {
     glm::vec2 texCoord;
 
     //bone indexes which will influence this vertex
-    int m_BoneIDs[ 4 ] = {};
+    //원래 4
+    int m_BoneIDs[ MAX_BONE_INFLUENCE ] = {};
     //weights from each bone
-    float m_Weights[ 4 ] = {};
+    float m_Weights[ MAX_BONE_INFLUENCE ] = {};
 };
 
 

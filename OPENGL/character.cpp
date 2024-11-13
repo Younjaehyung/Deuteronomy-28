@@ -23,7 +23,7 @@ void character::Render ( const Program* program )
 	//}
 
 	program->SetUniform ( "modelMat" , ( glm::mat4 ( 1.0f ) ) );
-	program->SetUniform ( "PVM" , CameraManager::getInstance ( ).Camera_transform ( ) * glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( -90.0f ) , glm::vec3 ( 1.0f , 0.0f , 0.0f ) ) );
+	program->SetUniform ( "PVM" , CameraManager::getInstance ( ).Camera_transform ( )  );
 	program->SetUniform ( "normalMat" , ( glm::mat3 ( 1.0f ) ) );
 
 	//glm::mat3 ( glm::transpose ( glm::inverse
@@ -34,7 +34,7 @@ void character::Render ( const Program* program )
 void character::Initialize ( const std::string& strName )
 {
 
-	UBO = UBOBUFFER::Create (300 );
+	UBO = UBOBUFFER::Create (200 );
 
 	_model = Model::Load ( strName );
 	model = _model.get ( );
