@@ -26,6 +26,7 @@ void Mesh::Init ( const std::vector<Vertex>& vertices ,const std::vector<uint32_
     //offsetof : Vertex라는 구조체 안에 normal이라는 값은 어느 거리에 있는지 체크해줌
 }
 
+
 void Mesh::Draw ( const Program* program ) const {
     m_vertexLayout->Bind ( );
     if ( m_material ) {

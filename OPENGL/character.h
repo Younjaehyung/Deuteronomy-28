@@ -14,6 +14,7 @@ public:
 	Animation* idleAnim;
 	Animator* animator;
 	ProgramUPtr _shader;
+	UBOBUFFERUPtr UBO;
 	character ( ) {
 
 

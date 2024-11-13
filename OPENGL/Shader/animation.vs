@@ -6,9 +6,11 @@ layout (location = 2) in vec2 tex;
 layout (location = 3) in ivec4 boneIds;
 layout (location = 4) in vec4 weights;
 
-const int MAX_BONES = 120;
+const int MAX_BONES = 300;
 const int MAX_BONE_INFLUENCE = 4;
-uniform mat4 finalBonesMatrices[MAX_BONES];
+//uniform mat4 finalBonesMatrices[MAX_BONES];
+
+layout (std140) uniform Bones { mat4 finalBonesMatrices[MAX_BONES]; };
 
 out vec3 FragPos; // 월드 좌표계
 out vec2 TexCoord;

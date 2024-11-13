@@ -7,6 +7,7 @@
 #include "program.h"
 
 CLASS_PTR ( Mesh );
+CLASS_PTR ( UBOBUFFER );
 
 const int MAX_BONE_INFLUENCE = 4;
 struct Vertex {
@@ -56,7 +57,7 @@ private:
 class Mesh {
 public:
     static MeshUPtr Create (const std::vector<Vertex>& vertices ,const std::vector<uint32_t>& indices ,uint32_t primitiveType );
-   
+    
    
     static MeshUPtr CreateBox ( );
     static MeshUPtr CreatePlane ( );
@@ -80,6 +81,8 @@ private:
       const std::vector<uint32_t>& indices ,
       uint32_t primitiveType );
 
+
+
     uint32_t m_primitiveType{ GL_TRIANGLES };
     VertexLayoutUPtr m_vertexLayout;
     BufferPtr m_vertexBuffer;
@@ -88,3 +91,37 @@ private:
     MaterialPtr m_material;
 };
 
+class UBOBUFFER {
+    uint32_t uboBones{ 0 };
+    bool Init ( uint32_t MAX_BONES ) {
+        glGenBuffers ( 1 , &uboBones );
+        glBindBuffer ( GL_UNIFORM_BUFFER , uboBones );
+        glBufferData ( GL_UNIFORM_BUFFER , sizeof ( glm::mat4 ) * MAX_BONES , nullptr , GL_DYNAMIC_DRAW );
+        glBindBuffer ( GL_UNIFORM_BUFFER , 0 );
+        return true;
+    }
+    UBOBUFFER ( ) {}
+public:
+    static UBOBUFFERUPtr Create ( uint32_t MAX_BONES ) {
+        auto UBO = UBOBUFFERUPtr ( new UBOBUFFER ( ) );
+        if ( !UBO->Init ( MAX_BONES ) )
+            return nullptr;
+        return std::move ( UBO );
+    }
+    
+   
+
+    void UpdateBoneMatrices ( const std::vector<glm::mat4>& transforms ) {
+        glBindBuffer ( GL_UNIFORM_BUFFER , uboBones );
+        glBufferSubData ( GL_UNIFORM_BUFFER , 0 , sizeof ( glm::mat4 ) * transforms.size ( ) , transforms.data ( ) );
+        glBindBuffer ( GL_UNIFORM_BUFFER , 0 );
+    }
+
+    void Bind ( uint32_t programID ,const std::string& UniformName) {
+        uint32_t blockIndex = glGetUniformBlockIndex ( programID , UniformName.c_str() );
+        glUniformBlockBinding ( programID , blockIndex , 0 );
+        glBindBufferBase ( GL_UNIFORM_BUFFER , 0 , uboBones );
+
+    }
+
+};
