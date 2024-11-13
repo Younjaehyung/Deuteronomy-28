@@ -33,9 +33,9 @@ struct Vertex {
 
     //bone indexes which will influence this vertex
     //원래 4
-    int m_BoneIDs[ MAX_BONE_INFLUENCE ] = {};
+    int m_BoneIDs[ MAX_BONE_INFLUENCE ];
     //weights from each bone
-    float m_Weights[ MAX_BONE_INFLUENCE ] = {};
+    float m_Weights[ MAX_BONE_INFLUENCE ];
 };
 
 
@@ -45,8 +45,8 @@ public:
     static MaterialUPtr Create ( ) {
         return MaterialUPtr ( new Material ( ) );
     }
-    TexturePtr diffuse;
-    TexturePtr specular;
+    TexturePtr diffuse = nullptr;
+    TexturePtr specular = nullptr;
     float shininess{ 32.0f };
 
     void SetToProgram ( const Program* program ) const; //텍스쳐를 프로그램에 세팅

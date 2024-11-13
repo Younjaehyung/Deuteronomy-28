@@ -1,0 +1,81 @@
+# Exported from 3D Builder
+
+newmtl Mat_0
+Kd 1.000000 1.000000 1.000000
+map_Kd Untitttled.png
+
+newmtl Mat_1
+Kd 1.000000 1.000000 1.000000
+map_Kd Untittled.png
+
+newmtl Green_0
+Kd 0.129412 0.733333 0.298039
+
+newmtl White_0
+Kd 1.000000 1.000000 1.000000
+
+newmtl Mat_2
+Kd 1.000000 1.000000 1.000000
+map_Kd ButtonTex.png
+
+newmtl Mat_3
+Kd 1.000000 1.000000 1.000000
+map_Kd RustyMetal44.png
+
+newmtl Mat_4
+Kd 1.000000 1.000000 1.000000
+map_Kd FloorTex.png
+
+newmtl Mat_5
+Kd 1.000000 1.000000 1.000000
+map_Kd RustyMetal1.png
+
+newmtl Orange_0
+Kd 1.000000 0.498039 0.145098
+
+newmtl Mat_6
+Kd 1.000000 1.000000 1.000000
+map_Kd Untitled.png
+
+newmtl Mat_7
+Kd 1.000000 1.000000 1.000000
+map_Kd guge.png
+
+newmtl Mat_8
+Kd 1.000000 1.000000 1.000000
+map_Kd ControlPanels1Tx.png
+
+newmtl Mat_9
+Kd 1.000000 1.000000 1.000000
+map_Kd ControlPanels2ex.png
+
+newmtl Mat_10
+Kd 1.000000 1.000000 1.000000
+map_Kd RustyMetal3.png
+
+newmtl Mat_11
+Kd 1.000000 1.000000 1.000000
+map_Kd PipeBrush1Tex.png
+
+newmtl Mat_12
+Kd 1.000000 1.000000 1.000000
+map_Kd ControlPanels13Tex.png
+
+newmtl Mat_13
+Kd 1.000000 1.000000 1.000000
+map_Kd ControlPanels4Tex.png
+
+newmtl Mat_14
+Kd 1.000000 1.000000 1.000000
+map_Kd ControlPanels5Tex.png
+
+newmtl Default_0
+Kd 0.737255 0.737255 0.737255
+
+newmtl Mat_15
+Kd 1.000000 1.000000 1.000000
+map_Kd ControlPanels3Tex.png
+
+newmtl Mat_16
+Kd 1.000000 1.000000 1.000000
+map_Kd ControlPanels2Tex.png

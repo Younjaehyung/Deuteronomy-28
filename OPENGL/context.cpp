@@ -94,9 +94,9 @@ void Context::Render ( ) {
 
     //손전등
     m_program->Use ( );
-    m_program->SetUniform ( "viewPos" , m_cameraPos );
-    m_program->SetUniform ( "light.position" , m_cameraPos );
-    m_program->SetUniform ( "light.direction" , m_cameraFront );
+    m_program->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
+    m_program->SetUniform ( "light.position" , CameraManager::getInstance ( ).GetCameraPos ( ) );
+    m_program->SetUniform ( "light.direction" , CameraManager::getInstance ( ).GetCameraFront ( ) );
     m_program->SetUniform ( "light.cutoff" , glm::vec2 (
         cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
         cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) ) );
@@ -110,27 +110,27 @@ void Context::Render ( ) {
     m_program->SetUniform ( "transform" , transform );
     m_program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
 
-    //map->_model->Draw ( m_program.get ( ) );
-    map->ground->Draw ( m_program.get ( ) );
+    map->_model->Draw ( m_program.get ( ) );
+    //map->ground->Draw ( m_program.get ( ) );
     //m_material->SetToProgram ( m_program.get ( ) );
     //m_animationProgram
 
 
-    m_animationProgram->Use ( );
+    //m_animationProgram->Use ( );
     //손전등
-    m_animationProgram->SetUniform ( "viewPos" , CameraManager::getInstance().GetCameraPos() );
+   /* m_animationProgram->SetUniform ( "viewPos" , CameraManager::getInstance().GetCameraPos() );
     m_animationProgram->SetUniform ( "light.position" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    m_animationProgram->SetUniform ( "light.direction" , -CameraManager::getInstance ( ).GetCameraPos ( ) );
+    m_animationProgram->SetUniform ( "light.direction" , CameraManager::getInstance ( ).GetCameraFront() );
     m_animationProgram->SetUniform ( "light.cutoff" , glm::vec2 (
         cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
         cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) ) );
     m_animationProgram->SetUniform ( "light.attenuation" , GetAttenuationCoeff ( m_light.distance ) );
     m_animationProgram->SetUniform ( "light.ambient" , m_light.ambient );
     m_animationProgram->SetUniform ( "light.diffuse" , m_light.diffuse );
-    m_animationProgram->SetUniform ( "light.specular" , m_light.specular );
+    m_animationProgram->SetUniform ( "light.specular" , m_light.specular );*/
 
-
-    object1->Render ( m_animationProgram.get ( ) );
+    
+    //object1->Render ( m_program.get ( ) );
 
     Framebuffer::BindToDefault ( );
     
@@ -261,7 +261,7 @@ bool Context::Init ( )
 
 
     }
- 
+   
     m_animationProgram = Program::Create ( "./shader/animation.vs" , "./shader/animation.fs" );
     if ( !m_animationProgram ) {
         std::cerr << "program UserSetError id : " << m_animationProgram->Get ( ) << std::endl;
@@ -269,27 +269,27 @@ bool Context::Init ( )
 
 
     }
-    std::cerr << "AA" << std::endl;
+    
     m_material = Material::Create ( );
-
+    
     m_material->diffuse = Texture::CreateFromImage ( Image::CreateSingleColorImage ( 4 , 4 ,
         glm::vec4 ( 1.0f , 1.0f , 1.0f , 1.0f ) ).get ( ) );
 
     m_material->specular = Texture::CreateFromImage ( Image::CreateSingleColorImage ( 4 , 4 ,
         glm::vec4 ( 0.5f , 0.5f , 0.5f , 1.0f ) ).get ( ) );
     Time::Initailize ( );
-
+    
     mainCamera = new Camera;
     player = new Player;
     map = new Map;
     object1 = new character;
-    map->Initialize ("./model/Stage/Stage.obj" );
-    object1->Initialize ( "./model/6-2.glb" );
+    map->Initialize ("./model/1/1.obj" );
+    object1->Initialize ( "./model/1/1.obj" );
     player->Initialize ( );
     CameraManager::getInstance ( ).SetCamera ( player->camera );
     glDisable ( GL_STENCIL_TEST );
     
-
+    
     glClearColor ( 1.0f , 1.0f , 1.0f , 1.0f );
      
 

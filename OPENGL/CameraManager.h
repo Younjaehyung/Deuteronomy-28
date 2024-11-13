@@ -32,6 +32,10 @@ public:
 		return using_Camera->GetPos ( );
 	}
 
+	glm::vec3& GetCameraFront ( ) {
+		return using_Camera->GetCameraFront ( );
+	}
+	
 
 	void Input ( double x , double y ) {
 		using_Camera->MouseMove ( x,y );

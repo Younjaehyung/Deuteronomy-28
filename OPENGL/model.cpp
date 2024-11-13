@@ -12,7 +12,8 @@ ModelPtr Model::Load ( const std::string& filename ) {
 
 bool Model::LoadByAssimp ( const std::string& filename ) {
     Assimp::Importer importer;
-    auto scene = importer.ReadFile ( filename , aiProcess_Triangulate | aiProcess_FlipUVs );
+    auto scene = importer.ReadFile ( filename , aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices |
+        aiProcess_CalcTangentSpace );
 
     this->filename = filename;
 
@@ -29,7 +30,7 @@ bool Model::LoadByAssimp ( const std::string& filename ) {
             return nullptr;
         aiString filepath;
         material->GetTexture ( type , 0 , &filepath );
-
+        std::cerr << "Texture path: " << filepath.C_Str ( ) << std::endl;
         // std::stringstream을 사용하여 경로 생성
         std::stringstream ss;
         ss << dirname << "/" << filepath.C_Str ( );
@@ -37,6 +38,7 @@ bool Model::LoadByAssimp ( const std::string& filename ) {
 
         auto image = Image::Load ( fullpath );
         if ( !image )
+            std::cerr << "Failed to load texture: " << fullpath << std::endl;
             return nullptr;
 
         return Texture::CreateFromImage ( image.get ( ) );
@@ -45,6 +47,7 @@ bool Model::LoadByAssimp ( const std::string& filename ) {
     for ( uint32_t i = 0; i < scene->mNumMaterials; i++ ) {
         auto material = scene->mMaterials[ i ];
         auto glMaterial = Material::Create ( );
+        
         glMaterial->diffuse = LoadTexture ( material , aiTextureType_DIFFUSE );
         glMaterial->specular = LoadTexture ( material , aiTextureType_SPECULAR );
         m_materials.push_back ( std::move ( glMaterial ) );
@@ -85,19 +88,7 @@ void Model::ProcessMesh ( aiMesh* mesh , const aiScene* scene ) {
 
         v.position = glm::vec3 ( mesh->mVertices[ i ].x , mesh->mVertices[ i ].y , mesh->mVertices[ i ].z );
         v.normal = glm::vec3 ( mesh->mNormals[ i ].x , mesh->mNormals[ i ].y , mesh->mNormals[ i ].z );
-
-    
-        if ( mesh->mTextureCoords[ 0 ] )
-        {
-            glm::vec2 vec;
-            vec.x = ( mesh->mTextureCoords[ 0 ][ i ].x );
-            vec.y = ( mesh->mTextureCoords[ 0 ][ i ].y );
-            v.texCoord = vec;
-        }
-        else // 존재하지 않을 경우 그냥 0을 넣어주기
-        {
-            v.texCoord = glm::vec2 ( 0.f , 0.f );
-        }
+        v.texCoord = glm::vec2 ( mesh->mTextureCoords[ 0 ][ i ].x , mesh->mTextureCoords[ 0 ][ i ].y );
     
     
     }

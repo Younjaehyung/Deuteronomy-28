@@ -1,5 +1,5 @@
 ﻿#include "GameManager.h"
-
+#include <assimp/version.h> // 버전 정보를 가져오는 헤더 파일
 void OnMouseButton ( GLFWwindow* window , int button , int action , int modifier );
 void OnFramebufferSizeChange ( GLFWwindow* window , int width , int height );
 void key_pressed ( GLFWwindow* window , int key , int scancode , int action , int mods );
@@ -54,7 +54,8 @@ int main ( )
     //    return -1;
     //}
 
-
+    Assimp::Importer importer;
+    std::cout << "Assimp Version: " << aiGetVersionMajor ( ) << "." << aiGetVersionMinor ( ) << std::endl;
     //imgui 초기화
     auto imguiContext = ImGui::CreateContext ( );
     ImGui::SetCurrentContext ( imguiContext );

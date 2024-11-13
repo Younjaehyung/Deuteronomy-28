@@ -9,10 +9,9 @@ void character::Update ( )
 void character::Render ( const Program* program )
 {
 
-	animator->UpdateAnimation ( Time::DeltaTime ( ) );
-	const auto& transforms = animator->GetFinalBoneMatrices ( );
-	UBO->Bind ( program->Get(), "Bones" );
-	UBO->UpdateBoneMatrices ( transforms );
+	//animator->UpdateAnimation ( Time::DeltaTime ( ) );
+	//const auto& transforms = animator->GetFinalBoneMatrices ( );
+	
 	//for ( int i = 0; i < transforms.size ( ); i++ )
 	//{
 	//	UBO->UpdateBoneMatrices()
@@ -22,24 +21,26 @@ void character::Render ( const Program* program )
 
 	//}
 
-	program->SetUniform ( "modelMat" , ( glm::mat4 ( 1.0f ) ) );
+	/*program->SetUniform ( "modelMat" , ( glm::mat4 ( 1.0f ) ) );
 	program->SetUniform ( "PVM" , CameraManager::getInstance ( ).Camera_transform ( )  );
-	program->SetUniform ( "normalMat" , ( glm::mat3 ( 1.0f ) ) );
+	program->SetUniform ( "normalMat" , ( glm::mat3 ( 1.0f ) ) );*/
 
+	//UBO->Bind ( program->Get ( ) , "Bones" );
+	//UBO->UpdateBoneMatrices ( transforms );
 	//glm::mat3 ( glm::transpose ( glm::inverse
-	model->Draw ( program );
+	_model->Draw ( program );
 }
 
 
 void character::Initialize ( const std::string& strName )
 {
 
-	UBO = UBOBUFFER::Create (200 );
+	//UBO = UBOBUFFER::Create (200 );
 
 	_model = Model::Load ( strName );
 	model = _model.get ( );
-	Animation* idleAnim = new Animation ( strName , model );
-	animator = new Animator ( idleAnim );
+	//Animation* idleAnim = new Animation ( strName , model );
+	//animator = new Animator ( idleAnim );
 	if ( !_model ) {
 		std::cerr << "program UserSetError id : " << _model->Get ( ) << std::endl;
 		return;
