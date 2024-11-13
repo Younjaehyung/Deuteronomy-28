@@ -6,7 +6,7 @@ layout (location = 2) in vec2 tex;
 layout (location = 3) in ivec4 boneIds;
 layout (location = 4) in vec4 weights;
 
-const int MAX_BONES = 100;
+const int MAX_BONES = 120;
 const int MAX_BONE_INFLUENCE = 4;
 uniform mat4 finalBonesMatrices[MAX_BONES];
 

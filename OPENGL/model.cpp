@@ -111,7 +111,7 @@ void Model::ProcessMesh ( aiMesh* mesh , const aiScene* scene ) {
     }
 
     ExtractBoneWeightForVertices ( vertices , mesh , scene );
-
+    std::cerr << "MESH" << std::endl;
 
     auto glMesh = Mesh::Create ( vertices , indices , GL_TRIANGLES );
     if ( mesh->mMaterialIndex >= 0 )
