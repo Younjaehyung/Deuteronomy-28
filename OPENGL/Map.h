@@ -10,6 +10,7 @@ public:
 
 	Camera* camera;
 	ModelPtr _model;
+	MeshUPtr ground;
 	Animation* idleAnim;
 	Animator* animator;
 	ProgramUPtr _shader;

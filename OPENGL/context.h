@@ -13,6 +13,7 @@
 #include "framebuffer.h"
 #include "Animation.h"
 #include "Animator.h"
+#include "character.h"
 
 CLASS_PTR(Context)
 
@@ -50,6 +51,7 @@ private:
 
 	Player* player;
 	Map* map;
+	character* object1;
 
 	ProgramUPtr m_animationProgram;
 

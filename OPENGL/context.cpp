@@ -109,10 +109,15 @@ void Context::Render ( ) {
     auto transform = Camera_Transform * glm::mat4 ( 1.0f );
     m_program->SetUniform ( "transform" , transform );
     m_program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
+
+    map->_model->Draw ( m_program.get ( ) );
+    map->ground->Draw ( m_program.get ( ) );
     //m_material->SetToProgram ( m_program.get ( ) );
     //m_animationProgram
+
+
     m_animationProgram->Use ( );
-    map->Render ( m_animationProgram.get ( ) );
+    object1->Render ( m_animationProgram.get ( ) );
 
     Framebuffer::BindToDefault ( );
     
@@ -262,8 +267,9 @@ bool Context::Init ( )
     mainCamera = new Camera;
     player = new Player;
     map = new Map;
-    map->Initialize ("./model/Realman4.fbx" );
-
+    object1 = new character;
+    map->Initialize ("./model/Stage/Stage.obj" );
+    object1->Initialize ( "./model/Realman4.fbx" );
     player->Initialize ( );
     CameraManager::getInstance ( ).SetCamera ( player->camera );
     glDisable ( GL_STENCIL_TEST );
