@@ -126,6 +126,15 @@
     <ClCompile Include="Map.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Bone.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common_include.h">
@@ -230,6 +239,21 @@
     <ClInclude Include="Map.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Bone.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="AssimpGLMHelpers.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonValues.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\simple.fs">
@@ -266,6 +290,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="Shader\env_map.vs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="Shader\animation.fs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="Shader\animation.vs">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

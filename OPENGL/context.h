@@ -11,6 +11,8 @@
 #include "Player.h"
 #include "Map.h"
 #include "framebuffer.h"
+#include "Animation.h"
+#include "Animator.h"
 
 CLASS_PTR(Context)
 
@@ -49,7 +51,7 @@ private:
 	Player* player;
 	Map* map;
 
-
+	ProgramUPtr m_animationProgram;
 
 	//.vs .fs 프로그램 쉐이더 코드
 	ProgramUPtr m_program;
@@ -71,7 +73,7 @@ private:
 	CubeTextureUPtr m_cubeTexture;
 	ProgramUPtr m_skyboxProgram;
 	ProgramUPtr m_envMapProgram;
-
+	
 
 	//VAO,VBO,ELM 버퍼 포인터
 	MeshUPtr m_box;

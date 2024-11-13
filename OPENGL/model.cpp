@@ -1,7 +1,7 @@
 ﻿#include "model.h"
 #include <sstream>
 
-ModelUPtr Model::Load ( const std::string& filename ) {
+ModelPtr Model::Load ( const std::string& filename ) {
     auto model = ModelUPtr ( new Model ( ) );
   
     if ( !model->LoadByAssimp ( filename ) )
@@ -73,21 +73,45 @@ void Model::ProcessMesh ( aiMesh* mesh , const aiScene* scene ) {
  
 
     std::vector<Vertex> vertices;
+    std::vector<uint32_t> indices;
+
+
     vertices.resize ( mesh->mNumVertices );
     for ( uint32_t i = 0; i < mesh->mNumVertices; i++ ) {
+
+        
         auto& v = vertices[ i ];
+        InitVertexBoneData ( v );
+
         v.position = glm::vec3 ( mesh->mVertices[ i ].x , mesh->mVertices[ i ].y , mesh->mVertices[ i ].z );
         v.normal = glm::vec3 ( mesh->mNormals[ i ].x , mesh->mNormals[ i ].y , mesh->mNormals[ i ].z );
-        v.texCoord = glm::vec2 ( mesh->mTextureCoords[ 0 ][ i ].x , mesh->mTextureCoords[ 0 ][ i ].y );
+
+    
+        if ( mesh->mTextureCoords[ 0 ] )
+        {
+            glm::vec2 vec;
+            vec.x = ( mesh->mTextureCoords[ 0 ][ i ].x );
+            vec.y = ( mesh->mTextureCoords[ 0 ][ i ].y );
+            v.texCoord = vec;
+        }
+        else // 존재하지 않을 경우 그냥 0을 넣어주기
+        {
+            v.texCoord = glm::vec2 ( 0.f , 0.f );
+        }
+    
+    
     }
 
-    std::vector<uint32_t> indices;
+   
     indices.resize ( mesh->mNumFaces * 3 );
     for ( uint32_t i = 0; i < mesh->mNumFaces; i++ ) {
         indices[ 3 * i ] = mesh->mFaces[ i ].mIndices[ 0 ];
         indices[ 3 * i + 1 ] = mesh->mFaces[ i ].mIndices[ 1 ];
         indices[ 3 * i + 2 ] = mesh->mFaces[ i ].mIndices[ 2 ];
     }
+
+    ExtractBoneWeightForVertices ( vertices , mesh , scene );
+
 
     auto glMesh = Mesh::Create ( vertices , indices , GL_TRIANGLES );
     if ( mesh->mMaterialIndex >= 0 )
@@ -103,5 +127,67 @@ void Model::ProcessMesh ( aiMesh* mesh , const aiScene* scene ) {
 void Model::Draw ( const Program* program ) const {
     for ( auto& mesh : m_meshes ) {
         mesh->Draw ( program );
+    }
+}
+
+void Model::InitVertexBoneData ( Vertex& vertex )
+{
+    for ( int i = 0; i < MAX_BONE_INFLUENCE; i++ )
+    {
+        vertex.m_BoneIDs[ i ] = -1;
+        vertex.m_Weights[ i ] = 0.f;
+    }
+}
+
+void Model::SetVertexBoneData ( Vertex& vertex , int boneID , float weight )
+{
+    for ( int i = 0; i < MAX_BONE_INFLUENCE; i++ )
+    {
+        if ( vertex.m_BoneIDs[ i ] < 0 )
+        {
+            // 하나만 채우고 도망가기
+            vertex.m_Weights[ i ] = weight;
+            vertex.m_BoneIDs[ i ] = boneID;
+            break;
+        }
+    }
+}
+
+void Model::ExtractBoneWeightForVertices ( std::vector<Vertex>& vertices , aiMesh* mesh , const aiScene* scene )
+{
+    for ( int boneIndex = 0; boneIndex < mesh->mNumBones; boneIndex++ )
+    {
+        int boneID = -1;
+
+        std::string boneName = mesh->mBones[ boneIndex ]->mName.C_Str ( );
+
+        if ( boneInfoMap.find ( boneName ) == boneInfoMap.end ( ) )
+        {
+            BoneInfo boneInfo;
+            boneInfo.id = boneCounter;
+            auto offsetMat = mesh->mBones[ boneIndex ]->mOffsetMatrix;
+            boneInfo.offset = AssimpGLMHelpers::ConvertMatrixToGLMFormat (
+                    mesh->mBones[ boneIndex ]->mOffsetMatrix
+            );
+
+            boneInfoMap[ boneName ] = boneInfo;
+            boneID = boneCounter;
+            boneCounter++;
+        }
+        else
+        {
+            boneID = boneInfoMap[ boneName ].id;
+        }
+        assert ( boneID != -1 );
+        auto weights = mesh->mBones[ boneIndex ]->mWeights;
+        int numWeights = mesh->mBones[ boneIndex ]->mNumWeights;
+
+        for ( int weightIndex = 0; weightIndex < numWeights; weightIndex++ )
+        {
+            int vertexId = weights[ weightIndex ].mVertexId;
+            float weight = weights[ weightIndex ].mWeight;
+            assert ( vertexId <= vertices.size ( ) );
+            SetVertexBoneData ( vertices[ vertexId ] , boneID , weight );
+        }
     }
 }

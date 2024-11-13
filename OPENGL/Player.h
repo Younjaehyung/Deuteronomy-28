@@ -15,6 +15,9 @@ public:
 
 	virtual void Update ( );
 	virtual void Render ( );
+	virtual glm::vec3& GetPos ( ) {
+		return Pos;
+	}
 	virtual void Input ( GLFWwindow* window );
 	virtual void Initialize ( );
 private:

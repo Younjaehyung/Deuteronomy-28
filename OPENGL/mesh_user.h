@@ -8,11 +8,32 @@
 
 CLASS_PTR ( Mesh );
 
-
+const int MAX_BONE_INFLUENCE = 4;
 struct Vertex {
+    Vertex ( ) {}
+
+    Vertex ( float px , float py , float pz )
+    {
+        position.x = px; position.y = py; position.z = pz;
+        texCoord.s = 0.f; texCoord.t = 0.f;
+        normal.x = 0.f; normal.y = 0.f; normal.z = 0.f;
+    }
+
+    Vertex ( glm::vec3 pv , glm::vec3 nv , glm::vec2 tv )
+    {
+        position = pv;
+        normal = nv;
+        texCoord = tv;
+    }
+
     glm::vec3 position;
     glm::vec3 normal;
     glm::vec2 texCoord;
+
+    //bone indexes which will influence this vertex
+    int m_BoneIDs[ 4 ] = {};
+    //weights from each bone
+    float m_Weights[ 4 ] = {};
 };
 
 

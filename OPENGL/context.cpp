@@ -21,7 +21,7 @@ void Context::Render ( ) {
             glClearColor ( m_clearColor.r , m_clearColor.g , m_clearColor.b , m_clearColor.a );
         }
         ImGui::Separator ( );   //분할 선 그리기
-        ImGui::DragFloat3 ( "camera pos" , glm::value_ptr ( m_cameraPos ) , 0.01f );    //카메라 좌표변경 UI 세팅
+        ImGui::DragFloat3 ( "camera pos" , glm::value_ptr ( player->GetPos() ) , 0.01f );    //카메라 좌표변경 UI 세팅
         ImGui::DragFloat ( "camera yaw" , &m_cameraYaw , 0.5f );
         ImGui::DragFloat ( "camera pitch" , &m_cameraPitch , 0.5f , -89.0f , 89.0f );
         ImGui::Separator ( );
@@ -110,7 +110,9 @@ void Context::Render ( ) {
     m_program->SetUniform ( "transform" , transform );
     m_program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
     //m_material->SetToProgram ( m_program.get ( ) );
-    map->Render ( m_program.get ( ) );
+    //m_animationProgram
+    m_animationProgram->Use ( );
+    map->Render ( m_animationProgram.get ( ) );
 
     Framebuffer::BindToDefault ( );
     
@@ -240,7 +242,14 @@ bool Context::Init ( )
 
     }
  
+    m_animationProgram = Program::Create ( "./shader/animation.vs" , "./shader/animation.fs" );
+    if ( !m_animationProgram ) {
+        std::cerr << "program UserSetError id : " << m_animationProgram->Get ( ) << std::endl;
+        return false;
 
+
+    }
+    std::cerr << "AA" << std::endl;
     m_material = Material::Create ( );
 
     m_material->diffuse = Texture::CreateFromImage ( Image::CreateSingleColorImage ( 4 , 4 ,
@@ -253,13 +262,14 @@ bool Context::Init ( )
     mainCamera = new Camera;
     player = new Player;
     map = new Map;
-    map->Initialize ("./model/submarine/Submarine.obj" );
+    map->Initialize ("./model/Praying.fbx" );
+
     player->Initialize ( );
     CameraManager::getInstance ( ).SetCamera ( player->camera );
     glDisable ( GL_STENCIL_TEST );
     
 
-    glClearColor ( 0.1f , 0.2f , 0.3f , 0.0f );
+    glClearColor ( 1.0f , 1.0f , 1.0f , 1.0f );
      
 
   return true;

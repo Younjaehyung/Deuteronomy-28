@@ -12,15 +12,17 @@ void Mesh::Init ( const std::vector<Vertex>& vertices ,const std::vector<uint32_
    
     m_vertexLayout = VertexLayout::Create ( );
  
-    m_vertexBuffer = Buffer::CreateWithData (GL_ARRAY_BUFFER , GL_STATIC_DRAW ,vertices.data ( ) , sizeof ( Vertex ) , vertices.size ( ) );
+    m_vertexBuffer = Buffer::CreateWithData (GL_ARRAY_BUFFER , GL_DYNAMIC_DRAW ,vertices.data ( ) , sizeof ( Vertex ) , vertices.size ( ) );
    //GL_STATIC_DRAW 더이상 데이터를 바꿀 일이 없다고 설정함.
    //
-    m_indexBuffer = Buffer::CreateWithData (GL_ELEMENT_ARRAY_BUFFER , GL_STATIC_DRAW ,indices.data ( ) , sizeof ( uint32_t ) , indices.size ( ) );
+    m_indexBuffer = Buffer::CreateWithData (GL_ELEMENT_ARRAY_BUFFER , GL_DYNAMIC_DRAW ,indices.data ( ) , sizeof ( uint32_t ) , indices.size ( ) );
   
 
     m_vertexLayout->SetAttrib ( 0 , 3 , GL_FLOAT , false , sizeof ( Vertex ) , 0 );
     m_vertexLayout->SetAttrib ( 1 , 3 , GL_FLOAT , false , sizeof ( Vertex ) , offsetof ( Vertex , normal ) );
     m_vertexLayout->SetAttrib ( 2 , 2 , GL_FLOAT , false , sizeof ( Vertex ) , offsetof ( Vertex , texCoord ) );
+    m_vertexLayout->SetAttrib ( 3 , 4 , GL_FLOAT , false , sizeof ( Vertex ) , offsetof ( Vertex , m_BoneIDs ) );
+    m_vertexLayout->SetAttrib ( 4 , 4 , GL_FLOAT , false , sizeof ( Vertex ) , offsetof ( Vertex , m_Weights ) );
     //offsetof : Vertex라는 구조체 안에 normal이라는 값은 어느 거리에 있는지 체크해줌
 }
 

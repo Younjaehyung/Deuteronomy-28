@@ -24,7 +24,10 @@ public:
 		using_Camera->Update ( );
 	}
 
-	
+	glm::vec3& GetCameraPos ( ) {
+		return using_Camera->GetPos ( );
+	}
+
 
 	void Input ( double x , double y ) {
 		using_Camera->MouseMove ( x,y );

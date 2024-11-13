@@ -23,7 +23,7 @@ private:
 	glm::mat4 projection = glm::mat4 ( 1.0f );
 
 	float SightNear = 0.1f;
-	float SightFar = 3000.0f;
+	float SightFar = 30000.0f;
 	float SightAngle = 45.0f;
 
 	float Widht = 800.f;
@@ -67,7 +67,7 @@ public:
 		auto pos = glm::vec2 ( ( float ) x , ( float ) y );
 		auto deltaPos = pos - m_prevMousePos;
 
-		const float cameraRotSpeed = 0.8f;
+		const float cameraRotSpeed = 0.6f;
 		m_cameraYaw -= deltaPos.x * cameraRotSpeed;
 		m_cameraPitch -= deltaPos.y * cameraRotSpeed;
 
@@ -101,7 +101,7 @@ public:
 		return m_cameraFront;
 	}
 	
-	glm::vec3 GetPos ( ) {
+	glm::vec3& GetPos ( ) {
 		return m_cameraPos;
 	}
 
