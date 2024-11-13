@@ -116,9 +116,9 @@ void Context::Render ( ) {
     //m_animationProgram
 
 
-    //m_animationProgram->Use ( );
+    m_animationProgram->Use ( );
     //손전등
-   /* m_animationProgram->SetUniform ( "viewPos" , CameraManager::getInstance().GetCameraPos() );
+    m_animationProgram->SetUniform ( "viewPos" , CameraManager::getInstance().GetCameraPos() );
     m_animationProgram->SetUniform ( "light.position" , CameraManager::getInstance ( ).GetCameraPos ( ) );
     m_animationProgram->SetUniform ( "light.direction" , CameraManager::getInstance ( ).GetCameraFront() );
     m_animationProgram->SetUniform ( "light.cutoff" , glm::vec2 (
@@ -127,10 +127,10 @@ void Context::Render ( ) {
     m_animationProgram->SetUniform ( "light.attenuation" , GetAttenuationCoeff ( m_light.distance ) );
     m_animationProgram->SetUniform ( "light.ambient" , m_light.ambient );
     m_animationProgram->SetUniform ( "light.diffuse" , m_light.diffuse );
-    m_animationProgram->SetUniform ( "light.specular" , m_light.specular );*/
+    m_animationProgram->SetUniform ( "light.specular" , m_light.specular );
 
     
-    //object1->Render ( m_program.get ( ) );
+    object1->Render ( m_animationProgram.get ( ) );
 
     Framebuffer::BindToDefault ( );
     
@@ -282,9 +282,9 @@ bool Context::Init ( )
     mainCamera = new Camera;
     player = new Player;
     map = new Map;
-    //object1 = new character;
-    map->Initialize ("./model/1/1.obj" );
-    //object1->Initialize ( "./model/1/1.obj" );
+    object1 = new character;
+    map->Initialize ("./model/submarine/Submarine.obj" );
+    object1->Initialize ( "./model/6-2.glb" );
     player->Initialize ( );
     CameraManager::getInstance ( ).SetCamera ( player->camera );
     glDisable ( GL_STENCIL_TEST );

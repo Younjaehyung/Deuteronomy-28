@@ -3,7 +3,7 @@
 
 ModelPtr Model::Load ( const std::string& filename ) {
     auto model = ModelUPtr ( new Model ( ) );
-  
+    std::cerr << "MODEL LOADING START" << std::endl;
     if ( !model->LoadByAssimp ( filename ) )
         return nullptr;
     return std::move ( model );
@@ -12,7 +12,8 @@ ModelPtr Model::Load ( const std::string& filename ) {
 
 bool Model::LoadByAssimp ( const std::string& filename ) {
     Assimp::Importer importer;
-    auto scene = importer.ReadFile ( filename , aiProcess_Triangulate | aiProcess_FlipUVs );
+    auto scene = importer.ReadFile ( filename , aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices |
+        aiProcess_CalcTangentSpace );
 
     this->filename = filename;
 
