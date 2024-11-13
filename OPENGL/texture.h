@@ -9,6 +9,7 @@ public:
     ~Texture ( );
 
     const uint32_t Get ( ) const { return m_texture; }
+    uint32_t& GetID ( ) { return m_texture; }
     void Bind ( ) const;
     void SetFilter ( uint32_t minFilter , uint32_t magFilter ) const;
     void SetWrap ( uint32_t sWrap , uint32_t tWrap ) const;

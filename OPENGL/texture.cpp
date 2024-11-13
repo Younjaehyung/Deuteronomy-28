@@ -8,6 +8,7 @@ TextureUPtr Texture::Create ( int width , int height , uint32_t format ) {
     return std::move ( texture );
 }
 
+
 TextureUPtr Texture::CreateFromImage ( const Image* image ) {
     auto texture = TextureUPtr ( new Texture ( ) );
     texture->CreateTexture ( );

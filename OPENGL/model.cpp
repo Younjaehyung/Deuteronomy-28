@@ -3,7 +3,7 @@
 
 ModelPtr Model::Load ( const std::string& filename ) {
     auto model = ModelUPtr ( new Model ( ) );
-    std::cerr << "MODEL LOADING START" << std::endl;
+  
     if ( !model->LoadByAssimp ( filename ) )
         return nullptr;
     return std::move ( model );
@@ -12,11 +12,10 @@ ModelPtr Model::Load ( const std::string& filename ) {
 
 bool Model::LoadByAssimp ( const std::string& filename ) {
     Assimp::Importer importer;
-    auto scene = importer.ReadFile ( filename , aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices |
-        aiProcess_CalcTangentSpace );
+    auto scene = importer.ReadFile ( filename , aiProcess_Triangulate | aiProcess_FlipUVs );
 
     this->filename = filename;
-
+    std::cerr << "Successed to load model :" << filename << std::endl;
     if ( !scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode ) {
         std::cerr << "Failed to load model :" << filename << std::endl;
         return false;
@@ -26,12 +25,24 @@ bool Model::LoadByAssimp ( const std::string& filename ) {
 
     //람다 함수
     auto LoadTexture = [&]( aiMaterial* material , aiTextureType type ) -> TexturePtr {
-        if ( material->GetTextureCount ( type ) <= 0 ) {
+        if ( material->GetTextureCount ( type ) <= 0 )
             return nullptr;
-        }
         aiString filepath;
         material->GetTexture ( type , 0 , &filepath );
-        std::cerr << "Texture path: " << filepath.C_Str ( ) << std::endl;
+
+
+        if ( filepath.data[ 0 ] == '*' ) {
+            // Assimp 내장 텍스처일 경우 처리
+            int textureIndex = std::stoi ( filepath.C_Str ( ) + 1 ); // "*0"에서 인덱스 추출
+            auto embeddedTexture = scene->mTextures[ textureIndex ];
+            std::cerr << "Texture embeddedTexture : " << embeddedTexture->pcData << std::endl;
+            if ( embeddedTexture && embeddedTexture->mHeight == 0 ) {
+                // 텍스처가 메모리에 포함되어 있음 (compressed format)
+                auto image = Image::LoadFromMemory ( reinterpret_cast< const unsigned char* >( embeddedTexture->pcData ) ,
+                                                   embeddedTexture->mWidth , false ); // flipVertical 값을 설정
+                return Texture::CreateFromImage ( image.get ( ) );
+            }
+        }
 
         // std::stringstream을 사용하여 경로 생성
         std::stringstream ss;
@@ -39,10 +50,8 @@ bool Model::LoadByAssimp ( const std::string& filename ) {
         std::string fullpath = ss.str ( );
 
         auto image = Image::Load ( fullpath );
-        if ( !image ) {
-            std::cerr << "Failed to load texture: " << fullpath << std::endl;
+        if ( !image )
             return nullptr;
-        }
 
         return Texture::CreateFromImage ( image.get ( ) );
      };
@@ -50,9 +59,7 @@ bool Model::LoadByAssimp ( const std::string& filename ) {
     for ( uint32_t i = 0; i < scene->mNumMaterials; i++ ) {
         auto material = scene->mMaterials[ i ];
         auto glMaterial = Material::Create ( );
-        
         glMaterial->diffuse = LoadTexture ( material , aiTextureType_DIFFUSE );
-
         glMaterial->specular = LoadTexture ( material , aiTextureType_SPECULAR );
         m_materials.push_back ( std::move ( glMaterial ) );
     }
@@ -92,7 +99,20 @@ void Model::ProcessMesh ( aiMesh* mesh , const aiScene* scene ) {
 
         v.position = glm::vec3 ( mesh->mVertices[ i ].x , mesh->mVertices[ i ].y , mesh->mVertices[ i ].z );
         v.normal = glm::vec3 ( mesh->mNormals[ i ].x , mesh->mNormals[ i ].y , mesh->mNormals[ i ].z );
-        v.texCoord = glm::vec2 ( mesh->mTextureCoords[ 0 ][ i ].x , mesh->mTextureCoords[ 0 ][ i ].y );
+
+    
+        if ( mesh->mTextureCoords[ 0 ] )
+        {
+            glm::vec2 vec;
+            vec.x = ( mesh->mTextureCoords[ 0 ][ i ].x );
+            vec.y = ( mesh->mTextureCoords[ 0 ][ i ].y );
+            v.texCoord = vec;
+        }
+        else // 존재하지 않을 경우 그냥 0을 넣어주기
+        {
+            v.texCoord = glm::vec2 ( 0.f , 0.f );
+        }
+    
     
     }
 

@@ -283,8 +283,9 @@ bool Context::Init ( )
     player = new Player;
     map = new Map;
     object1 = new character;
+    object1->Initialize ( "./model/cat_BaseColor_v2/cat_Idleglb.glb" );
     map->Initialize ("./model/submarine/Submarine.obj" );
-    object1->Initialize ( "./model/6-2.glb" );
+    
     player->Initialize ( );
     CameraManager::getInstance ( ).SetCamera ( player->camera );
     glDisable ( GL_STENCIL_TEST );

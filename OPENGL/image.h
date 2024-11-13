@@ -8,8 +8,7 @@ public:
     static ImageUPtr Load ( const std::string& filepath , bool flipVertical = true );
     static ImageUPtr Create ( int width , int height , int channelCount = 4 );  //이미지 저장소 색성
     static ImageUPtr CreateSingleColorImage (int width , int height , const glm::vec4& color );    //단색 테스쳐 생성
-
-
+    static ImageUPtr LoadFromMemory ( const unsigned char* data , int size , bool flipVertical);
     ~Image ( );
 
     const uint8_t* GetData ( ) const { return m_data; }
@@ -20,7 +19,7 @@ public:
 
 private:
     Image ( ) {};
-  
+    bool LoadWithStbFromMemory ( const unsigned char* data , int size , bool flipVertical );
     bool LoadWithStb ( const std::string& filepath , bool flipVertical );   //이미지 로딩
     bool Allocate ( int width , int height , int channelCount );
     int m_width{ 0 };
