@@ -262,7 +262,7 @@ bool Context::Init ( )
     mainCamera = new Camera;
     player = new Player;
     map = new Map;
-    map->Initialize ("./model/Capoeira.fbx" );
+    map->Initialize ("./model/Realman4.fbx" );
 
     player->Initialize ( );
     CameraManager::getInstance ( ).SetCamera ( player->camera );
