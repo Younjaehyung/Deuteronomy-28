@@ -9,8 +9,8 @@ void Map::Update ( )
 void Map::Render ( const Program* program )
 {
 
-		//model->Draw ( program );
-		ground->Draw ( program );
+		_model->Draw ( program );
+		//ground->Draw ( program );
 }
 
 

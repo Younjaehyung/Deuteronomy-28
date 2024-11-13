@@ -106,7 +106,7 @@ void Context::Render ( ) {
     m_program->SetUniform ( "light.specular" , m_light.specular );
 
 
-    auto transform = Camera_Transform * glm::mat4 ( 1.0f );
+    auto transform = Camera_Transform;
     m_program->SetUniform ( "transform" , transform );
     m_program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
 
@@ -282,9 +282,9 @@ bool Context::Init ( )
     mainCamera = new Camera;
     player = new Player;
     map = new Map;
-    object1 = new character;
+    //object1 = new character;
     map->Initialize ("./model/1/1.obj" );
-    object1->Initialize ( "./model/1/1.obj" );
+    //object1->Initialize ( "./model/1/1.obj" );
     player->Initialize ( );
     CameraManager::getInstance ( ).SetCamera ( player->camera );
     glDisable ( GL_STENCIL_TEST );

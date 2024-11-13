@@ -45,8 +45,8 @@ public:
     static MaterialUPtr Create ( ) {
         return MaterialUPtr ( new Material ( ) );
     }
-    TexturePtr diffuse = nullptr;
-    TexturePtr specular = nullptr;
+    TexturePtr diffuse;
+    TexturePtr specular;
     float shininess{ 32.0f };
 
     void SetToProgram ( const Program* program ) const; //텍스쳐를 프로그램에 세팅
