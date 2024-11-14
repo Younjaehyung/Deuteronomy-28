@@ -111,8 +111,8 @@ void Context::Render ( ) {
     m_program->SetUniform ( "transform" , transform );
     m_program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
 
-    map->_model->Draw ( m_program.get ( ) );
-    //map->ground->Draw ( m_program.get ( ) );
+    map->Render ( m_program.get ( ) );
+
     //m_material->SetToProgram ( m_program.get ( ) );
     //m_animationProgram
 
@@ -284,9 +284,9 @@ bool Context::Init ( )
     player = new Player;
     map = new Map;
     object1 = new character;
+   
+    map->Initialize ("./model/Stage/Stage.obj" );
     object1->Initialize ( "./model/Goat1.glb" );
-    map->Initialize ("./model/submarine/Submarine.obj" );
-    
     player->Initialize ( );
     CameraManager::getInstance ( ).SetCamera ( player->camera );
     glDisable ( GL_STENCIL_TEST );
