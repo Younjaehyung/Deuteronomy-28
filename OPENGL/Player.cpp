@@ -6,6 +6,7 @@ void Player::Update ( )
 {
 	Dir = camera->GetFront ( );
 	camera->Camera_set ( Pos );
+	camera->Camera_Ismoving ( Ismoving );
 }
 
 void Player::Render ( )
@@ -38,25 +39,33 @@ void Player::Initialize ( )
 }
 
 void Player::Input ( GLFWwindow* window ) {
+	Ismoving = false;
 
 	glm::vec3 cameraDirectionXZ = glm::normalize ( glm::vec3 ( Dir.x , 0.0f , Dir.z ) );
 	auto cameraRight = glm::normalize ( glm::cross ( glm::vec3(0.0f,1.0f,0.0f) , cameraDirectionXZ ) );
 
 	float speed = 10 * Time::DeltaTime ( );
+	
 	if ( glfwGetKey ( window , GLFW_KEY_W ) == GLFW_PRESS ) {
 		Pos += speed * cameraDirectionXZ;
+		Ismoving = true;
 		//SoundManager::getInstance ( ).GetSoundID ( "charge" )->ReplaySound ( );
 	}
 	if ( glfwGetKey ( window , GLFW_KEY_S ) == GLFW_PRESS ) {
 		Pos -= speed * cameraDirectionXZ;
+		Ismoving = true;
 	}
 
 	if ( glfwGetKey ( window , GLFW_KEY_D ) == GLFW_PRESS ) {
 		Pos -= speed * cameraRight;
+		Ismoving = true;
 	}
 	if ( glfwGetKey ( window , GLFW_KEY_A ) == GLFW_PRESS ) {
 		Pos += speed * cameraRight; 
+		Ismoving = true;
 	}
+
+
 	if ( glfwGetKey ( window , GLFW_KEY_LEFT_CONTROL ) == GLFW_PRESS ) {
 		Pos.y = 2;
 	}

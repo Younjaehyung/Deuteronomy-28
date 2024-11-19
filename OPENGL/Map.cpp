@@ -39,7 +39,7 @@ void Map::Render ( const Program* program )
 
 		program->SetUniform ( "transform" , CameraManager::getInstance().Camera_transform()*glm::rotate( glm::mat4 ( 1.0f ),glm::radians(90.0f ),glm::vec3(1.0f,0.0f,0.0f) )
 			*glm::scale ( glm::mat4 ( 1.0f ) ,glm::vec3(100.0f,100.0f,100.0f) ) );
-		ground->Draw ( program );
+		//ground->Draw ( program );
 }
 
 

@@ -10,7 +10,7 @@
 CLASS_PTR ( Mesh );
 CLASS_PTR ( UBOBUFFER );
 CLASS_PTR ( UBOBUFFER_L );
-const int  MAX_LIGHTS = 20;
+const int MAX_LIGHTS = 20;
 const int MAX_BONE_INFLUENCE = 4;
 struct Vertex {
     Vertex ( ) {}
