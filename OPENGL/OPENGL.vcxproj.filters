@@ -304,5 +304,11 @@
     <None Include="Shader\animation.vs">
       <Filter>shader</Filter>
     </None>
+    <None Include="Shader\assimp_light.fs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="Shader\assimp_light.vs">
+      <Filter>shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

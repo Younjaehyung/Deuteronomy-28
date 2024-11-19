@@ -25,7 +25,7 @@ public:
 	void Update ( );
 	void Render ( );
 	void ProcessInput ( GLFWwindow* window );
-
+	void IMGUI_USER ( );
 	
 	void Reshape ( int width , int height );
 

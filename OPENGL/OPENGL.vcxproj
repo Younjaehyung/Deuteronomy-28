@@ -208,6 +208,8 @@
     <None Include="env_map.fs" />
     <None Include="Shader\animation.fs" />
     <None Include="Shader\animation.vs" />
+    <None Include="Shader\assimp_light.fs" />
+    <None Include="Shader\assimp_light.vs" />
     <None Include="Shader\env_map.vs" />
     <None Include="Shader\lighting.fs" />
     <None Include="Shader\lighting.vs" />

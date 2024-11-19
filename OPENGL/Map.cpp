@@ -27,19 +27,19 @@ void Map::Render ( const Program* program )
     //    }
     //}
 
-    program->SetUniform ( "modelTransform" , CameraManager::getInstance ( ).Camera_transform ( ) );
-    program->SetUniform ( "model" , glm::mat4 ( 1.0f ) );
+    /*program->SetUniform ( "modelTransform" , CameraManager::getInstance ( ).Camera_transform ( ) );
+    program->SetUniform ( "model" ,glm::rotate( glm::mat4 ( 1.0f ) ,glm::radians(90.0f),glm::vec3(0.0f,1.0f,0.0f  ))* glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 0.0f , 0.0f , +30.0f )) );
     program->SetUniform ( "viewPos" , CameraManager::getInstance().GetCameraPos() );
     program->SetUniform ( "numLights" , 4);
     program->SetUniform ( "color" , glm::vec3 ( 0.3f ) );
     UBO->Bind ( program->Get ( ) , "lights" );
-    UBO->UpdateData ( _model->GetLight() );
+    UBO->UpdateData ( _model->GetLight() );*/
 
 		_model->Draw ( program );
 
 		program->SetUniform ( "transform" , CameraManager::getInstance().Camera_transform()*glm::rotate( glm::mat4 ( 1.0f ),glm::radians(90.0f ),glm::vec3(1.0f,0.0f,0.0f) )
 			*glm::scale ( glm::mat4 ( 1.0f ) ,glm::vec3(100.0f,100.0f,100.0f) ) );
-		//ground->Draw ( program );
+		ground->Draw ( program );
 }
 
 

@@ -15,43 +15,7 @@ ContextUPtr Context::Create ( )
 
 void Context::Render ( ) {
 
-    //imgui 설정 부분
-    if ( ImGui::Begin ( "ui window" ) ) {
-        //배경색변경 UI 세팅
-        if ( ImGui::ColorEdit4 ( "clear color" , glm::value_ptr ( m_clearColor ) ) ) {
-            glClearColor ( m_clearColor.r , m_clearColor.g , m_clearColor.b , m_clearColor.a );
-        }
-        ImGui::Separator ( );   //분할 선 그리기
-        ImGui::DragFloat3 ( "camera pos" , glm::value_ptr ( player->GetPos() ) , 0.01f );    //카메라 좌표변경 UI 세팅
-        ImGui::DragFloat ( "camera yaw" , &m_cameraYaw , 0.5f );
-        ImGui::DragFloat ( "camera pitch" , &m_cameraPitch , 0.5f , -89.0f , 89.0f );
-        ImGui::Separator ( );
-        if ( ImGui::Button ( "reset camera" ) ) {   //카메라 좌표 리셋 UI 세팅
-            m_cameraYaw = 0.0f;
-            m_cameraPitch = 0.0f;
-            m_cameraPos = glm::vec3 ( 0.0f , 0.0f , 3.0f );
-        }
-             // 접을 수 있는 헤더, 열려있게 옵션 설정
-        if ( ImGui::CollapsingHeader ( "light" , ImGuiTreeNodeFlags_DefaultOpen ) ) {
-            ImGui::DragFloat3 ( "l.position" , glm::value_ptr ( m_light.position ) , 0.01f );
-            ImGui::DragFloat3 ( "l.direction" , glm::value_ptr ( m_light.direction ) , 0.01f );
-            ImGui::DragFloat2 ( "l.cutoff" , glm::value_ptr ( m_light.cutoff ) , 0.1f , 0.0f , 180.0f );
-            ImGui::DragFloat  ( "l.distance" , &m_light.distance , 0.1f , 0.0f , 1000.0f );
-            ImGui::ColorEdit3 ( "l.ambient" , glm::value_ptr ( m_light.ambient ) );
-            ImGui::ColorEdit3 ( "l.diffuse" , glm::value_ptr ( m_light.diffuse ) );
-            ImGui::ColorEdit3 ( "l.specular" , glm::value_ptr ( m_light.specular ) );
-        }
-
-        if ( ImGui::CollapsingHeader ( "material" , ImGuiTreeNodeFlags_DefaultOpen ) ) {
-            ImGui::DragFloat ( "m.shininess" , &m_material->shininess , 1.0f , 1.0f , 256.0f );
-        }
-
-         
-            ImGui::Checkbox ( "animation" , &m_animation );
-        
-    }
-    ImGui::End ( );
-    
+    IMGUI_USER ( );
     m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
 
     glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT ); //GL_DEPTH_BUFFER_BIT : DEPTH Buffer clear 세팅
@@ -94,24 +58,25 @@ void Context::Render ( ) {
     ///////////////////////////////////////////////////
 
     //손전등
-    m_assimp_Program->Use ( );
-    //m_assimp_Program->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    //m_assimp_Program->SetUniform ( "light.position" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    //m_assimp_Program->SetUniform ( "light.direction" , CameraManager::getInstance ( ).GetCameraFront ( ) );
-    //m_assimp_Program->SetUniform ( "light.cutoff" , glm::vec2 (
-    //    cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
-    //    cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) ) );
-    //m_assimp_Program->SetUniform ( "light.attenuation" , GetAttenuationCoeff ( m_light.distance ) );
-    //m_assimp_Program->SetUniform ( "light.ambient" , m_light.ambient );
-    //m_assimp_Program->SetUniform ( "light.diffuse" , m_light.diffuse );
-    //m_assimp_Program->SetUniform ( "light.specular" , m_light.specular );
+    //m_assimp_Program->Use ( );
+    m_program->Use ( );
+    m_program->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
+    m_program->SetUniform ( "light.position" , CameraManager::getInstance ( ).GetCameraPos ( ) );
+    m_program->SetUniform ( "light.direction" , CameraManager::getInstance ( ).GetCameraFront ( ) );
+    m_program->SetUniform ( "light.cutoff" , glm::vec2 (
+        cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
+        cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) ) );
+    m_program->SetUniform ( "light.attenuation" , GetAttenuationCoeff ( m_light.distance ) );
+    m_program->SetUniform ( "light.ambient" , m_light.ambient );
+    m_program->SetUniform ( "light.diffuse" , m_light.diffuse );
+    m_program->SetUniform ( "light.specular" , m_light.specular );
 
 
     auto transform = Camera_Transform;
-    //m_assimp_Program->SetUniform ( "transform" , transform );
-    //m_assimp_Program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
+    m_program->SetUniform ( "transform" , transform );
+    m_program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
     
-    map->Render ( m_assimp_Program.get ( ) );
+    map->Render ( m_program.get ( ) );
 
     //m_material->SetToProgram ( m_program.get ( ) );
     //m_animationProgram
@@ -131,7 +96,7 @@ void Context::Render ( ) {
     m_animationProgram->SetUniform ( "light.specular" , m_light.specular );
 
     
-    //object1->Render ( m_animationProgram.get ( ) );
+    object1->Render ( m_animationProgram.get ( ) );
 
     Framebuffer::BindToDefault ( );
     
@@ -296,7 +261,7 @@ bool Context::Init ( )
     map = new Map;
     object1 = new character;
    
-    map->Initialize ("./model/Light1.glb" );
+    map->Initialize ("./model/Stage9.glb" );
     object1->Initialize ( "./model/Goat1.glb" );
     player->Initialize ( );
     CameraManager::getInstance ( ).SetCamera ( player->camera );
@@ -307,4 +272,44 @@ bool Context::Init ( )
      
 
   return true;
+}
+
+void Context::IMGUI_USER ( ) {
+    //imgui 설정 부분
+    if ( ImGui::Begin ( "ui window" ) ) {
+        //배경색변경 UI 세팅
+        if ( ImGui::ColorEdit4 ( "clear color" , glm::value_ptr ( m_clearColor ) ) ) {
+            glClearColor ( m_clearColor.r , m_clearColor.g , m_clearColor.b , m_clearColor.a );
+        }
+        ImGui::Separator ( );   //분할 선 그리기
+        ImGui::DragFloat3 ( "camera pos" , glm::value_ptr ( player->GetPos ( ) ) , 0.01f );    //카메라 좌표변경 UI 세팅
+        ImGui::DragFloat ( "camera yaw" , &m_cameraYaw , 0.5f );
+        ImGui::DragFloat ( "camera pitch" , &m_cameraPitch , 0.5f , -89.0f , 89.0f );
+        ImGui::Separator ( );
+        if ( ImGui::Button ( "reset camera" ) ) {   //카메라 좌표 리셋 UI 세팅
+            m_cameraYaw = 0.0f;
+            m_cameraPitch = 0.0f;
+            m_cameraPos = glm::vec3 ( 0.0f , 0.0f , 3.0f );
+        }
+        // 접을 수 있는 헤더, 열려있게 옵션 설정
+        if ( ImGui::CollapsingHeader ( "light" , ImGuiTreeNodeFlags_DefaultOpen ) ) {
+            ImGui::DragFloat3 ( "l.position" , glm::value_ptr ( m_light.position ) , 0.01f );
+            ImGui::DragFloat3 ( "l.direction" , glm::value_ptr ( m_light.direction ) , 0.01f );
+            ImGui::DragFloat2 ( "l.cutoff" , glm::value_ptr ( m_light.cutoff ) , 0.1f , 0.0f , 180.0f );
+            ImGui::DragFloat ( "l.distance" , &m_light.distance , 0.1f , 0.0f , 1000.0f );
+            ImGui::ColorEdit3 ( "l.ambient" , glm::value_ptr ( m_light.ambient ) );
+            ImGui::ColorEdit3 ( "l.diffuse" , glm::value_ptr ( m_light.diffuse ) );
+            ImGui::ColorEdit3 ( "l.specular" , glm::value_ptr ( m_light.specular ) );
+        }
+
+        if ( ImGui::CollapsingHeader ( "material" , ImGuiTreeNodeFlags_DefaultOpen ) ) {
+            ImGui::DragFloat ( "m.shininess" , &m_material->shininess , 1.0f , 1.0f , 256.0f );
+        }
+
+
+        ImGui::Checkbox ( "animation" , &m_animation );
+
+    }
+    ImGui::End ( );
+
 }

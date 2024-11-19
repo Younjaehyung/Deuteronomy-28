@@ -105,12 +105,13 @@ bool Model::LoadByAssimp ( const std::string& filename ) {
                 lightData.attenuation = glm::vec3 ( light->mAttenuationConstant ,
                                                   light->mAttenuationLinear ,
                                                   light->mAttenuationQuadratic );
-            }
+            }    
             else if ( light->mType == aiLightSource_SPOT ) {
                 lightData.type = aiLightSource_SPOT;
                 // 스포트라이트의 내부 및 외부 각도를 Cos로 변환
-                lightData.cutoff = glm::cos ( light->mAngleOuterCone );
-                lightData.outerCutoff = glm::cos ( light->mAngleInnerCone );
+                lightData.cutoff = cosf ( glm::radians ( light->mAngleInnerCone ));
+                lightData.outerCutoff = cosf ( glm::radians ( light->mAngleInnerCone + light->mAngleOuterCone ));
+                std::cout << "!!!NOW SPOT" << std::endl;
             }
             else if ( light->mType == aiLightSource_DIRECTIONAL ) {
                 lightData.type = aiLightSource_DIRECTIONAL;

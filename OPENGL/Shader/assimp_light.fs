@@ -53,7 +53,7 @@ void main() {
         } else if (lights[i].type == 3) { // Spot Light
             lightDir = normalize(lights[i].position - FragPos);
             float theta = dot(lightDir, normalize(-lights[i].direction));
-            float epsilon = lights[i].outerCutoff-lights[i].cutoff;
+            float epsilon = lights[i].cutoff-lights[i].outerCutoff;
             float intensity = clamp((theta - lights[i].outerCutoff) / epsilon, 0.0, 1.0);
             attenuation += intensity;
         } else { // Directional Light
