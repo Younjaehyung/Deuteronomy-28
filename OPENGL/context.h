@@ -30,7 +30,8 @@ public:
 	void Reshape ( int width , int height );
 
 	void MouseButton ( int button , int action , double x , double y );
-
+	int m_width{ 640 };
+	int m_height{ 480 };
 private:
 	Context ( ) {};
 	bool Init ( );
@@ -93,11 +94,11 @@ private:
 	struct Light {
 		glm::vec3 direction{ glm::vec3 ( -0.2f, -1.0f, -0.3f ) };	//Directional Light
 		glm::vec2 cutoff{ glm::vec2 ( 20.0f, 5.0f ) };	//Spot Light 보이는 부분
-		float distance{ 32.0f }; //Point Light 감쇠 거리
+		float distance{ 232.0f }; //Point Light 감쇠 거리
 
 		glm::vec3 position{ glm::vec3 ( 3.0f, 3.0f, 3.0f ) }; //광원의 위치
-		glm::vec3 ambient{ glm::vec3 ( 0.1f, 0.1f, 0.1f ) };  //광원의 색
-		glm::vec3 diffuse{ glm::vec3 ( 0.5f, 0.5f, 0.5f ) };  //오브젝트의 색
+		glm::vec3 ambient{ glm::vec3 ( 0.0f, 0.0f, 0.0f ) };  //광원의 색
+		glm::vec3 diffuse{ glm::vec3 ( 1.0f, 1.0f, 1.0f ) };  //오브젝트의 색
 		glm::vec3 specular{ glm::vec3 ( 1.0f, 1.0f, 1.0f ) };
 	};
 	Light m_light;
@@ -110,7 +111,6 @@ private:
 	bool m_cameraControl{ false };	//카메라 사용 여부 (우클릭)
 
 	//창크기
-	int m_width{ 640 };
-	int m_height{ 480 };
+	
 };
 

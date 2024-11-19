@@ -75,7 +75,8 @@ int main ( )
         return -1;
     }
     std::cerr << "윈도우 생성" << '\n';
-    
+    glfwSetInputMode ( window , GLFW_CURSOR , GLFW_CURSOR_DISABLED );
+
     //glfw userpointer 저장
     glfwSetWindowUserPointer ( window , context.get ( ) );
     //윈도우창 사이즈 설정
@@ -97,7 +98,7 @@ int main ( )
            context->ProcessInput ( window );    //입력 
            context->Update ( );
            context-> Render ( );    //출력
-
+           glfwSetCursorPos ( window , context->m_width / 2 , context->m_height / 2 );
             
            ImGui::Render ( );    //imgui 정보 종합
            ImGui_ImplOpenGL3_RenderDrawData ( ImGui::GetDrawData ( ) ); //imgui 그려줌
@@ -106,6 +107,8 @@ int main ( )
       
     }
 
+   
+    glfwSetInputMode ( window , GLFW_CURSOR , GLFW_CURSOR_DISABLED );
     //context 객체 소멸
     context.reset ( );
   
@@ -132,6 +135,9 @@ void OnFramebufferSizeChange ( GLFWwindow* window , int width , int height ) {
     std::cerr << "framebuffer size changed: " << width  << height << std::endl;
     auto context = ( Context* ) glfwGetWindowUserPointer ( window );
     context->Reshape ( width , height );
+    glm::vec2& xypos = CameraManager::getInstance().GetCusor ( );
+    xypos.x = width / 2;
+    xypos.y = height / 2;
 }
 
 void key_pressed ( GLFWwindow* window , int key , int scancode , int action , int mods ) {
@@ -147,6 +153,10 @@ void OnCursorPos ( GLFWwindow* window , double x , double y ) {
     auto context = ( Context* ) glfwGetWindowUserPointer ( window );
     //context->MouseMove ( x , y );
     CameraManager::getInstance ( ).Input ( x , y );
+
+   
+    
+   
 }
 
 void OnMouseButton ( GLFWwindow* window , int button , int action , int modifier ) {

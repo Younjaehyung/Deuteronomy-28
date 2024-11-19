@@ -55,5 +55,7 @@ public:
 		using_Camera = setCamera;
 		using_Camera->cameraControl ( )=true;
 	}
-
+	glm::vec2& GetCusor ( ) {
+		return using_Camera->GetCusor();
+	}
 };
