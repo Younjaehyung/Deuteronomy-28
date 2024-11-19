@@ -261,7 +261,7 @@ bool Context::Init ( )
     map = new Map;
     object1 = new character;
    
-    map->Initialize ("./model/Stage9.glb" );
+    map->Initialize ("./model/Stage12.glb" );
     object1->Initialize ( "./model/Goat1.glb" );
     player->Initialize ( );
     CameraManager::getInstance ( ).SetCamera ( player->camera );

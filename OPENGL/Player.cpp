@@ -57,6 +57,12 @@ void Player::Input ( GLFWwindow* window ) {
 	if ( glfwGetKey ( window , GLFW_KEY_A ) == GLFW_PRESS ) {
 		Pos += speed * cameraRight; 
 	}
+	if ( glfwGetKey ( window , GLFW_KEY_LEFT_CONTROL ) == GLFW_PRESS ) {
+		Pos.y = 2;
+	}
+	if ( glfwGetKey ( window , GLFW_KEY_LEFT_CONTROL ) == GLFW_RELEASE ) {
+		Pos.y = 4;
+	}
 
 }
 
