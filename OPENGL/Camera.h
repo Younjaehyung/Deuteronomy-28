@@ -6,10 +6,7 @@
 class Camera
 {
 private:
-
-	bool m_cameraControl= false;
-	glm::vec2 m_prevMousePos{ glm::vec2 ( 0.0f ) };
-
+	bool m_cameraControl = false;
 	//카메라
 	float m_cameraPitch{ 0.0f };
 	float m_cameraYaw{ 0.0f };
@@ -30,10 +27,15 @@ private:
 	float Height = 1920.f;
 
 	
-
+	glm::vec2 m_prevMousePos{ glm::vec2 ( 0.0f ) };
 public:
+	
 	Camera ( ) {
 
+	}
+
+	glm::vec2& GetCusor ( ) {
+		return m_prevMousePos;
 	}
 
 	void Debugging ( ) {
@@ -61,9 +63,7 @@ public:
 
 	void MouseMove ( double x , double y ) {
 		Debugging ( );
-		if ( !m_cameraControl ) {
-			return;
-		}
+		
 
 
 		auto pos = glm::vec2 ( ( float ) x , ( float ) y );
@@ -80,7 +80,7 @@ public:
 		if ( m_cameraPitch < -89.0f ) m_cameraPitch = -89.0f;
 
 
-		m_prevMousePos = pos;
+		
 
 
 	}
