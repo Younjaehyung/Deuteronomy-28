@@ -75,8 +75,8 @@ int main ( )
         return -1;
     }
     std::cerr << "윈도우 생성" << '\n';
-    glfwSetInputMode ( window , GLFW_CURSOR , GLFW_CURSOR_DISABLED );
-
+    //glfwSetInputMode ( window , GLFW_CURSOR , GLFW_CURSOR_DISABLED );   //마우스 커서 숨기기
+    //glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     //glfw userpointer 저장
     glfwSetWindowUserPointer ( window , context.get ( ) );
     //윈도우창 사이즈 설정
@@ -98,8 +98,12 @@ int main ( )
            context->ProcessInput ( window );    //입력 
            context->Update ( );
            context-> Render ( );    //출력
-           glfwSetCursorPos ( window , context->m_width / 2 , context->m_height / 2 );
             
+           if ( CameraManager::getInstance ( ).ClickCamera ( ) ) {
+               glfwSetCursorPos ( window , context->m_width / 2 , context->m_height / 2 );
+           }
+
+           
            ImGui::Render ( );    //imgui 정보 종합
            ImGui_ImplOpenGL3_RenderDrawData ( ImGui::GetDrawData ( ) ); //imgui 그려줌
 
@@ -164,7 +168,15 @@ void OnMouseButton ( GLFWwindow* window , int button , int action , int modifier
     double x , y;
     glfwGetCursorPos ( window , &x , &y );
     context->MouseButton ( button , action , x , y );
-    
+    if ( button == GLFW_MOUSE_BUTTON_RIGHT ) {
+        if ( action == GLFW_PRESS ) {
+            glfwSetInputMode ( window , GLFW_CURSOR , GLFW_CURSOR_DISABLED );
+            
+        }
+        else {
+            glfwSetInputMode ( window , GLFW_CURSOR , GLFW_CURSOR_NORMAL );
+        }
+    }
     //imgui 마우스 콜백 설정
     ImGui_ImplGlfw_MouseButtonCallback ( window , button , action , modifier );
 }

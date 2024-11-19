@@ -10,6 +10,9 @@ private:
 
 	Camera* using_Camera= nullptr;
 
+	bool m_cameraControl = false;
+
+
 public:
 	static CameraManager& getInstance ( ) {
 		static CameraManager instance;
@@ -17,7 +20,9 @@ public:
 	}
 
 	bool& ClickCamera ( ) {
-		return using_Camera->cameraControl();
+
+		//return using_Camera->cameraControl();
+		return m_cameraControl;
 	}
 
 	void Update ( ) {
@@ -38,6 +43,9 @@ public:
 	
 
 	void Input ( double x , double y ) {
+		if ( !m_cameraControl ) {
+			return;
+		}
 		using_Camera->MouseMove ( x,y );
 		
 	}
