@@ -24,7 +24,7 @@ public:
 	virtual void Initialize ( const std::string& strName );
 private:
 
-	
+	UBOBUFFER_LUPtr UBO;
 	Model* model;
 	std::vector<Camera*> mapCamera;
 	glm::mat4 modelTransform;

@@ -5,10 +5,12 @@
 #include "vertex_layout.h"
 #include "texture.h"
 #include "program.h"
+#include <assimp/light.h>
 
 CLASS_PTR ( Mesh );
 CLASS_PTR ( UBOBUFFER );
-
+CLASS_PTR ( UBOBUFFER_L );
+const int  MAX_LIGHTS = 20;
 const int MAX_BONE_INFLUENCE = 4;
 struct Vertex {
     Vertex ( ) {}
@@ -37,6 +39,26 @@ struct Vertex {
     //weights from each bone
     float m_Weights[ MAX_BONE_INFLUENCE ];
 };
+
+
+
+struct LightD {
+    //const char* name;
+    aiLightSourceType type; // 조명 유형 (예: 점광, 방향광, 스포트라이트 등)
+
+    glm::vec3 position = glm::vec3(0.0f);
+    glm::vec3 direction = glm::vec3 ( 0.0f );
+
+    glm::vec3 colorAmbient = glm::vec3 ( 0.0f );
+    glm::vec3 colorDiffuse = glm::vec3 ( 0.0f );
+    glm::vec3 colorSpecular = glm::vec3 ( 0.0f );
+
+
+    float cutoff;      // 스포트라이트 각도
+    float outerCutoff; // 스포트라이트 외각 각도
+    glm::vec3 attenuation; // 감쇠 계수 (Point Light에 대한 감쇠 계수)
+};
+
 
 
 CLASS_PTR ( Material );
@@ -125,4 +147,40 @@ public:
 
     }
 
+};
+
+class UBOBUFFER_L {
+public:
+   
+
+    void Bind ( GLuint program , const std::string& name ) {
+        GLuint blockIndex = glGetUniformBlockIndex ( program , name.c_str ( ) );
+        glUniformBlockBinding ( program , blockIndex , 0 );
+        glBindBufferBase ( GL_UNIFORM_BUFFER , 0 , ubo_bufferID );
+    }
+
+    void UpdateData ( const std::vector<LightD>& lightData ) {
+        glBindBuffer ( GL_UNIFORM_BUFFER , ubo_bufferID );
+        glBufferSubData ( GL_UNIFORM_BUFFER , 0 , sizeof ( LightD ) * lightData.size ( ) , lightData.data ( ) );
+        glBindBuffer ( GL_UNIFORM_BUFFER , 0 );
+    }
+
+    static UBOBUFFER_LUPtr Create ( uint32_t lights ) {
+        auto UBO = UBOBUFFER_LUPtr ( new UBOBUFFER_L ( ) );
+        if ( !UBO->Init ( lights ) )
+            return nullptr;
+        return std::move ( UBO );
+    }
+
+private:
+    bool Init ( uint32_t lights ) {
+        glGenBuffers ( 1 , &ubo_bufferID );
+        glBindBuffer ( GL_UNIFORM_BUFFER , ubo_bufferID );
+        glBufferData ( GL_UNIFORM_BUFFER , sizeof ( LightD ) * lights , nullptr , GL_DYNAMIC_DRAW );
+        glBindBuffer ( GL_UNIFORM_BUFFER , 0 );
+        return true;
+    }
+    UBOBUFFER_L ( ) {}
+
+    uint32_t ubo_bufferID;
 };

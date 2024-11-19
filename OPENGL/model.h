@@ -27,14 +27,14 @@ public:
     int& GetBoneCount ( ) { return boneCounter; }
 
     std::string Get ( ) const { return filename; }
-
+    std::vector<LightD>& GetLight ( ) { return m_lights; }
 private:
     Model ( ) {}
     bool LoadByAssimp ( const std::string& filename );  //파일이름을 토대로 텍스쳐를 가져와 매핑
     void ProcessMesh ( aiMesh* mesh , const aiScene* scene );   //텍스쳐 매핑
     void ProcessNode ( aiNode* node , const aiScene* scene );   //vertex 
 
-    
+    std::vector<LightD> m_lights;
     std::map<std::string , BoneInfo> boneInfoMap;
     int boneCounter = 0;
 

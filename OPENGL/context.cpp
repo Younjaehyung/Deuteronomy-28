@@ -94,24 +94,24 @@ void Context::Render ( ) {
     ///////////////////////////////////////////////////
 
     //손전등
-    m_program->Use ( );
-    m_program->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    m_program->SetUniform ( "light.position" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    m_program->SetUniform ( "light.direction" , CameraManager::getInstance ( ).GetCameraFront ( ) );
-    m_program->SetUniform ( "light.cutoff" , glm::vec2 (
-        cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
-        cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) ) );
-    m_program->SetUniform ( "light.attenuation" , GetAttenuationCoeff ( m_light.distance ) );
-    m_program->SetUniform ( "light.ambient" , m_light.ambient );
-    m_program->SetUniform ( "light.diffuse" , m_light.diffuse );
-    m_program->SetUniform ( "light.specular" , m_light.specular );
+    m_assimp_Program->Use ( );
+    //m_assimp_Program->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
+    //m_assimp_Program->SetUniform ( "light.position" , CameraManager::getInstance ( ).GetCameraPos ( ) );
+    //m_assimp_Program->SetUniform ( "light.direction" , CameraManager::getInstance ( ).GetCameraFront ( ) );
+    //m_assimp_Program->SetUniform ( "light.cutoff" , glm::vec2 (
+    //    cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
+    //    cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) ) );
+    //m_assimp_Program->SetUniform ( "light.attenuation" , GetAttenuationCoeff ( m_light.distance ) );
+    //m_assimp_Program->SetUniform ( "light.ambient" , m_light.ambient );
+    //m_assimp_Program->SetUniform ( "light.diffuse" , m_light.diffuse );
+    //m_assimp_Program->SetUniform ( "light.specular" , m_light.specular );
 
 
     auto transform = Camera_Transform;
-    m_program->SetUniform ( "transform" , transform );
-    m_program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
-
-    map->Render ( m_program.get ( ) );
+    //m_assimp_Program->SetUniform ( "transform" , transform );
+    //m_assimp_Program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
+    
+    map->Render ( m_assimp_Program.get ( ) );
 
     //m_material->SetToProgram ( m_program.get ( ) );
     //m_animationProgram
@@ -131,7 +131,7 @@ void Context::Render ( ) {
     m_animationProgram->SetUniform ( "light.specular" , m_light.specular );
 
     
-    object1->Render ( m_animationProgram.get ( ) );
+    //object1->Render ( m_animationProgram.get ( ) );
 
     Framebuffer::BindToDefault ( );
     
@@ -271,6 +271,17 @@ bool Context::Init ( )
 
     }
     
+    m_assimp_Program = Program::Create ( "./shader/assimp_light.vs" , "./shader/assimp_light.fs" );
+    if ( !m_animationProgram ) {
+        std::cerr << "program UserSetError id : " << m_animationProgram->Get ( ) << std::endl;
+        return false;
+
+
+    }
+
+
+
+
     m_material = Material::Create ( );
     
     m_material->diffuse = Texture::CreateFromImage ( Image::CreateSingleColorImage ( 4 , 4 ,
@@ -285,7 +296,7 @@ bool Context::Init ( )
     map = new Map;
     object1 = new character;
    
-    map->Initialize ("./model/Stage/Stage.obj" );
+    map->Initialize ("./model/Light1.glb" );
     object1->Initialize ( "./model/Goat1.glb" );
     player->Initialize ( );
     CameraManager::getInstance ( ).SetCamera ( player->camera );

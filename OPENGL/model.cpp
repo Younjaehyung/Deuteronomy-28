@@ -1,6 +1,7 @@
 ﻿#include "model.h"
 #include <sstream>
 
+
 ModelPtr Model::Load ( const std::string& filename ) {
     auto model = ModelUPtr ( new Model ( ) );
   
@@ -20,6 +21,7 @@ bool Model::LoadByAssimp ( const std::string& filename ) {
         std::cerr << "Failed to load model :" << filename << std::endl;
         return false;
     }
+
 
     auto dirname = filename.substr ( 0 , filename.find_last_of ( "/" ) );
 
@@ -63,10 +65,69 @@ bool Model::LoadByAssimp ( const std::string& filename ) {
         auto glMaterial = Material::Create ( );
         glMaterial->diffuse = LoadTexture ( material , aiTextureType_DIFFUSE );
         glMaterial->specular = LoadTexture ( material , aiTextureType_SPECULAR );
+
         m_materials.push_back ( std::move ( glMaterial ) );
     }
 
+
+
+    
+
+    if ( !scene->HasLights ( ) ) {
+        std::cerr << "Failed to load lights or no lights in scene!" << std::endl;
+      
+    }
+    else {
+        // *** 조명 처리 ***
+        for ( uint32_t i = 0; i < scene->mNumLights; i++ ) {
+            aiLight* light = scene->mLights[ i ];
+
+            LightD lightData;
+            std::string name = light->mName.C_Str ( );
+            //lightData.type = light->mType;  // 광원의 유형 (점광, 방향광, 스포트라이트 등)
+
+            // 위치와 방향 (존재하는 경우)
+            lightData.position = glm::vec3 ( light->mPosition.x , light->mPosition.y , light->mPosition.z );
+            lightData.direction = glm::vec3 ( light->mDirection.x , light->mDirection.y , light->mDirection.z );
+
+            // 색상 정보
+            lightData.colorDiffuse = glm::vec3 ( light->mColorDiffuse.r , light->mColorDiffuse.g , light->mColorDiffuse.b );
+            lightData.colorSpecular = glm::vec3 ( light->mColorSpecular.r , light->mColorSpecular.g , light->mColorSpecular.b );
+            lightData.colorAmbient = glm::vec3 ( light->mColorAmbient.r , light->mColorAmbient.g , light->mColorAmbient.b );
+
+            // 범위 및 각도 (스포트라이트의 경우)
+            lightData.cutoff = light->mAngleOuterCone;
+            lightData.outerCutoff = light->mAngleInnerCone;
+
+            if ( light->mType == aiLightSource_POINT ) {
+                lightData.type = aiLightSource_POINT;
+                // 감쇠 계수 설정 (Point Light의 경우)
+                lightData.attenuation = glm::vec3 ( light->mAttenuationConstant ,
+                                                  light->mAttenuationLinear ,
+                                                  light->mAttenuationQuadratic );
+            }
+            else if ( light->mType == aiLightSource_SPOT ) {
+                lightData.type = aiLightSource_SPOT;
+                // 스포트라이트의 내부 및 외부 각도를 Cos로 변환
+                lightData.cutoff = glm::cos ( light->mAngleOuterCone );
+                lightData.outerCutoff = glm::cos ( light->mAngleInnerCone );
+            }
+            else if ( light->mType == aiLightSource_DIRECTIONAL ) {
+                lightData.type = aiLightSource_DIRECTIONAL;
+                // 방향광은 위치가 필요하지 않을 수도 있지만, 필요하면 처리 추가 가능
+            }
+
+
+            // 조명 데이터 저장
+            m_lights.push_back ( lightData );
+
+            std::cerr << "Loaded light: " << name << " (Type: " << lightData.type << ")" << std::endl;
+            std::cerr << scene->mNumLights << std::endl;
+        
+        }
+    }
     ProcessNode ( scene->mRootNode , scene );
+
     return true;
 }
 
