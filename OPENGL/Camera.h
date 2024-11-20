@@ -5,14 +5,24 @@
 #include <iostream>
 #include <random>
 
+enum class moving {
+	stop ,
+	walk ,
+	run ,
+	sit ,
+	sit_walk ,
+};
+
 class Camera
 {
 private:
 	bool m_cameraControl = false;
-	bool Ismoving = false;
+	enum moving Ismoving = moving::stop;
 	float moving_Time = 0.0f;
 	//카메라
 	float m_cameraPitch{ 0.0f };
+	float m_cameraPitch_moving{ 0.0f };//뛸때 화면 흔들림
+
 	float m_cameraYaw{ 0.0f };
 	float m_camerRoll{ 0.0f };
 
@@ -54,8 +64,9 @@ public:
 		m_cameraPos = _pos;
 	}
 
-	void Camera_Ismoving (bool ismoving ) {
+	enum moving& Camera_Ismoving ( enum moving ismoving ) {
 		Ismoving = ismoving;
+		return Ismoving;
 	}
 
 	void Update ( );

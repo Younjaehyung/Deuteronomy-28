@@ -3,6 +3,8 @@
 #include "model.h"
 #include "Camera.h"
 
+
+
 class Player
 {
 public:
@@ -24,7 +26,9 @@ private:
 
 	ModelUPtr _model;
 	ProgramUPtr _shader;
-	bool Ismoving = false;
+
+	enum moving movestat;
+
 	glm::mat4 modelTransform;
 	glm::vec2 m_prevMousePos{ glm::vec2 ( 0.0f ) };
 	glm::vec3 Pos = glm::vec3 ( 0.0f , 4.0f , 0.0f );	//위치

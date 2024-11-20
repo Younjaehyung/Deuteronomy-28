@@ -2,11 +2,13 @@
 #include "Time.h"
 #include "Sound.h"
 
+
+
 void Player::Update ( )
 {
 	Dir = camera->GetFront ( );
 	camera->Camera_set ( Pos );
-	camera->Camera_Ismoving ( Ismoving );
+	camera->Camera_Ismoving ( movestat );
 }
 
 void Player::Render ( )
@@ -39,31 +41,69 @@ void Player::Initialize ( )
 }
 
 void Player::Input ( GLFWwindow* window ) {
-	Ismoving = false;
+	movestat = moving::stop;
 
 	glm::vec3 cameraDirectionXZ = glm::normalize ( glm::vec3 ( Dir.x , 0.0f , Dir.z ) );
 	auto cameraRight = glm::normalize ( glm::cross ( glm::vec3(0.0f,1.0f,0.0f) , cameraDirectionXZ ) );
 
-	float speed = 10 * Time::DeltaTime ( );
-	
-	if ( glfwGetKey ( window , GLFW_KEY_W ) == GLFW_PRESS ) {
-		Pos += speed * cameraDirectionXZ;
-		Ismoving = true;
+	float speed = 8 * Time::DeltaTime ( );
+	if ( glfwGetKey ( window , GLFW_KEY_W ) == GLFW_PRESS && glfwGetKey ( window , GLFW_KEY_LEFT_SHIFT ) == GLFW_PRESS ) {
+		Pos += 1.5f*speed * cameraDirectionXZ;
+		movestat = moving::run;
 		//SoundManager::getInstance ( ).GetSoundID ( "charge" )->ReplaySound ( );
 	}
-	if ( glfwGetKey ( window , GLFW_KEY_S ) == GLFW_PRESS ) {
-		Pos -= speed * cameraDirectionXZ;
-		Ismoving = true;
+	else if ( glfwGetKey ( window , GLFW_KEY_W ) == GLFW_PRESS && glfwGetKey ( window , GLFW_KEY_LEFT_CONTROL ) == GLFW_PRESS ) {
+		Pos += 0.7f * speed * cameraDirectionXZ;
+		movestat = moving::sit_walk;
+	}
+	else if ( glfwGetKey ( window , GLFW_KEY_W ) == GLFW_PRESS ) {
+		Pos += speed * cameraDirectionXZ;
+		movestat = moving::walk;
+		//SoundManager::getInstance ( ).GetSoundID ( "charge" )->ReplaySound ( );
 	}
 
-	if ( glfwGetKey ( window , GLFW_KEY_D ) == GLFW_PRESS ) {
+
+	if ( glfwGetKey ( window , GLFW_KEY_S ) == GLFW_PRESS && glfwGetKey ( window , GLFW_KEY_LEFT_SHIFT ) == GLFW_PRESS ) {
+		Pos -= 1.5f * speed * cameraDirectionXZ;
+		movestat = moving::run;
+	}
+	else if ( glfwGetKey ( window , GLFW_KEY_S ) == GLFW_PRESS && glfwGetKey ( window , GLFW_KEY_LEFT_CONTROL ) == GLFW_PRESS ) {
+		Pos -= 0.7f * speed * cameraDirectionXZ;
+		movestat = moving::sit_walk;
+	}
+	else if ( glfwGetKey ( window , GLFW_KEY_S ) == GLFW_PRESS ) {
+		Pos -= speed * cameraDirectionXZ;
+		movestat = moving::walk;
+	}
+
+
+	if ( glfwGetKey ( window , GLFW_KEY_D ) == GLFW_PRESS && glfwGetKey ( window , GLFW_KEY_LEFT_SHIFT ) == GLFW_PRESS ) {
+		Pos -= 1.5f * speed * cameraRight;
+		movestat = moving::run;
+	}
+	else if ( glfwGetKey ( window , GLFW_KEY_D ) == GLFW_PRESS && glfwGetKey ( window , GLFW_KEY_LEFT_CONTROL ) == GLFW_PRESS ) {
+		Pos -= 0.7f * speed * cameraRight;
+		movestat = moving::sit_walk;
+	}
+	else if ( glfwGetKey ( window , GLFW_KEY_D ) == GLFW_PRESS ) {
 		Pos -= speed * cameraRight;
-		Ismoving = true;
+		movestat = moving::walk;
 	}
-	if ( glfwGetKey ( window , GLFW_KEY_A ) == GLFW_PRESS ) {
-		Pos += speed * cameraRight; 
-		Ismoving = true;
+	
+
+	if ( glfwGetKey ( window , GLFW_KEY_A ) == GLFW_PRESS && glfwGetKey ( window , GLFW_KEY_LEFT_SHIFT ) == GLFW_PRESS ) {
+		Pos += 1.5f * speed * cameraRight;
+		movestat = moving::run;
 	}
+	else if ( glfwGetKey ( window , GLFW_KEY_A ) == GLFW_PRESS && glfwGetKey ( window , GLFW_KEY_LEFT_CONTROL ) == GLFW_PRESS ) {
+		Pos += 0.7f * speed * cameraRight;
+		movestat = moving::sit_walk;
+	}
+	else if ( glfwGetKey ( window , GLFW_KEY_A ) == GLFW_PRESS ) {
+		Pos += speed * cameraRight;
+		movestat = moving::walk;
+	}
+
 
 
 	if ( glfwGetKey ( window , GLFW_KEY_LEFT_CONTROL ) == GLFW_PRESS ) {
