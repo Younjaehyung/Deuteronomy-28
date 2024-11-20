@@ -12,10 +12,10 @@ void Player::Update ( )
 	Dir = camera->GetDir ( );
 	camera->Camera_Ismoving ( movestat );
 	if ( movestat == moving::sit || movestat == moving::sit_walk ) {
-		camera->Camera_set ( glm::vec3 ( Pos.x , Pos.y + 2.0f , Pos.z ) );
+		camera->Camera_set ( glm::vec3 ( Pos.x , Pos.y + 3.0f , Pos.z-3.0f ) );
 	}
 	else {
-		camera->Camera_set ( glm::vec3 ( Pos.x , Pos.y + 4.0f , Pos.z+4.0f ) );
+		camera->Camera_set ( glm::vec3 ( Pos.x , Pos.y + 5.0f , Pos.z - 3.0f ) );
 	}
 	
 
@@ -68,11 +68,12 @@ void Player::Render ( const Program* program )
 	const auto& transforms = animator->GetFinalBoneMatrices ( );
 
 	program->SetUniform ( "modelMat" , glm::translate ( glm::mat4 ( 1.0f ) , Pos )
-		* glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( -90.0f ) , glm::vec3 ( 1.0 , 0.0 , 0.0 ) ) );
+		*camera->GetYaw()
+		* glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 0.0f ) , glm::vec3 (0.0 , 1.0 , 0.0 ) ) );
 
 	program->SetUniform ( "PVM" , CameraManager::getInstance ( ).Camera_transform ( ) 
-		*glm::translate(glm::mat4(1.0f),Pos) 
-		*glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( -90.0f ) , glm::vec3 ( 1.0 , 0.0 , 0.0 ) ) );
+		*glm::translate(glm::mat4(1.0f),Pos) * camera->GetYaw ( )
+		*glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 0.0f ) , glm::vec3 ( 0.0 , 1.0 , 0.0 ) ) );
 
 	program->SetUniform ( "normalMat" , ( glm::mat3 ( 1.0f ) ) );
 
@@ -95,10 +96,10 @@ void Player::Initialize ( const std::string& strName )
 	_model = Model::Load ( strName );
 	model = _model.get ( );
 	idleAnim = new Animation ( strName , model );
-	walkAnim = new Animation ( "./model/player_m/SibalNomRun.glb" , model );
-	runAnim = new Animation ( "./model/player_m/SibalNomRun.glb" , model );
-	sitwalkAnim = new Animation ( "./model/player_m/SibalNomDizzy.glb"  , model );
-	sitAnim = new Animation ( "./model/player_m/SibalNomDizzy.glb"  , model );
+	walkAnim = new Animation ( "./model/SibalGLB/SibalWalk.glb" , model );
+	runAnim = new Animation ( "./model/SibalGLB/SibalRun.glb" , model );
+	sitwalkAnim = new Animation ( "./model/SibalGLB/SibalCrounchWalk.glb"  , model );
+	sitAnim = new Animation ( "./model/SibalGLB/SibalCrounchIdle.glb"  , model );
 	
 
 	animator = new Animator ( idleAnim );
@@ -202,7 +203,7 @@ void Player::Input ( GLFWwindow* window ) {
 
 	if ( (movestat == moving::stop)&&glfwGetKey ( window , GLFW_KEY_LEFT_CONTROL ) == GLFW_PRESS ) {
 		
-		movestat == moving::sit;
+		movestat = moving::sit;
 	}
 	
 	

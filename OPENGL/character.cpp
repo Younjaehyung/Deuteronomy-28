@@ -21,8 +21,8 @@ void character::Render ( const Program* program )
 
 	//}
 
-	program->SetUniform ( "modelMat" , glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( -90.0f ) , glm::vec3 ( 1.0 , 0.0 , 0.0 ) ) );
-	program->SetUniform ( "PVM" , CameraManager::getInstance ( ).Camera_transform ( )* glm::rotate(glm::mat4(1.0f),glm::radians(-90.0f),glm::vec3(1.0,0.0,0.0) ));
+	program->SetUniform ( "modelMat" , glm::rotate ( glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 5.0f , 0.0f , 0.0f ) ) *glm::mat4 ( 1.0f ) , glm::radians ( 0.0f ) , glm::vec3 ( 1.0 , 0.0 , 0.0 ) ) );
+	program->SetUniform ( "PVM" , CameraManager::getInstance ( ).Camera_transform ( )* glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 5.0f , 0.0f , 0.0f ) )* glm::rotate(glm::mat4(1.0f),glm::radians(0.0f),glm::vec3(1.0,0.0,0.0) ));
 	program->SetUniform ( "normalMat" , ( glm::mat3 ( 1.0f ) ) );
 
 	UBO->Bind ( program->Get ( ) , "Bones" );
