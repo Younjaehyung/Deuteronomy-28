@@ -17,6 +17,7 @@ public:
 	void UpdateAnimation ( float deltaTime );
 	void PlayAnimation ( Animation* pAnimation );
 	void CalculateBoneTransform ( const AssimpNodeData* node , glm::mat4 parentTransform );
+	Animation* GetCurrAnimation ( ) { return currentAnimation; }
 	std::vector<glm::mat4> GetFinalBoneMatrices ( );
 
 private:

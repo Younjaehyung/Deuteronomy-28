@@ -21,7 +21,7 @@ void character::Render ( const Program* program )
 
 	//}
 
-	program->SetUniform ( "modelMat" , ( glm::mat4 ( 1.0f ) ) );
+	program->SetUniform ( "modelMat" , glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( -90.0f ) , glm::vec3 ( 1.0 , 0.0 , 0.0 ) ) );
 	program->SetUniform ( "PVM" , CameraManager::getInstance ( ).Camera_transform ( )* glm::rotate(glm::mat4(1.0f),glm::radians(-90.0f),glm::vec3(1.0,0.0,0.0) ));
 	program->SetUniform ( "normalMat" , ( glm::mat3 ( 1.0f ) ) );
 

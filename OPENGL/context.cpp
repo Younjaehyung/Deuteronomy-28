@@ -47,9 +47,9 @@ void Context::Render ( ) {
     //광원/////////////////////////////////////////////
    
     // after computing projection and view matrix
-    auto lightModelTransform =
-        glm::translate ( glm::mat4 ( 1.0 ) , m_light.position ) *
-        glm::scale ( glm::mat4 ( 1.0 ) , glm::vec3 ( 0.1f ) );
+    auto lightModelTransform =// m_light.position
+        glm::translate ( glm::mat4 ( 1.0 ) ,glm::vec3(0.0f,0.0f,0.0f) ) *
+        glm::scale ( glm::mat4 ( 1.0 ) , glm::vec3 ( 3.0f ) );
     m_simpleProgram->Use ( );
 
     m_simpleProgram->SetUniform ( "color" , glm::vec4 ( m_light.ambient + m_light.diffuse , 1.0f ) );
@@ -97,6 +97,7 @@ void Context::Render ( ) {
 
     
     object1->Render ( m_animationProgram.get ( ) );
+    player->Render ( m_animationProgram.get ( ) );
 
     Framebuffer::BindToDefault ( );
     
@@ -262,8 +263,8 @@ bool Context::Init ( )
     object1 = new character;
    
     map->Initialize ("./model/Stage12.glb" );
-    object1->Initialize ( "./model/Player/PlayerIdle.glb" );
-    player->Initialize ( );
+    object1->Initialize ( "./model/player_m/SibalNomRun.glb" );
+    player->Initialize ("./model/player_m/SibalNomDizzy.glb" );
     CameraManager::getInstance ( ).SetCamera ( player->camera );
     glDisable ( GL_STENCIL_TEST );
     

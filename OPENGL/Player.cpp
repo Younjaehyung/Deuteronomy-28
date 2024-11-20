@@ -1,17 +1,50 @@
 ﻿#include "Player.h"
 #include "Time.h"
 #include "Sound.h"
-
+#include "CameraManager.h"
 
 
 void Player::Update ( )
 {
-	Dir = camera->GetFront ( );
-	camera->Camera_set ( Pos );
+	Status_Machine ( );
+
+	Dir2 = camera->GetFront ( );
+	Dir = camera->GetDir ( );
 	camera->Camera_Ismoving ( movestat );
+	if ( movestat == moving::sit || movestat == moving::sit_walk ) {
+		camera->Camera_set ( glm::vec3 ( Pos.x , Pos.y + 2.0f , Pos.z ) );
+	}
+	else {
+		camera->Camera_set ( glm::vec3 ( Pos.x , Pos.y + 4.0f , Pos.z+4.0f ) );
+	}
+	
+
+	std::cout << "Player Pos : " << Pos.y << std::endl;
+	
 }
 
-void Player::Render ( )
+void Player::Status_Machine ( )
+{
+	if ( movestat == moving::stop && animator->GetCurrAnimation() != idleAnim ) {
+		animator->PlayAnimation ( idleAnim );
+	}
+	if ( movestat == moving::sit && animator->GetCurrAnimation ( ) != sitAnim ) {
+		animator->PlayAnimation ( sitAnim );
+	}
+	if ( movestat == moving::sit_walk && animator->GetCurrAnimation ( ) != sitwalkAnim ) {
+		animator->PlayAnimation ( sitwalkAnim );
+	}
+	if ( movestat == moving::walk && animator->GetCurrAnimation ( ) != walkAnim ) {
+		animator->PlayAnimation ( walkAnim );
+	}
+	if ( movestat == moving::run && animator->GetCurrAnimation ( ) != runAnim ) {
+		animator->PlayAnimation ( runAnim );
+	}
+	
+
+}
+
+void Player::Render ( const Program* program )
 {
 	//_shader->Use ( );
 	//auto camerapos = CameraManager::getInstance ( ).GetPos ( );
@@ -31,19 +64,60 @@ void Player::Render ( )
 	//_shader->SetUniform ( "modelTransform" , modelTransform );
 	//_shader->SetUniform ( "transform" , transform );
 
-	//_model->Draw ( _shader.get ( ) );
+	animator->UpdateAnimation ( Time::DeltaTime ( ) );
+	const auto& transforms = animator->GetFinalBoneMatrices ( );
+
+	program->SetUniform ( "modelMat" , glm::translate ( glm::mat4 ( 1.0f ) , Pos )
+		* glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( -90.0f ) , glm::vec3 ( 1.0 , 0.0 , 0.0 ) ) );
+
+	program->SetUniform ( "PVM" , CameraManager::getInstance ( ).Camera_transform ( ) 
+		*glm::translate(glm::mat4(1.0f),Pos) 
+		*glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( -90.0f ) , glm::vec3 ( 1.0 , 0.0 , 0.0 ) ) );
+
+	program->SetUniform ( "normalMat" , ( glm::mat3 ( 1.0f ) ) );
+
+	UBO->Bind ( program->Get ( ) , "Bones" );
+	UBO->UpdateBoneMatrices ( transforms );
+
+	model->Draw ( program  );
 }
 
-void Player::Initialize ( )
+
+void Player::Initialize ( const std::string& strName )
 {
 	camera = new Camera;
+	if ( strName == "" )
+	{
+		return;
+	}
+	UBO = UBOBUFFER::Create ( 200 );
+
+	_model = Model::Load ( strName );
+	model = _model.get ( );
+	idleAnim = new Animation ( strName , model );
+	walkAnim = new Animation ( "./model/player_m/SibalNomRun.glb" , model );
+	runAnim = new Animation ( "./model/player_m/SibalNomRun.glb" , model );
+	sitwalkAnim = new Animation ( "./model/player_m/SibalNomDizzy.glb"  , model );
+	sitAnim = new Animation ( "./model/player_m/SibalNomDizzy.glb"  , model );
+	
+
+	animator = new Animator ( idleAnim );
+
+	std::cerr << "Player INITIALIZE!" << std::endl;
+	if ( !_model ) {
+		std::cerr << "program UserSetError id : " << _model->Get ( ) << std::endl;
+		return;
+
+
+	}
+	
 
 }
 
 void Player::Input ( GLFWwindow* window ) {
 	movestat = moving::stop;
 	
-	glm::vec3 cameraDirectionXZ = glm::normalize ( glm::vec3 ( Dir.x , 0.0f , Dir.z ) );
+	glm::vec3 cameraDirectionXZ = glm::normalize ( glm::vec3 ( Dir2.x , 0.0f , Dir2.z ) );
 	auto cameraRight = glm::normalize ( glm::cross ( glm::vec3(0.0f,1.0f,0.0f) , cameraDirectionXZ ) );
 
 	float speed = 8 * Time::DeltaTime ( );
@@ -126,12 +200,12 @@ void Player::Input ( GLFWwindow* window ) {
 		}
 	}
 
-	if ( glfwGetKey ( window , GLFW_KEY_LEFT_CONTROL ) == GLFW_PRESS ) {
-		Pos.y = 2;
+	if ( (movestat == moving::stop)&&glfwGetKey ( window , GLFW_KEY_LEFT_CONTROL ) == GLFW_PRESS ) {
+		
+		movestat == moving::sit;
 	}
-	if ( glfwGetKey ( window , GLFW_KEY_LEFT_CONTROL ) == GLFW_RELEASE ) {
-		Pos.y = 4;
-	}
+	
+	
 
 }
 

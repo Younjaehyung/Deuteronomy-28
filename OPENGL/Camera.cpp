@@ -8,8 +8,8 @@ const float camera_float = 0.2f;
 
 void Camera::Update ( ) {
 	
-	
-	std::cout << "m_cameraPitch_moving :"  << m_cameraPitch_moving << std::endl;
+	Debugging ( );
+	//std::cout << "m_cameraPitch_moving :"  << m_cameraPitch_moving << std::endl;
 	if ( Ismoving == moving::run) {
 		m_cameraPitch_moving = 5.0f*cos( 10.0f * moving_Time );
 		moving_Time += Time::DeltaTime ( );
@@ -22,7 +22,7 @@ void Camera::Update ( ) {
 		moving_Time += Time::DeltaTime ( );
 	}
 
-
+	
 	m_cameraFront =
 		glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( m_cameraPitch_moving ) , glm::vec3 ( 1.0f , 0.0f , 0.0f ) )*
 		glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( m_cameraPitch_moving ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) )
@@ -38,7 +38,7 @@ void Camera::Update ( ) {
 }
 
 void Camera::MouseMove ( double x , double y ) {
-	Debugging ( );
+	
 
 
 

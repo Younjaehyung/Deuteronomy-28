@@ -54,7 +54,7 @@ public:
 	}
 
 	void Debugging ( ) {
-		std::cout << m_cameraPos.x << std::endl;
+		std::cout << "m_cameraPos Pos : " << m_cameraPos.y << std::endl;
 		
 	}
 
@@ -95,6 +95,11 @@ public:
 	
 	glm::vec3& GetPos ( ) {
 		return m_cameraPos;
+	}
+
+	glm::mat4 GetDir ( ) {
+		return glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( m_cameraYaw ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) )
+			* glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( m_cameraPitch ) , glm::vec3 ( 1.0f , 0.0f , 0.0f ) );
 	}
 
 	bool& cameraControl ( ) {
