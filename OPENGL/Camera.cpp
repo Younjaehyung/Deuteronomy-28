@@ -11,19 +11,17 @@ void Camera::Update ( ) {
 	
 	std::cout << "m_cameraPitch_moving :"  << m_cameraPitch_moving << std::endl;
 	if ( Ismoving == moving::run) {
-		m_cameraPitch_moving = 5.0f*cos( 2.0f * moving_Time );
+		m_cameraPitch_moving = 5.0f*cos( 10.0f * moving_Time );
 		moving_Time += Time::DeltaTime ( );
 		
 	}
 	else if (!(Ismoving == moving::run) ){
 		//m_cameraPitch_moving = 0.0f;
-		m_cameraPitch_moving = 3.0f * sin ( moving_Time );
+		m_cameraPitch_moving = 2.0f * sin ( moving_Time );
 		//moving_Time = 0;
 		moving_Time += Time::DeltaTime ( );
 	}
-	if ( Ismoving == moving::run ) {
-		moving_Time += Time::DeltaTime ( );
-	}
+
 
 	m_cameraFront =
 		glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( m_cameraPitch_moving ) , glm::vec3 ( 1.0f , 0.0f , 0.0f ) )*
