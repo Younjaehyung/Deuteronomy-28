@@ -262,7 +262,7 @@ bool Context::Init ( )
     object1 = new character;
    
     map->Initialize ("./model/Stage12.glb" );
-    object1->Initialize ( "./model/Player/PlayerWalkb22.glb" );
+    object1->Initialize ( "./model/Player/PlayerIdle.glb" );
     player->Initialize ( );
     CameraManager::getInstance ( ).SetCamera ( player->camera );
     glDisable ( GL_STENCIL_TEST );

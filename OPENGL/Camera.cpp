@@ -4,30 +4,30 @@ std::random_device rd;
 std::mt19937 gen ( rd ( ) );
 std::uniform_real_distribution<float> camera_moving ( -5.0f , 5.0f );
 
+const float camera_float = 0.2f;
+
 void Camera::Update ( ) {
 	
 	
-
-	if ( moving_Time==0.0f && Ismoving==moving::run ) {
-
+	std::cout << "m_cameraPitch_moving :"  << m_cameraPitch_moving << std::endl;
+	if ( Ismoving == moving::run) {
+		m_cameraPitch_moving = 5.0f*cos( 2.0f * moving_Time );
 		moving_Time += Time::DeltaTime ( );
-		m_cameraPitch_moving = 0.2f;
-	}
-	else if ( Ismoving == moving::run && moving_Time>0.2f ) {
-		m_cameraPitch_moving = -1.0f * m_cameraPitch_moving;
-		moving_Time += Time::DeltaTime ( );
-		moving_Time -= 0.2f;
+		
 	}
 	else if (!(Ismoving == moving::run) ){
-		m_cameraPitch_moving = 0.0f;
-		moving_Time = 0;
+		//m_cameraPitch_moving = 0.0f;
+		m_cameraPitch_moving = 3.0f * sin ( moving_Time );
+		//moving_Time = 0;
+		moving_Time += Time::DeltaTime ( );
 	}
 	if ( Ismoving == moving::run ) {
 		moving_Time += Time::DeltaTime ( );
 	}
 
 	m_cameraFront =
-		glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( m_cameraPitch_moving ) , glm::vec3 ( 1.0f , 0.0f , 1.0f ) )
+		glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( m_cameraPitch_moving ) , glm::vec3 ( 1.0f , 0.0f , 0.0f ) )*
+		glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( m_cameraPitch_moving ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) )
 		* glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( m_cameraYaw ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) )
 		* glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( m_cameraPitch ) , glm::vec3 ( 1.0f , 0.0f , 0.0f ) )
 		* glm::vec4 ( 0.0f , 0.0f , -1.0f , 0.0f );   //방향벡터에는 4번째 항에 0을 넣음
