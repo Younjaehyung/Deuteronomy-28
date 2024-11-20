@@ -36,7 +36,7 @@ private:
 
 	float SightNear = 0.1f;
 	float SightFar = 30000.0f;
-	float SightAngle = 45.0f;
+	float SightAngle = 50.0f;
 
 	float Widht = 1080.f;
 	float Height = 1920.f;

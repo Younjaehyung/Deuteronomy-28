@@ -11,12 +11,33 @@ void Player::Update ( )
 	Dir2 = camera->GetFront ( );
 	Dir = camera->GetDir ( );
 	camera->Camera_Ismoving ( movestat );
-	if ( movestat == moving::sit || movestat == moving::sit_walk ) {
-		camera->Camera_set ( glm::vec3 ( Pos.x , Pos.y + 3.0f , Pos.z-3.0f ) );
+	
+	if ( movestat == moving::stop ) {
+		glm::vec3 cameraOffset = glm::vec3 ( 0.0f , 3.7f , -0.6f );
+		glm::quat quaternion = glm::quat_cast ( camera->GetYaw ( ) );
+		camera->Camera_set ( glm::vec3 ( Pos.x , Pos.y  , Pos.z ) + quaternion *cameraOffset );
 	}
-	else {
-		camera->Camera_set ( glm::vec3 ( Pos.x , Pos.y + 5.0f , Pos.z - 3.0f ) );
+	else if ( movestat == moving::sit ) {
+		glm::vec3 cameraOffset = glm::vec3 ( 0.0f , 2.7f , -0.7f );
+		glm::quat quaternion = glm::quat_cast ( camera->GetYaw ( ) );
+		camera->Camera_set ( glm::vec3 ( Pos.x , Pos.y , Pos.z ) + quaternion * cameraOffset );
 	}
+	else if ( movestat == moving::sit_walk ) {
+		glm::vec3 cameraOffset = glm::vec3 ( 0.0f , 2.7f , -0.9f );
+		glm::quat quaternion = glm::quat_cast ( camera->GetYaw ( ) );
+		camera->Camera_set ( glm::vec3 ( Pos.x , Pos.y , Pos.z ) + quaternion * cameraOffset );
+	}
+	else if ( movestat == moving::walk ) {
+		glm::vec3 cameraOffset = glm::vec3 ( 0.0f , 3.5f , -0.5f );
+		glm::quat quaternion = glm::quat_cast ( camera->GetYaw ( ) );
+		camera->Camera_set ( glm::vec3 ( Pos.x , Pos.y , Pos.z ) + quaternion * cameraOffset );
+	}
+	else if ( movestat == moving::run ) {
+		glm::vec3 cameraOffset = glm::vec3 ( 0.0f , 3.8f , -1.5f );
+		glm::quat quaternion = glm::quat_cast ( camera->GetYaw ( ) );
+		camera->Camera_set ( glm::vec3 ( Pos.x , Pos.y , Pos.z ) + quaternion * cameraOffset );
+	}
+
 	
 
 	std::cout << "Player Pos : " << Pos.y << std::endl;
@@ -67,12 +88,12 @@ void Player::Render ( const Program* program )
 	animator->UpdateAnimation ( Time::DeltaTime ( ) );
 	const auto& transforms = animator->GetFinalBoneMatrices ( );
 
-	program->SetUniform ( "modelMat" , glm::translate ( glm::mat4 ( 1.0f ) , Pos )
+	program->SetUniform ( "modelMat" , glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3(Pos.x,Pos.y,Pos.z) )
 		*camera->GetYaw()
 		* glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 0.0f ) , glm::vec3 (0.0 , 1.0 , 0.0 ) ) );
 
 	program->SetUniform ( "PVM" , CameraManager::getInstance ( ).Camera_transform ( ) 
-		*glm::translate(glm::mat4(1.0f),Pos) * camera->GetYaw ( )
+		* glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( Pos.x , Pos.y , Pos.z  ) ) * camera->GetYaw ( )
 		*glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 0.0f ) , glm::vec3 ( 0.0 , 1.0 , 0.0 ) ) );
 
 	program->SetUniform ( "normalMat" , ( glm::mat3 ( 1.0f ) ) );
