@@ -42,14 +42,16 @@ void Player::Initialize ( )
 
 void Player::Input ( GLFWwindow* window ) {
 	movestat = moving::stop;
-
+	
 	glm::vec3 cameraDirectionXZ = glm::normalize ( glm::vec3 ( Dir.x , 0.0f , Dir.z ) );
 	auto cameraRight = glm::normalize ( glm::cross ( glm::vec3(0.0f,1.0f,0.0f) , cameraDirectionXZ ) );
 
 	float speed = 8 * Time::DeltaTime ( );
-	if ( glfwGetKey ( window , GLFW_KEY_W ) == GLFW_PRESS && glfwGetKey ( window , GLFW_KEY_LEFT_SHIFT ) == GLFW_PRESS ) {
+
+	if ( (running_stamina>=0 )&&glfwGetKey ( window , GLFW_KEY_W ) == GLFW_PRESS && glfwGetKey ( window , GLFW_KEY_LEFT_SHIFT ) == GLFW_PRESS ) {
 		Pos += 1.5f*speed * cameraDirectionXZ;
 		movestat = moving::run;
+		
 		//SoundManager::getInstance ( ).GetSoundID ( "charge" )->ReplaySound ( );
 	}
 	else if ( glfwGetKey ( window , GLFW_KEY_W ) == GLFW_PRESS && glfwGetKey ( window , GLFW_KEY_LEFT_CONTROL ) == GLFW_PRESS ) {
@@ -63,9 +65,10 @@ void Player::Input ( GLFWwindow* window ) {
 	}
 
 
-	if ( glfwGetKey ( window , GLFW_KEY_S ) == GLFW_PRESS && glfwGetKey ( window , GLFW_KEY_LEFT_SHIFT ) == GLFW_PRESS ) {
+	if ( ( running_stamina >= 0 ) && glfwGetKey ( window , GLFW_KEY_S ) == GLFW_PRESS && glfwGetKey ( window , GLFW_KEY_LEFT_SHIFT ) == GLFW_PRESS ) {
 		Pos -= 1.5f * speed * cameraDirectionXZ;
 		movestat = moving::run;
+		
 	}
 	else if ( glfwGetKey ( window , GLFW_KEY_S ) == GLFW_PRESS && glfwGetKey ( window , GLFW_KEY_LEFT_CONTROL ) == GLFW_PRESS ) {
 		Pos -= 0.7f * speed * cameraDirectionXZ;
@@ -77,9 +80,11 @@ void Player::Input ( GLFWwindow* window ) {
 	}
 
 
-	if ( glfwGetKey ( window , GLFW_KEY_D ) == GLFW_PRESS && glfwGetKey ( window , GLFW_KEY_LEFT_SHIFT ) == GLFW_PRESS ) {
+
+	if ( ( running_stamina >= 0 ) && glfwGetKey ( window , GLFW_KEY_D ) == GLFW_PRESS && glfwGetKey ( window , GLFW_KEY_LEFT_SHIFT ) == GLFW_PRESS ) {
 		Pos -= 1.5f * speed * cameraRight;
 		movestat = moving::run;
+		
 	}
 	else if ( glfwGetKey ( window , GLFW_KEY_D ) == GLFW_PRESS && glfwGetKey ( window , GLFW_KEY_LEFT_CONTROL ) == GLFW_PRESS ) {
 		Pos -= 0.7f * speed * cameraRight;
@@ -91,9 +96,11 @@ void Player::Input ( GLFWwindow* window ) {
 	}
 	
 
-	if ( glfwGetKey ( window , GLFW_KEY_A ) == GLFW_PRESS && glfwGetKey ( window , GLFW_KEY_LEFT_SHIFT ) == GLFW_PRESS ) {
+
+	if ( ( running_stamina >= 0 ) && glfwGetKey ( window , GLFW_KEY_A ) == GLFW_PRESS && glfwGetKey ( window , GLFW_KEY_LEFT_SHIFT ) == GLFW_PRESS ) {
 		Pos += 1.5f * speed * cameraRight;
 		movestat = moving::run;
+		
 	}
 	else if ( glfwGetKey ( window , GLFW_KEY_A ) == GLFW_PRESS && glfwGetKey ( window , GLFW_KEY_LEFT_CONTROL ) == GLFW_PRESS ) {
 		Pos += 0.7f * speed * cameraRight;
@@ -105,6 +112,19 @@ void Player::Input ( GLFWwindow* window ) {
 	}
 
 
+	if ( movestat == moving::run ) {
+
+		running_stamina -= Time::DeltaTime ( );
+		if ( running_stamina < 0 ) {
+			running_stamina = -1;
+		}
+	}
+	else {
+		running_stamina += Time::DeltaTime ( )/5;
+		if ( running_stamina >= 10 ) {
+			running_stamina = 10;
+		}
+	}
 
 	if ( glfwGetKey ( window , GLFW_KEY_LEFT_CONTROL ) == GLFW_PRESS ) {
 		Pos.y = 2;

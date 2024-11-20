@@ -24,6 +24,9 @@ public:
 	virtual void Initialize ( );
 private:
 
+	float running_stamina{ 10.0f };
+
+
 	ModelUPtr _model;
 	ProgramUPtr _shader;
 
