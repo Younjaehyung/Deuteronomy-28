@@ -269,7 +269,7 @@ bool Context::Init ( )
     map = new Map;
     object1 = new character;
     CollisionManager::getInstance ( ).Initialize ( );
-    map->Initialize ("./model/AstarTest.glb" );
+    map->Initialize ("./model/Test2.glb" );
     object1->Initialize ( "./model/monster_m/NiddleHeadRun.glb" );
     player->Initialize ("./model/SibalGLB/SibalIdle.glb" );
     CollisionManager::getInstance().Initialize ( );

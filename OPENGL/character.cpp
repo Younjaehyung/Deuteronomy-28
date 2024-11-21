@@ -98,7 +98,7 @@ void character::Algorithm ( )
 		}
 	}
 	else {
-		float speed = 10.0f * Time::DeltaTime ( );
+		float speed = 20.0f * Time::DeltaTime ( );
 		if ( path_now_x < goalx ) {
 
 			Pos.x += speed;
