@@ -62,19 +62,16 @@ private:
 	};
 	int pathindex = 0;
 	std::tuple<int , int> gotoPath;
-
-
 	int path_now_x;
-		// Z축 인덱스 계
 	int path_now_z;
 
-
+	
 	Model* model;
 	std::vector<Camera*> mapCamera;
 	glm::mat4 modelTransform;
 	glm::vec2 m_prevMousePos{ glm::vec2 ( 0.0f ) };
 	//glm::vec3 Object::Pos = glm::vec3 ( 0.0f , 0.0f , 0.0f );	//위치
 	//glm::vec3 Dir = glm::vec3 ( 0.0f , 0.0f , 1.0f );	//방향
-
+	glm::vec3 Dir2 = glm::vec3 ( 0.0f , 0.0f , -1.0f );	//방향
 
 };

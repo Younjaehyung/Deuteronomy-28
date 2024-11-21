@@ -5,7 +5,10 @@
 void character::Update ( )
 {
 	Algorithm ( );
-
+	/*Dir2 = camera->GetFront ( );
+	Dir = camera->GetDir ( );*/
+	//camera->Camera_Ismoving ( movestat );
+	//카메라 흔들림 주석형
 
 }
 
@@ -24,8 +27,12 @@ void character::Render ( const Program* program )
 
 	//}
 
-	program->SetUniform ( "modelMat" , glm::rotate ( glm::translate ( glm::mat4 ( 1.0f ) , Pos ) *glm::mat4 ( 1.0f ) , glm::radians ( 0.0f ) , glm::vec3 ( 1.0 , 0.0 , 0.0 ) ) );
-	program->SetUniform ( "PVM" , CameraManager::getInstance ( ).Camera_transform ( )* glm::translate ( glm::mat4 ( 1.0f ) , Pos )* glm::rotate(glm::mat4(1.0f),glm::radians(0.0f),glm::vec3(1.0,0.0,0.0) ));
+	
+
+
+
+	program->SetUniform ( "modelMat" , glm::translate ( glm::mat4 ( 1.0f ) , Pos ) *Dir );
+	program->SetUniform ( "PVM" , CameraManager::getInstance ( ).Camera_transform ( )* glm::translate ( glm::mat4 ( 1.0f ) , Pos )* Dir );
 	program->SetUniform ( "normalMat" , ( glm::mat3 ( 1.0f ) ) );
 
 	UBO->Bind ( program->Get ( ) , "Bones" );
@@ -98,10 +105,13 @@ void character::Algorithm ( )
 		}
 	}
 	else {
-		float speed = 20.0f * Time::DeltaTime ( );
+		float speed = 10.0f * Time::DeltaTime ( );
+		//glm::mat4 dir_temp = glm::mat4 ( 1.0f );
+
 		if ( path_now_x < goalx ) {
 
 			Pos.x += speed;
+			//dir=glm::rotate()
 		}
 		else if ( path_now_x > goalx ) {
 			Pos.x -= speed;

@@ -21,6 +21,8 @@ void Context::Render ( ) {
 
     glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT ); //GL_DEPTH_BUFFER_BIT : DEPTH Buffer clear 세팅
     glEnable ( GL_DEPTH_TEST ); // DEPTH Buffer 사용 설정
+    glEnable ( GL_CULL_FACE);
+    glCullFace ( GL_BACK );
     CollisionManager::getInstance ( ).Render ( );   //맵 그리드
 
     //cubebox
