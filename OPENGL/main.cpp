@@ -1,4 +1,5 @@
 ﻿#include "GameManager.h"
+
 #include <assimp/version.h> // 버전 정보를 가져오는 헤더 파일
 void OnMouseButton ( GLFWwindow* window , int button , int action , int modifier );
 void OnFramebufferSizeChange ( GLFWwindow* window , int width , int height );
@@ -89,20 +90,22 @@ int main ( )
     glfwSetMouseButtonCallback ( window , OnMouseButton );
     glfwSetMouseButtonCallback ( window , OnMouseButton );
     glfwSetCharCallback ( window , OnCharEvent );
-;
+    
+
     while ( !glfwWindowShouldClose ( window ) ) {   //윈도우가 종료되었는지 확인
            glfwPollEvents ( ); //프레임 안정화
            ImGui_ImplGlfw_NewFrame ( );    //imgui 새 랜더링 프레임이라고 알려줌
            ImGui::NewFrame ( );
-
+          
            context->ProcessInput ( window );    //입력 
            context->Update ( );
+
            context-> Render ( );    //출력
             
            if ( CameraManager::getInstance ( ).ClickCamera ( ) ) {
                glfwSetCursorPos ( window , context->m_width / 2 , context->m_height / 2 );
            }
-
+        
            
            ImGui::Render ( );    //imgui 정보 종합
            ImGui_ImplOpenGL3_RenderDrawData ( ImGui::GetDrawData ( ) ); //imgui 그려줌

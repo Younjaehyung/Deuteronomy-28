@@ -3,7 +3,7 @@
 #include "shader.h"
 #include "program.h"
 #include "context.h"
-
+#include "Astar.h"
 
 class GameManager
 {

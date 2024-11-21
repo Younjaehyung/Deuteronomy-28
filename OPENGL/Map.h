@@ -8,8 +8,10 @@ class Map
 {
 public:
 
+
+
 	Camera* camera;
-	ModelPtr _model;
+	ModelPtr m_model;
 	MeshUPtr ground;
 	Animation* idleAnim;
 	Animator* animator;
@@ -25,7 +27,7 @@ public:
 private:
 
 	UBOBUFFER_LUPtr UBO;
-	Model* model;
+	//Model* model;
 	std::vector<Camera*> mapCamera;
 	glm::mat4 modelTransform;
 	glm::vec2 m_prevMousePos{ glm::vec2 ( 0.0f ) };
@@ -33,5 +35,9 @@ private:
 	glm::vec3 Dir = glm::vec3 ( 0.0f , 0.0f , 1.0f );	//방향
 
 	
+
+
+	
+
 };
 

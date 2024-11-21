@@ -21,8 +21,7 @@ private:
 	float moving_Time = 0.0f;
 	//카메라
 	float m_cameraPitch{ 0.0f };
-	float m_cameraPitch_moving{ 0.0f };//뛸때 화면 흔들림
-
+	
 	float m_cameraYaw{ 0.0f };
 	float m_camerRoll{ 0.0f };
 

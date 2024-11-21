@@ -2,6 +2,7 @@
 #include "image.h"
 #include "Time.h"
 #include "Sound.h"
+#include "CollisionManager.h"
 ContextUPtr Context::Create ( )
 {
     auto context = ContextUPtr ( new Context ( ) ); //context uniquePointer 생성
@@ -20,6 +21,7 @@ void Context::Render ( ) {
 
     glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT ); //GL_DEPTH_BUFFER_BIT : DEPTH Buffer clear 세팅
     glEnable ( GL_DEPTH_TEST ); // DEPTH Buffer 사용 설정
+    CollisionManager::getInstance ( ).Render ( );   //맵 그리드
 
     //cubebox
     //auto skyboxModelTransform =
@@ -75,13 +77,13 @@ void Context::Render ( ) {
     auto transform = Camera_Transform;
     m_program->SetUniform ( "transform" , transform );
     m_program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
-    
+   
     map->Render ( m_program.get ( ) );
-
+   
     //m_material->SetToProgram ( m_program.get ( ) );
     //m_animationProgram
 
-
+    
     m_animationProgram->Use ( );
     //손전등
     m_animationProgram->SetUniform ( "viewPos" , CameraManager::getInstance().GetCameraPos() );
@@ -98,6 +100,10 @@ void Context::Render ( ) {
     
     object1->Render ( m_animationProgram.get ( ) );
     player->Render ( m_animationProgram.get ( ) );
+
+    
+   
+
 
     Framebuffer::BindToDefault ( );
     
@@ -118,6 +124,7 @@ void Context :: Update ( ) {
     CameraManager::getInstance ( ).Update ( );
     Camera_Transform = CameraManager::getInstance ( ).Camera_transform( );
     player->Update ( );
+    object1->Update();
 }
 
 void Context::ProcessInput ( GLFWwindow* window ) {
@@ -261,10 +268,11 @@ bool Context::Init ( )
     player = new Player;
     map = new Map;
     object1 = new character;
-   
-    map->Initialize ("./model/Stage2.glb" );
-    object1->Initialize ( "./model/SibalGLB/SibalIdle.glb" );
+    CollisionManager::getInstance ( ).Initialize ( );
+    map->Initialize ("./model/AstarTest.glb" );
+    object1->Initialize ( "./model/monster_m/NiddleHeadRun.glb" );
     player->Initialize ("./model/SibalGLB/SibalIdle.glb" );
+    CollisionManager::getInstance().Initialize ( );
     CameraManager::getInstance ( ).SetCamera ( player->camera );
     glDisable ( GL_STENCIL_TEST );
     

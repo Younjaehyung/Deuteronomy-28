@@ -2,7 +2,7 @@
 #include "Time.h"
 #include "Sound.h"
 #include "CameraManager.h"
-
+#include "CollisionManager.h"
 
 void Player::Update ( )
 {
@@ -40,7 +40,7 @@ void Player::Update ( )
 
 	
 
-	std::cout << "Player Pos : " << Pos.y << std::endl;
+	//std::cout << "Player Pos : " << Pos.y << std::endl;
 	
 }
 
@@ -67,6 +67,7 @@ void Player::Status_Machine ( )
 
 void Player::Render ( const Program* program )
 {
+	Path_now ( );
 	//_shader->Use ( );
 	//auto camerapos = CameraManager::getInstance ( ).GetPos ( );
 	//auto view = CameraManager::getInstance ( ).GetView ( );
@@ -101,17 +102,20 @@ void Player::Render ( const Program* program )
 	UBO->Bind ( program->Get ( ) , "Bones" );
 	UBO->UpdateBoneMatrices ( transforms );
 
+
+
 	model->Draw ( program  );
 }
+
+
 
 
 void Player::Initialize ( const std::string& strName )
 {
 	camera = new Camera;
-	if ( strName == "" )
-	{
-		return;
-	}
+
+	name = "player";
+
 	UBO = UBOBUFFER::Create ( 200 );
 
 	_model = Model::Load ( strName );
@@ -124,6 +128,8 @@ void Player::Initialize ( const std::string& strName )
 	
 
 	animator = new Animator ( idleAnim );
+	CollisionManager::getInstance ( ).SetCollision ( this );
+	
 
 	std::cerr << "Player INITIALIZE!" << std::endl;
 	if ( !_model ) {
