@@ -161,9 +161,16 @@ void Context::Reshape ( int width , int height ) {
     m_width = width;
     m_height = height;
     glViewport ( 0 , 0 , m_width , m_height );
-
+   
+    if ( m_width <= 1 ) {
+        m_width = 1;
+    }
+    if ( m_height <= 1 ) {
+        m_height = 1;
+    }
+    std::cout << m_height << std::endl;
     //사용자 정의 프레임버퍼 생성
-    m_framebuffer = Framebuffer::Create (Texture::Create ( width , height , GL_RGBA ) );
+    m_framebuffer = Framebuffer::Create (Texture::Create ( m_width , m_height , GL_RGBA ) );
     
 }
 
