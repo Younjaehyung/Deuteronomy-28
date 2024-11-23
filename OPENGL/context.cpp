@@ -64,8 +64,9 @@ void Context::Render ( ) {
     //손전등
     //m_assimp_Program->Use ( );
     m_program->Use ( );
+    glm::vec3 CameraPos ( CameraManager::getInstance ( ).GetCameraPos ( ) );
     m_program->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    m_program->SetUniform ( "light.position" , CameraManager::getInstance ( ).GetCameraPos ( ) );
+    m_program->SetUniform ( "light.position" , glm::vec3 ( CameraPos.x , CameraPos.y-1 , CameraPos.z ) );
     m_program->SetUniform ( "light.direction" , CameraManager::getInstance ( ).GetCameraFront ( ) );
     m_program->SetUniform ( "light.cutoff" , glm::vec2 (
         cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
@@ -80,7 +81,7 @@ void Context::Render ( ) {
     m_program->SetUniform ( "transform" , transform );
     m_program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
 
-
+    m_program->SetUniform ( "blinn" ,m_blinn ? 1 : 0 );
     map->Render ( m_program.get ( ) );
 
     //m_material->SetToProgram ( m_program.get ( ) );
@@ -194,7 +195,7 @@ void Context::MouseButton ( int button , int action , double x , double y ) {
 
 bool Context::Init ( )
 {
-
+    //glEnable (GL_ );
     m_box = Mesh::CreateBox ( );
     m_plane = Mesh::CreatePlane ( );
 
@@ -276,6 +277,7 @@ bool Context::Init ( )
 
     m_material->specular = Texture::CreateFromImage ( Image::CreateSingleColorImage ( 4 , 4 ,
         glm::vec4 ( 0.5f , 0.5f , 0.5f , 1.0f ) ).get ( ) );
+
     Time::Initailize ( );
     SoundManager::getInstance ( ).Initialize ( );
     mainCamera = new Camera;
@@ -286,7 +288,7 @@ bool Context::Init ( )
     map->Initialize ("./model/Stage1.glb" );
     object1->Initialize ( "./model/monster_m/NiddleHeadRun.glb" );
     player->Initialize ("./model/SibalGLB/SibalIdle.glb" );
-    CollisionManager::getInstance().Initialize ( );
+
     CameraManager::getInstance ( ).SetCamera ( player->camera );
     glDisable ( GL_STENCIL_TEST );
     
@@ -323,15 +325,19 @@ void Context::IMGUI_USER ( ) {
             ImGui::ColorEdit3 ( "l.ambient" , glm::value_ptr ( m_light.ambient ) );
             ImGui::ColorEdit3 ( "l.diffuse" , glm::value_ptr ( m_light.diffuse ) );
             ImGui::ColorEdit3 ( "l.specular" , glm::value_ptr ( m_light.specular ) );
+
+           
         }
 
         if ( ImGui::CollapsingHeader ( "material" , ImGuiTreeNodeFlags_DefaultOpen ) ) {
             ImGui::DragFloat ( "m.shininess" , &m_material->shininess , 1.0f , 1.0f , 256.0f );
         }
 
-
+        ImGui::Checkbox ( "l.blinn" , &m_blinn );
         ImGui::Checkbox ( "animation" , &m_animation );
 
+        float aspectRatio = ( float ) m_width / ( float ) m_width;
+        ImGui::Image ((ImTextureID) m_framebuffer->GetColorAttachment ( )->Get ( ) , ImVec2 ( 150 * aspectRatio , 150 ) );
     }
     ImGui::End ( );
 

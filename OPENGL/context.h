@@ -107,7 +107,7 @@ private:
 
 	
 
-	
+	bool m_blinn{ false };	//blinn 쉐이더 사용여부
 	bool m_animation{ true };	//애니메이션 사용 여부
 	bool m_cameraControl{ false };	//카메라 사용 여부 (우클릭)
 

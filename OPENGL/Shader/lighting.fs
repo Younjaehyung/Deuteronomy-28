@@ -5,7 +5,7 @@ in vec3 position;   //픽셀의 위치
 out vec4 fragColor;
 
 uniform vec3 viewPos;   //보고있는 위치(시점)
-
+uniform int blinn;
 
 struct Light {
 
@@ -56,20 +56,26 @@ void main() {
     vec3 result = ambient;
 
     //빛이 해당 지역을 비추고 있으면
-    if (intensity > 0.0) {
+    if (intensity > 0.3) {
 
     vec3 pixelNorm = normalize(normal);  //표면의 법선 벡터의 정규화
   
 
     float diff = max(dot(pixelNorm, lightDir), 0.0);  // 광원을 얼마나 바라보는지 (내적)
     vec3 diffuse = diff * texColor * light.diffuse;    //분산광계산
-
-    //specular 계산
     vec3 specColor = texture(material.specular, texCoord).xyz;
+    float spec =0.0;
     vec3 viewDir = normalize(viewPos - position);   //픽셀로부터 시점을 바라보는 벡터
-    vec3 reflectDir = reflect(-lightDir, pixelNorm);    //광원으로부터 픽셀을 바라보는 벡터 와 객체표면의 벡터
-    // reflect함수: R=I−2⋅(N⋅I)⋅N    (입사벡터,표면의 법선벡터)의 반사된 방향벡터를 반환함
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess); // 반사 방향과 시점 방향의 내적, 지수로 양을 정함
+    if(blinn==0){ //specular 계산(퐁쉐이딩)
+         vec3 reflectDir = reflect(-lightDir, pixelNorm);    //광원으로부터 픽셀을 바라보는 벡터 와 객체표면의 벡터
+        // reflect함수: R=I−2⋅(N⋅I)⋅N    (입사벡터,표면의 법선벡터)의 반사된 방향벡터를 반환함
+         spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess); // 반사 방향과 시점 방향의 내적, 지수로 양을 정함
+    }
+    else{    //(blin shader)
+    vec3 halfDir = normalize(lightDir+viewDir);
+    spec = pow(max(dot(halfDir, pixelNorm), 0.0), material.shininess); 
+    }
+
     vec3 specular = spec * specColor * light.specular;  //반사광계산
     // 최종 색상 계산
     // vec3 result = ambient + diffuse + specular;
