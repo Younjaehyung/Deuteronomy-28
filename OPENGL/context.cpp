@@ -22,7 +22,7 @@ void Context::Render ( ) {
     glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT ); //GL_DEPTH_BUFFER_BIT : DEPTH Buffer clear 세팅
     glEnable ( GL_DEPTH_TEST ); // DEPTH Buffer 사용 설정
     glEnable ( GL_CULL_FACE);
-    glCullFace ( GL_BACK );
+    //glCullFace ( GL_BACK );
     CollisionManager::getInstance ( ).Render ( );   //맵 그리드
 
     //cubebox
@@ -276,7 +276,7 @@ bool Context::Init ( )
     map = new Map;
     object1 = new character;
     CollisionManager::getInstance ( ).Initialize ( );
-    map->Initialize ("./model/Test2.glb" );
+    map->Initialize ("./model/Stage1.glb" );
     object1->Initialize ( "./model/monster_m/NiddleHeadRun.glb" );
     player->Initialize ("./model/SibalGLB/SibalIdle.glb" );
     CollisionManager::getInstance().Initialize ( );

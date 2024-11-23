@@ -4,7 +4,7 @@
 
 void character::Update ( )
 {
-	Algorithm ( );
+	//Algorithm ( );
 	/*Dir2 = camera->GetFront ( );
 	Dir = camera->GetDir ( );*/
 	//camera->Camera_Ismoving ( movestat );
