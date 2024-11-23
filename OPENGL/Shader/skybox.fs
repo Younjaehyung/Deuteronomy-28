@@ -6,4 +6,5 @@ uniform samplerCube skybox; //큐브 박스를 이용하기 위해 samplerCube �
 
 void main() {
     fragColor = texture(skybox, texCoord);
+    
 }

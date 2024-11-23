@@ -73,5 +73,5 @@ private:
 	//glm::vec3 Object::Pos = glm::vec3 ( 0.0f , 0.0f , 0.0f );	//위치
 	//glm::vec3 Dir = glm::vec3 ( 0.0f , 0.0f , 1.0f );	//방향
 	glm::vec3 Dir2 = glm::vec3 ( 0.0f , 0.0f , -1.0f );	//방향
-
+	glm::quat quaternion;
 };

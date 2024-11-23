@@ -27,12 +27,10 @@ void character::Render ( const Program* program )
 
 	//}
 
-	
 
 
-
-	program->SetUniform ( "modelMat" , glm::translate ( glm::mat4 ( 1.0f ) , Pos ) *Dir );
-	program->SetUniform ( "PVM" , CameraManager::getInstance ( ).Camera_transform ( )* glm::translate ( glm::mat4 ( 1.0f ) , Pos )* Dir );
+	program->SetUniform ( "modelMat" , glm::translate ( glm::mat4 ( 1.0f ) , Pos ) * glm::mat4_cast ( quaternion ) );
+	program->SetUniform ( "PVM" , CameraManager::getInstance ( ).Camera_transform ( )* glm::translate ( glm::mat4 ( 1.0f ) , Pos )* glm::mat4_cast ( quaternion ) );
 	program->SetUniform ( "normalMat" , ( glm::mat3 ( 1.0f ) ) );
 
 	UBO->Bind ( program->Get ( ) , "Bones" );
@@ -103,28 +101,35 @@ void character::Algorithm ( )
 			std::cout << "GOAL IN" << std::endl;
 			return;
 		}
+
 	}
 	else {
 		float speed = 10.0f * Time::DeltaTime ( );
-		//glm::mat4 dir_temp = glm::mat4 ( 1.0f );
-
+		glm::mat4 dir_temp = glm::mat4 ( 1.0f );
+		glm::vec3 eulerAngles ( glm::radians ( 0.0f ) , glm::radians ( 0.0f ) , glm::radians ( 0.0f ) ); // XYZ 회전
+		
 		if ( path_now_x < goalx ) {
 
 			Pos.x += speed;
+			eulerAngles.y = glm::radians ( -90.0f );
 			//dir=glm::rotate()
 		}
 		else if ( path_now_x > goalx ) {
 			Pos.x -= speed;
+			eulerAngles.y = glm::radians ( 90.0f );
 		}
 		
 		if ( path_now_z < goaly ) {
 			Pos.z -= speed;
+			eulerAngles.y = glm::radians ( 0.0f );
 		}
 		else if ( path_now_z > goaly ) {
 			Pos.z += speed;
+			eulerAngles.y = glm::radians ( 180.0f );
 		}
-
-
+		
+		quaternion = glm::quat ( eulerAngles );
+		
 	}
 	
 	

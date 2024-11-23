@@ -6,6 +6,7 @@ out vec4 fragColor;
 
 uniform vec3 viewPos;   //보고있는 위치(시점)
 
+
 struct Light {
 
    vec3 direction; //태양광(모든 지점에 동일한 방향의 광선/Directional Light, Spot Light)
@@ -27,6 +28,9 @@ struct Material {
     float shininess;    // 반사광의 강도 (표면의 광택도)
 };
 uniform Material material;
+
+
+
 
 void main() {
     //텍스쳐를 가져와서 해당 픽셀의 색상을 계산함
@@ -72,6 +76,7 @@ void main() {
 
     result = (ambient + diffuse + specular) * attenuation;
     }
+
 
 
     fragColor = vec4(result, 1.0);

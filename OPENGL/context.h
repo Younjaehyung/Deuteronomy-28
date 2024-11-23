@@ -81,6 +81,7 @@ private:
 	float m_cameraPitch{ 0.0f };
 	float m_cameraYaw{ 0.0f };
 	
+	float nowTime=0.0f;
 
 	glm::vec3 m_cameraPos{ glm::vec3 ( -10.0f, 3.0f, 3.0f ) };	//카메라의 위치
 	glm::vec3 m_cameraFront{ glm::vec3 ( 0.0f, 0.0f, -1.0f ) };	//카메라가 보고 있는 방향

@@ -75,13 +75,14 @@ void Context::Render ( ) {
     m_program->SetUniform ( "light.diffuse" , m_light.diffuse );
     m_program->SetUniform ( "light.specular" , m_light.specular );
 
-
+    
     auto transform = Camera_Transform;
     m_program->SetUniform ( "transform" , transform );
     m_program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
-   
+
+
     map->Render ( m_program.get ( ) );
-   
+
     //m_material->SetToProgram ( m_program.get ( ) );
     //m_animationProgram
 
@@ -118,6 +119,10 @@ void Context::Render ( ) {
         glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 2.0f , 1.0f ) ) );
     m_framebuffer->GetColorAttachment ( )->Bind ( );
     m_textureProgram->SetUniform ( "tex" , 0 );
+    m_textureProgram->SetUniform ( "resolution" , glm::vec2 ( 2560 , 1440 ) );
+    nowTime += Time::DeltaTime ( );
+    m_textureProgram->SetUniform ( "time" , nowTime );
+
     m_plane->Draw ( m_textureProgram.get ( ) );
 }
 
