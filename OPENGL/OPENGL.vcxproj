@@ -160,6 +160,7 @@
     <ClCompile Include="program.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="shader.cpp" />
+    <ClCompile Include="shadow.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="Time.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="shader.h" />
+    <ClInclude Include="shadow.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="Time.h" />
@@ -219,6 +221,8 @@
     <None Include="Shader\env_map.vs" />
     <None Include="Shader\lighting.fs" />
     <None Include="Shader\lighting.vs" />
+    <None Include="Shader\lighting_shadow.fs" />
+    <None Include="Shader\lighting_shadow.vs" />
     <None Include="Shader\simple.fs" />
     <None Include="Shader\simple.vs" />
     <None Include="Shader\skybox.fs" />

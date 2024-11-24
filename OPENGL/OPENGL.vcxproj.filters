@@ -147,6 +147,9 @@
     <ClCompile Include="Create_Graph.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="shadow.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common_include.h">
@@ -278,6 +281,9 @@
     <ClInclude Include="Create_Graph.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="shadow.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\simple.fs">
@@ -326,6 +332,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="Shader\assimp_light.vs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="Shader\lighting_shadow.fs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="Shader\lighting_shadow.vs">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

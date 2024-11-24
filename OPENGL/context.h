@@ -14,6 +14,7 @@
 #include "Animation.h"
 #include "Animator.h"
 #include "character.h"
+#include "shadow.h"
 
 CLASS_PTR(Context)
 //빛
@@ -28,6 +29,7 @@ public:
 	void IMGUI_USER ( );
 	
 	void Reshape ( int width , int height );
+	void DrawScene (const Program* program );
 
 	void MouseButton ( int button , int action , double x , double y );
 	int m_width{ 640 };
@@ -51,6 +53,7 @@ private:
 	ProgramUPtr m_simpleProgram;
 	ProgramUPtr m_textureProgram;
 	ProgramUPtr m_assimp_Program;
+	ProgramUPtr m_lightingShadowProgram;
 	//사용자 지정 프레임버퍼
 	FramebufferUPtr m_framebuffer;
 
@@ -67,6 +70,7 @@ private:
 	ProgramUPtr m_skyboxProgram;
 	ProgramUPtr m_envMapProgram;
 	
+	ShadowMapUPtr m_shadowMap;
 
 	//VAO,VBO,ELM 버퍼 포인터
 	MeshUPtr m_box;
