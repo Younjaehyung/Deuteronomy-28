@@ -97,6 +97,8 @@ private:
 	//빛
 	
 	struct Light {
+		bool directional{ false };
+
 		glm::vec3 direction{ glm::vec3 ( -0.2f, -1.0f, -0.3f ) };	//Directional Light
 		glm::vec2 cutoff{ glm::vec2 ( 20.0f, 5.0f ) };	//Spot Light 보이는 부분
 		float distance{ 232.0f }; //Point Light 감쇠 거리
@@ -110,7 +112,7 @@ private:
 
 
 	
-
+	
 	bool m_blinn{ false };	//blinn 쉐이더 사용여부
 	bool m_animation{ true };	//애니메이션 사용 여부
 	bool m_cameraControl{ false };	//카메라 사용 여부 (우클릭)

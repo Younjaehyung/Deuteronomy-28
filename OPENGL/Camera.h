@@ -34,7 +34,7 @@ private:
 	glm::mat4 projection = glm::mat4 ( 1.0f );
 
 	float SightNear = 0.1f;
-	float SightFar = 30000.0f;
+	float SightFar = 150.0f;
 	float SightAngle = 50.0f;
 
 	float Widht = 1080.f;

@@ -37,6 +37,10 @@ public:
 		return using_Camera->GetPos ( );
 	}
 
+	glm::mat4& GetView ( ) {
+		return using_Camera->GetView ( );
+	}
+
 	glm::vec3& GetCameraFront ( ) {
 		return using_Camera->GetCameraFront ( );
 	}
