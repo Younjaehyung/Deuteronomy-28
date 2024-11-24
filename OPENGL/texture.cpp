@@ -79,6 +79,9 @@ void Texture::SetTextureFormat ( int width , int height , uint32_t format ,uint3
 
 
 
+void Texture::SetBorderColor ( const glm::vec4& color ) const {
+    glTexParameterfv ( GL_TEXTURE_2D , GL_TEXTURE_BORDER_COLOR , glm::value_ptr ( color ) );
+}
 
 
 

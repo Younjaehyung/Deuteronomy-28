@@ -14,7 +14,7 @@ public:
     void Bind ( ) const;
     void SetFilter ( uint32_t minFilter , uint32_t magFilter ) const;
     void SetWrap ( uint32_t sWrap , uint32_t tWrap ) const;
-
+    void SetBorderColor ( const glm::vec4& color ) const;
     
     int GetWidth ( ) const { return m_width; }
     int GetHeight ( ) const { return m_height; }
@@ -25,7 +25,7 @@ private:
     void CreateTexture ( ); //텍스쳐 ID 생성
     void SetTextureFromImage ( const Image* image );    //텍스쳐 설정
     void SetTextureFormat ( int width , int height , uint32_t format , uint32_t type ); //빈 텍스쳐 설정
-
+    
     
     uint32_t m_texture{ 0 };
     int m_width{ 0 };

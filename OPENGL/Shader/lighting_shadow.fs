@@ -11,6 +11,8 @@ in VS_OUT {
 
 uniform vec3 viewPos;
 struct Light {
+    int directional;    //속성ID값 spot인지 direction인지
+
     vec3 position;
     vec3 direction;
     vec2 cutoff;
@@ -32,7 +34,7 @@ uniform Material material;
 
 uniform sampler2D shadowMap;    //쉐도우 맵
 
-float ShadowCalculation(vec4 fragPosLight) {    //그림자 계산 함수
+float ShadowCalculation(vec4 fragPosLight, vec3 normal, vec3 lightDir) {    //그림자 계산 함수
 
   vec3 projCoords = fragPosLight.xyz / fragPosLight.w;
   // transform to [0,1] range
@@ -43,26 +45,47 @@ float ShadowCalculation(vec4 fragPosLight) {    //그림자 계산 함수
   // get depth of current fragment from light’s perspective
   float currentDepth = projCoords.z;
   // check whether current frag pos is in shadow
-  float bias = 0.005;
-  float shadow = currentDepth - bias > closestDepth ? 1.0 : 0.0;
+  float bias = max(0.02 * (1.0 - dot(normal, lightDir)), 0.001);
+  float shadow = 0.0;
+  vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+  for(int x = -1; x <= 1; ++x) {
+          for (int y = -1; y <= 1; ++y) {
+              float pcfDepth = texture(shadowMap,
+                projCoords.xy + vec2(x, y) * texelSize).r;
+              shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
+          }
+  }
+  shadow /= 9.0;
   return shadow;
-  return 0.0;
+
 }
 
 void main() {
+
+
+
   vec3 texColor = texture2D(material.diffuse, fs_in.texCoord).xyz;
   vec3 ambient = texColor * light.ambient;
+  
+  vec3 lightDir;
+  float intensity=1.0;
+  float attenuation = 1.0;
+  vec3 result = ambient;
 
+  if (light.directional ==1){
+      lightDir = normalize(-light.direction);
+  }
+  else{
   float dist = length(light.position - fs_in.fragPos);
   vec3 distPoly = vec3(1.0, dist, dist*dist);
-  float attenuation = 1.0 / dot(distPoly, light.attenuation);
-  vec3 lightDir = (light.position - fs_in.fragPos) / dist;
+  attenuation = 1.0 / dot(distPoly, light.attenuation);
+  lightDir = (light.position - fs_in.fragPos) / dist;
 
-  vec3 result = ambient;
+
   float theta = dot(lightDir, normalize(-light.direction));
-  float intensity = clamp(
-      (theta - light.cutoff[1]) / (light.cutoff[0] - light.cutoff[1]),
-      0.0, 1.0);
+  intensity = clamp( (theta - light.cutoff[1]) / (light.cutoff[0] - light.cutoff[1]),0.0, 1.0);
+  }
+
 
   if (intensity > 0.0) {
     vec3 pixelNorm = normalize(fs_in.normal);
@@ -82,7 +105,7 @@ void main() {
         spec = pow(max(dot(halfDir, pixelNorm), 0.0), material.shininess);
     }
     vec3 specular = spec * specColor * light.specular;
-    float shadow = ShadowCalculation(fs_in.fragPosLight);   //그림자 계산
+    float shadow = ShadowCalculation(fs_in.fragPosLight,pixelNorm,lightDir);   //그림자 계산
 
     result += (diffuse + specular) * intensity * (1.0 - shadow);
   }
