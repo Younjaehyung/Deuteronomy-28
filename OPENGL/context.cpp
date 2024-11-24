@@ -46,14 +46,14 @@ void Context::Render ( ) {
     //광원/////////////////////////////////////////////
    
     // after computing projection and view matrix
-    auto lightModelTransform =// m_light.position
-        glm::translate ( glm::mat4 ( 1.0 ) ,glm::vec3(0.0f,0.0f,0.0f) ) *
-        glm::scale ( glm::mat4 ( 1.0 ) , glm::vec3 ( 1.0f ) );
-    m_simpleProgram->Use ( );
+    //auto lightModelTransform =// m_light.position
+    //    glm::translate ( glm::mat4 ( 1.0 ) ,glm::vec3(0.0f,0.0f,0.0f) ) *
+    //    glm::scale ( glm::mat4 ( 1.0 ) , glm::vec3 ( 1.0f ) );
+    //m_simpleProgram->Use ( );
 
-    m_simpleProgram->SetUniform ( "color" , glm::vec4 ( m_light.ambient + m_light.diffuse , 1.0f ) );
-    m_simpleProgram->SetUniform ( "transform" , Camera_Transform * lightModelTransform );
-    m_box->Draw ( m_simpleProgram.get());
+    //m_simpleProgram->SetUniform ( "color" , glm::vec4 ( m_light.ambient + m_light.diffuse , 1.0f ) );
+    //m_simpleProgram->SetUniform ( "transform" , Camera_Transform * lightModelTransform );
+    //m_box->Draw ( m_simpleProgram.get());
     ///////////////////////////////////////////////////
 
     m_shadowMap->Bind ( );
@@ -68,15 +68,16 @@ void Context::Render ( ) {
     Framebuffer::BindToDefault ( );
     
     glViewport ( 0 , 0 , m_width , m_height );
-   // m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
+   
    
     glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT ); //GL_DEPTH_BUFFER_BIT : DEPTH Buffer clear 세팅
     glEnable ( GL_DEPTH_TEST ); // DEPTH Buffer 사용 설정
     //glEnable ( GL_CULL_FACE );
     //glCullFace ( GL_BACK );
+    //m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
     CollisionManager::getInstance ( ).Render ( );   //맵 그리드
 
-
+    
     //손전등
     //m_assimp_Program->Use ( );
     m_lightingShadowProgram->Use ( );
@@ -93,11 +94,12 @@ void Context::Render ( ) {
     m_lightingShadowProgram->SetUniform ( "light.specular" , m_light.specular );
     m_lightingShadowProgram->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
     m_lightingShadowProgram->SetUniform ( "lightTransform" , Camera_Transform );
-
-    /*glActiveTexture ( GL_TEXTURE3 );
+    m_lightingShadowProgram->SetUniform ( "modelTransform" , glm::mat4(1.0f) );
+    m_lightingShadowProgram->SetUniform ( "transform" , Camera_Transform );
+    glActiveTexture ( GL_TEXTURE3 );
     m_shadowMap->GetShadowMap ( )->Bind ( );
     m_lightingShadowProgram->SetUniform ( "shadowMap" , 3 );
-    glActiveTexture ( GL_TEXTURE0 );*/
+    glActiveTexture ( GL_TEXTURE0 );
 
 
     map->Render ( m_lightingShadowProgram.get ( ) );
@@ -128,21 +130,21 @@ void Context::Render ( ) {
 
 
     //Framebuffer::BindToDefault ( );
-    
+    //
     //glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
 
 
-    //이중버퍼링
-   /* m_textureProgram->Use ( );
-    m_textureProgram->SetUniform ( "transform" ,
-        glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 2.0f , 1.0f ) ) );
-    m_framebuffer->GetColorAttachment ( )->Bind ( );
-    m_textureProgram->SetUniform ( "tex" , 0 );
-    m_textureProgram->SetUniform ( "resolution" , glm::vec2 ( 2560 , 1440 ) );
-    nowTime += Time::DeltaTime ( );
-    m_textureProgram->SetUniform ( "time" , nowTime );
+    ////이중버퍼링
+    //m_textureProgram->Use ( );
+    //m_textureProgram->SetUniform ( "transform" ,
+    //    glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 2.0f , 1.0f ) ) );
+    //m_framebuffer->GetColorAttachment ( )->Bind ( );
+    //m_textureProgram->SetUniform ( "tex" , 0 );
+    //m_textureProgram->SetUniform ( "resolution" , glm::vec2 ( 2560 , 1440 ) );
+    //nowTime += Time::DeltaTime ( );
+    //m_textureProgram->SetUniform ( "time" , nowTime );
 
-    m_plane->Draw ( m_textureProgram.get ( ) );*/
+    //m_plane->Draw ( m_textureProgram.get ( ) );
 }
 
 void Context :: Update ( ) {
