@@ -89,15 +89,14 @@ void Player::Render ( const Program* program )
 	animator->UpdateAnimation ( Time::DeltaTime ( ) );
 	const auto& transforms = animator->GetFinalBoneMatrices ( );
 
-	program->SetUniform ( "modelMat" , glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3(Pos.x,Pos.y,Pos.z) )
+	program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3(Pos.x,Pos.y,Pos.z) )
 		*camera->GetYaw()
 		* glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 0.0f ) , glm::vec3 (0.0 , 1.0 , 0.0 ) ) );
 
-	program->SetUniform ( "PVM" , CameraManager::getInstance ( ).Camera_transform ( ) 
+	program->SetUniform ( "transform" , CameraManager::getInstance ( ).Camera_transform ( ) 
 		* glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( Pos.x , Pos.y , Pos.z  ) ) * camera->GetYaw ( )
 		*glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 0.0f ) , glm::vec3 ( 0.0 , 1.0 , 0.0 ) ) );
 
-	program->SetUniform ( "normalMat" , ( glm::mat3 ( 1.0f ) ) );
 
 	UBO->Bind ( program->Get ( ) , "Bones" );
 	UBO->UpdateBoneMatrices ( transforms );

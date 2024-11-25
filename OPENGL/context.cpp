@@ -58,7 +58,8 @@ void Context::Render ( ) {
 
     m_shadowMap->Bind ( );
     glClear ( GL_DEPTH_BUFFER_BIT );
-
+    glEnable(GL_CULL_FACE);
+    glCullFace ( GL_FRONT_FACE );
 
     glViewport ( 0 , 0 ,
         m_shadowMap->GetShadowMap ( )->GetWidth ( ) ,
@@ -67,19 +68,20 @@ void Context::Render ( ) {
     m_simpleProgram->Use ( );
 
 
-    auto lightView = glm::lookAt ( glm::vec3 ( 2.0f , 4.0f , 4.0f ) ,
-glm::vec3 ( 2.0f , 4.0f , 4.0f ) + glm::vec3 ( -2.5f , -1.5f , -1.0f ) ,
-glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+    auto lightView = glm::lookAt ( glm::vec3 ( -1.0f , 2.0f , 0.0f ) ,
+    glm::vec3 ( -1.0f , 2.0f , 0.0f ) + glm::vec3 ( 2.5f , -1.5f , -1.0f ) ,
+    glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     auto lightProjection = glm::perspective (
       glm::radians ( ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) * 2.0f ) ,
-      1.0f , 1.0f , 20.0f );
+      1.0f , 1.0f , 20.0f );//lightProjection* lightView 
     m_simpleProgram->SetUniform ( "color" , glm::vec4 ( 1.0f , 1.0f , 1.0f , 1.0f ) );
-    m_simpleProgram->SetUniform ( "transform" , lightProjection* lightView );
+    m_simpleProgram->SetUniform ( "transform" , CameraManager::getInstance ( ).Camera_transform ( ) );
     m_simpleProgram->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
     DrawScene (  m_simpleProgram.get ( ) );
 
     Framebuffer::BindToDefault ( );
-    
+    glDisable ( GL_CULL_FACE );
+
     glViewport ( 0 , 0 , m_width , m_height );
    
 
@@ -92,55 +94,76 @@ glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
 
     //손전등
     //m_assimp_Program->Use ( );
-    m_program->Use ( );
+    m_lightingShadowProgram->Use ( );
     
 
 
-
+    
     glm::vec3 CameraPos ( CameraManager::getInstance ( ).GetCameraPos ( ) );
-    m_program->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    m_program->SetUniform ( "light.position" , glm::vec3 ( 2.0f , 4.0f , 4.0f ) );
-    m_program->SetUniform ( "light.direction" , glm::vec3 ( -2.5f , -1.5f , -1.0f ) );
-    m_program->SetUniform ( "light.cutoff" , glm::vec2 (
+    m_lightingShadowProgram->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
+    m_lightingShadowProgram->SetUniform ( "light.position" , CameraManager::getInstance ( ).GetCameraPos ( ) );
+    m_lightingShadowProgram->SetUniform ( "light.direction" , CameraManager::getInstance ( ).GetCameraFront());
+    m_lightingShadowProgram->SetUniform ( "light.cutoff" , glm::vec2 (
         cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
         cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) ) );
-    m_program->SetUniform ( "light.attenuation" , GetAttenuationCoeff ( m_light.distance ) );
-    m_program->SetUniform ( "light.ambient" , m_light.ambient );
-    m_program->SetUniform ( "light.diffuse" , m_light.diffuse );
-    m_program->SetUniform ( "light.specular" , m_light.specular );
-    m_program->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
-    m_program->SetUniform ( "light.directional" ,m_light.directional ? 1 : 0 );
-    m_program->SetUniform ( "lightTransform" , lightProjection * lightView );
-    m_program->SetUniform ( "modelTransform" , glm::mat4(1.0f) );
-    m_program->SetUniform ( "transform" , Camera_Transform );
+    m_lightingShadowProgram->SetUniform ( "light.attenuation" , GetAttenuationCoeff ( m_light.distance ) );
+    m_lightingShadowProgram->SetUniform ( "light.ambient" , m_light.ambient );
+    m_lightingShadowProgram->SetUniform ( "light.diffuse" , m_light.diffuse );
+    m_lightingShadowProgram->SetUniform ( "light.specular" , m_light.specular );
+    m_lightingShadowProgram->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
+    m_lightingShadowProgram->SetUniform ( "light.directional" ,m_light.directional ? 1 : 0 );
+    m_lightingShadowProgram->SetUniform ( "lightTransform" , CameraManager::getInstance().Camera_transform () );
+    m_lightingShadowProgram->SetUniform ( "modelTransform" , glm::mat4(1.0f) );
+    m_lightingShadowProgram->SetUniform ( "transform" , Camera_Transform );
     glActiveTexture ( GL_TEXTURE3 );
     m_shadowMap->GetShadowMap ( )->Bind ( );
-    m_program->SetUniform ( "shadowMap" , 3 );
+    m_lightingShadowProgram->SetUniform ( "shadowMap" , 3 );
     glActiveTexture ( GL_TEXTURE0 );
 
 
-    map->Render ( m_program.get ( ) );
+    map->Render ( m_lightingShadowProgram.get ( ) );
 
     //m_material->SetToProgram ( m_program.get ( ) );
     //m_animationProgram
 
     
-    m_animationProgram->Use ( );
-    //손전등
-    m_animationProgram->SetUniform ( "viewPos" , CameraManager::getInstance().GetCameraPos() );
-    m_animationProgram->SetUniform ( "light.position" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    m_animationProgram->SetUniform ( "light.direction" , CameraManager::getInstance ( ).GetCameraFront() );
-    m_animationProgram->SetUniform ( "light.cutoff" , glm::vec2 (
-        cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
-        cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) ) );
-    m_animationProgram->SetUniform ( "light.attenuation" , GetAttenuationCoeff ( m_light.distance ) );
-    m_animationProgram->SetUniform ( "light.ambient" , m_light.ambient );
-    m_animationProgram->SetUniform ( "light.diffuse" , m_light.diffuse );
-    m_animationProgram->SetUniform ( "light.specular" , m_light.specular );
+    //m_animationProgram->Use ( );
+    ////손전등
+    ////m_animationProgram->SetUniform ( "viewPos" , CameraManager::getInstance().GetCameraPos() );
+    ////m_animationProgram->SetUniform ( "light.position" , CameraManager::getInstance ( ).GetCameraPos ( ) );
+    ////m_animationProgram->SetUniform ( "light.direction" , CameraManager::getInstance ( ).GetCameraFront() );
+    ////m_animationProgram->SetUniform ( "light.cutoff" , glm::vec2 (
+    ////    cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
+    ////    cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) ) );
+    ////m_animationProgram->SetUniform ( "light.attenuation" , GetAttenuationCoeff ( m_light.distance ) );
+    ////m_animationProgram->SetUniform ( "light.ambient" , m_light.ambient );
+    ////m_animationProgram->SetUniform ( "light.diffuse" , m_light.diffuse );
+    ////m_animationProgram->SetUniform ( "light.specular" , m_light.specular );
 
-    
-    object1->Render ( m_animationProgram.get ( ) );
-    player->Render ( m_animationProgram.get ( ) );
+    ////glm::vec3 CameraPos ( CameraManager::getInstance ( ).GetCameraPos ( ) );
+    //m_animationProgram->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
+    //m_animationProgram->SetUniform ( "light.position" , glm::vec3 ( -1.0f , 2.0f , 0.0f ) );
+    //m_animationProgram->SetUniform ( "light.direction" , glm::vec3 ( 2.5f , -1.5f , -1.0f ) );
+    //m_animationProgram->SetUniform ( "light.cutoff" , glm::vec2 (
+    //    cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
+    //    cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) ) );
+    //m_animationProgram->SetUniform ( "light.attenuation" , GetAttenuationCoeff ( m_light.distance ) );
+    //m_animationProgram->SetUniform ( "light.ambient" , m_light.ambient );
+    //m_animationProgram->SetUniform ( "light.diffuse" , m_light.diffuse );
+    //m_animationProgram->SetUniform ( "light.specular" , m_light.specular );
+    //m_animationProgram->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
+    //m_animationProgram->SetUniform ( "light.directional" , m_light.directional ? 1 : 0 );
+    //m_animationProgram->SetUniform ( "lightTransform" , lightProjection* lightView );
+    //m_animationProgram->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
+    ////m_animationProgram->SetUniform ( "transform" , Camera_Transform );
+    //glActiveTexture ( GL_TEXTURE3 );
+    //m_shadowMap->GetShadowMap ( )->Bind ( );
+    //m_animationProgram->SetUniform ( "shadowMap" , 3 );
+    //glActiveTexture ( GL_TEXTURE0 );
+
+
+    //object1->Render_2pass ( m_animationProgram.get ( ) );
+    //player->Render ( m_animationProgram.get ( ) );
 
     
    
@@ -217,8 +240,8 @@ void Context::DrawScene (const Program* program )
     //program->Use ( );
     glm::vec3 CameraPos ( CameraManager::getInstance ( ).GetCameraPos ( ) );
     program->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    program->SetUniform ( "light.position" , glm::vec3 ( 0.0f , 7.0f , 0.0f ) );
-    program->SetUniform ( "light.direction" , glm::vec3 ( -0.5f , -1.5f , -1.0f ) );
+    program->SetUniform ( "light.position" , CameraManager::getInstance ( ).GetCameraPos ( ) );
+    program->SetUniform ( "light.direction" , CameraManager::getInstance ( ).GetCameraFront ( ) );
     program->SetUniform ( "light.cutoff" , glm::vec2 (
         cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
         cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) ) );
@@ -233,6 +256,10 @@ void Context::DrawScene (const Program* program )
 
     
     map->Render ( program );
+
+
+    /*object1->Render ( program );
+    player->Render ( program );*/
 }
 
 
@@ -354,7 +381,7 @@ bool Context::Init ( )
     map = new Map;
     object1 = new character;
     CollisionManager::getInstance ( ).Initialize ( );
-    map->Initialize ("./model/RealNewMap1.glb" );
+    map->Initialize ("./model/11.24NewNew.glb" );
     object1->Initialize ( "./model/monster_m/NiddleHeadRun.glb" );
     player->Initialize ("./model/SibalGLB/SibalIdle.glb" );
 
