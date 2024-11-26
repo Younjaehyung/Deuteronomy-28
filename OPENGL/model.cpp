@@ -160,7 +160,7 @@ void Model::ProcessMesh ( aiMesh* mesh , const aiScene* scene ) {
         
         auto& v = vertices[ i ];
         InitVertexBoneData ( v );
-
+         
         v.position = glm::vec3 ( mesh->mVertices[ i ].x , mesh->mVertices[ i ].y , mesh->mVertices[ i ].z );
         v.normal = glm::vec3 ( mesh->mNormals[ i ].x , mesh->mNormals[ i ].y , mesh->mNormals[ i ].z );
 

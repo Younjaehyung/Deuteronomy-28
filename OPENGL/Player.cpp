@@ -3,10 +3,12 @@
 #include "Sound.h"
 #include "CameraManager.h"
 #include "CollisionManager.h"
+#include "LightManager.h"
 
 void Player::Update ( )
 {
 	Status_Machine ( );
+	Path_now ( );
 
 	Dir2 = camera->GetFront ( );
 	Dir = camera->GetDir ( );
@@ -67,7 +69,7 @@ void Player::Status_Machine ( )
 
 void Player::Render ( const Program* program )
 {
-	Path_now ( );
+	
 	//_shader->Use ( );
 	//auto camerapos = CameraManager::getInstance ( ).GetPos ( );
 	//auto view = CameraManager::getInstance ( ).GetView ( );
@@ -100,7 +102,7 @@ void Player::Render ( const Program* program )
 
 	UBO->Bind ( program->Get ( ) , "Bones" );
 	UBO->UpdateBoneMatrices ( transforms );
-
+	LightManager::getInstance ( ).GetLightSetting ( program );
 
 
 	model->Draw ( program  );

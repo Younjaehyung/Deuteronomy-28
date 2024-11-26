@@ -1,13 +1,14 @@
 ﻿#include "Map.h"
 #include "Time.h"
-
+#include "LightManager.h"
 
 void Map::Update ( )
 {
 }
 
 void Map::Render ( const Program* program )
-{	
+{
+
 
     //for ( size_t i = 0; i < lights.size ( ); ++i ) {
     //    std::string index = std::to_string ( i );
@@ -34,7 +35,7 @@ void Map::Render ( const Program* program )
     program->SetUniform ( "color" , glm::vec3 ( 0.3f ) );
     UBO->Bind ( program->Get ( ) , "lights" );
     UBO->UpdateData ( _model->GetLight() );*/
-
+    LightManager::getInstance ( ).GetLightSetting ( program );
 		m_model->Draw ( program );
 
 		//program->SetUniform ( "transform" , CameraManager::getInstance().Camera_transform()*glm::rotate( glm::mat4 ( 1.0f ),glm::radians(90.0f ),glm::vec3(1.0f,0.0f,0.0f) )
@@ -46,7 +47,7 @@ void Map::Render ( const Program* program )
 void Map::Initialize ( const std::string& strName )
 {
 	
-    UBO = UBOBUFFER_L::Create ( 20 );
+    UBO = UBOBUFFER_LIGHT::Create ( 20 );
 	ground = Mesh::CreatePlane ( );
 	m_model = Model::Load ( strName );
 	std::cerr << "MAPAA" << std::endl;
@@ -59,4 +60,12 @@ void Map::Initialize ( const std::string& strName )
     }
 
 	
+}
+
+void Map::RenderShadow ( glm::mat4 lightView , const Program* program )
+{
+    program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos )  );
+    program->SetUniform ( "transform" , lightView * glm::translate ( glm::mat4 ( 1.0f ) , Pos ));
+    std::cout << "model" << std::endl;
+    Render ( program );
 }

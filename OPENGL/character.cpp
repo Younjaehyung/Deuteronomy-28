@@ -1,6 +1,6 @@
 ﻿#include "character.h"
 #include "Time.h"
-
+#include  "LightManager.h"
 
 void character::Update ( )
 {
@@ -20,6 +20,7 @@ void character::Render_2pass ( const Program* program )
 	UBO->Bind ( program->Get ( ) , "Bones" );
 	UBO->UpdateBoneMatrices ( transforms );
 
+	LightManager::getInstance ( ).GetLightSetting ( program );
 	model->Draw ( program );
 }
 void character::Render ( const Program* program )
@@ -38,12 +39,9 @@ void character::Render ( const Program* program )
 	//}
 
 
-
-	program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos ) * glm::mat4_cast ( quaternion ) );
-	program->SetUniform ( "transform" , CameraManager::getInstance ( ).Camera_transform ( )* glm::translate ( glm::mat4 ( 1.0f ) , Pos )* glm::mat4_cast ( quaternion ) );
-
 	UBO->Bind ( program->Get ( ) , "Bones" );
 	UBO->UpdateBoneMatrices ( transforms );
+	
 
 	model->Draw ( program );
 }
@@ -70,6 +68,14 @@ void character::Initialize ( const std::string& strName )
 	}
 
 
+}
+
+void character::RenderShadow ( glm::mat4 lightView , const Program* program )
+{
+	program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos ) * glm::mat4_cast ( quaternion ) );
+	program->SetUniform ( "transform" , lightView * glm::translate ( glm::mat4 ( 1.0f ) , Pos ) * glm::mat4_cast ( quaternion ) );
+
+	Render ( program );
 }
 
 void character::Algorithm ( )

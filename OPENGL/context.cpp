@@ -16,10 +16,10 @@ ContextUPtr Context::Create ( )
 
 void Context::Render ( ) {
 
+    
     IMGUI_USER ( );
-   
     glEnable ( GL_DEPTH_TEST ); // DEPTH Buffer 사용 설정
-   
+  
     //cubebox
     //auto skyboxModelTransform =
     //    glm::translate ( glm::mat4 ( 1.0 ) , m_cameraPos ) *
@@ -56,37 +56,37 @@ void Context::Render ( ) {
     //m_box->Draw ( m_simpleProgram.get());
     ///////////////////////////////////////////////////
 
-    m_shadowMap->Bind ( );
-    glClear ( GL_DEPTH_BUFFER_BIT );
-    glEnable(GL_CULL_FACE);
-    glCullFace ( GL_FRONT_FACE );
+    //m_shadowMap->Bind ( );
+    //glClear ( GL_DEPTH_BUFFER_BIT );
+    //glEnable(GL_CULL_FACE);
+    //glCullFace ( GL_FRONT_FACE );
 
-    glViewport ( 0 , 0 ,
-        m_shadowMap->GetShadowMap ( )->GetWidth ( ) ,
-        m_shadowMap->GetShadowMap ( )->GetHeight ( ) );
+    //glViewport ( 0 , 0 ,
+    //    m_shadowMap->GetShadowMap ( )->GetWidth ( ) ,
+    //    m_shadowMap->GetShadowMap ( )->GetHeight ( ) );
    
-    m_simpleProgram->Use ( );
+    //m_simpleProgram->Use ( );
 
 
-    auto lightView = glm::lookAt ( glm::vec3 ( -1.0f , 2.0f , 0.0f ) ,
-    glm::vec3 ( -1.0f , 2.0f , 0.0f ) + glm::vec3 ( 2.5f , -1.5f , -1.0f ) ,
-    glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
-    auto lightProjection = glm::perspective (
-      glm::radians ( ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) * 2.0f ) ,
-      1.0f , 1.0f , 20.0f );//lightProjection* lightView 
-    m_simpleProgram->SetUniform ( "color" , glm::vec4 ( 1.0f , 1.0f , 1.0f , 1.0f ) );
-    m_simpleProgram->SetUniform ( "transform" , CameraManager::getInstance ( ).Camera_transform ( ) );
-    m_simpleProgram->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
-    DrawScene (  m_simpleProgram.get ( ) );
+    //auto lightView = glm::lookAt ( glm::vec3 ( -1.0f , 2.0f , 0.0f ) ,
+    //glm::vec3 ( -1.0f , 2.0f , 0.0f ) + glm::vec3 ( 2.5f , -1.5f , -1.0f ) ,
+    //glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+    //auto lightProjection = glm::perspective (
+    //  glm::radians ( ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) * 2.0f ) ,
+    //  1.0f , 1.0f , 20.0f );//lightProjection* lightView 
+    //m_simpleProgram->SetUniform ( "color" , glm::vec4 ( 1.0f , 1.0f , 1.0f , 1.0f ) );
+    //m_simpleProgram->SetUniform ( "transform" , CameraManager::getInstance ( ).Camera_transform ( ) );
+    //m_simpleProgram->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
+    //DrawScene (  m_simpleProgram.get ( ) );
 
-    Framebuffer::BindToDefault ( );
-    glDisable ( GL_CULL_FACE );
+    //Framebuffer::BindToDefault ( );
+
+
+
+    LightManager::getInstance ( ).UpdateShadowMaps ( obj );
 
     glViewport ( 0 , 0 , m_width , m_height );
-   
 
-    //glEnable ( GL_CULL_FACE );
-    //glCullFace ( GL_BACK );
     //m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
     
     glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT ); //GL_DEPTH_BUFFER_BIT : DEPTH Buffer clear 세팅
@@ -95,55 +95,45 @@ void Context::Render ( ) {
     //손전등
     //m_assimp_Program->Use ( );
     m_lightingShadowProgram->Use ( );
-    
 
-
-    
     glm::vec3 CameraPos ( CameraManager::getInstance ( ).GetCameraPos ( ) );
     m_lightingShadowProgram->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    m_lightingShadowProgram->SetUniform ( "light.position" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    m_lightingShadowProgram->SetUniform ( "light.direction" , CameraManager::getInstance ( ).GetCameraFront());
-    m_lightingShadowProgram->SetUniform ( "light.cutoff" , glm::vec2 (
-        cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
-        cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) ) );
-    m_lightingShadowProgram->SetUniform ( "light.attenuation" , GetAttenuationCoeff ( m_light.distance ) );
-    m_lightingShadowProgram->SetUniform ( "light.ambient" , m_light.ambient );
-    m_lightingShadowProgram->SetUniform ( "light.diffuse" , m_light.diffuse );
-    m_lightingShadowProgram->SetUniform ( "light.specular" , m_light.specular );
+    //m_lightingShadowProgram->SetUniform ( "light.position" , CameraManager::getInstance ( ).GetCameraPos ( ) );
+    //m_lightingShadowProgram->SetUniform ( "light.direction" , CameraManager::getInstance ( ).GetCameraFront());
+    //m_lightingShadowProgram->SetUniform ( "light.cutoff" , glm::vec2 (
+       // cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
+      //  cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) ) );
+    //m_lightingShadowProgram->SetUniform ( "light.attenuation" , GetAttenuationCoeff ( m_light.distance ) );
+    //m_lightingShadowProgram->SetUniform ( "light.ambient" , m_light.ambient );
+    //m_lightingShadowProgram->SetUniform ( "light.diffuse" , m_light.diffuse );
+    //m_lightingShadowProgram->SetUniform ( "light.specular" , m_light.specular );
     m_lightingShadowProgram->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
-    m_lightingShadowProgram->SetUniform ( "light.directional" ,m_light.directional ? 1 : 0 );
-    m_lightingShadowProgram->SetUniform ( "lightTransform" , CameraManager::getInstance().Camera_transform () );
+    //m_lightingShadowProgram->SetUniform ( "light.directional" ,m_light.directional ? 1 : 0 );
+    //m_lightingShadowProgram->SetUniform ( "lightTransform" , CameraManager::getInstance().Camera_transform () );
     m_lightingShadowProgram->SetUniform ( "modelTransform" , glm::mat4(1.0f) );
     m_lightingShadowProgram->SetUniform ( "transform" , Camera_Transform );
-    glActiveTexture ( GL_TEXTURE3 );
-    m_shadowMap->GetShadowMap ( )->Bind ( );
-    m_lightingShadowProgram->SetUniform ( "shadowMap" , 3 );
-    glActiveTexture ( GL_TEXTURE0 );
+    m_lightingShadowProgram->SetUniform ( "numLights" , LightManager::getInstance ( ).GetLightNum ( ) );
 
+    for ( int i = 0; i < LightManager::getInstance ( ).GetLightNum ( ); i++ ) {
+        glm::mat4 lightTransform = LightManager::getInstance().GetLightTransform(i); // 라이트의 lightSpaceMatrix 계산
+        m_lightingShadowProgram->SetUniform ( "lightTransform[" + std::to_string ( i ) + "]" , lightTransform );
+        std::cout << i << std::endl;
+        glActiveTexture ( GL_TEXTURE0 + i );
+        LightManager::getInstance ( ).GetShadowMap ( i )->GetShadowMap ( )->Bind ( );
+        m_lightingShadowProgram->SetUniform ( "shadowMap[" + std::to_string ( i ) + "]" , i );  // 각 라이트의 그림자 맵 바인딩
+    }
+    //glActiveTexture ( GL_TEXTURE0 );
 
     map->Render ( m_lightingShadowProgram.get ( ) );
 
     //m_material->SetToProgram ( m_program.get ( ) );
     //m_animationProgram
-
     
     //m_animationProgram->Use ( );
-    ////손전등
-    ////m_animationProgram->SetUniform ( "viewPos" , CameraManager::getInstance().GetCameraPos() );
-    ////m_animationProgram->SetUniform ( "light.position" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    ////m_animationProgram->SetUniform ( "light.direction" , CameraManager::getInstance ( ).GetCameraFront() );
-    ////m_animationProgram->SetUniform ( "light.cutoff" , glm::vec2 (
-    ////    cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
-    ////    cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) ) );
-    ////m_animationProgram->SetUniform ( "light.attenuation" , GetAttenuationCoeff ( m_light.distance ) );
-    ////m_animationProgram->SetUniform ( "light.ambient" , m_light.ambient );
-    ////m_animationProgram->SetUniform ( "light.diffuse" , m_light.diffuse );
-    ////m_animationProgram->SetUniform ( "light.specular" , m_light.specular );
-
-    ////glm::vec3 CameraPos ( CameraManager::getInstance ( ).GetCameraPos ( ) );
-    //m_animationProgram->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    //m_animationProgram->SetUniform ( "light.position" , glm::vec3 ( -1.0f , 2.0f , 0.0f ) );
-    //m_animationProgram->SetUniform ( "light.direction" , glm::vec3 ( 2.5f , -1.5f , -1.0f ) );
+    //손전등
+    //m_animationProgram->SetUniform ( "viewPos" , CameraManager::getInstance().GetCameraPos() );
+    //m_animationProgram->SetUniform ( "light.position" , CameraManager::getInstance ( ).GetCameraPos ( ) );
+    //m_animationProgram->SetUniform ( "light.direction" , CameraManager::getInstance ( ).GetCameraFront() );
     //m_animationProgram->SetUniform ( "light.cutoff" , glm::vec2 (
     //    cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
     //    cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) ) );
@@ -151,21 +141,26 @@ void Context::Render ( ) {
     //m_animationProgram->SetUniform ( "light.ambient" , m_light.ambient );
     //m_animationProgram->SetUniform ( "light.diffuse" , m_light.diffuse );
     //m_animationProgram->SetUniform ( "light.specular" , m_light.specular );
+
+    //glm::vec3 CameraPos ( CameraManager::getInstance ( ).GetCameraPos ( ) );
+    //m_animationProgram->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
+    //m_animationProgram->SetUniform ( "numLights" , LightManager::getInstance ( ).GetLightNum ( ) );
     //m_animationProgram->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
-    //m_animationProgram->SetUniform ( "light.directional" , m_light.directional ? 1 : 0 );
-    //m_animationProgram->SetUniform ( "lightTransform" , lightProjection* lightView );
     //m_animationProgram->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
     ////m_animationProgram->SetUniform ( "transform" , Camera_Transform );
-    //glActiveTexture ( GL_TEXTURE3 );
-    //m_shadowMap->GetShadowMap ( )->Bind ( );
-    //m_animationProgram->SetUniform ( "shadowMap" , 3 );
-    //glActiveTexture ( GL_TEXTURE0 );
+    //for ( int i = 0; i < LightManager::getInstance ( ).GetLightNum(); i++ ) {
+    //    glm::mat4 lightTransform = LightManager::getInstance ( ).GetLightTransform ( i ); // 라이트의 lightSpaceMatrix 계산
+    //    m_lightingShadowProgram->SetUniform ( "lightTransform[" + std::to_string ( i ) + "]" , lightTransform );
+    //    std::cout<< "lightTransform[" + std::to_string ( i ) + "]" <<std::endl;
+    //    glActiveTexture ( GL_TEXTURE0 + i );
+    //    LightManager::getInstance ( ).GetShadowMap ( i )->Bind ( );
+    //    m_lightingShadowProgram->SetUniform ( "shadowMap[" + std::to_string ( i ) + "]" , i );  // 각 라이트의 그림자 맵 바인딩
+    //}
 
 
     //object1->Render_2pass ( m_animationProgram.get ( ) );
     //player->Render ( m_animationProgram.get ( ) );
 
-    
    
 
 
@@ -258,8 +253,8 @@ void Context::DrawScene (const Program* program )
     map->Render ( program );
 
 
-    /*object1->Render ( program );
-    player->Render ( program );*/
+    object1->Render ( program );
+    player->Render ( program );
 }
 
 
@@ -292,7 +287,7 @@ bool Context::Init ( )
     //    std::cerr << "program UserSetError id : " << map->Get ( ) << std::endl;
     //    return false;
 
-
+     
     //}
 
     
@@ -374,23 +369,34 @@ bool Context::Init ( )
     m_material->specular = Texture::CreateFromImage ( Image::CreateSingleColorImage ( 4 , 4 ,
         glm::vec4 ( 0.5f , 0.5f , 0.5f , 1.0f ) ).get ( ) );
 
-    Time::Initailize ( );
-    SoundManager::getInstance ( ).Initialize ( );
+
     mainCamera = new Camera;
     player = new Player;
     map = new Map;
     object1 = new character;
-    CollisionManager::getInstance ( ).Initialize ( );
+    //CollisionManager::getInstance ( ).Initialize ( );
+    
+
+
     map->Initialize ("./model/11.24NewNew.glb" );
     object1->Initialize ( "./model/monster_m/NiddleHeadRun.glb" );
     player->Initialize ("./model/SibalGLB/SibalIdle.glb" );
 
+    Time::Initailize ( );
+    SoundManager::getInstance ( ).Initialize ( );
+
     CameraManager::getInstance ( ).SetCamera ( player->camera );
+
+    LightManager::getInstance ( ).Initialize ( m_simpleProgram.get ( ) );
+    LightManager::getInstance ( ).SetLight ( glm::vec3 ( -1.0f , 2.0f , 0.0f ) , glm::vec3 ( 2.5f , -1.5f , -1.0f ) , glm::vec2 ( 20.0f , 5.0f ) );
+
+
+    obj.push_back ( object1 );
+    obj.push_back ( map );
+    obj.push_back ( player );
+
     glDisable ( GL_STENCIL_TEST );
-    
-    
-    glClearColor ( 0.0f , 0.0f , 0.0f , 1.0f );
-     
+    glClearColor ( 1.0f , 1.0f , 1.0f , 1.0f );
 
   return true;
 }
@@ -434,8 +440,8 @@ void Context::IMGUI_USER ( ) {
 
         float aspectRatio = ( float ) m_width / ( float ) m_width;
         ImGui::Image ((ImTextureID) m_framebuffer->GetColorAttachment ( )->Get ( ) , ImVec2 ( 150 * aspectRatio , 150 ) );
-    
-        ImGui::Image ( ( ImTextureID ) m_shadowMap->GetShadowMap ( )->Get ( ) ,ImVec2 ( 256 , 256 ) , ImVec2 ( 0 , 1 ) , ImVec2 ( 1 , 0 ) );
+        
+        ImGui::Image ( ( ImTextureID ) LightManager::getInstance ( ).GetShadowMap ( 0 )->GetShadowMap ( )->Get ( ) ,ImVec2 ( 256 , 256 ) , ImVec2 ( 0 , 1 ) , ImVec2 ( 1 , 0 ) );
     }
     ImGui::End ( );
 

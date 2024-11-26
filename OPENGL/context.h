@@ -15,6 +15,7 @@
 #include "Animator.h"
 #include "character.h"
 #include "shadow.h"
+#include "LightManager.h"
 
 CLASS_PTR(Context)
 //빛
@@ -38,7 +39,7 @@ private:
 	Context ( ) {};
 	bool Init ( );
 	
-
+	std::vector<Object*> obj;
 	Camera* mainCamera;
 	glm::mat4 Camera_Transform;
 

@@ -10,6 +10,7 @@
 CLASS_PTR ( Mesh );
 CLASS_PTR ( UBOBUFFER );
 CLASS_PTR ( UBOBUFFER_L );
+CLASS_PTR ( UBOBUFFER_LIGHT );
 const int MAX_LIGHTS = 20;
 const int MAX_BONE_INFLUENCE = 4;
 struct Vertex {
@@ -59,7 +60,19 @@ struct LightD {
     glm::vec3 attenuation; // 감쇠 계수 (Point Light에 대한 감쇠 계수)
 };
 
+struct Light_ORI {
+    bool directional{ false };
 
+    glm::vec3 position{ glm::vec3 ( 3.0f, 3.0f, 3.0f ) }; //광원의 위치
+    glm::vec3 direction{ glm::vec3 ( -0.2f, -1.0f, -0.3f ) };	//Directional Light
+    glm::vec2 cutoff{ glm::vec2 ( 20.0f, 5.0f ) };	//Spot Light 보이는 부분
+   
+    glm::vec3 attenuation;
+    
+    glm::vec3 ambient{ glm::vec3 ( 0.0f, 0.0f, 0.0f ) };  //광원의 색
+    glm::vec3 diffuse{ glm::vec3 ( 1.0f, 1.0f, 1.0f ) };  //오브젝트의 색
+    glm::vec3 specular{ glm::vec3 ( 1.0f, 1.0f, 1.0f ) };
+};
 
 CLASS_PTR ( Material );
 class Material {
@@ -181,6 +194,43 @@ private:
         return true;
     }
     UBOBUFFER_L ( ) {}
+
+    uint32_t ubo_bufferID;
+};
+
+
+class UBOBUFFER_LIGHT {
+public:
+
+
+    void Bind ( GLuint program , const std::string& name ) {
+        GLuint blockIndex = glGetUniformBlockIndex ( program , name.c_str ( ) );
+        glUniformBlockBinding ( program , blockIndex , 0 );
+        glBindBufferBase ( GL_UNIFORM_BUFFER , 0 , ubo_bufferID );
+    }
+
+    void UpdateData ( const std::vector<Light_ORI>& lightData ) {
+        glBindBuffer ( GL_UNIFORM_BUFFER , ubo_bufferID );
+        glBufferSubData ( GL_UNIFORM_BUFFER , 0 , sizeof ( Light_ORI ) * lightData.size ( ) , lightData.data ( ) );
+        glBindBuffer ( GL_UNIFORM_BUFFER , 0 );
+    }
+
+    static UBOBUFFER_LIGHTUPtr Create ( uint32_t lights ) {
+        auto UBO = UBOBUFFER_LIGHTUPtr ( new UBOBUFFER_LIGHT ( ) );
+        if ( !UBO->Init ( lights ) )
+            return nullptr;
+        return std::move ( UBO );
+    }
+
+private:
+    bool Init ( uint32_t lights ) {
+        glGenBuffers ( 1 , &ubo_bufferID );
+        glBindBuffer ( GL_UNIFORM_BUFFER , ubo_bufferID );
+        glBufferData ( GL_UNIFORM_BUFFER , sizeof ( Light_ORI ) * lights , nullptr , GL_DYNAMIC_DRAW );
+        glBindBuffer ( GL_UNIFORM_BUFFER , 0 );
+        return true;
+    }
+    UBOBUFFER_LIGHT ( ) {}
 
     uint32_t ubo_bufferID;
 };
