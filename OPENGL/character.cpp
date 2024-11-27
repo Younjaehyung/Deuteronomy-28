@@ -5,7 +5,7 @@
 void character::Update ( )
 {
 	animator->UpdateAnimation ( Time::DeltaTime ( ) );
-	//Algorithm ( );
+	Algorithm ( );
 	/*Dir2 = camera->GetFront ( );
 	Dir = camera->GetDir ( );*/
 	//camera->Camera_Ismoving ( movestat );
@@ -70,7 +70,7 @@ void character::Initialize ( const std::string& strName )
 	Animation* idleAnim = new Animation ( strName , model );
 	animator = new Animator ( idleAnim );
 	CollisionManager::getInstance ( ).SetCollision ( this );
-	Pos = glm::vec3 (5.0f,0.0f,-1.0f );
+	//Pos = glm::vec3 (5.0f,0.0f,-1.0f );
 	std::cerr << "OBJECT INITIALIZE!" << std::endl;
 	if ( !_model ) {
 		std::cerr << "program UserSetError id : " << _model->Get ( ) << std::endl;

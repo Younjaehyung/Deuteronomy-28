@@ -16,9 +16,9 @@ public:
 	ProgramUPtr _shader;
 	UBOBUFFERUPtr UBO;
 
-	character ( ) {
+	character (glm::vec3 pos) {
 		typeID = 1;
-
+		Pos = pos;
 	}
 
 	virtual void Update ( );

@@ -111,7 +111,7 @@ void Context::Render ( ) {
     LightManager::getInstance ( ).UpdateShadowMapping ( m_animationProgram.get ( ) );
 
     object1->Render_2pass ( m_animationProgram.get ( ) );
-
+    object2->Render_2pass ( m_animationProgram.get ( ) );
 
     //player->Render ( m_animationProgram.get ( ) );
 
@@ -142,6 +142,7 @@ void Context :: Update ( ) {
     Camera_Transform = CameraManager::getInstance ( ).Camera_transform( );
     player->Update ( );
     object1->Update();
+    object2->Update ( );
     LightManager::getInstance().UpdateFlashLight (player );
 }
 
@@ -209,6 +210,7 @@ void Context::DrawScene (const Program* program )
 
 
     object1->Render ( program );
+    object2->Render ( program );
     player->Render ( program );
 }
 
@@ -324,13 +326,15 @@ bool Context::Init ( )
     mainCamera = new Camera;
     player = new Player;
     map = new Map;
-    object1 = new character;
+    object1 = new character( glm::vec3(84.0f , 0.0f , -10.0f) );
+    object2 = new character( glm::vec3 (94.0f , 0.0f , -60.0f ) );
     //CollisionManager::getInstance ( ).Initialize ( );
     
 
 
-    map->Initialize ("./model/11.24NewNew.glb" );
+    map->Initialize ("./model/NewNewNew.glb" );
     object1->Initialize ( "./model/monster_m/NiddleHeadRun.glb" );
+    object2->Initialize ( "./model/BagMan2.glb" );
     player->Initialize ("./model/SibalGLB/SibalIdle.glb" );
 
     Time::Initailize ( );
@@ -340,12 +344,16 @@ bool Context::Init ( )
 
     LightManager::getInstance ( ).Initialize ( m_simpleProgram.get ( ), m_simpleAnimationProgram.get() );
     LightManager::getInstance ( ).SetFlashLight ( player );
-    //LightManager::getInstance ( ).SetLight ( glm::vec3 ( 2.0f , 4.0f , -1.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
-    //LightManager::getInstance ( ).SetLight ( glm::vec3 ( 2.0f , 4.0f , -3.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
-   // LightManager::getInstance ( ).SetLight ( glm::vec3 ( 9.0f , 2.0f , 0.0f ) , glm::vec3 ( 0.0f , 1.0f , -1.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
+    
+    //pos,dir,cutoff값
+    //자동차
+    LightManager::getInstance ( ).SetLight ( glm::vec3 ( -36.0f , 2.0f , -6.0f ) , glm::vec3 ( 0.0f , 0.0f , -3.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
+    LightManager::getInstance ( ).SetLight ( glm::vec3 ( 75.0f , 24.0f , -54.0f ) , glm::vec3 ( 3.0f , -5.0f , 0.0f ) , glm::vec2 ( 15.0f , 5.0f ) );
+    //LightManager::getInstance ( ).SetLight ( glm::vec3 ( 9.0f , 2.0f , 0.0f ) , glm::vec3 ( 0.0f , 1.0f , -1.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
 
 
     obj.push_back ( object1 );
+    obj.push_back ( object2 );
     obj.push_back ( map );
     obj.push_back ( player );
 

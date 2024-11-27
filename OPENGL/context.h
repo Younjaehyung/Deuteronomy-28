@@ -45,7 +45,8 @@ private:
 
 	Player* player;
 	Map* map;
-	character* object1;
+	character* object1;		//Neddlehead
+	character* object2;		//Bagman
 
 	ProgramUPtr m_animationProgram;
 

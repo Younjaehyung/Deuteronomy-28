@@ -76,7 +76,7 @@ std::vector<std::tuple<int , int>> Astar:: dynamicAStar (
             int ny = current.y + std::get<1> ( dir );
 
             // 범위 및 장애물 검사
-            if ( nx < 0 || ny < 0 || nx >= grid[ 0 ].size ( ) || ny >= grid.size ( ) || grid[ ny ][ nx ] == 1 ) {
+            if ( nx < 0 || ny < 0 || nx >= grid[ 0 ].size ( ) || ny >= grid.size ( ) || grid[ ny ][ nx ] != 0 ) {
                 continue;
             }
 
