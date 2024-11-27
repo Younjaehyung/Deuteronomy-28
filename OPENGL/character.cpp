@@ -24,6 +24,17 @@ void character::Render_2pass ( const Program* program )
 	LightManager::getInstance ( ).GetLightSetting ( program );
 	model->Draw ( program );
 }
+void character::RenderShadow ( glm::mat4 lightView , const Program* program )
+{
+	const auto& transforms = animator->GetFinalBoneMatrices ( );
+	UBO->Bind ( program->Get ( ) , "Bones" );
+	UBO->UpdateBoneMatrices ( transforms );
+	program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos ) * glm::mat4_cast ( quaternion ) );
+	program->SetUniform ( "transform" , lightView * glm::translate ( glm::mat4 ( 1.0f ) , Pos ) * glm::mat4_cast ( quaternion ) );
+
+	model->Draw ( program );
+}
+
 void character::Render ( const Program* program )
 {
 
@@ -59,7 +70,7 @@ void character::Initialize ( const std::string& strName )
 	Animation* idleAnim = new Animation ( strName , model );
 	animator = new Animator ( idleAnim );
 	CollisionManager::getInstance ( ).SetCollision ( this );
-
+	Pos = glm::vec3 (5.0f,0.0f,-1.0f );
 	std::cerr << "OBJECT INITIALIZE!" << std::endl;
 	if ( !_model ) {
 		std::cerr << "program UserSetError id : " << _model->Get ( ) << std::endl;
@@ -71,16 +82,7 @@ void character::Initialize ( const std::string& strName )
 
 }
 
-void character::RenderShadow ( glm::mat4 lightView , const Program* program )
-{
-	const auto& transforms = animator->GetFinalBoneMatrices ( );
-	UBO->Bind ( program->Get ( ) , "Bones" );
-	UBO->UpdateBoneMatrices ( transforms );
-	program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos ) * glm::mat4_cast ( quaternion ) );
-	program->SetUniform ( "transform" , lightView * glm::translate ( glm::mat4 ( 1.0f ) , Pos ) * glm::mat4_cast ( quaternion ) );
 
-	Render ( program );
-}
 
 void character::Algorithm ( )
 {

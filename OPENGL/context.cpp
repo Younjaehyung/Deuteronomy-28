@@ -121,6 +121,8 @@ void Context::Render ( ) {
     LightManager::getInstance ( ).UpdateShadowMapping ( m_animationProgram.get ( ) );
 
     object1->Render_2pass ( m_animationProgram.get ( ) );
+
+
     player->Render ( m_animationProgram.get ( ) );
 
    
@@ -361,9 +363,9 @@ bool Context::Init ( )
     LightManager::getInstance ( ).SetLight ( glm::vec3 ( 2.0f , 4.0f , -1.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
 
 
-    //obj.push_back ( object1 );
+    obj.push_back ( object1 );
     obj.push_back ( map );
-    //obj.push_back ( player );
+    obj.push_back ( player );
 
     glDisable ( GL_STENCIL_TEST );
     glClearColor ( 1.0f , 1.0f , 1.0f , 1.0f );

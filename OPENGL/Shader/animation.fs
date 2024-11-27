@@ -20,10 +20,8 @@ struct Light {
     vec3 diffuse;
     vec3 specular;
 };
+uniform Light lights[MAX_lights]; // UBO로부터 여러 라이트 정보
 
-layout (std140) uniform _lights { 
-    Light lights[MAX_lights]; // UBO로부터 여러 라이트 정보
-};
 
 uniform vec3 viewPos;   // 시점 위치
 uniform sampler2D shadowMaps[MAX_lights]; // 여러 쉐도우맵을 위한 배열
