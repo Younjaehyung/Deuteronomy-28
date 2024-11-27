@@ -19,8 +19,8 @@ void Astar::Path_now ( glm::vec3 Pos , glm::ivec2& path_now ) {
 
 
 
-	std::cout << "path_now_x : " << path_now.x << std::endl;
-	std::cout << "path_now_z : " << path_now.y << std::endl;
+	//std::cout << "path_now_x : " << path_now.x << std::endl;
+	//std::cout << "path_now_z : " << path_now.y << std::endl;
 	//std::cout <<"iint pos"<< int ( Pos.x ) << std::endl;
 }
 

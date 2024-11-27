@@ -26,7 +26,7 @@ void Player::Update ( )
 		camera->Camera_set ( glm::vec3 ( Pos.x , Pos.y , Pos.z ) + quaternion * cameraOffset );
 	}
 	else if ( movestat == moving::sit_walk ) {
-		glm::vec3 cameraOffset = glm::vec3 ( 0.0f , 2.7f , -0.9f );
+		glm::vec3 cameraOffset = glm::vec3 ( 0.0f , 2.7f , -1.3f );
 		glm::quat quaternion = glm::quat_cast ( camera->GetYaw ( ) );
 		camera->Camera_set ( glm::vec3 ( Pos.x , Pos.y , Pos.z ) + quaternion * cameraOffset );
 	}
@@ -36,7 +36,7 @@ void Player::Update ( )
 		camera->Camera_set ( glm::vec3 ( Pos.x , Pos.y , Pos.z ) + quaternion * cameraOffset );
 	}
 	else if ( movestat == moving::run ) {
-		glm::vec3 cameraOffset = glm::vec3 ( 0.0f , 3.8f , -1.5f );
+		glm::vec3 cameraOffset = glm::vec3 ( 0.0f , 3.8f , -1.7f );
 		glm::quat quaternion = glm::quat_cast ( camera->GetYaw ( ) );
 		camera->Camera_set ( glm::vec3 ( Pos.x , Pos.y , Pos.z ) + quaternion * cameraOffset );
 	}

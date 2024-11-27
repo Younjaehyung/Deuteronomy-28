@@ -139,10 +139,12 @@ void Context::Render ( ) {
 void Context :: Update ( ) {
     Time::Update ( );
     CameraManager::getInstance ( ).Update ( );
+
     Camera_Transform = CameraManager::getInstance ( ).Camera_transform( );
     player->Update ( );
     object1->Update();
     object2->Update ( );
+    CollisionManager::getInstance ( ).Update ( );
     LightManager::getInstance().UpdateFlashLight (player );
 }
 
@@ -180,7 +182,7 @@ void Context::Reshape ( int width , int height ) {
     if ( m_height <= 1 ) {
         m_height = 1;
     }
-    std::cout << m_height << std::endl;
+    //std::cout << m_height << std::endl;
     //사용자 정의 프레임버퍼 생성
     m_framebuffer = Framebuffer::Create (Texture::Create ( m_width , m_height , GL_RGBA ) );
     
