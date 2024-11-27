@@ -50,8 +50,10 @@ private:
 	ProgramUPtr m_animationProgram;
 
 	//.vs .fs 프로그램 쉐이더 코드
+
 	ProgramUPtr m_program;
 	ProgramUPtr m_simpleProgram;
+	ProgramUPtr m_simpleAnimationProgram;
 	ProgramUPtr m_textureProgram;
 	ProgramUPtr m_assimp_Program;
 	ProgramUPtr m_lightingShadowProgram;

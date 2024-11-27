@@ -31,6 +31,7 @@ class LightManager
 	int LightNum = 0;
 	UBOBUFFER_LIGHTPtr UBOLight;
 	Program* m_simpleProgram =nullptr;
+	Program* m_simpleAnimationProgram = nullptr;
 	std::vector<LightMass*> lightMass;
 	std::vector<Light_ORI> m_lights;
 	LightManager ( ) {
@@ -46,9 +47,9 @@ public:
 	void GetLightSetting ( const Program* programs );
 	void UpdateShadowMapping ( const Program* program );
 
-	void Initialize (Program* program ) {
+	void Initialize (Program* program, Program* program2 ) {
 		m_simpleProgram = program;
-
+		m_simpleAnimationProgram = program2;
 		UBOLight = UBOBUFFER_LIGHT::Create ( MAXLIGHTNUM );
 
 	}

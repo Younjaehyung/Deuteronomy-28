@@ -11,13 +11,15 @@ public:
 	Camera* camera;
 	
 	Player ( ){
-		
+		typeID = 1;
 
 	}
 
 	virtual void Update ( );
+
 	virtual void Status_Machine ( );
 	virtual void Render ( const Program* program );
+	virtual void RenderShadow ( glm::mat4 lightView , const Program* program );
 	virtual glm::vec3& GetPos ( ) {
 		return Pos;
 	}

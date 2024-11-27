@@ -227,6 +227,8 @@
     <None Include="Shader\lighting_shadow.vs" />
     <None Include="Shader\simple.fs" />
     <None Include="Shader\simple.vs" />
+    <None Include="Shader\simple_animation.fs" />
+    <None Include="Shader\simple_animation.vs" />
     <None Include="Shader\skybox.fs" />
     <None Include="Shader\texture.fs" />
     <None Include="Shader\texture.vs" />

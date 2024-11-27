@@ -24,8 +24,8 @@ out VS_OUT {
 
 uniform mat4 transform;
 uniform mat4 modelTransform;
-uniform mat4 lightTransforms[MAX_LIGHTS];  // MAX_LIGHTS는 최대 빛의 개수
-
+uniform mat4 lightTransform[MAX_LIGHTS];  // MAX_LIGHTS는 최대 빛의 개수
+uniform int numLights;  // 활성화된 라이트 수
 
 void main()
 {
@@ -48,7 +48,7 @@ void main()
 	vs_out.fragPos = vec3(modelTransform * vec4(aPos, 1.0));
 	vs_out.normal = transpose(inverse(mat3(modelTransform))) * aNormal;
 	vs_out.texCoord = aTexCoord;
-	for(int i = 0; i < MAX_LIGHTS; i++) {
-        vs_out.fragPosLight[i] = lightTransforms[i] * vec4(vs_out.fragPos, 1.0);
+	for(int i = 0; i < numLights; i++) {
+        vs_out.fragPosLight[i] = lightTransform[i] * vec4(vs_out.fragPos, 1.0);
     }
 }

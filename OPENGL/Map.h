@@ -18,7 +18,7 @@ public:
 	Animator* animator;
 	ProgramUPtr _shader;
 	Map ( ) {
-
+		typeID = 0;
 
 	}
 

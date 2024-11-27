@@ -99,69 +99,29 @@ void Context::Render ( ) {
     
     glm::vec3 CameraPos ( CameraManager::getInstance ( ).GetCameraPos ( ) );
     m_lightingShadowProgram->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    //m_lightingShadowProgram->SetUniform ( "light.position" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    //m_lightingShadowProgram->SetUniform ( "light.direction" , CameraManager::getInstance ( ).GetCameraFront());
-    //m_lightingShadowProgram->SetUniform ( "light.cutoff" , glm::vec2 (
-       // cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
-      //  cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) ) );
-    //m_lightingShadowProgram->SetUniform ( "light.attenuation" , GetAttenuationCoeff ( m_light.distance ) );
-    //m_lightingShadowProgram->SetUniform ( "light.ambient" , m_light.ambient );
-    //m_lightingShadowProgram->SetUniform ( "light.diffuse" , m_light.diffuse );
-    //m_lightingShadowProgram->SetUniform ( "light.specular" , m_light.specular );
-    m_lightingShadowProgram->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
-    //m_lightingShadowProgram->SetUniform ( "light.directional" ,m_light.directional ? 1 : 0 );
-    //m_lightingShadowProgram->SetUniform ( "lightTransform" , CameraManager::getInstance().Camera_transform () );
     m_lightingShadowProgram->SetUniform ( "modelTransform" , glm::mat4(1.0f) );
     m_lightingShadowProgram->SetUniform ( "transform" , Camera_Transform );
-    m_lightingShadowProgram->SetUniform ( "numLights" , LightManager::getInstance ( ).GetLightNum ( ) );
-    //m_lightingShadowProgram->SetUniform ( "lightTransform[0]" , LightManager::getInstance ( ).GetLightTransform ( 0 ) );
+    m_lightingShadowProgram->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
     LightManager::getInstance().UpdateShadowMapping ( m_lightingShadowProgram.get() );
 
     map->Render ( m_lightingShadowProgram.get ( ) );
 
-    //auto lightModelTransform =// m_light.position
-    //    glm::translate ( glm::mat4 ( 1.0 ) , glm::vec3 ( 0.0f , 0.0f , 0.0f ) ) *
-    //    glm::scale ( glm::mat4 ( 1.0 ) , glm::vec3 ( 1.0f ) );
-    //m_simpleProgram->Use ( );
-
-    //m_simpleProgram->SetUniform ( "color" , glm::vec4 ( m_light.ambient + m_light.diffuse , 1.0f ) );
-    //m_simpleProgram->SetUniform ( "transform" , Camera_Transform * lightTransform * glm::scale ( glm::mat4 ( 1.0 ) , glm::vec3 ( 10.0f ) ));
-    //m_box->Draw ( m_simpleProgram.get ( ) );
 
     //m_material->SetToProgram ( m_program.get ( ) );
     //m_animationProgram
     
-    //m_animationProgram->Use ( );
+    m_animationProgram->Use ( );
     //손전등
-    //m_animationProgram->SetUniform ( "viewPos" , CameraManager::getInstance().GetCameraPos() );
-    //m_animationProgram->SetUniform ( "light.position" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    //m_animationProgram->SetUniform ( "light.direction" , CameraManager::getInstance ( ).GetCameraFront() );
-    //m_animationProgram->SetUniform ( "light.cutoff" , glm::vec2 (
-    //    cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
-    //    cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) ) );
-    //m_animationProgram->SetUniform ( "light.attenuation" , GetAttenuationCoeff ( m_light.distance ) );
-    //m_animationProgram->SetUniform ( "light.ambient" , m_light.ambient );
-    //m_animationProgram->SetUniform ( "light.diffuse" , m_light.diffuse );
-    //m_animationProgram->SetUniform ( "light.specular" , m_light.specular );
-
-    //glm::vec3 CameraPos ( CameraManager::getInstance ( ).GetCameraPos ( ) );
-    //m_animationProgram->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    //m_animationProgram->SetUniform ( "numLights" , LightManager::getInstance ( ).GetLightNum ( ) );
-    //m_animationProgram->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
-    //m_animationProgram->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
-    ////m_animationProgram->SetUniform ( "transform" , Camera_Transform );
-    //for ( int i = 0; i < LightManager::getInstance ( ).GetLightNum(); i++ ) {
-    //    glm::mat4 lightTransform = LightManager::getInstance ( ).GetLightTransform ( i ); // 라이트의 lightSpaceMatrix 계산
-    //    m_lightingShadowProgram->SetUniform ( "lightTransform[" + std::to_string ( i ) + "]" , lightTransform );
-    //    std::cout<< "lightTransform[" + std::to_string ( i ) + "]" <<std::endl;
-    //    glActiveTexture ( GL_TEXTURE0 + i );
-    //    LightManager::getInstance ( ).GetShadowMap ( i )->Bind ( );
-    //    m_lightingShadowProgram->SetUniform ( "shadowMap[" + std::to_string ( i ) + "]" , i );  // 각 라이트의 그림자 맵 바인딩
-    //}
+    m_animationProgram->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
+    m_animationProgram->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
+    m_animationProgram->SetUniform ( "transform" , Camera_Transform );
+    m_animationProgram->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
 
 
-    //object1->Render_2pass ( m_animationProgram.get ( ) );
-    //player->Render ( m_animationProgram.get ( ) );
+    LightManager::getInstance ( ).UpdateShadowMapping ( m_animationProgram.get ( ) );
+
+    object1->Render_2pass ( m_animationProgram.get ( ) );
+    player->Render ( m_animationProgram.get ( ) );
 
    
 
@@ -359,6 +319,14 @@ bool Context::Init ( )
 
     }
 
+    m_simpleAnimationProgram = Program::Create ( "./shader/simple_animation.vs" , "./shader/simple_animation.fs" );
+    if ( !m_simpleAnimationProgram ) {
+        std::cerr << "program UserSetError id : " << m_simpleAnimationProgram->Get ( ) << std::endl;
+        return false;
+
+
+    }
+
     m_shadowMap = ShadowMap::Create ( 2048 , 2048 );
 
 
@@ -389,7 +357,7 @@ bool Context::Init ( )
 
     CameraManager::getInstance ( ).SetCamera ( player->camera );
 
-    LightManager::getInstance ( ).Initialize ( m_simpleProgram.get ( ) );
+    LightManager::getInstance ( ).Initialize ( m_simpleProgram.get ( ), m_simpleAnimationProgram.get() );
     LightManager::getInstance ( ).SetLight ( glm::vec3 ( 2.0f , 4.0f , -1.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
 
 

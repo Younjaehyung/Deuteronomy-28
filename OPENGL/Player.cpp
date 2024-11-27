@@ -67,6 +67,8 @@ void Player::Status_Machine ( )
 
 }
 
+
+
 void Player::Render ( const Program* program )
 {
 	
@@ -108,6 +110,19 @@ void Player::Render ( const Program* program )
 	model->Draw ( program  );
 }
 
+void Player::RenderShadow ( glm::mat4 lightView , const Program* program )
+{
+
+	program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( Pos.x , Pos.y , Pos.z ) )
+	* camera->GetYaw ( )
+	* glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 0.0f ) , glm::vec3 ( 0.0 , 1.0 , 0.0 ) ) );
+
+	program->SetUniform ( "transform" , lightView
+		* glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( Pos.x , Pos.y , Pos.z ) ) * camera->GetYaw ( )
+		* glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 0.0f ) , glm::vec3 ( 0.0 , 1.0 , 0.0 ) ) );
+
+	model->Draw ( program );
+}
 
 
 

@@ -4,6 +4,7 @@
 
 void character::Update ( )
 {
+	animator->UpdateAnimation ( Time::DeltaTime ( ) );
 	//Algorithm ( );
 	/*Dir2 = camera->GetFront ( );
 	Dir = camera->GetDir ( );*/
@@ -26,7 +27,7 @@ void character::Render_2pass ( const Program* program )
 void character::Render ( const Program* program )
 {
 
-	animator->UpdateAnimation ( Time::DeltaTime ( ) );
+	
 	const auto& transforms = animator->GetFinalBoneMatrices ( );
 	//
 	//for ( int i = 0; i < transforms.size ( ); i++ )
@@ -72,6 +73,9 @@ void character::Initialize ( const std::string& strName )
 
 void character::RenderShadow ( glm::mat4 lightView , const Program* program )
 {
+	const auto& transforms = animator->GetFinalBoneMatrices ( );
+	UBO->Bind ( program->Get ( ) , "Bones" );
+	UBO->UpdateBoneMatrices ( transforms );
 	program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos ) * glm::mat4_cast ( quaternion ) );
 	program->SetUniform ( "transform" , lightView * glm::translate ( glm::mat4 ( 1.0f ) , Pos ) * glm::mat4_cast ( quaternion ) );
 

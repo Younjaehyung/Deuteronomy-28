@@ -346,5 +346,11 @@
     <None Include="Shader\lighting_shadow.vs">
       <Filter>shader</Filter>
     </None>
+    <None Include="Shader\simple_animation.fs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="Shader\simple_animation.vs">
+      <Filter>shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -7,7 +7,7 @@ class Object {
 
 public:
 	std::string name;
-
+	int typeID = 0;
 	glm::vec3 Pos{ 0.0f,0.0f,0.0f };
 	glm::vec3 Size{ 0.0f,0.0f,0.0f };
 	glm::mat4 Dir{ glm::mat4(1.0f) };

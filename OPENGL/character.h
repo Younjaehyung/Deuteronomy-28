@@ -17,7 +17,7 @@ public:
 	UBOBUFFERUPtr UBO;
 
 	character ( ) {
-
+		typeID = 1;
 
 	}
 

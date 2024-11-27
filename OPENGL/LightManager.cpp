@@ -12,15 +12,24 @@ void LightManager::UpdateShadowMaps ( const std::vector<Object*>& sceneObjects )
 		light->m_shadowMap->GetShadowMap ( )->GetWidth ( ) ,
 		light->m_shadowMap->GetShadowMap ( )->GetHeight ( ) );
 		glClear ( GL_DEPTH_BUFFER_BIT );
-		m_simpleProgram->Use ( );
-
-		m_simpleProgram->SetUniform ( "color" , glm::vec4 ( 1.0f , 1.0f , 1.0f , 1.0f ) );
 
 
 		std::cout <<"AAA" << sizeof ( glm::vec3 ) << std::endl;
 		// 모든 오브젝트를 쉐도우맵에 렌더링
 		for ( auto* object : sceneObjects ) {
-			object->RenderShadow ( light->lightProjection * light->lightView, m_simpleProgram );
+			if ( object->typeID == 0 ) {
+				m_simpleProgram->Use ( );
+
+				m_simpleProgram->SetUniform ( "color" , glm::vec4 ( 1.0f , 1.0f , 1.0f , 1.0f ) );
+				object->RenderShadow ( light->lightProjection * light->lightView , m_simpleProgram );
+			}
+			else if ( object->typeID == 1 ) {
+				m_simpleAnimationProgram->Use ( );
+
+				m_simpleAnimationProgram->SetUniform ( "color" , glm::vec4 ( 1.0f , 1.0f , 1.0f , 1.0f ) );
+				object->RenderShadow ( light->lightProjection * light->lightView , m_simpleAnimationProgram );
+			}
+		
 		}
 
 		Framebuffer::BindToDefault ( );
@@ -62,6 +71,8 @@ void LightManager::GetLightSetting ( const Program* programs ) {
 
 void LightManager::UpdateShadowMapping (const Program* program )
 {
+
+	program->SetUniform ( "numLights" , LightNum );
 	for ( int i = 0; i < LightNum; i++ ) {
 		std::string base = "lightTransform[" + std::to_string ( i ) + "]";
 
