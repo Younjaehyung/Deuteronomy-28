@@ -28,5 +28,7 @@ void main() {
 
     for(int i = 0; i < numLights; i++) {
         vs_out.fragPosLight[i] = lightTransform[i] * vec4(vs_out.fragPos, 1.0);
+
+    
     }
 }

@@ -88,14 +88,15 @@ void Context::Render ( ) {
     glViewport ( 0 , 0 , m_width , m_height );
 
     //m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
-    
+    glDisable ( GL_CULL_FACE );
+
     glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT ); //GL_DEPTH_BUFFER_BIT : DEPTH Buffer clear 세팅
     //CollisionManager::getInstance ( ).Render ( );   //맵 그리드
 
     //손전등
     //m_assimp_Program->Use ( );
     m_lightingShadowProgram->Use ( );
-
+    
     glm::vec3 CameraPos ( CameraManager::getInstance ( ).GetCameraPos ( ) );
     m_lightingShadowProgram->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
     //m_lightingShadowProgram->SetUniform ( "light.position" , CameraManager::getInstance ( ).GetCameraPos ( ) );
@@ -113,18 +114,39 @@ void Context::Render ( ) {
     m_lightingShadowProgram->SetUniform ( "modelTransform" , glm::mat4(1.0f) );
     m_lightingShadowProgram->SetUniform ( "transform" , Camera_Transform );
     m_lightingShadowProgram->SetUniform ( "numLights" , LightManager::getInstance ( ).GetLightNum ( ) );
-
+    glm::mat4  lightTransform;
     for ( int i = 0; i < LightManager::getInstance ( ).GetLightNum ( ); i++ ) {
-        glm::mat4 lightTransform = LightManager::getInstance().GetLightTransform(i); // 라이트의 lightSpaceMatrix 계산
-        m_lightingShadowProgram->SetUniform ( "lightTransform[" + std::to_string ( i ) + "]" , lightTransform );
-        std::cout << i << std::endl;
-        glActiveTexture ( GL_TEXTURE0 + i );
+        std::string base = "lightTransform[" + std::to_string ( i ) + "]";
+
+        lightTransform = LightManager::getInstance().GetLightTransform(i); // 라이트의 lightSpaceMatrix 계산
+
+        glUniform4fv ( glGetUniformLocation ( m_lightingShadowProgram->Get() , ( base).c_str ( ) ) , 1 , glm::value_ptr ( lightTransform ) );
+
+        
+
+
+        glActiveTexture ( GL_TEXTURE0 +5+i);
+        base = "shadowMaps[" + std::to_string ( i ) + "]";
         LightManager::getInstance ( ).GetShadowMap ( i )->GetShadowMap ( )->Bind ( );
-        m_lightingShadowProgram->SetUniform ( "shadowMap[" + std::to_string ( i ) + "]" , i );  // 각 라이트의 그림자 맵 바인딩
+      // m_lightingShadowProgram->SetUniform ( "shadowMap[" + std::to_string ( i ) + "]" , 3+i );  // 각 라이트의 그림자 맵 바인딩
+       glUniform1i ( glGetUniformLocation ( m_lightingShadowProgram->Get ( ) , ( base ).c_str ( ) ) ,  5+i );
+
+       std::cout << glGetUniformLocation ( m_lightingShadowProgram->Get ( ) , ( base ).c_str ( ) ) << std::endl;
+
     }
-    //glActiveTexture ( GL_TEXTURE0 );
+   
+    glActiveTexture ( GL_TEXTURE0 );
 
     map->Render ( m_lightingShadowProgram.get ( ) );
+
+    //auto lightModelTransform =// m_light.position
+    //    glm::translate ( glm::mat4 ( 1.0 ) , glm::vec3 ( 0.0f , 0.0f , 0.0f ) ) *
+    //    glm::scale ( glm::mat4 ( 1.0 ) , glm::vec3 ( 1.0f ) );
+    //m_simpleProgram->Use ( );
+
+    //m_simpleProgram->SetUniform ( "color" , glm::vec4 ( m_light.ambient + m_light.diffuse , 1.0f ) );
+    //m_simpleProgram->SetUniform ( "transform" , Camera_Transform * lightTransform * glm::scale ( glm::mat4 ( 1.0 ) , glm::vec3 ( 10.0f ) ));
+    //m_box->Draw ( m_simpleProgram.get ( ) );
 
     //m_material->SetToProgram ( m_program.get ( ) );
     //m_animationProgram
@@ -388,12 +410,12 @@ bool Context::Init ( )
     CameraManager::getInstance ( ).SetCamera ( player->camera );
 
     LightManager::getInstance ( ).Initialize ( m_simpleProgram.get ( ) );
-    LightManager::getInstance ( ).SetLight ( glm::vec3 ( -1.0f , 2.0f , 0.0f ) , glm::vec3 ( 2.5f , -1.5f , -1.0f ) , glm::vec2 ( 20.0f , 5.0f ) );
+    LightManager::getInstance ( ).SetLight ( glm::vec3 ( 0.0f , 4.0f , -1.0f ) , glm::vec3 ( 10.0f , 0.0f , -1.0f ) , glm::vec2 ( 20.0f , 5.0f ) );
 
 
-    obj.push_back ( object1 );
+    //obj.push_back ( object1 );
     obj.push_back ( map );
-    obj.push_back ( player );
+    //obj.push_back ( player );
 
     glDisable ( GL_STENCIL_TEST );
     glClearColor ( 1.0f , 1.0f , 1.0f , 1.0f );

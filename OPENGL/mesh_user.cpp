@@ -30,6 +30,7 @@ void Mesh::Init ( const std::vector<Vertex>& vertices ,const std::vector<uint32_
 void Mesh::Draw ( const Program* program ) const {
     m_vertexLayout->Bind ( );
     if ( m_material ) {
+       
         m_material->SetToProgram ( program );
     }
     glDrawElements ( m_primitiveType , m_indexBuffer->GetCount ( ) , GL_UNSIGNED_INT , 0 );

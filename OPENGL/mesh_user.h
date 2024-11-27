@@ -61,7 +61,7 @@ struct LightD {
 };
 
 struct Light_ORI {
-    bool directional{ false };
+    int directional = 0 ;
 
     glm::vec3 position{ glm::vec3 ( 3.0f, 3.0f, 3.0f ) }; //광원의 위치
     glm::vec3 direction{ glm::vec3 ( -0.2f, -1.0f, -0.3f ) };	//Directional Light
@@ -203,8 +203,8 @@ class UBOBUFFER_LIGHT {
 public:
 
 
-    void Bind ( GLuint program , const std::string& name ) {
-        GLuint blockIndex = glGetUniformBlockIndex ( program , name.c_str ( ) );
+    void Bind ( uint32_t program , const std::string& name ) {
+        uint32_t blockIndex = glGetUniformBlockIndex ( program , name.c_str ( ) );
         glUniformBlockBinding ( program , blockIndex , 0 );
         glBindBufferBase ( GL_UNIFORM_BUFFER , 0 , ubo_bufferID );
     }
@@ -212,6 +212,7 @@ public:
     void UpdateData ( const std::vector<Light_ORI>& lightData ) {
         glBindBuffer ( GL_UNIFORM_BUFFER , ubo_bufferID );
         glBufferSubData ( GL_UNIFORM_BUFFER , 0 , sizeof ( Light_ORI ) * lightData.size ( ) , lightData.data ( ) );
+        //std::cout << "DATA :" << lightData.size ( ) << std::endl;
         glBindBuffer ( GL_UNIFORM_BUFFER , 0 );
     }
 
@@ -232,5 +233,5 @@ private:
     }
     UBOBUFFER_LIGHT ( ) {}
 
-    uint32_t ubo_bufferID;
+    uint32_t ubo_bufferID{ 0 };
 };

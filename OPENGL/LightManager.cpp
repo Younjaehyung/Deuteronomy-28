@@ -17,7 +17,7 @@ void LightManager::UpdateShadowMaps ( const std::vector<Object*>& sceneObjects )
 		m_simpleProgram->SetUniform ( "color" , glm::vec4 ( 1.0f , 1.0f , 1.0f , 1.0f ) );
 
 
-
+		std::cout <<"AAA" << sizeof ( glm::vec3 ) << std::endl;
 		// 모든 오브젝트를 쉐도우맵에 렌더링
 		for ( auto* object : sceneObjects ) {
 			object->RenderShadow ( light->lightProjection * light->lightView, m_simpleProgram );

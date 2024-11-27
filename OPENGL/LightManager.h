@@ -30,7 +30,7 @@ class LightManager
 	const int MAXLIGHTNUM =20;
 	int LightNum = 0;
 	UBOBUFFER_LIGHTPtr UBOLight;
-	Program* m_simpleProgram;
+	Program* m_simpleProgram =nullptr;
 	std::vector<LightMass*> lightMass;
 	std::vector<Light_ORI> m_lights;
 	LightManager ( ) {
@@ -68,32 +68,55 @@ public:
 		return UBOLight;
 	}
 
-	void GetLightSetting (const Program* program ) {
+	void GetLightSetting (const Program* programs ) {
+		
+		//UBOLight->Bind ( programs->Get ( ) , "Dlights" );
+		//UBOLight->UpdateData ( m_lights );
+		uint32_t program = programs->Get ( );
 
-		UBOLight->Bind ( program->Get ( ) , "_lights" );
-		UBOLight->UpdateData ( m_lights );
+		std::cerr << m_lights[ 0 ].direction[ 0 ] << std::endl;
+		std::cerr << m_lights[ 0 ].direction[ 1 ] << std::endl;
+		std::cerr << m_lights[ 0 ].direction [2 ] << std::endl;
+		std::cerr << "m_lights[ 0 ].position[ 0 ]" << std::endl;
+
+		glUniform1i ( glGetUniformLocation ( program , "numLights" ) , LightNum );
+
+		for ( int i = 0; i < LightNum; ++i ) {
+			std::string base = "lights[" + std::to_string ( i ) + "].";
+
+			glUniform1i ( glGetUniformLocation ( program , ( base + "directional" ).c_str ( ) ) , m_lights[ i ].directional );
+			glUniform3fv ( glGetUniformLocation ( program , ( base + "position" ).c_str ( ) ) , 1 , glm::value_ptr ( m_lights[ i ].position ) );
+			glUniform3fv ( glGetUniformLocation ( program , ( base + "direction" ).c_str ( ) ) , 1 , glm::value_ptr ( m_lights[ i ].direction ) );
+			glUniform2fv ( glGetUniformLocation ( program , ( base + "cutoff" ).c_str ( ) ) , 1 , glm::value_ptr ( m_lights[ i ].cutoff ) );
+			glUniform3fv ( glGetUniformLocation ( program , ( base + "attenuation" ).c_str ( ) ) , 1 , glm::value_ptr ( m_lights[ i ].attenuation ) );
+			glUniform3fv ( glGetUniformLocation ( program , ( base + "ambient" ).c_str ( ) ) , 1 , glm::value_ptr ( m_lights[ i ].ambient ) );
+			glUniform3fv ( glGetUniformLocation ( program , ( base + "diffuse" ).c_str ( ) ) , 1 , glm::value_ptr ( m_lights[ i ].diffuse ) );
+			glUniform3fv ( glGetUniformLocation ( program , ( base + "specular" ).c_str ( ) ) , 1 , glm::value_ptr ( m_lights[ i ].specular ) );
+		}
 
 	}
 
 
-	void SetLight ( glm::vec3 pos , glm::vec3 dir , glm::vec2 cutoff , glm::vec3 color =glm::vec3(1.0f) , float distance = 232.f ) {
+	void SetLight ( glm::vec3 pos , glm::vec3 dir , glm::vec2 cutoff ) {
 		LightMass* lighting = new LightMass;
 		lighting->lightView= glm::lookAt ( pos ,pos + dir ,glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
-
+		lighting->lightData.directional = 0;
 		lighting->lightProjection = glm::perspective (
 	  glm::radians ( ( cutoff[ 0 ] + cutoff[ 1 ] ) * 2.0f ) ,1.0f , 1.0f , 20.0f );
 		lighting->lightData.position = pos;
 		lighting->lightData.direction = dir;
-		lighting->lightData.cutoff = cutoff;
-		
-		lighting->lightData.attenuation = GetAttenuationCoeff ( distance );
-		lighting->lightData.ambient = glm::vec3 ( 0.0f , 0.0f , 0.0f );
-		lighting->lightData.diffuse = color;
+		lighting->lightData.cutoff = glm::vec2 (
+		cosf ( glm::radians (cutoff[ 0 ])  ) ,cosf ( glm::radians (cutoff[ 0 ] +cutoff[ 1 ]))  );
+
+		lighting->lightData.attenuation = GetAttenuationCoeff ( 100.0f );
+		lighting->lightData.ambient = glm::vec3 ( 1.0f , 1.0f , 1.0f );
+		lighting->lightData.diffuse = glm::vec3 ( 1.0f );
 		lighting->lightData.specular = glm::vec3 ( 1.0f , 1.0f , 1.0f );
 
 		m_lights.push_back ( lighting->lightData );
 		lightMass.push_back ( lighting );
 		LightNum = m_lights.size ( );
+
 	}
 
 };

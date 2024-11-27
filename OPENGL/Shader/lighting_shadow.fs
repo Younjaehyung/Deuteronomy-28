@@ -23,9 +23,9 @@ struct Light {
     vec3 specular;
 };
 
-layout (std140) uniform _lights { 
-    Light lights[MAX_lights]; // UBO로부터 여러 라이트 정보
-};
+
+uniform Light lights[MAX_lights]; // UBO로부터 여러 라이트 정보
+
 
 uniform vec3 viewPos;
 uniform int blinn;
@@ -44,7 +44,7 @@ float ShadowCalculation(vec4 fragPosLight, sampler2D shadowMap, vec3 normal, vec
     vec3 projCoords = fragPosLight.xyz / fragPosLight.w;
     projCoords = projCoords * 0.5 + 0.5; // [0, 1] 범위로 변환
 
-    if (projCoords.z > 1.0) return 0.0; // 빛의 사각형 밖
+    //if (projCoords.z > 1.0) return 0.0; // 빛의 사각형 밖
 
     float closestDepth = texture(shadowMap, projCoords.xy).r;
     float currentDepth = projCoords.z;
@@ -63,12 +63,19 @@ float ShadowCalculation(vec4 fragPosLight, sampler2D shadowMap, vec3 normal, vec
 }
 
 void main() {
+ vec3 result = vec3(0.0);
     vec3 texColor = texture(material.diffuse, fs_in.texCoord).rgb;
-    vec3 result = vec3(0.0);
+    
+
+    // 기본 색상 (예: 빨강)으로 설정하여 텍스처 로딩 문제 확인
+   
+ 
 
     for (int i = 0; i < numLights; ++i) {
         Light light = lights[i];
         vec3 ambient = texColor * light.ambient;
+        
+  
 
         vec3 lightDir;
         float attenuation = 1.0;
@@ -106,11 +113,15 @@ void main() {
             }
             vec3 specular = spec * specColor * light.specular;
 
-            float shadow = ShadowCalculation(fs_in.fragPosLight[i], shadowMaps[i], pixelNorm, lightDir);
+
+
+           float shadow = ShadowCalculation(fs_in.fragPosLight[i], shadowMaps[i], pixelNorm, lightDir);
             result += (ambient + (diffuse + specular) * intensity * (1.0 - shadow)) * attenuation;
+    
+            
         }
     }
-    result = vec3(result.x/numLights,result.y/numLights,result.z/numLights);
-    
+    //result = vec3(result.x/numLights,result.y/numLights,result.z/numLights);
+    //fragColor = vec4(texture(shadowMaps[0], fragCoord.xy).rrr, 1.0);
     fragColor = vec4(result, 1.0);
 }
