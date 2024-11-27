@@ -114,30 +114,25 @@ void Context::Render ( ) {
     m_lightingShadowProgram->SetUniform ( "modelTransform" , glm::mat4(1.0f) );
     m_lightingShadowProgram->SetUniform ( "transform" , Camera_Transform );
     m_lightingShadowProgram->SetUniform ( "numLights" , LightManager::getInstance ( ).GetLightNum ( ) );
-    m_lightingShadowProgram->SetUniform ( "lightTransform[0]" , LightManager::getInstance ( ).GetLightTransform ( 0 ) );
-    glActiveTexture ( GL_TEXTURE0 +3 );
-    LightManager::getInstance ( ).GetShadowMap ( 0 )->GetShadowMap ( )->Bind ( );
-    m_lightingShadowProgram->SetUniform ( "shadowMaps[0]" , 3 );
-    //glm::mat4  lightTransform;
-    //for ( int i = 0; i < LightManager::getInstance ( ).GetLightNum ( ); i++ ) {
-    //    std::string base = "lightTransform[" + std::to_string ( i ) + "]";
+    //m_lightingShadowProgram->SetUniform ( "lightTransform[0]" , LightManager::getInstance ( ).GetLightTransform ( 0 ) );
 
-    //    lightTransform = LightManager::getInstance().GetLightTransform(i); // 라이트의 lightSpaceMatrix 계산
+    for ( int i = 0; i < LightManager::getInstance ( ).GetLightNum ( ); i++ ) {
+        std::string base = "lightTransform[" + std::to_string ( i ) + "]";
 
-    //    glUniform4fv ( glGetUniformLocation ( m_lightingShadowProgram->Get() , ( base).c_str ( ) ) , 1 , glm::value_ptr ( lightTransform ) );
+        auto lightTransform = LightManager::getInstance().GetLightTransform(i); // 라이트의 lightSpaceMatrix 계산
 
-    //    
+        glUniformMatrix4fv ( glGetUniformLocation ( m_lightingShadowProgram->Get() , ( base).c_str ( ) ) , 1 , GL_FALSE, glm::value_ptr ( lightTransform ) );
 
+  
+        glActiveTexture ( GL_TEXTURE0 +5+i);
+        base = "shadowMaps[" + std::to_string ( i ) + "]";
+        LightManager::getInstance ( ).GetShadowMap ( i )->GetShadowMap ( )->Bind ( );
+      // m_lightingShadowProgram->SetUniform ( "shadowMap[" + std::to_string ( i ) + "]" , 3+i );  // 각 라이트의 그림자 맵 바인딩
+       glUniform1i ( glGetUniformLocation ( m_lightingShadowProgram->Get ( ) , ( base ).c_str ( ) ) ,  5+i );
 
-    //    glActiveTexture ( GL_TEXTURE0 +5+i);
-    //    base = "shadowMaps[" + std::to_string ( i ) + "]";
-    //    LightManager::getInstance ( ).GetShadowMap ( i )->GetShadowMap ( )->Bind ( );
-    //  // m_lightingShadowProgram->SetUniform ( "shadowMap[" + std::to_string ( i ) + "]" , 3+i );  // 각 라이트의 그림자 맵 바인딩
-    //   glUniform1i ( glGetUniformLocation ( m_lightingShadowProgram->Get ( ) , ( base ).c_str ( ) ) ,  5+i );
+       std::cout << glGetUniformLocation ( m_lightingShadowProgram->Get ( ) , ( base ).c_str ( ) ) << std::endl;
 
-    //   std::cout << glGetUniformLocation ( m_lightingShadowProgram->Get ( ) , ( base ).c_str ( ) ) << std::endl;
-
-    //}
+    }
    
     glActiveTexture ( GL_TEXTURE0 );
 
