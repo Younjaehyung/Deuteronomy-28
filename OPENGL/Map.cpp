@@ -66,6 +66,6 @@ void Map::RenderShadow ( glm::mat4 lightView , const Program* program )
 {
     program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos )  );
     program->SetUniform ( "transform" , lightView * glm::translate ( glm::mat4 ( 1.0f ) , Pos ));
-    std::cout << "model" << std::endl;
+    //std::cout << "model" << std::endl;
     m_model->Draw ( program );
 }

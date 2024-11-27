@@ -7,6 +7,7 @@
 
 void Player::Update ( )
 {
+	animator->UpdateAnimation ( Time::DeltaTime ( ) );
 	Status_Machine ( );
 	Path_now ( );
 
@@ -90,7 +91,7 @@ void Player::Render ( const Program* program )
 	//_shader->SetUniform ( "modelTransform" , modelTransform );
 	//_shader->SetUniform ( "transform" , transform );
 
-	animator->UpdateAnimation ( Time::DeltaTime ( ) );
+	
 	const auto& transforms = animator->GetFinalBoneMatrices ( );
 
 	program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3(Pos.x,Pos.y,Pos.z) )
@@ -112,6 +113,9 @@ void Player::Render ( const Program* program )
 
 void Player::RenderShadow ( glm::mat4 lightView , const Program* program )
 {
+	const auto& transforms = animator->GetFinalBoneMatrices ( );
+	UBO->Bind ( program->Get ( ) , "Bones" );
+	UBO->UpdateBoneMatrices ( transforms );
 
 	program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( Pos.x , Pos.y , Pos.z ) )
 	* camera->GetYaw ( )

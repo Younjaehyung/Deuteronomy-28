@@ -47,8 +47,8 @@ public:
 
 
 
-		std::cout << "path_now_x : " << path_now_x << std::endl;
-		std::cout << "path_now_z : " << path_now_z << std::endl;
+		//std::cout << "path_now_x : " << path_now_x << std::endl;
+		//std::cout << "path_now_z : " << path_now_z << std::endl;
 		//std::cout <<"iint pos"<< int ( Pos.x ) << std::endl;
 	}
 private:

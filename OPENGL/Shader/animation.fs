@@ -41,7 +41,7 @@ float ShadowCalculation(vec4 fragPosLight, sampler2D shadowMap, vec3 normal, vec
     vec3 projCoords = fragPosLight.xyz / fragPosLight.w;
     projCoords = projCoords * 0.5 + 0.5; // [0, 1] 범위로 변환
 
-    if (projCoords.z > 1.0) return 0.0; // 빛의 사각형 밖
+    //if (projCoords.z > 1.0) return 0.0; // 빛의 사각형 밖
 
     float closestDepth = texture(shadowMap, projCoords.xy).r;
     float currentDepth = projCoords.z;
@@ -79,10 +79,10 @@ void main() {
             attenuation = 1.0 / dot(distPoly, light.attenuation);
             lightDir = (light.position - fs_in.fragPos) / dist;
 
-            if (light.cutoff[0] > 0.0) {
+            //if (light.cutoff[0] > 0.0) {
                 float theta = dot(lightDir, normalize(-light.direction));
                 intensity = clamp((theta - light.cutoff[1]) / (light.cutoff[0] - light.cutoff[1]), 0.0, 1.0);
-            }
+           // }
         }
 
         if (intensity > 0.0) {

@@ -1,4 +1,6 @@
 ﻿#include "LightManager.h"
+#include "CameraManager.h"
+#include "Player.h"
 void LightManager::UpdateShadowMaps ( const std::vector<Object*>& sceneObjects ) {
 
 	glClear ( GL_DEPTH_BUFFER_BIT );
@@ -14,7 +16,6 @@ void LightManager::UpdateShadowMaps ( const std::vector<Object*>& sceneObjects )
 		glClear ( GL_DEPTH_BUFFER_BIT );
 
 
-		std::cout <<"AAA" << sizeof ( glm::vec3 ) << std::endl;
 		// 모든 오브젝트를 쉐도우맵에 렌더링
 		for ( auto* object : sceneObjects ) {
 			if ( object->typeID == 0 ) {
@@ -87,9 +88,82 @@ void LightManager::UpdateShadowMapping (const Program* program )
 		// m_lightingShadowProgram->SetUniform ( "shadowMap[" + std::to_string ( i ) + "]" , 3+i );  // 각 라이트의 그림자 맵 바인딩
 		glUniform1i ( glGetUniformLocation ( program->Get ( ) , ( base ).c_str ( ) ) , 5 + i );
 
-		std::cout << glGetUniformLocation ( program->Get ( ) , ( base ).c_str ( ) ) << std::endl;
-
 	}
 
 	glActiveTexture ( GL_TEXTURE0 );
+}
+
+void LightManager::SetFlashLight ( Player* player ) {
+	LightMass* lighting = new LightMass;
+
+
+	lighting->lightData.directional = 0;
+
+	lighting->lightData.cutoff = glm::vec2 (
+	cosf ( glm::radians ( 20.0f )) , cosf ( glm::radians ( 25.0f ) ) );
+
+	lighting->lightData.attenuation = GetAttenuationCoeff ( 100.0f );
+	lighting->lightData.ambient = glm::vec3 ( 0.0f , 0.0f , 0.0f );
+	lighting->lightData.diffuse = glm::vec3 ( 1.0f );
+	lighting->lightData.specular = glm::vec3 ( 1.0f , 1.0f , 1.0f );
+
+	lighting->lightView = player->camera->GetView ( );
+	lighting->lightProjection = player->camera->GetProjection ( );
+
+	
+	lighting->lightData.position = player->camera->GetPos ( );
+
+	lighting->lightData.direction = player->camera->GetCameraFront ( );
+
+
+	m_lights.push_back ( lighting->lightData );
+	lightMass.push_back ( lighting );
+	LightNum = m_lights.size ( );
+}
+
+void LightManager::UpdateFlashLight ( Player* player ) {
+
+
+	lightMass[ 0 ]->lightView = player->camera->GetView ( );
+	lightMass[ 0 ]->lightProjection = player->camera->GetProjection ( );
+
+	std::cout << LightNum << std::endl;
+	glm::vec3 pos = player->GetPos ( );
+	lightMass[ 0 ]->lightData.position = player->camera->GetPos ( );
+	std::cout<< lightMass[ 0 ]->lightData.position.x<<std::endl;
+	lightMass[ 0 ]->lightData.direction = player->camera->GetCameraFront ( );
+
+	m_lights[0].position = player->camera->GetPos ( );
+	m_lights[ 0 ].direction = player->camera->GetCameraFront ( );
+	/*lightMass[0]->lightData.cutoff = glm::vec2 (
+	cosf ( glm::radians ( cutoff[ 0 ] ) ) , cosf ( glm::radians ( cutoff[ 0 ] + cutoff[ 1 ] ) ) );
+
+	lightMass[ 0 ]->lightData.attenuation = GetAttenuationCoeff ( 200.0f );
+	lightMass[ 0 ]->lightData.ambient = glm::vec3 ( 1.0f , 1.0f , 1.0f );
+	lightMass[ 0 ]->lightData.diffuse = glm::vec3 ( 1.0f );
+	lightMass[ 0 ]->lightData.specular = glm::vec3 ( 1.0f , 1.0f , 1.0f );*/
+
+}
+
+
+void LightManager::SetLight ( glm::vec3 pos , glm::vec3 dir , glm::vec2 cutoff ) {
+	LightMass* lighting = new LightMass;
+	lighting->lightView = glm::lookAt ( pos , pos + dir , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+	lighting->lightData.directional = 0;
+	lighting->lightProjection = glm::perspective (
+  glm::radians ( ( cutoff[ 0 ] + cutoff[ 1 ] ) * 2.0f ) , 1.0f , 1.0f , 20.0f );
+	lighting->lightData.position = pos;
+	lighting->lightData.direction = dir;
+	lighting->lightData.cutoff = glm::vec2 (
+	cosf ( glm::radians ( cutoff[ 0 ] ) ) , cosf ( glm::radians ( cutoff[ 0 ] + cutoff[ 1 ] ) ) );
+
+	lighting->lightData.attenuation = GetAttenuationCoeff ( 200.0f );
+	lighting->lightData.ambient = glm::vec3 ( 0.0f , 0.0f , 0.0f );
+	lighting->lightData.diffuse = glm::vec3 ( 1.0f );
+	lighting->lightData.specular = glm::vec3 ( 1.0f , 1.0f , 1.0f );
+
+	m_lights.push_back ( lighting->lightData );
+	lightMass.push_back ( lighting );
+	LightNum = m_lights.size ( );
+
 }

@@ -5,6 +5,7 @@
 #include "shader.h"
 #include "program.h"
 #include "mesh_user.h"
+class Player;
 class LightManager
 {
 	//struct Light {
@@ -21,6 +22,7 @@ class LightManager
 	//};
 
 	struct LightMass {
+		std::string name;
 		Light_ORI lightData;
 		glm::mat4 lightProjection;
 		glm::mat4 lightView;
@@ -51,7 +53,7 @@ public:
 		m_simpleProgram = program;
 		m_simpleAnimationProgram = program2;
 		UBOLight = UBOBUFFER_LIGHT::Create ( MAXLIGHTNUM );
-
+		
 	}
 
 	int GetLightNum ( ) {
@@ -71,28 +73,11 @@ public:
 		return UBOLight;
 	}
 
+	void SetFlashLight ( Player* player );
 
-	void SetLight ( glm::vec3 pos , glm::vec3 dir , glm::vec2 cutoff ) {
-		LightMass* lighting = new LightMass;
-		lighting->lightView= glm::lookAt ( pos ,pos + dir ,glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
-		lighting->lightData.directional = 0;
-		lighting->lightProjection = glm::perspective (
-	  glm::radians ( ( cutoff[ 0 ] + cutoff[ 1 ] ) * 2.0f ) ,1.0f , 1.0f , 20.0f );
-		lighting->lightData.position = pos;
-		lighting->lightData.direction = dir;
-		lighting->lightData.cutoff = glm::vec2 (
-		cosf ( glm::radians (cutoff[ 0 ])  ) ,cosf ( glm::radians (cutoff[ 0 ] +cutoff[ 1 ]))  );
+	void UpdateFlashLight ( Player* player );
 
-		lighting->lightData.attenuation = GetAttenuationCoeff ( 200.0f );
-		lighting->lightData.ambient = glm::vec3 ( 1.0f , 1.0f , 1.0f );
-		lighting->lightData.diffuse = glm::vec3 ( 1.0f );
-		lighting->lightData.specular = glm::vec3 ( 1.0f , 1.0f , 1.0f );
-
-		m_lights.push_back ( lighting->lightData );
-		lightMass.push_back ( lighting );
-		LightNum = m_lights.size ( );
-
-	}
+	void SetLight ( glm::vec3 pos , glm::vec3 dir , glm::vec2 cutoff );
 
 };
 

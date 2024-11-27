@@ -48,7 +48,7 @@ float ShadowCalculation(vec4 fragPosLight, sampler2D shadowMap, vec3 normal, vec
 
     float closestDepth = texture(shadowMap, projCoords.xy).r;
     float currentDepth = projCoords.z;
-    float bias = max(0.02 * (1.0 - dot(normal, lightDir)), 0.005);
+    float bias = max(0.02 * (1.0 - dot(normal, lightDir)), 0.001);
 
     float shadow = 0.0;
     vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
@@ -65,7 +65,7 @@ float ShadowCalculation(vec4 fragPosLight, sampler2D shadowMap, vec3 normal, vec
 void main() {
  vec3 result = vec3(0.0);
     vec3 texColor = texture(material.diffuse, fs_in.texCoord).rgb;
-    
+
 
     // 기본 색상 (예: 빨강)으로 설정하여 텍스처 로딩 문제 확인
    
@@ -74,7 +74,7 @@ void main() {
     for (int i = 0; i < numLights; ++i) {
         Light light = lights[i];
         vec3 ambient = texColor * light.ambient;
-        
+
   
 
         vec3 lightDir;
@@ -89,10 +89,10 @@ void main() {
             attenuation = 1.0 / dot(distPoly, light.attenuation);
             lightDir = (light.position - fs_in.fragPos) / dist;
 
-            if (light.cutoff[0] > 0.0) {
+            //if (light.cutoff[0] > 0.0) {
                 float theta = dot(lightDir, normalize(-light.direction));
                 intensity = clamp((theta - light.cutoff[1]) / (light.cutoff[0] - light.cutoff[1]), 0.0, 1.0);
-            }
+           // }
         }
 
         if (intensity > 0.0) {

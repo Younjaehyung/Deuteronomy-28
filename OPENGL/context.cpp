@@ -56,17 +56,7 @@ void Context::Render ( ) {
     //m_box->Draw ( m_simpleProgram.get());
     ///////////////////////////////////////////////////
 
-    //m_shadowMap->Bind ( );
-    //glClear ( GL_DEPTH_BUFFER_BIT );
-    //glEnable(GL_CULL_FACE);
-    //glCullFace ( GL_FRONT_FACE );
-
-    //glViewport ( 0 , 0 ,
-    //    m_shadowMap->GetShadowMap ( )->GetWidth ( ) ,
-    //    m_shadowMap->GetShadowMap ( )->GetHeight ( ) );
-   
-    //m_simpleProgram->Use ( );
-
+    
 
     //auto lightView = glm::lookAt ( glm::vec3 ( -1.0f , 2.0f , 0.0f ) ,
     //glm::vec3 ( -1.0f , 2.0f , 0.0f ) + glm::vec3 ( 2.5f , -1.5f , -1.0f ) ,
@@ -123,7 +113,7 @@ void Context::Render ( ) {
     object1->Render_2pass ( m_animationProgram.get ( ) );
 
 
-    player->Render ( m_animationProgram.get ( ) );
+    //player->Render ( m_animationProgram.get ( ) );
 
    
 
@@ -152,6 +142,7 @@ void Context :: Update ( ) {
     Camera_Transform = CameraManager::getInstance ( ).Camera_transform( );
     player->Update ( );
     object1->Update();
+    LightManager::getInstance().UpdateFlashLight (player );
 }
 
 void Context::ProcessInput ( GLFWwindow* window ) {
@@ -241,18 +232,10 @@ void Context::MouseButton ( int button , int action , double x , double y ) {
 
 bool Context::Init ( )
 {
-    //glEnable (GL_ );
+
     m_box = Mesh::CreateBox ( );
     m_plane = Mesh::CreatePlane ( );
 
-    //map = Model::Load ( "./model/submarine/Submarine.obj" );
-
-    //if ( !map ) {
-    //    std::cerr << "program UserSetError id : " << map->Get ( ) << std::endl;
-    //    return false;
-
-     
-    //}
 
     
     auto cubeRight = Image::Load ( "./model/skybox/right.jpg" , false );
@@ -329,10 +312,6 @@ bool Context::Init ( )
 
     }
 
-    m_shadowMap = ShadowMap::Create ( 2048 , 2048 );
-
-
-
     m_material = Material::Create ( );
     
     m_material->diffuse = Texture::CreateFromImage ( Image::CreateSingleColorImage ( 4 , 4 ,
@@ -360,7 +339,10 @@ bool Context::Init ( )
     CameraManager::getInstance ( ).SetCamera ( player->camera );
 
     LightManager::getInstance ( ).Initialize ( m_simpleProgram.get ( ), m_simpleAnimationProgram.get() );
-    LightManager::getInstance ( ).SetLight ( glm::vec3 ( 2.0f , 4.0f , -1.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
+    LightManager::getInstance ( ).SetFlashLight ( player );
+    //LightManager::getInstance ( ).SetLight ( glm::vec3 ( 2.0f , 4.0f , -1.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
+    //LightManager::getInstance ( ).SetLight ( glm::vec3 ( 2.0f , 4.0f , -3.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
+   // LightManager::getInstance ( ).SetLight ( glm::vec3 ( 9.0f , 2.0f , 0.0f ) , glm::vec3 ( 0.0f , 1.0f , -1.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
 
 
     obj.push_back ( object1 );
@@ -368,7 +350,7 @@ bool Context::Init ( )
     obj.push_back ( player );
 
     glDisable ( GL_STENCIL_TEST );
-    glClearColor ( 1.0f , 1.0f , 1.0f , 1.0f );
+    glClearColor ( 0.0f , 0.0f , 0.0f , 1.0f );
 
   return true;
 }

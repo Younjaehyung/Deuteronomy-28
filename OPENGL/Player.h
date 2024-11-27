@@ -26,6 +26,10 @@ public:
 	virtual void Input ( GLFWwindow* window );
 	virtual void Initialize ( const std::string& strName = "" );
 
+	glm::vec3 GetDir2 ( ) {
+		return Dir2;
+	}
+
 	void Path_now ( ) {
 		float dul = Pos.x - int ( Pos.x );
 		
@@ -46,8 +50,8 @@ public:
 
 
 
-			std::cout <<"path_now_x : "<< path_now_x << std::endl;
-			std::cout << "path_now_z : " << path_now_z << std::endl;
+			//std::cout <<"path_now_x : "<< path_now_x << std::endl;
+			//std::cout << "path_now_z : " << path_now_z << std::endl;
 			//std::cout <<"iint pos"<< int ( Pos.x ) << std::endl;
 	}
 
