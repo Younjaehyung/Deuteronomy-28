@@ -67,8 +67,8 @@ void Context::Render ( ) {
     m_simpleProgram->Use ( );
 
 
-    auto lightView = glm::lookAt ( glm::vec3 ( 2.0f , 4.0f , 4.0f ) ,
-glm::vec3 ( 2.0f , 4.0f , 4.0f ) + glm::vec3 ( -2.5f , -1.5f , -1.0f ) ,
+    auto lightView = glm::lookAt ( glm::vec3 ( 0.0f , 4.0f , -1.0f ) ,
+glm::vec3 ( 0.0f , 4.0f , -1.0f ) + glm::vec3 ( 2.5f , 0.0f , 0.0f ) ,
 glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     auto lightProjection = glm::perspective (
       glm::radians ( ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) * 2.0f ) ,
@@ -92,34 +92,34 @@ glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
 
     //손전등
     //m_assimp_Program->Use ( );
-    m_program->Use ( );
+    m_lightingShadowProgram->Use ( );
     
 
 
 
     glm::vec3 CameraPos ( CameraManager::getInstance ( ).GetCameraPos ( ) );
-    m_program->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    m_program->SetUniform ( "light.position" , glm::vec3 ( 2.0f , 4.0f , 4.0f ) );
-    m_program->SetUniform ( "light.direction" , glm::vec3 ( -2.5f , -1.5f , -1.0f ) );
-    m_program->SetUniform ( "light.cutoff" , glm::vec2 (
+    m_lightingShadowProgram->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
+    m_lightingShadowProgram->SetUniform ( "light.position" , glm::vec3 ( 0.0f , 4.0f , -1.0f ) );
+    m_lightingShadowProgram->SetUniform ( "light.direction" , glm::vec3 ( 2.5f , 0.0f , 0.0f ) );
+    m_lightingShadowProgram->SetUniform ( "light.cutoff" , glm::vec2 (
         cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
         cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) ) );
-    m_program->SetUniform ( "light.attenuation" , GetAttenuationCoeff ( m_light.distance ) );
-    m_program->SetUniform ( "light.ambient" , m_light.ambient );
-    m_program->SetUniform ( "light.diffuse" , m_light.diffuse );
-    m_program->SetUniform ( "light.specular" , m_light.specular );
-    m_program->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
-    m_program->SetUniform ( "light.directional" ,m_light.directional ? 1 : 0 );
-    m_program->SetUniform ( "lightTransform" , lightProjection * lightView );
-    m_program->SetUniform ( "modelTransform" , glm::mat4(1.0f) );
-    m_program->SetUniform ( "transform" , Camera_Transform );
+    m_lightingShadowProgram->SetUniform ( "light.attenuation" , GetAttenuationCoeff ( m_light.distance ) );
+    m_lightingShadowProgram->SetUniform ( "light.ambient" , m_light.ambient );
+    m_lightingShadowProgram->SetUniform ( "light.diffuse" , m_light.diffuse );
+    m_lightingShadowProgram->SetUniform ( "light.specular" , m_light.specular );
+    m_lightingShadowProgram->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
+    m_lightingShadowProgram->SetUniform ( "light.directional" ,m_light.directional ? 1 : 0 );
+    m_lightingShadowProgram->SetUniform ( "lightTransform" , lightProjection * lightView );
+    m_lightingShadowProgram->SetUniform ( "modelTransform" , glm::mat4(1.0f) );
+    m_lightingShadowProgram->SetUniform ( "transform" , Camera_Transform );
     glActiveTexture ( GL_TEXTURE3 );
     m_shadowMap->GetShadowMap ( )->Bind ( );
-    m_program->SetUniform ( "shadowMap" , 3 );
+    m_lightingShadowProgram->SetUniform ( "shadowMap" , 3 );
     glActiveTexture ( GL_TEXTURE0 );
 
 
-    map->Render ( m_program.get ( ) );
+    map->Render ( m_lightingShadowProgram.get ( ) );
 
     //m_material->SetToProgram ( m_program.get ( ) );
     //m_animationProgram
@@ -139,8 +139,8 @@ glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     m_animationProgram->SetUniform ( "light.specular" , m_light.specular );
 
     
-    object1->Render ( m_animationProgram.get ( ) );
-    player->Render ( m_animationProgram.get ( ) );
+    //object1->Render ( m_animationProgram.get ( ) );
+    //player->Render ( m_animationProgram.get ( ) );
 
     
    
@@ -217,8 +217,8 @@ void Context::DrawScene (const Program* program )
     //program->Use ( );
     glm::vec3 CameraPos ( CameraManager::getInstance ( ).GetCameraPos ( ) );
     program->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    program->SetUniform ( "light.position" , glm::vec3 ( 0.0f , 7.0f , 0.0f ) );
-    program->SetUniform ( "light.direction" , glm::vec3 ( -0.5f , -1.5f , -1.0f ) );
+    program->SetUniform ( "light.position" , glm::vec3 ( 0.0f , 4.0f , -1.0f ) );
+    program->SetUniform ( "light.direction" , glm::vec3 ( 2.5f , 0.0f , 0.0f ) );
     program->SetUniform ( "light.cutoff" , glm::vec2 (
         cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
         cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) ) );
