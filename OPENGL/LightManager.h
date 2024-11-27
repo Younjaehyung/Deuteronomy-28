@@ -108,7 +108,7 @@ public:
 		lighting->lightData.cutoff = glm::vec2 (
 		cosf ( glm::radians (cutoff[ 0 ])  ) ,cosf ( glm::radians (cutoff[ 0 ] +cutoff[ 1 ]))  );
 
-		lighting->lightData.attenuation = GetAttenuationCoeff ( 100.0f );
+		lighting->lightData.attenuation = GetAttenuationCoeff ( 200.0f );
 		lighting->lightData.ambient = glm::vec3 ( 1.0f , 1.0f , 1.0f );
 		lighting->lightData.diffuse = glm::vec3 ( 1.0f );
 		lighting->lightData.specular = glm::vec3 ( 1.0f , 1.0f , 1.0f );
