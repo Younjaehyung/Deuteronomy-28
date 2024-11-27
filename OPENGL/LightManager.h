@@ -43,6 +43,8 @@ public:
 	}
 
 	void UpdateShadowMaps ( const std::vector<Object*>& sceneObjects );
+	void GetLightSetting ( const Program* programs );
+	void UpdateShadowMapping ( const Program* program );
 
 	void Initialize (Program* program ) {
 		m_simpleProgram = program;
@@ -66,34 +68,6 @@ public:
 
 	UBOBUFFER_LIGHTPtr GetLight ( ) {
 		return UBOLight;
-	}
-
-	void GetLightSetting (const Program* programs ) {
-		
-		//UBOLight->Bind ( programs->Get ( ) , "Dlights" );
-		//UBOLight->UpdateData ( m_lights );
-		uint32_t program = programs->Get ( );
-
-		std::cerr << m_lights[ 0 ].direction[ 0 ] << std::endl;
-		std::cerr << m_lights[ 0 ].direction[ 1 ] << std::endl;
-		std::cerr << m_lights[ 0 ].direction [2 ] << std::endl;
-		std::cerr << "m_lights[ 0 ].position[ 0 ]" << std::endl;
-
-		glUniform1i ( glGetUniformLocation ( program , "numLights" ) , LightNum );
-
-		for ( int i = 0; i < LightNum; ++i ) {
-			std::string base = "lights[" + std::to_string ( i ) + "].";
-
-			glUniform1i ( glGetUniformLocation ( program , ( base + "directional" ).c_str ( ) ) , m_lights[ i ].directional );
-			glUniform3fv ( glGetUniformLocation ( program , ( base + "position" ).c_str ( ) ) , 1 , glm::value_ptr ( m_lights[ i ].position ) );
-			glUniform3fv ( glGetUniformLocation ( program , ( base + "direction" ).c_str ( ) ) , 1 , glm::value_ptr ( m_lights[ i ].direction ) );
-			glUniform2fv ( glGetUniformLocation ( program , ( base + "cutoff" ).c_str ( ) ) , 1 , glm::value_ptr ( m_lights[ i ].cutoff ) );
-			glUniform3fv ( glGetUniformLocation ( program , ( base + "attenuation" ).c_str ( ) ) , 1 , glm::value_ptr ( m_lights[ i ].attenuation ) );
-			glUniform3fv ( glGetUniformLocation ( program , ( base + "ambient" ).c_str ( ) ) , 1 , glm::value_ptr ( m_lights[ i ].ambient ) );
-			glUniform3fv ( glGetUniformLocation ( program , ( base + "diffuse" ).c_str ( ) ) , 1 , glm::value_ptr ( m_lights[ i ].diffuse ) );
-			glUniform3fv ( glGetUniformLocation ( program , ( base + "specular" ).c_str ( ) ) , 1 , glm::value_ptr ( m_lights[ i ].specular ) );
-		}
-
 	}
 
 
