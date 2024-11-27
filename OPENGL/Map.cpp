@@ -59,7 +59,15 @@ void Map::Initialize ( const std::string& strName )
 
     }
 
+    SettingLight ( );
+
+
 	
+}
+
+void Map::SettingLight ( ) {
+
+
 }
 
 void Map::RenderShadow ( glm::mat4 lightView , const Program* program )

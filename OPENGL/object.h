@@ -1,11 +1,15 @@
 ﻿#pragma once
 #include "model.h"
 
+
+
+
 class Object {
 
 
 
 public:
+
 	std::string name;
 	int typeID = 0;
 	glm::vec3 Pos{ 0.0f,0.0f,0.0f };
