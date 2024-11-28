@@ -393,7 +393,7 @@ void Context::IMGUI_USER ( ) {
         if ( ImGui::CollapsingHeader ( "light" , ImGuiTreeNodeFlags_DefaultOpen ) ) {
             ImGui::DragFloat3 ( "l.position" , glm::value_ptr ( light1->SetlightData ()->position ) , 0.01f );
             ImGui::DragFloat3 ( "l.direction" , glm::value_ptr ( light1->SetlightData ( )->direction ) , 0.01f );
-            ImGui::DragFloat2 ( "l.cutoff" , glm::value_ptr ( light1->SetlightData ( )->cutoff ) , 0.1f , 0.0f , 180.0f );
+            ImGui::DragFloat2 ( "l.cutoff" , glm::value_ptr ( m_light.cutoff ) , 0.1f , 0.0f , 180.0f );
             ImGui::DragFloat ( "l.distance" , &m_light.distance , 0.1f , 0.0f , 1000.0f );
             ImGui::ColorEdit3 ( "l.ambient" , glm::value_ptr ( light1->SetlightData ( )->ambient ) );
             ImGui::ColorEdit3 ( "l.diffuse" , glm::value_ptr ( light1->SetlightData ( )->diffuse ) );
@@ -401,6 +401,10 @@ void Context::IMGUI_USER ( ) {
 
             light1->SetlightData ( )->attenuation= GetAttenuationCoeff (m_light.distance );
             light1->SetlightView() = glm::lookAt ( light1->SetlightData ( )->position , light1->SetlightData ( )->position + light1->SetlightData ( )->direction , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+       
+            light1->SetlightData ( )->cutoff = glm::vec2 (
+            cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) , cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) );
+        
         }
 
         if ( ImGui::CollapsingHeader ( "material" , ImGuiTreeNodeFlags_DefaultOpen ) ) {

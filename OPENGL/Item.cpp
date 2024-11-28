@@ -24,6 +24,18 @@ void Item::RenderShadow ( glm::mat4 lightView , const Program* program ) {
     }
 }
 
+void Item::HandleCollision ( Object* player )
+{
+    if ( player->objectID == eLayerType::Player ) {
+
+
+    }
+
+
+}
+
+
+
 void Item::Render ( const Program* program ) {
     if ( model ) {
         program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos ) );
@@ -32,6 +44,8 @@ void Item::Render ( const Program* program ) {
         model->Draw ( program );
     }
 }
+
+
 
 void Item::Initialize ( const std::string& strName ) {
     model = Model::Load ( strName );

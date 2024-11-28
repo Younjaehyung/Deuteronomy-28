@@ -24,9 +24,9 @@ class Object {
 
 public:
 
-	std::string name;
-	int typeID = 0;
-	eLayerType objectID = eLayerType::Environment;
+	std::string name;	//객체 이름(구체적인)
+	int typeID = 0;	//객체 그림자 여부
+	eLayerType objectID = eLayerType::Environment;	//객체 속성(충돌처리용)
 	glm::vec3 Pos{ 0.0f,0.0f,0.0f };
 	glm::mat4 Dir{ glm::mat4(1.0f) };
 	
