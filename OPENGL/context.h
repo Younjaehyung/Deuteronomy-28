@@ -16,6 +16,7 @@
 #include "character.h"
 #include "shadow.h"
 #include "LightManager.h"
+#include "Item.h"
 
 CLASS_PTR(Context)
 //빛
@@ -47,6 +48,7 @@ private:
 	Map* map;
 	character* object1;		//Neddlehead
 	character* object2;		//Bagman
+	Item* item;
 
 	ProgramUPtr m_animationProgram;
 

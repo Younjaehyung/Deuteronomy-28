@@ -142,17 +142,17 @@ void Context :: Update ( ) {
     CameraManager::getInstance ( ).Update ( );
 
     Camera_Transform = CameraManager::getInstance ( ).Camera_transform( );
-<<<<<<< HEAD
-    for ( auto& gameobject : obj ) {
-        gameobject->Update ( );
-    }
-    CollisionManager::getInstance ( ).Update ( );
-    LightManager::getInstance().UpdateFlashLight (player );
-=======
+//<<<<<<< HEAD
+//    for ( auto& gameobject : obj ) {
+//        gameobject->Update ( );
+//    }
+//    CollisionManager::getInstance ( ).Update ( );
+//    LightManager::getInstance().UpdateFlashLight (player );
+//=======
     player->Update ( );
     object1->Update();
     //LightManager::getInstance().UpdateFlashLight (player );
->>>>>>> main
+//>>>>>>> main
 }
 
 void Context::ProcessInput ( GLFWwindow* window ) {
@@ -221,6 +221,7 @@ void Context::DrawScene (const Program* program )
     object1->Render ( program );
     object2->Render ( program );
     player->Render ( program );
+    item->Render ( program );
 }
 
 
@@ -341,6 +342,7 @@ bool Context::Init ( )
     mainCamera = new Camera;
     player = new Player;
     map = new Map;
+    item = new Item ( glm::vec3 ( 0.0f , 0.0f , 0.0f ) );
     object1 = new character( glm::vec3(84.0f , 0.0f , -10.0f) );
     object2 = new character( glm::vec3 (94.0f , 0.0f , -60.0f ) );
     //CollisionManager::getInstance ( ).Initialize ( );
@@ -350,6 +352,7 @@ bool Context::Init ( )
     map->Initialize ("./model/NewNewNew.glb" );
     object1->Initialize ( "./model/monster_m/NiddleHeadRun.glb" );
     object2->Initialize ( "./model/BagMan2.glb" );
+    item->Initialize ( "./model/Cross.glb" );
     player->Initialize ("./model/SibalGLB/SibalIdle.glb" );
 
     Time::Initailize ( );
@@ -370,6 +373,7 @@ bool Context::Init ( )
 
     obj.push_back ( object1 );
     obj.push_back ( object2 );
+    obj.push_back ( item );
     obj.push_back ( map );
     obj.push_back ( player );
 
