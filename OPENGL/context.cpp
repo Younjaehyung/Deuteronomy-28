@@ -378,8 +378,9 @@ void Context::IMGUI_USER ( ) {
         if ( ImGui::ColorEdit4 ( "clear color" , glm::value_ptr ( m_clearColor ) ) ) {
             glClearColor ( m_clearColor.r , m_clearColor.g , m_clearColor.b , m_clearColor.a );
         }
+
         ImGui::Separator ( );   //분할 선 그리기
-        //ImGui::DragFloat3 ( "camera pos" , glm::value_ptr ( player->GetPos ( ) ) , 0.01f );    //카메라 좌표변경 UI 세팅
+        ImGui::DragFloat3 ( "camera pos" , glm::value_ptr ( player->SetPos ( ) ) , 0.01f );    //카메라 좌표변경 UI 세팅
         ImGui::DragFloat ( "camera yaw" , &m_cameraYaw , 0.5f );
         ImGui::DragFloat ( "camera pitch" , &m_cameraPitch , 0.5f , -89.0f , 89.0f );
         ImGui::Separator ( );

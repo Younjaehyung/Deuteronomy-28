@@ -39,6 +39,7 @@ public:
 	
 	virtual eLayerType GetObjectID ( ) { return objectID; }
 	virtual void SetPos ( glm::vec3 pos ) { Pos = pos; }
+	virtual glm::vec3& SetPos () { return Pos; }
 	virtual glm::vec3 GetPos ( ) {	return Pos;}
 
 
