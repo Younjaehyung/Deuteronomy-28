@@ -15,7 +15,7 @@ public:
 
 	Player ( ){
 		typeID = 1;
-		objectID = eLayerType::Enemy;
+		objectID = eLayerType::Player;
 	}
 
 	virtual void Update ( );

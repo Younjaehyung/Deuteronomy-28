@@ -96,7 +96,7 @@ void Context::Render ( ) {
     LightManager::getInstance().UpdateShadowMapping ( m_lightingShadowProgram.get() );
 
     map->Render ( m_lightingShadowProgram.get ( ) );
-
+    item->Render ( m_lightingShadowProgram.get ( ) );
 
     //m_material->SetToProgram ( m_program.get ( ) );
     //m_animationProgram
@@ -114,7 +114,7 @@ void Context::Render ( ) {
     object1->Render_2pass ( m_animationProgram.get ( ) );
     object2->Render_2pass ( m_animationProgram.get ( ) );
 
-    //player->Render ( m_animationProgram.get ( ) );
+    player->Render ( m_animationProgram.get ( ) );
 
    
 
@@ -142,17 +142,12 @@ void Context :: Update ( ) {
     CameraManager::getInstance ( ).Update ( );
 
     Camera_Transform = CameraManager::getInstance ( ).Camera_transform( );
-//<<<<<<< HEAD
-//    for ( auto& gameobject : obj ) {
-//        gameobject->Update ( );
-//    }
-//    CollisionManager::getInstance ( ).Update ( );
-//    LightManager::getInstance().UpdateFlashLight (player );
-//=======
-    player->Update ( );
-    object1->Update();
-    //LightManager::getInstance().UpdateFlashLight (player );
-//>>>>>>> main
+
+   for ( auto& gameobject : obj ) {
+       gameobject->Update ( );
+   }
+  CollisionManager::getInstance ( ).Update (obj );
+
 }
 
 void Context::ProcessInput ( GLFWwindow* window ) {
@@ -221,7 +216,7 @@ void Context::DrawScene (const Program* program )
     object1->Render ( program );
     object2->Render ( program );
     player->Render ( program );
-    item->Render ( program );
+    
 }
 
 
@@ -345,8 +340,7 @@ bool Context::Init ( )
     item = new Item ( glm::vec3 ( 0.0f , 0.0f , 0.0f ) );
     object1 = new character( glm::vec3(84.0f , 0.0f , -10.0f) );
     object2 = new character( glm::vec3 (94.0f , 0.0f , -60.0f ) );
-    //CollisionManager::getInstance ( ).Initialize ( );
-    
+
 
 
     map->Initialize ("./model/NewNewNew.glb" );
@@ -357,15 +351,9 @@ bool Context::Init ( )
 
     Time::Initailize ( );
     SoundManager::getInstance ( ).Initialize ( );
-    CollisionManager::getInstance ( ).Initialize ( obj );
+    CollisionManager::getInstance ( ).Initialize ( );
 
     CameraManager::getInstance ( ).SetCamera ( player->camera );
-   
- /*   LightManager::getInstance ( ).SetFlashLight ( player );
-    LightManager::getInstance ( ).SetLight ( glm::vec3 ( 2.0f , 4.0f , -1.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
-    LightManager::getInstance ( ).SetLight ( glm::vec3 ( 2.0f , 4.0f , -3.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
-   LightManager::getInstance ( ).SetLight ( glm::vec3 ( 9.0f , 2.0f , 0.0f ) , glm::vec3 ( 0.0f , 1.0f , -1.0f ) , glm::vec2 ( 60.0f , 5.0f ) );*/
-
 
    LightMass* light1 = new LightMass;
    light1->SetLight ( glm::vec3 ( 2.0f , 4.0f , -1.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 60.0f , 5.0f ) );

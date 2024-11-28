@@ -16,7 +16,7 @@ public:
 	character (glm::vec3 pos) {
 		typeID = 1;
 		Pos = pos;
-		eLayerType::Enemy;
+		objectID = eLayerType::Enemy;
 	}
 
 	virtual void Update ( );

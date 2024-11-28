@@ -15,13 +15,13 @@ public:
 
 
 
-	void Update ( );
+	void Update ( std::vector<Object*>& colliders );
 	void Observer ( );
 	void Render ( );
 	void SetBox ( Object* object );
 
 	bool Check_Collider ( const std::string& name1 , const std::string& name2 ); //안써도 될듯? 근데 혹시 모르니까 남겨둠
-    virtual void Initialize ( std::vector<Object*>& object );
+    virtual void Initialize (  );
 	void InitializeCollisionMatrix ( );
 	bool Check_AABB_Collision ( Object* box1 , Object* box2 );
 	bool ShouldCollide ( eLayerType type1 , eLayerType type2 );

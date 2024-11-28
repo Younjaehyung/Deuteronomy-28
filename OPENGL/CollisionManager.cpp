@@ -1,8 +1,8 @@
 ﻿#include "CollisionManager.h"
 #include "CameraManager.h"
 
-void CollisionManager::Update ( ) {
-
+void CollisionManager::Update ( std::vector<Object*>& colliders ) {
+	collider = colliders;
 	for ( size_t i = 0; i < collider.size ( ); ++i ) {
 		for ( size_t j = i + 1; j < collider.size ( ); ++j ) {
 			Object* obj1 = collider[ i ];
@@ -17,7 +17,7 @@ void CollisionManager::Update ( ) {
 				if ( Check_AABB_Collision ( obj1 , obj2 ) ) {	//충돌 했냐?
 					obj1->HandleCollision ( obj2 );
 					obj2->HandleCollision ( obj1 );
-				std:: cout << obj1->name << " " << obj2->name << std::endl;
+					std:: cout << obj1->name << " " << obj2->name << std::endl;
 				}
 			}
 		}
@@ -50,9 +50,9 @@ bool CollisionManager::Check_Collider (const std::string& name1, const std::stri
 	return false;
 }
 
-void CollisionManager::Initialize ( std::vector<Object*>& object ){	
+void CollisionManager::Initialize ( ){	
 
-	collider = object;
+
 	world_coord_init ( );
 	InitializeCollisionMatrix ( );
 }

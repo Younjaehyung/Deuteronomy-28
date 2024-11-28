@@ -159,6 +159,12 @@
     <ClCompile Include="LightMass.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common_include.h">
@@ -300,6 +306,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="LightMass.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
