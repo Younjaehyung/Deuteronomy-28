@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "model.h"
 
+
 enum class eLayerType : uint32_t {
 	Player ,
 	Enemy ,
@@ -15,11 +16,14 @@ struct CollisionObject {
 	
 };
 
+
+
 class Object {
 
 
 
 public:
+
 	std::string name;
 	int typeID = 0;
 	eLayerType objectID = eLayerType::Environment;

@@ -152,7 +152,9 @@
     <ClCompile Include="imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="input.cpp" />
     <ClCompile Include="LightManager.cpp" />
+    <ClCompile Include="LightMass.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="mesh_user.cpp" />
@@ -198,7 +200,9 @@
     <ClInclude Include="include\assimp-master\include\assimp\postprocess.h" />
     <ClInclude Include="include\assimp-master\include\assimp\quaternion.h" />
     <ClInclude Include="include\assimp-master\include\assimp\scene.h" />
+    <ClInclude Include="input.h" />
     <ClInclude Include="LightManager.h" />
+    <ClInclude Include="LightMass.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="mesh_user.h" />
     <ClInclude Include="model.h" />

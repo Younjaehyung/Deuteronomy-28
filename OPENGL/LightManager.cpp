@@ -2,19 +2,24 @@
 #include "CameraManager.h"
 #include "Player.h"
 void LightManager::UpdateShadowMaps ( const std::vector<Object*>& sceneObjects ) {
-
+	ableLightNum = 0;	//활성 빛 개수 초기화
 	glClear ( GL_DEPTH_BUFFER_BIT );
 	glEnable ( GL_CULL_FACE );
 	glCullFace ( GL_FRONT_FACE );
 
 
 	for ( auto& light : lightMass ) {
-		light->m_shadowMap->Bind ( );
-		glViewport ( 0 , 0 ,
-		light->m_shadowMap->GetShadowMap ( )->GetWidth ( ) ,
-		light->m_shadowMap->GetShadowMap ( )->GetHeight ( ) );
-		glClear ( GL_DEPTH_BUFFER_BIT );
+		if ( !light->Switch_lightControl ( ) ) {
+			continue;
+		}
+		ableLightNum++;
 
+		light->GetlightShadowMap ()->Bind ( );
+		glViewport ( 0 , 0 ,
+		light->GetlightShadowMap ()->GetShadowMap ( )->GetWidth ( ) ,
+		light->GetlightShadowMap ()->GetShadowMap ( )->GetHeight ( ) );
+		glClear ( GL_DEPTH_BUFFER_BIT );
+		
 
 		// 모든 오브젝트를 쉐도우맵에 렌더링
 		for ( auto* object : sceneObjects ) {
@@ -22,13 +27,13 @@ void LightManager::UpdateShadowMaps ( const std::vector<Object*>& sceneObjects )
 				m_simpleProgram->Use ( );
 
 				m_simpleProgram->SetUniform ( "color" , glm::vec4 ( 1.0f , 1.0f , 1.0f , 1.0f ) );
-				object->RenderShadow ( light->lightProjection * light->lightView , m_simpleProgram );
+				object->RenderShadow ( light->GetlightProjection() * light->GetlightView() , m_simpleProgram );
 			}
 			else if ( object->typeID == 1 ) {
 				m_simpleAnimationProgram->Use ( );
 
 				m_simpleAnimationProgram->SetUniform ( "color" , glm::vec4 ( 1.0f , 1.0f , 1.0f , 1.0f ) );
-				object->RenderShadow ( light->lightProjection * light->lightView , m_simpleAnimationProgram );
+				object->RenderShadow ( light->GetlightProjection() * light->GetlightView() , m_simpleAnimationProgram );
 			}
 		
 		}
@@ -48,122 +53,60 @@ void LightManager::GetLightSetting ( const Program* programs ) {
 	//UBOLight->UpdateData ( m_lights );
 	uint32_t program = programs->Get ( );
 
-	std::cerr << m_lights[ 0 ].direction[ 0 ] << std::endl;
-	std::cerr << m_lights[ 0 ].direction[ 1 ] << std::endl;
-	std::cerr << m_lights[ 0 ].direction[ 2 ] << std::endl;
-	std::cerr << "m_lights[ 0 ].position[ 0 ]" << std::endl;
+	glUniform1i ( glGetUniformLocation ( program , "numLights" ) , ableLightNum );
+	int index = 0;
+	for ( int i = 0; i < ableLightNum; ++i ) {
+		
+		while ( !lightMass[ index ]->Switch_lightControl ( ) ) {
+			index += 1;
+		}
 
-	glUniform1i ( glGetUniformLocation ( program , "numLights" ) , LightNum );
-
-	for ( int i = 0; i < LightNum; ++i ) {
 		std::string base = "lights[" + std::to_string ( i ) + "].";
 
-		glUniform1i ( glGetUniformLocation ( program , ( base + "directional" ).c_str ( ) ) , m_lights[ i ].directional );
-		glUniform3fv ( glGetUniformLocation ( program , ( base + "position" ).c_str ( ) ) , 1 , glm::value_ptr ( m_lights[ i ].position ) );
-		glUniform3fv ( glGetUniformLocation ( program , ( base + "direction" ).c_str ( ) ) , 1 , glm::value_ptr ( m_lights[ i ].direction ) );
-		glUniform2fv ( glGetUniformLocation ( program , ( base + "cutoff" ).c_str ( ) ) , 1 , glm::value_ptr ( m_lights[ i ].cutoff ) );
-		glUniform3fv ( glGetUniformLocation ( program , ( base + "attenuation" ).c_str ( ) ) , 1 , glm::value_ptr ( m_lights[ i ].attenuation ) );
-		glUniform3fv ( glGetUniformLocation ( program , ( base + "ambient" ).c_str ( ) ) , 1 , glm::value_ptr ( m_lights[ i ].ambient ) );
-		glUniform3fv ( glGetUniformLocation ( program , ( base + "diffuse" ).c_str ( ) ) , 1 , glm::value_ptr ( m_lights[ i ].diffuse ) );
-		glUniform3fv ( glGetUniformLocation ( program , ( base + "specular" ).c_str ( ) ) , 1 , glm::value_ptr ( m_lights[ i ].specular ) );
+		glUniform1i ( glGetUniformLocation ( program , ( base + "directional" ).c_str ( ) ) , lightMass[ index ]->GetlightData ( ).directional );
+		glUniform3fv ( glGetUniformLocation ( program , ( base + "position" ).c_str ( ) ) , 1 , glm::value_ptr ( lightMass[ index ]->GetlightData ( ).position ) );
+		glUniform3fv ( glGetUniformLocation ( program , ( base + "direction" ).c_str ( ) ) , 1 , glm::value_ptr ( lightMass[ index ]->GetlightData ( ).direction ) );
+		glUniform2fv ( glGetUniformLocation ( program , ( base + "cutoff" ).c_str ( ) ) , 1 , glm::value_ptr ( lightMass[ index ]->GetlightData ( ).cutoff ) );
+		glUniform3fv ( glGetUniformLocation ( program , ( base + "attenuation" ).c_str ( ) ) , 1 , glm::value_ptr ( lightMass[ index ]->GetlightData ( ).attenuation ) );
+		glUniform3fv ( glGetUniformLocation ( program , ( base + "ambient" ).c_str ( ) ) , 1 , glm::value_ptr ( lightMass[ index ]->GetlightData ( ).ambient ) );
+		glUniform3fv ( glGetUniformLocation ( program , ( base + "diffuse" ).c_str ( ) ) , 1 , glm::value_ptr ( lightMass[ index ]->GetlightData ( ).diffuse ) );
+		glUniform3fv ( glGetUniformLocation ( program , ( base + "specular" ).c_str ( ) ) , 1 , glm::value_ptr ( lightMass[ index ]->GetlightData ( ).specular ) );
+	
+		index += 1;
 	}
 
 }
 
 void LightManager::UpdateShadowMapping (const Program* program )
 {
+	int index = 0;
+	program->SetUniform ( "numLights" , ableLightNum );
+	for ( int i = 0; i < ableLightNum; i++ ) {
+		while ( !lightMass[ index ]->Switch_lightControl ( ) ) {
+			index += 1;
+		}
 
-	program->SetUniform ( "numLights" , LightNum );
-	for ( int i = 0; i < LightNum; i++ ) {
 		std::string base = "lightTransform[" + std::to_string ( i ) + "]";
 
-		auto lightTransform = LightManager::getInstance ( ).GetLightTransform ( i ); // 라이트의 lightSpaceMatrix 계산
+		auto view = lightMass[ index ]->GetlightView ( );
+		auto proj = lightMass[ index ]->GetlightProjection ( );
+		auto lightTransform = proj * view; // 라이트의 lightSpaceMatrix 계산
 
 		glUniformMatrix4fv ( glGetUniformLocation ( program->Get() , ( base ).c_str ( ) ) , 1 , GL_FALSE , glm::value_ptr ( lightTransform ) );
 
 
 		glActiveTexture ( GL_TEXTURE0 + 5 + i );
 		base = "shadowMaps[" + std::to_string ( i ) + "]";
-		LightManager::getInstance ( ).GetShadowMap ( i )->GetShadowMap ( )->Bind ( );
+		lightMass[ index ]->GetlightShadowMap()->GetShadowMap ( )->Bind ( );
 		// m_lightingShadowProgram->SetUniform ( "shadowMap[" + std::to_string ( i ) + "]" , 3+i );  // 각 라이트의 그림자 맵 바인딩
 		glUniform1i ( glGetUniformLocation ( program->Get ( ) , ( base ).c_str ( ) ) , 5 + i );
-
+		index += 1;
 	}
 
 	glActiveTexture ( GL_TEXTURE0 );
 }
 
-void LightManager::SetFlashLight ( Player* player ) {
-	LightMass* lighting = new LightMass;
-
-
-	lighting->lightData.directional = 0;
-
-	lighting->lightData.cutoff = glm::vec2 (
-	cosf ( glm::radians ( 20.0f )) , cosf ( glm::radians ( 25.0f ) ) );
-
-	lighting->lightData.attenuation = GetAttenuationCoeff ( 100.0f );
-	lighting->lightData.ambient = glm::vec3 ( 0.0f , 0.0f , 0.0f );
-	lighting->lightData.diffuse = glm::vec3 ( 1.0f );
-	lighting->lightData.specular = glm::vec3 ( 1.0f , 1.0f , 1.0f );
-
-	lighting->lightView = player->camera->GetView ( );
-	lighting->lightProjection = player->camera->GetProjection ( );
-
-	
-	lighting->lightData.position = player->camera->GetPos ( );
-
-	lighting->lightData.direction = player->camera->GetCameraFront ( );
-
-
-	m_lights.push_back ( lighting->lightData );
-	lightMass.push_back ( lighting );
-	LightNum = m_lights.size ( );
-}
-
-void LightManager::UpdateFlashLight ( Player* player ) {
-
-
-	lightMass[ 0 ]->lightView = player->camera->GetView ( );
-	lightMass[ 0 ]->lightProjection = player->camera->GetProjection ( );
-
-	std::cout << LightNum << std::endl;
-	glm::vec3 pos = player->GetPos ( );
-	lightMass[ 0 ]->lightData.position = player->camera->GetPos ( );
-	std::cout<< lightMass[ 0 ]->lightData.position.x<<std::endl;
-	lightMass[ 0 ]->lightData.direction = player->camera->GetCameraFront ( );
-
-	m_lights[0].position = player->camera->GetPos ( );
-	m_lights[ 0 ].direction = player->camera->GetCameraFront ( );
-	/*lightMass[0]->lightData.cutoff = glm::vec2 (
-	cosf ( glm::radians ( cutoff[ 0 ] ) ) , cosf ( glm::radians ( cutoff[ 0 ] + cutoff[ 1 ] ) ) );
-
-	lightMass[ 0 ]->lightData.attenuation = GetAttenuationCoeff ( 200.0f );
-	lightMass[ 0 ]->lightData.ambient = glm::vec3 ( 1.0f , 1.0f , 1.0f );
-	lightMass[ 0 ]->lightData.diffuse = glm::vec3 ( 1.0f );
-	lightMass[ 0 ]->lightData.specular = glm::vec3 ( 1.0f , 1.0f , 1.0f );*/
-
-}
-
-
-void LightManager::SetLight ( glm::vec3 pos , glm::vec3 dir , glm::vec2 cutoff ) {
-	LightMass* lighting = new LightMass;
-	lighting->lightView = glm::lookAt ( pos , pos + dir , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
-	lighting->lightData.directional = 0;
-	lighting->lightProjection = glm::perspective (
-  glm::radians ( ( cutoff[ 0 ] + cutoff[ 1 ] ) * 2.0f ) , 1.0f , 1.0f , 20.0f );
-	lighting->lightData.position = pos;
-	lighting->lightData.direction = dir;
-	lighting->lightData.cutoff = glm::vec2 (
-	cosf ( glm::radians ( cutoff[ 0 ] ) ) , cosf ( glm::radians ( cutoff[ 0 ] + cutoff[ 1 ] ) ) );
-
-	lighting->lightData.attenuation = GetAttenuationCoeff ( 200.0f );
-	lighting->lightData.ambient = glm::vec3 ( 0.0f , 0.0f , 0.0f );
-	lighting->lightData.diffuse = glm::vec3 ( 1.0f );
-	lighting->lightData.specular = glm::vec3 ( 1.0f , 1.0f , 1.0f );
-
-	m_lights.push_back ( lighting->lightData );
-	lightMass.push_back ( lighting );
-	LightNum = m_lights.size ( );
-
+void LightManager::AddLight ( LightMass* addlight ) {
+	lightMass.push_back ( addlight );
+	LightNum = lightMass.size ( );
 }

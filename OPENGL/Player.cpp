@@ -4,12 +4,14 @@
 #include "CameraManager.h"
 #include "CollisionManager.h"
 #include "LightManager.h"
+#include "input.h"
 
 void Player::Update ( )
 {
 	animator->UpdateAnimation ( Time::DeltaTime ( ) );
 	Status_Machine ( );
 	Path_now ( );
+	FlashLight->SetSynLight ( camera ->GetPos() , camera->GetCameraFront ( ) , camera->GetProjection ( ) , camera->GetView ( ) );
 
 	Dir2 = camera->GetFront ( );
 	Dir = camera->GetDir ( );
@@ -149,6 +151,9 @@ void Player::Initialize ( const std::string& strName )
 
 	animator = new Animator ( idleAnim );
 
+	FlashLight = new LightMass;
+	FlashLight->SetLight( glm::vec3 ( 2.0f , 4.0f , -1.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 20.0f , 5.0f ) );
+	LightManager::getInstance ( ).AddLight ( FlashLight );
 
 	std::cerr << "Player INITIALIZE!" << std::endl;
 	if ( !_model ) {
@@ -252,7 +257,11 @@ void Player::Input ( GLFWwindow* window ) {
 		movestat = moving::sit;
 	}
 	
-	
+	if ( input::GetKeyDown ( eKeyCode::F ) ) {
+		FlashLight->Switch_lightControl() = !FlashLight->Switch_lightControl ( );
+	}
+
+
 
 }
 

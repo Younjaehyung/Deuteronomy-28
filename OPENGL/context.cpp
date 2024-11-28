@@ -3,6 +3,7 @@
 #include "Time.h"
 #include "Sound.h"
 #include "CollisionManager.h"
+#include "input.h"
 ContextUPtr Context::Create ( )
 {
     auto context = ContextUPtr ( new Context ( ) ); //context uniquePointer 생성
@@ -141,15 +142,21 @@ void Context :: Update ( ) {
     CameraManager::getInstance ( ).Update ( );
 
     Camera_Transform = CameraManager::getInstance ( ).Camera_transform( );
+<<<<<<< HEAD
     for ( auto& gameobject : obj ) {
         gameobject->Update ( );
     }
     CollisionManager::getInstance ( ).Update ( );
     LightManager::getInstance().UpdateFlashLight (player );
+=======
+    player->Update ( );
+    object1->Update();
+    //LightManager::getInstance().UpdateFlashLight (player );
+>>>>>>> main
 }
 
 void Context::ProcessInput ( GLFWwindow* window ) {
-    
+    input::Update ( window );
     player->Input ( window );
    /* glm::vec3 cameraDirectionXZ = glm::normalize ( glm::vec3 ( m_cameraFront.x , 0.0f , m_cameraFront.z ) );
     const float cameraSpeed = 0.05f;
@@ -325,6 +332,12 @@ bool Context::Init ( )
         glm::vec4 ( 0.5f , 0.5f , 0.5f , 1.0f ) ).get ( ) );
 
 
+    input::Initialize ( );
+    Time::Initailize ( );
+    SoundManager::getInstance ( ).Initialize ( );
+    LightManager::getInstance ( ).Initialize ( m_simpleProgram.get ( ) , m_simpleAnimationProgram.get ( ) );
+
+
     mainCamera = new Camera;
     player = new Player;
     map = new Map;
@@ -342,17 +355,18 @@ bool Context::Init ( )
     Time::Initailize ( );
     SoundManager::getInstance ( ).Initialize ( );
     CollisionManager::getInstance ( ).Initialize ( obj );
+
     CameraManager::getInstance ( ).SetCamera ( player->camera );
+   
+ /*   LightManager::getInstance ( ).SetFlashLight ( player );
+    LightManager::getInstance ( ).SetLight ( glm::vec3 ( 2.0f , 4.0f , -1.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
+    LightManager::getInstance ( ).SetLight ( glm::vec3 ( 2.0f , 4.0f , -3.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
+   LightManager::getInstance ( ).SetLight ( glm::vec3 ( 9.0f , 2.0f , 0.0f ) , glm::vec3 ( 0.0f , 1.0f , -1.0f ) , glm::vec2 ( 60.0f , 5.0f ) );*/
 
-    LightManager::getInstance ( ).Initialize ( m_simpleProgram.get ( ), m_simpleAnimationProgram.get() );
-    LightManager::getInstance ( ).SetFlashLight ( player );
-    
-    //pos,dir,cutoff값
-    //자동차
-    LightManager::getInstance ( ).SetLight ( glm::vec3 ( -36.0f , 2.0f , -6.0f ) , glm::vec3 ( 0.0f , 0.0f , -3.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
-    LightManager::getInstance ( ).SetLight ( glm::vec3 ( 75.0f , 24.0f , -54.0f ) , glm::vec3 ( 3.0f , -5.0f , 0.0f ) , glm::vec2 ( 15.0f , 5.0f ) );
-    //LightManager::getInstance ( ).SetLight ( glm::vec3 ( 9.0f , 2.0f , 0.0f ) , glm::vec3 ( 0.0f , 1.0f , -1.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
 
+   LightMass* light1 = new LightMass;
+   light1->SetLight ( glm::vec3 ( 2.0f , 4.0f , -1.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
+   LightManager::getInstance ( ).AddLight ( light1 );
 
     obj.push_back ( object1 );
     obj.push_back ( object2 );
@@ -405,7 +419,7 @@ void Context::IMGUI_USER ( ) {
         float aspectRatio = ( float ) m_width / ( float ) m_width;
         ImGui::Image ((ImTextureID) m_framebuffer->GetColorAttachment ( )->Get ( ) , ImVec2 ( 150 * aspectRatio , 150 ) );
         
-        ImGui::Image ( ( ImTextureID ) LightManager::getInstance ( ).GetShadowMap ( 0 )->GetShadowMap ( )->Get ( ) ,ImVec2 ( 256 , 256 ) , ImVec2 ( 0 , 1 ) , ImVec2 ( 1 , 0 ) );
+        //ImGui::Image ( ( ImTextureID ) LightManager::getInstance ( ).GetShadowMap ( 0 )->GetShadowMap ( )->Get ( ) ,ImVec2 ( 256 , 256 ) , ImVec2 ( 0 , 1 ) , ImVec2 ( 1 , 0 ) );
     }
     ImGui::End ( );
 

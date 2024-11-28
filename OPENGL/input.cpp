@@ -3,18 +3,17 @@
 std::vector<input::Key>input::mKeys = {};
 //static멤버변수 이므로 전역에서 초기화함.
 
-int ASCII[(UINT)eKeyCode::End] = {
+int ASCII[(uint32_t)eKeyCode::End] = {
 
-	'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
-'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L',
-'Z', 'X', 'C', 'V', 'B', 'N', 'M',VK_LEFT, VK_RIGHT, VK_DOWN, VK_UP,'F','G','N','M',VK_F1,VK_F2,VK_F3,VK_F4,VK_SPACE, VK_ESCAPE,
-'1','2','3','4','5','6',
+	GLFW_KEY_Q, GLFW_KEY_W, GLFW_KEY_E, GLFW_KEY_R, GLFW_KEY_T, GLFW_KEY_Y, GLFW_KEY_U, GLFW_KEY_I, GLFW_KEY_O, GLFW_KEY_P,
+GLFW_KEY_A, GLFW_KEY_S, GLFW_KEY_D, GLFW_KEY_F, GLFW_KEY_G, GLFW_KEY_H, GLFW_KEY_J, GLFW_KEY_K, GLFW_KEY_L,
+GLFW_KEY_Z, GLFW_KEY_X, GLFW_KEY_C, GLFW_KEY_V, GLFW_KEY_B, GLFW_KEY_N, GLFW_KEY_M,
 
 };
 
 void input::Initialize() {
 
-	for (size_t i = 0; i < (UINT)eKeyCode::End; i++) {
+	for (size_t i = 0; i < ( uint32_t )eKeyCode::End; i++) {
 
 		Key key = {};
 		key.bPressed = false;
@@ -25,10 +24,10 @@ void input::Initialize() {
 	}
 }
 
-void input::Update() {
+void input::Update( GLFWwindow* window ) {
 	for (size_t i = 0; i < mKeys.size(); i++) {
 		//눌렀는지
-		if (GetAsyncKeyState(ASCII[i]) & 0x8000) {
+		if ( glfwGetKey ( window , ASCII[ i ] ) == GLFW_PRESS ) {
 			if (mKeys[i].bPressed == true) {
 				mKeys[i].state = eKeyState::Pressed;
 			}
