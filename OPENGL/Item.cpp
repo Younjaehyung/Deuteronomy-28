@@ -34,7 +34,7 @@ void Item::Render ( const Program* program ) {
 }
 
 void Item::Initialize ( const std::string& strName ) {
-    model = Model::Load ( strName ).get ( );
+    model = Model::Load ( strName );
     if ( !model ) {
         std::cerr << "Failed to load model for Item: " << strName << std::endl;
         throw std::runtime_error ( "Item initialization failed" );

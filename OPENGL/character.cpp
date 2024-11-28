@@ -5,7 +5,7 @@
 void character::Update ( )
 {
 	animator->UpdateAnimation ( Time::DeltaTime ( ) );
-	//Algorithm ( );
+	Algorithm ( );
 	std::cout <<"MY XYZ" << Pos.x << std::endl;
 	/*Dir2 = camera->GetFront ( );
 	Dir = camera->GetDir ( );*/

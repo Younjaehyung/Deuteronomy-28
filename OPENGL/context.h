@@ -43,7 +43,7 @@ private:
 	std::vector<Object*> obj;
 	Camera* mainCamera;
 	glm::mat4 Camera_Transform;
-
+	LightMass* light1;
 	Player* player;
 	Map* map;
 	character* object1;		//Neddlehead

@@ -6,7 +6,7 @@
 
 class Item : public Object {
 public:
-    Item ( glm::vec3 pos ) : Object ( ) {
+    Item ( glm::vec3 pos ){
         Pos = pos;
         model = nullptr;
     }
@@ -18,7 +18,6 @@ public:
     virtual void RenderShadow ( glm::mat4 lightView , const Program* program ) override;
 
 private:
-    Model* model;
-    glm::vec3 Pos;
+    ModelPtr model;
     glm::mat4 modelTransform;
 };

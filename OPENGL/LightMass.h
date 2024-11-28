@@ -38,6 +38,10 @@ public:
 		return *lightData;
 	}
 
+	Light_ORI* SetlightData ( ) {
+		return lightData;
+	}
+
 	glm::mat4 GetlightProjection ( ) {
 		return lightProjection;
 	};

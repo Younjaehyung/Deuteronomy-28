@@ -337,7 +337,7 @@ bool Context::Init ( )
     mainCamera = new Camera;
     player = new Player;
     map = new Map;
-    item = new Item ( glm::vec3 ( 0.0f , 0.0f , 0.0f ) );
+    item = new Item ( glm::vec3 ( 3.0f , 0.0f , 0.0f ) );
     object1 = new character( glm::vec3(84.0f , 0.0f , -10.0f) );
     object2 = new character( glm::vec3 (94.0f , 0.0f , -60.0f ) );
 
@@ -355,7 +355,7 @@ bool Context::Init ( )
 
     CameraManager::getInstance ( ).SetCamera ( player->camera );
 
-   LightMass* light1 = new LightMass;
+   light1 = new LightMass;
    light1->SetLight ( glm::vec3 ( 2.0f , 4.0f , -1.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
    LightManager::getInstance ( ).AddLight ( light1 );
 
@@ -390,15 +390,15 @@ void Context::IMGUI_USER ( ) {
         }
         // 접을 수 있는 헤더, 열려있게 옵션 설정
         if ( ImGui::CollapsingHeader ( "light" , ImGuiTreeNodeFlags_DefaultOpen ) ) {
-            ImGui::DragFloat3 ( "l.position" , glm::value_ptr ( m_light.position ) , 0.01f );
-            ImGui::DragFloat3 ( "l.direction" , glm::value_ptr ( m_light.direction ) , 0.01f );
-            ImGui::DragFloat2 ( "l.cutoff" , glm::value_ptr ( m_light.cutoff ) , 0.1f , 0.0f , 180.0f );
+            ImGui::DragFloat3 ( "l.position" , glm::value_ptr ( light1->SetlightData ()->position ) , 0.01f );
+            ImGui::DragFloat3 ( "l.direction" , glm::value_ptr ( light1->SetlightData ( )->direction ) , 0.01f );
+            ImGui::DragFloat2 ( "l.cutoff" , glm::value_ptr ( light1->SetlightData ( )->cutoff ) , 0.1f , 0.0f , 180.0f );
             ImGui::DragFloat ( "l.distance" , &m_light.distance , 0.1f , 0.0f , 1000.0f );
-            ImGui::ColorEdit3 ( "l.ambient" , glm::value_ptr ( m_light.ambient ) );
-            ImGui::ColorEdit3 ( "l.diffuse" , glm::value_ptr ( m_light.diffuse ) );
-            ImGui::ColorEdit3 ( "l.specular" , glm::value_ptr ( m_light.specular ) );
+            ImGui::ColorEdit3 ( "l.ambient" , glm::value_ptr ( light1->SetlightData ( )->ambient ) );
+            ImGui::ColorEdit3 ( "l.diffuse" , glm::value_ptr ( light1->SetlightData ( )->diffuse ) );
+            ImGui::ColorEdit3 ( "l.specular" , glm::value_ptr ( light1->SetlightData ( )->specular ) );
 
-           
+            light1->SetlightData ( )->attenuation= GetAttenuationCoeff (m_light.distance );
         }
 
         if ( ImGui::CollapsingHeader ( "material" , ImGuiTreeNodeFlags_DefaultOpen ) ) {
