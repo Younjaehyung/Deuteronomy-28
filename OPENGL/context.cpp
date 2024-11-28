@@ -141,9 +141,9 @@ void Context :: Update ( ) {
     CameraManager::getInstance ( ).Update ( );
 
     Camera_Transform = CameraManager::getInstance ( ).Camera_transform( );
-    player->Update ( );
-    object1->Update();
-    object2->Update ( );
+    for ( auto& gameobject : obj ) {
+        gameobject->Update ( );
+    }
     CollisionManager::getInstance ( ).Update ( );
     LightManager::getInstance().UpdateFlashLight (player );
 }

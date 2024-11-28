@@ -29,6 +29,8 @@ public:
 	//std::vector<CollisionObject*> CollisionBox;
 	//virtual std::vector<CollisionObject*> GetBox ( ) { return CollisionBox; }
 	CollisionObject CollisionBox;
+	virtual void Update ( ) {}
+	
 	virtual CollisionObject GetBox ( ) { return CollisionBox; }
 	
 	virtual eLayerType GetObjectID ( ) { return objectID; }
