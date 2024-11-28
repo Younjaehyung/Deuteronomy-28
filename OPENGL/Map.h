@@ -11,6 +11,7 @@ class Map :public Object
 public:
 
 
+	LightMass* light1;
 
 	Camera* camera;
 	ModelPtr m_model;

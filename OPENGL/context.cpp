@@ -400,6 +400,7 @@ void Context::IMGUI_USER ( ) {
             ImGui::ColorEdit3 ( "l.specular" , glm::value_ptr ( light1->SetlightData ( )->specular ) );
 
             light1->SetlightData ( )->attenuation= GetAttenuationCoeff (m_light.distance );
+            light1->SetlightView() = glm::lookAt ( light1->SetlightData ( )->position , light1->SetlightData ( )->position + light1->SetlightData ( )->direction , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
         }
 
         if ( ImGui::CollapsingHeader ( "material" , ImGuiTreeNodeFlags_DefaultOpen ) ) {

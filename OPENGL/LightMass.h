@@ -48,6 +48,9 @@ public:
 	glm::mat4 GetlightView ( ) {
 		return lightView;
 	}
+	glm::mat4& SetlightView ( ) {
+		return lightView;
+	}
 	ShadowMapPtr GetlightShadowMap ( ) {
 		return m_shadowMap;
 	}
