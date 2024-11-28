@@ -32,6 +32,9 @@ public:
 	void GetLightSetting ( const Program* programs );
 	void UpdateShadowMapping ( const Program* program );
 	void AddLight ( LightMass* addlight );
+	ShadowMapPtr GetShadowMap ( int i ) {
+		return lightMass[ i ]->GetlightShadowMap ( );
+	}
 
 	void Initialize (Program* program, Program* program2 ) {
 		m_simpleProgram = program;

@@ -1,6 +1,7 @@
 ﻿#include "Item.h"
 #include "Time.h"
 #include "LightManager.h"
+#include "CollisionManager.h"
 
 void Item::Update ( ) {
     // 아이템은 정적이므로 업데이트 필요 없음
@@ -28,7 +29,8 @@ void Item::HandleCollision ( Object* player )
 {
     if ( player->objectID == eLayerType::Player ) {
 
-
+        GetDestroy ( ) = 1;
+        
     }
 
 

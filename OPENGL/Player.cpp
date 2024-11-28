@@ -265,3 +265,13 @@ void Player::Input ( GLFWwindow* window ) {
 
 }
 
+void Player::HandleCollision ( Object* object )
+{
+	if ( object->objectID == eLayerType::Item ) {
+		Item* newItem = new Item;
+		Inventory.push_back ( newItem );
+
+	}
+
+
+}

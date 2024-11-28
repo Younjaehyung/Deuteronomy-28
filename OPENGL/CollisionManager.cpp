@@ -12,7 +12,6 @@ void CollisionManager::Update ( std::vector<Object*>& colliders ) {
 			eLayerType type2 = obj2->GetObjectID ( );
 
 
-
 			if ( ShouldCollide ( type1 , type2 ) ) {	//충돌이 가능한 객체냐?
 				if ( Check_AABB_Collision ( obj1 , obj2 ) ) {	//충돌 했냐?
 					obj1->HandleCollision ( obj2 );
@@ -63,9 +62,11 @@ void CollisionManager::InitializeCollisionMatrix ( ) {
 	mCollisionLayerMatrix[ ( uint32_t ) eLayerType::Player ].set ( ( uint32_t ) eLayerType::Enemy );
 	mCollisionLayerMatrix[ ( uint32_t ) eLayerType::Player ].set ( ( uint32_t ) eLayerType::Environment );
 	mCollisionLayerMatrix[ ( uint32_t ) eLayerType::Player ].set ( ( uint32_t ) eLayerType::Light );
+	mCollisionLayerMatrix[ ( uint32_t ) eLayerType::Player ].set ( ( uint32_t ) eLayerType::Item );
 
 	// Enemy와 충돌하는 레이어 설정
 	mCollisionLayerMatrix[ ( uint32_t ) eLayerType::Enemy ].set ( ( uint32_t ) eLayerType::Player );
+
 	//mCollisionLayerMatrix[ ( uint32_t ) eLayerType::Enemy ].set ( ( uint32_t ) eLayerType::Light );
 
 	// Projectile과 충돌하는 레이어 설정

@@ -6,12 +6,14 @@
 #include "Animation.h"
 #include "Animator.h"
 #include "Collision.h"
+#include "Item.h"
 
 class Player : public Object
 {
 public:
 	Camera* camera;
 	LightMass* FlashLight;
+
 
 	Player ( ){
 		typeID = 1;
@@ -22,7 +24,7 @@ public:
 	virtual void Status_Machine ( );
 	virtual void Render ( const Program* program );
 	virtual void RenderShadow ( glm::mat4 lightView , const Program* program );
-
+	virtual void HandleCollision ( Object* object );
 	virtual void Input ( GLFWwindow* window );
 	virtual void Initialize ( const std::string& strName = "" );
 
@@ -84,6 +86,7 @@ private:
 
 	bool FlashLight_switch{ true };
 
+	std::vector<Item*> Inventory;
 
 	glm::mat4 modelTransform;
 	glm::vec2 m_prevMousePos{ glm::vec2 ( 0.0f ) };

@@ -139,15 +139,14 @@ void Context::Render ( ) {
 
 void Context :: Update ( ) {
     Time::Update ( );
-    CameraManager::getInstance ( ).Update ( );
+    GameobjectDelete ( );   //삭제
 
+    CameraManager::getInstance ( ).Update ( );  //업데이트
     Camera_Transform = CameraManager::getInstance ( ).Camera_transform( );
+    GameobjectUpdate ( );
 
-   for ( auto& gameobject : obj ) {
-       gameobject->Update ( );
-   }
-  CollisionManager::getInstance ( ).Update (obj );
-
+    CollisionManager::getInstance ( ).Update (obj );    //충돌체
+    
 }
 
 void Context::ProcessInput ( GLFWwindow* window ) {
@@ -417,7 +416,7 @@ void Context::IMGUI_USER ( ) {
         float aspectRatio = ( float ) m_width / ( float ) m_width;
         ImGui::Image ((ImTextureID) m_framebuffer->GetColorAttachment ( )->Get ( ) , ImVec2 ( 150 * aspectRatio , 150 ) );
         
-        //ImGui::Image ( ( ImTextureID ) LightManager::getInstance ( ).GetShadowMap ( 0 )->GetShadowMap ( )->Get ( ) ,ImVec2 ( 256 , 256 ) , ImVec2 ( 0 , 1 ) , ImVec2 ( 1 , 0 ) );
+        ImGui::Image ( ( ImTextureID ) LightManager::getInstance ( ).GetShadowMap ( 1 )->GetShadowMap ( )->Get ( ) ,ImVec2 ( 256 , 256 ) , ImVec2 ( 0 , 1 ) , ImVec2 ( 1 , 0 ) );
     }
     ImGui::End ( );
 

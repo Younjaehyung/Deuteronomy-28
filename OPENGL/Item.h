@@ -4,9 +4,16 @@
 #include "model.h"
 #include "CameraManager.h"
 
+class ItemState {
+
+};
+
 
 class Item : public Object {
 public:
+    Item ( ) {
+
+    }
     Item ( glm::vec3 pos ){
         Pos = pos;
         model = nullptr;

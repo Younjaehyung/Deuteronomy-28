@@ -7,6 +7,7 @@ enum class eLayerType : uint32_t {
 	Enemy ,
 	Light ,
 	Environment ,
+	Item,
 	Max // 총 레이어 수
 };
 
@@ -23,7 +24,7 @@ class Object {
 
 
 public:
-
+	int Destroy = 0;	//유효성 0: 실존 1: 없음
 	std::string name;	//객체 이름(구체적인)
 	int typeID = 0;	//객체 그림자 여부
 	eLayerType objectID = eLayerType::Environment;	//객체 속성(충돌처리용)
@@ -41,7 +42,7 @@ public:
 	virtual void SetPos ( glm::vec3 pos ) { Pos = pos; }
 	virtual glm::vec3& SetPos () { return Pos; }
 	virtual glm::vec3 GetPos ( ) {	return Pos;}
-
+	virtual int& GetDestroy ( ) { return Destroy; }
 
 	virtual void AddBox ( std::string& name ,glm::vec3 size ) { 
 		CollisionObject* box = new CollisionObject;

@@ -34,6 +34,25 @@ public:
 	void DrawScene (const Program* program );
 
 	void MouseButton ( int button , int action , double x , double y );
+
+
+	void GameobjectUpdate ( ) {
+		for ( auto& gameobject : obj ) {
+			gameobject->Update ( );
+		}
+	}
+	void GameobjectDelete ( ) {
+		for ( auto it = obj.begin ( ); it != obj.end ( );) {
+			if ( ( *it )->GetDestroy ( ) ) {
+				delete* it;
+				it = obj.erase ( it );
+			}
+			else {
+				++it;
+			}
+		}
+	}
+
 	int m_width{ 640 };
 	int m_height{ 480 };
 private:

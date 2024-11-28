@@ -67,9 +67,9 @@ void Map::Initialize ( const std::string& strName )
 
 void Map::SettingLight ( ) {
 
-    light1 = new LightMass;
+    /*light1 = new LightMass;
     light1->SetLight ( glm::vec3 ( 2.0f , 4.0f , -1.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
-    LightManager::getInstance ( ).AddLight ( light1 );
+    LightManager::getInstance ( ).AddLight ( light1 );*/
 }
 
 void Map::RenderShadow ( glm::mat4 lightView , const Program* program )
