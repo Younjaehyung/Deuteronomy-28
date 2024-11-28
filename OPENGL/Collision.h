@@ -1,26 +1,28 @@
 ﻿#include "object.h"
-#include "Player.h"
 
 
 class Collision
 {
 public:
+	Collision (Object* object ) {
+		collider = object;
+
+	}
+
 	void Update ( );
-	void SetCollision ( Object* collider_box );
 	void Observer ( );
 	void Render ( );
-	void SetBox ( Object* object );
+	void SetBox ( glm::vec3 size ) {
+		boxsize = size;
+	};
+
+
 	void Initialize ( );
 
 
 private:
-	std::vector<Object*> collider;
-	Object* player;
-	Object* monster;
+	Object* collider;
+	glm::vec3 boxsize;
 
-	struct Line {
-		float x;
-		float y;
-	};
 };
 

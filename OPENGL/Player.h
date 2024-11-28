@@ -4,25 +4,24 @@
 #include "object.h"
 #include "Animation.h"
 #include "Animator.h"
+#include "Collision.h"
 
 class Player : public Object
 {
 public:
 	Camera* camera;
-	
+	Collision* collision;
+
 	Player ( ){
 		typeID = 1;
-
+		objectID = eLayerType::Enemy;
 	}
 
 	virtual void Update ( );
-
 	virtual void Status_Machine ( );
 	virtual void Render ( const Program* program );
 	virtual void RenderShadow ( glm::mat4 lightView , const Program* program );
-	virtual glm::vec3& GetPos ( ) {
-		return Pos;
-	}
+
 	virtual void Input ( GLFWwindow* window );
 	virtual void Initialize ( const std::string& strName = "" );
 

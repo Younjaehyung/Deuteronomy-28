@@ -148,8 +148,7 @@ void Player::Initialize ( const std::string& strName )
 	
 
 	animator = new Animator ( idleAnim );
-	CollisionManager::getInstance ( ).SetCollision ( this );
-	
+
 
 	std::cerr << "Player INITIALIZE!" << std::endl;
 	if ( !_model ) {

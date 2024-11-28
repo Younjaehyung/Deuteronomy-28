@@ -5,20 +5,18 @@
 #include "Animator.h"
 #include "CameraManager.h"
 #include "Astar.h"
+
 class character : public Object
 {
 public:
-
+	Collision* collision;
 	Camera* camera;
-	ModelPtr _model;
-	Animation* idleAnim;
-	Animator* animator;
-	ProgramUPtr _shader;
-	UBOBUFFERUPtr UBO;
+	
 
 	character (glm::vec3 pos) {
 		typeID = 1;
 		Pos = pos;
+		eLayerType::Enemy;
 	}
 
 	virtual void Update ( );
@@ -51,7 +49,15 @@ public:
 		//std::cout << "path_now_z : " << path_now_z << std::endl;
 		//std::cout <<"iint pos"<< int ( Pos.x ) << std::endl;
 	}
+
+
 private:
+
+	ModelPtr _model;
+	Animation* idleAnim;
+	Animator* animator;
+	ProgramUPtr _shader;
+	UBOBUFFERUPtr UBO;
 
 	Astar* algorithm = new Astar;
 	std::vector<std::vector<int>> grid = {
