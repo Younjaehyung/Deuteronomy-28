@@ -76,7 +76,7 @@ void Context::Render ( ) {
 
     LightManager::getInstance ( ).UpdateShadowMaps ( obj );
 
-    glViewport ( 0 , 0 , m_width , m_height );
+    glViewport ( 0 , 0 , m_width/2 , m_height );
 
     //m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
     glDisable ( GL_CULL_FACE );
@@ -117,6 +117,46 @@ void Context::Render ( ) {
     player->Render ( m_animationProgram.get ( ) );
 
    
+    glViewport ( m_width / 2 ,0 , m_width/2 , m_height );
+
+    //m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
+    glDisable ( GL_CULL_FACE );
+
+   // glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT ); //GL_DEPTH_BUFFER_BIT : DEPTH Buffer clear 세팅
+    //CollisionManager::getInstance ( ).Render ( );   //맵 그리드
+
+    //손전등
+    //m_assimp_Program->Use ( );
+    m_lightingShadowProgram->Use ( );
+
+    //glm::vec3 CameraPos ( CameraManager::getInstance ( ).GetCameraPos ( ) );
+    m_lightingShadowProgram->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
+    m_lightingShadowProgram->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
+    m_lightingShadowProgram->SetUniform ( "transform" , Camera_Transform );
+    m_lightingShadowProgram->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
+    LightManager::getInstance ( ).UpdateShadowMapping ( m_lightingShadowProgram.get ( ) );
+
+    map->Render ( m_lightingShadowProgram.get ( ) );
+    item->Render ( m_lightingShadowProgram.get ( ) );
+
+    //m_material->SetToProgram ( m_program.get ( ) );
+    //m_animationProgram
+
+    m_animationProgram->Use ( );
+    //손전등
+    m_animationProgram->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
+    m_animationProgram->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
+    m_animationProgram->SetUniform ( "transform" , Camera_Transform );
+    m_animationProgram->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
+
+
+    LightManager::getInstance ( ).UpdateShadowMapping ( m_animationProgram.get ( ) );
+
+    object1->Render_2pass ( m_animationProgram.get ( ) );
+    object2->Render_2pass ( m_animationProgram.get ( ) );
+
+    player->Render ( m_animationProgram.get ( ) );
+
 
 
     //Framebuffer::BindToDefault ( );

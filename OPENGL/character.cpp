@@ -62,6 +62,8 @@ void character::Render ( const Program* program )
 
 void character::Initialize ( const std::string& strName )
 {
+
+	camera = new Camera;
 	name = "monster";
 
 	UBO = UBOBUFFER::Create (200 );
