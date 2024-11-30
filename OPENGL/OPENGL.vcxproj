@@ -164,6 +164,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="program.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
+    <ClCompile Include="RandomEngine.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="shadow.cpp" />
     <ClCompile Include="Sound.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="program.h" />
     <ClInclude Include="Layer.h" />
     <ClInclude Include="RenderComponent.h" />
+    <ClInclude Include="RandomEngine.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="shadow.h" />

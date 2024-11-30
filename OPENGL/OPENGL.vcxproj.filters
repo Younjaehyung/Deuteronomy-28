@@ -165,6 +165,9 @@
     <ClCompile Include="Astar.cpp">
       <Filter>GAME_SOURCE</Filter>
     </ClCompile>
+    <ClCompile Include="RandomEngine.cpp">
+      <Filter>Engine_SRC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\assimp-master\include\assimp\defs.h">
@@ -313,6 +316,9 @@
     </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>GAME_HEADER</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomEngine.h">
+      <Filter>Engine_Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

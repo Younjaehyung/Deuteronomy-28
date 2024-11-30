@@ -43,25 +43,14 @@ private:
 	ProgramUPtr _shader;
 	
 	int usingCameraID = 0;
-	
-	std::vector<LightMass*> light;
+	float updateSightTime = 0.0f;
+	std::vector<LightMass*> normallight;
+	std::vector<LightMass*> sitghtlight;
 	std::vector<Camera*> camera;
 	
 	Camera* camera1;
 	LightMass* light1;
-	LightMass* light2;
-	LightMass* light3;
-	LightMass* light4;
-	LightMass* light5;
-	LightMass* light6;
-	LightMass* light7;
-	LightMass* light8;
-	LightMass* light9;
-	LightMass* light10;
-	LightMass* light11;
-	LightMass* light12;
-	LightMass* light13;
-	LightMass* light14;
+
 
 };
 

@@ -106,8 +106,6 @@ public:
 
 
 	glm::mat4 Camera2_transform ( ) {
-
-
 		return using_Camera2->GetTransform ( );
 	}
 
@@ -119,7 +117,7 @@ public:
 		}
 		using_Camera2 = setCamera;
 		using_Camera2->cameraControl ( ) = true;
-		std::cerr << "setcamera" << std::endl;
+
 	}
 
 	
