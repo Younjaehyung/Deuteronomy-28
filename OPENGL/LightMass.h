@@ -20,9 +20,10 @@ public:
 	LightMass ( ) {
 		lightProjection = glm::mat4 ( 1.0f );
 		lightView = glm::mat4 ( 1.0f );
+		lightData = new Light_ORI;
 	}
 
-	//void Update ( );
+	void Update ( ) {};
 
 
 	void SetLight ( glm::vec3 pos , glm::vec3 dir , glm::vec2 cutoff,
