@@ -7,7 +7,7 @@ void Item::Update ( ) {
     // 아이템은 정적이므로 업데이트 필요 없음
 }
 
-void Item::Render_2pass ( const Program* program ) {
+void Item::Render_2pass ( const Program* program, glm::mat4 _cameraTransform ) {
     if ( model ) {
         program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos ) );
         program->SetUniform ( "transform" , CameraManager::getInstance ( ).Camera_transform ( ) *
@@ -38,7 +38,7 @@ void Item::HandleCollision ( Object* player )
 
 
 
-void Item::Render ( const Program* program ) {
+void Item::Render ( const Program* program, glm::mat4 _cameraTransform ) {
     if ( model ) {
         program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos ) );
         program->SetUniform ( "transform" , CameraManager::getInstance ( ).Camera_transform ( ) *

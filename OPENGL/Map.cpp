@@ -2,11 +2,14 @@
 #include "Time.h"
 #include "LightManager.h"
 
+#include <algorithm>
+
 void Map::Update ( )
 {
+    CameraLightUpdate ( );
 }
 
-void Map::Render ( const Program* program )
+void Map::Render ( const Program* program, glm::mat4 _cameraTransform )
 {
 
 
@@ -38,6 +41,7 @@ void Map::Render ( const Program* program )
     LightManager::getInstance ( ).GetLightSetting ( program );
 		m_model->Draw ( program );
 
+        
 		//program->SetUniform ( "transform" , CameraManager::getInstance().Camera_transform()*glm::rotate( glm::mat4 ( 1.0f ),glm::radians(90.0f ),glm::vec3(1.0f,0.0f,0.0f) )
 			//*glm::scale ( glm::mat4 ( 1.0f ) ,glm::vec3(100.0f,100.0f,100.0f) ) );
 		//ground->Draw ( program );
@@ -58,7 +62,7 @@ void Map::Initialize ( const std::string& strName )
 
 
     }
-
+    SettingCamera ( );
     SettingLight ( );
 
 
@@ -67,7 +71,15 @@ void Map::Initialize ( const std::string& strName )
 
 void Map::SettingCamera ( )
 {
-  
+    camera1 = new Camera;
+    camera1->SetCamera ( glm::vec3 ( 33.f , 10.f , -54.f ) , glm::vec3 ( 33.f , 0.f , -54.f ) );
+    camera.push_back ( camera1 );
+    
+    
+    for ( auto& _camera : camera ) {
+        CameraManager::getInstance ( ).AddCamera ( _camera );
+    }
+    CameraManager::getInstance ( ).SetCamera2 ( camera1 );
 }
 
 void Map::SettingLight ( ) {
@@ -75,16 +87,26 @@ void Map::SettingLight ( ) {
 
     light3 = new LightMass;
     light3->SetLight ( glm::vec3 ( 66.0f , 15.0f , -60.0f ) , glm::vec3 ( 3.0f , 0.0f , 2.0f ) , glm::vec2 ( 23.0f , 16.0f ) ,
-        10.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 165.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
+        100.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 165.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     LightManager::getInstance ( ).AddLight ( light3 );
 
     light4 = new LightMass;
     light4->SetLight ( glm::vec3 ( 33.0f , 15.0f , -54.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 9.0f , 5.0f ) ,
-        27.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 165.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
+        270.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 165.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     LightManager::getInstance ( ).AddLight ( light4 );
 
 
+    
+}
 
+void Map::CameraLightUpdate ( )
+{
+    int newCameraID = 0;
+    usingCameraID = 0;
+    if ( usingCameraID != newCameraID ) {
+        CameraManager::getInstance ( ).SetCamera2 ( camera1 );
+    }
+   
 }
 
 void Map::CollisionLight ( )

@@ -16,6 +16,8 @@ enum class moving {
 class Camera
 {
 private:
+	bool static_camera = 0;
+
 	bool m_cameraControl = false;
 	enum moving Ismoving = moving::stop;
 	float moving_Time = 0.0f;
@@ -72,6 +74,7 @@ public:
 	void MouseMove ( double x , double y );
 	
 
+
 	glm::mat4 GetTransform ( ) {
 		return projection * view;
 	}
@@ -106,8 +109,8 @@ public:
 			
 	}
 
+	void SetCamera ( glm::vec3 _pos , glm::vec3 _dir , float Near = 0.1f , float Far = 150.f , float Angle = 50.0f );
 	
-
 	bool& cameraControl ( ) {
 		return m_cameraControl;
 	}

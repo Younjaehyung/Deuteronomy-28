@@ -31,7 +31,8 @@ public:
 	void IMGUI_USER ( );
 	
 	void Reshape ( int width , int height );
-	void DrawScene (const Program* program );
+	void MainDraw ( glm::vec3 _pos , glm::mat4 _cameraTransform );
+
 
 	void MouseButton ( int button , int action , double x , double y );
 

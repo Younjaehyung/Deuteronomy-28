@@ -20,7 +20,7 @@ public:
 	}
 
 	virtual void Update ( );
-	virtual void Render_2pass ( const Program* program );
+	virtual void Render_2pass ( const Program* program, glm::mat4 _cameraTransform );
 	virtual void Render ( const Program* program );
 	virtual void Initialize ( const std::string& strName );
 	virtual void RenderShadow ( glm::mat4 lightView , const Program* program );

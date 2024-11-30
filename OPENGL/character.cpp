@@ -14,11 +14,11 @@ void character::Update ( )
 
 }
 
-void character::Render_2pass ( const Program* program )
+void character::Render_2pass ( const Program* program , glm::mat4 _cameraTransform )
 {
 	const auto& transforms = animator->GetFinalBoneMatrices ( );
 	program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos ) * glm::mat4_cast ( quaternion ) );
-	program->SetUniform ( "transform" , CameraManager::getInstance ( ).Camera_transform ( ) * glm::translate ( glm::mat4 ( 1.0f ) , Pos ) * glm::mat4_cast ( quaternion ) );
+	program->SetUniform ( "transform" , _cameraTransform * glm::translate ( glm::mat4 ( 1.0f ) , Pos ) * glm::mat4_cast ( quaternion ) );
 	UBO->Bind ( program->Get ( ) , "Bones" );
 	UBO->UpdateBoneMatrices ( transforms );
 

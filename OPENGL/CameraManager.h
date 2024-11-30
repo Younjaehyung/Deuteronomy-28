@@ -32,6 +32,9 @@ public:
 			_Camera->Update ( );
 		}*/
 		
+		std::cout << using_Camera2->GetCameraFront ( ).x << std::endl;
+		std::cout << using_Camera2->GetCameraFront ( ).y << std::endl;
+		std::cout << using_Camera2->GetCameraFront ( ).z << std::endl;
 		using_Camera->Update ( );
 		using_Camera2->Update ( );
 	}
@@ -39,6 +42,7 @@ public:
 	void AddCamera (Camera* addcamera ) {
 		for ( auto& _camera : Cameras ) {
 			if ( addcamera == _camera ) {
+				std::cout << "This Camera already exists" << std::endl;
 				return;
 			}
 		}
@@ -102,6 +106,8 @@ public:
 
 
 	glm::mat4 Camera2_transform ( ) {
+
+
 		return using_Camera2->GetTransform ( );
 	}
 
@@ -113,6 +119,7 @@ public:
 		}
 		using_Camera2 = setCamera;
 		using_Camera2->cameraControl ( ) = true;
+		std::cerr << "setcamera" << std::endl;
 	}
 
 	

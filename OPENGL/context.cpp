@@ -79,90 +79,20 @@ void Context::Render ( ) {
     glViewport ( 0 , 0 , m_width/2 , m_height );
 
     //m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
+        //CollisionManager::getInstance ( ).Render ( );   //맵 그리드
+
     glDisable ( GL_CULL_FACE );
 
     glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT ); //GL_DEPTH_BUFFER_BIT : DEPTH Buffer clear 세팅
-    //CollisionManager::getInstance ( ).Render ( );   //맵 그리드
 
     //손전등
     //m_assimp_Program->Use ( );
-    m_lightingShadowProgram->Use ( );
-    
-    glm::vec3 CameraPos ( CameraManager::getInstance ( ).GetCameraPos ( ) );
-    m_lightingShadowProgram->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    m_lightingShadowProgram->SetUniform ( "modelTransform" , glm::mat4(1.0f) );
-    m_lightingShadowProgram->SetUniform ( "transform" , Camera_Transform );
-    m_lightingShadowProgram->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
-    LightManager::getInstance().UpdateShadowMapping ( m_lightingShadowProgram.get() );
-
-    map->Render ( m_lightingShadowProgram.get ( ) );
-    item->Render ( m_lightingShadowProgram.get ( ) );
-
-    //m_material->SetToProgram ( m_program.get ( ) );
-    //m_animationProgram
-    
-    m_animationProgram->Use ( );
-    //손전등
-    m_animationProgram->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    m_animationProgram->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
-    m_animationProgram->SetUniform ( "transform" , Camera_Transform );
-    m_animationProgram->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
-
-
-    LightManager::getInstance ( ).UpdateShadowMapping ( m_animationProgram.get ( ) );
-
-    object1->Render_2pass ( m_animationProgram.get ( ) );
-    object2->Render_2pass ( m_animationProgram.get ( ) );
-
-    player->Render ( m_animationProgram.get ( ) );
-
+    MainDraw (CameraManager::getInstance().GetCameraPos() , CameraManager::getInstance ( ).Camera_transform() );
    
     glViewport ( m_width / 2 ,0 , m_width/2 , m_height );
-
-    //m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
     glDisable ( GL_CULL_FACE );
-
-   // glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT ); //GL_DEPTH_BUFFER_BIT : DEPTH Buffer clear 세팅
-    //CollisionManager::getInstance ( ).Render ( );   //맵 그리드
-
-    //손전등
-    //m_assimp_Program->Use ( );
-    m_lightingShadowProgram->Use ( );
-
-
-    m_lightingShadowProgram->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCamera2Pos ( ) );
-    m_lightingShadowProgram->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
-    m_lightingShadowProgram->SetUniform ( "transform" , CameraManager::getInstance ( ).Camera2_transform ( ) );
-    m_lightingShadowProgram->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
-    LightManager::getInstance ( ).UpdateShadowMapping ( m_lightingShadowProgram.get ( ) );
-
-    map->Render ( m_lightingShadowProgram.get ( ) );
-    item->Render ( m_lightingShadowProgram.get ( ) );
-
-    //m_material->SetToProgram ( m_program.get ( ) );
-    //m_animationProgram
-
-    m_animationProgram->Use ( );
-    //손전등
-    m_animationProgram->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCamera2Pos ( ) );
-    m_animationProgram->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
-    m_animationProgram->SetUniform ( "transform" , CameraManager::getInstance ( ).Camera2_transform ( ) );
-    m_animationProgram->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
-
-
-    LightManager::getInstance ( ).UpdateShadowMapping ( m_animationProgram.get ( ) );
-
-    object1->Render_2pass ( m_animationProgram.get ( ) );
-    object2->Render_2pass ( m_animationProgram.get ( ) );
-
-    player->Render ( m_animationProgram.get ( ) );
-
-
-
-    //Framebuffer::BindToDefault ( );
-    //
-    //glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
-
+    MainDraw ( CameraManager::getInstance ( ).GetCamera2Pos ( ) , CameraManager::getInstance ( ).Camera2_transform ( ) );
+   
 
     ////이중버퍼링
     //m_textureProgram->Use ( );
@@ -229,34 +159,37 @@ void Context::Reshape ( int width , int height ) {
     
 }
 
-void Context::DrawScene (const Program* program )
+void Context::MainDraw (glm::vec3 _pos, glm::mat4 _cameraTransform )
 {
-    //program->Use ( );
-    glm::vec3 CameraPos ( CameraManager::getInstance ( ).GetCameraPos ( ) );
-    program->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    program->SetUniform ( "light.position" , CameraManager::getInstance ( ).GetCameraPos ( ) );
-    program->SetUniform ( "light.direction" , CameraManager::getInstance ( ).GetCameraFront ( ) );
-    program->SetUniform ( "light.cutoff" , glm::vec2 (
-        cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) ,
-        cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) ) );
-    program->SetUniform ( "light.attenuation" , GetAttenuationCoeff ( m_light.distance ) );
-    program->SetUniform ( "light.ambient" , m_light.ambient );
-    program->SetUniform ( "light.diffuse" , m_light.diffuse );
-    program->SetUniform ( "light.specular" , m_light.specular );
-    program->SetUniform ( "light.directional" , m_light.directional ? 1 : 0 );
-    program->SetUniform ( "blinn" , m_blinn ? 1 : 0 );
-    auto transform = Camera_Transform;
+    m_lightingShadowProgram->Use ( );
+    glm::vec3 CameraPos ( _pos );
+    m_lightingShadowProgram->SetUniform ( "viewPos" , _pos );
+    m_lightingShadowProgram->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
+    m_lightingShadowProgram->SetUniform ( "transform" , _cameraTransform );
+    m_lightingShadowProgram->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
+    LightManager::getInstance ( ).UpdateShadowMapping ( m_lightingShadowProgram.get ( ) );
+
+    map->Render ( m_lightingShadowProgram.get ( ), _cameraTransform );
+    item->Render_2pass ( m_lightingShadowProgram.get ( ) , _cameraTransform );
 
 
-    
-    map->Render ( program );
+    m_animationProgram->Use ( );
+    m_animationProgram->SetUniform ( "viewPos" , _pos );
+    m_animationProgram->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
+    m_animationProgram->SetUniform ( "transform" , _cameraTransform );
+    m_animationProgram->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
 
 
-    object1->Render ( program );
-    object2->Render ( program );
-    player->Render ( program );
-    
+    LightManager::getInstance ( ).UpdateShadowMapping ( m_animationProgram.get ( ) );
+
+    object1->Render_2pass ( m_animationProgram.get ( ) , _cameraTransform );
+    object2->Render_2pass ( m_animationProgram.get ( ) , _cameraTransform );
+
+    player->Render ( m_animationProgram.get ( ) , _cameraTransform );
+
+
 }
+
 
 
 
@@ -392,7 +325,7 @@ bool Context::Init ( )
     CollisionManager::getInstance ( ).Initialize ( );
     
     CameraManager::getInstance ( ).SetCamera ( player->camera );
-    CameraManager::getInstance ( ).SetCamera2 ( object1->camera );
+    //CameraManager::getInstance ( ).SetCamera2 ( object1->camera );
    
    light1 = new LightMass;
    light1->SetLight ( glm::vec3 ( 2.0f , 4.0f , -1.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 60.0f , 5.0f ) );

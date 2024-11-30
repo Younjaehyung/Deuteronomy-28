@@ -16,7 +16,7 @@ public:
 	}
 
 	virtual void Update ( );
-	virtual void Render ( const Program* program );
+	virtual void Render ( const Program* program , glm::mat4 _cameraTransform );
 	virtual void Initialize ( const std::string& strName );
 	virtual void RenderShadow ( glm::mat4 lightView , const Program* program );
 	
@@ -26,6 +26,7 @@ private:
 
 	void SettingCamera ( );
 	void SettingLight ( );
+	void CameraLightUpdate ( );
 
 	UBOBUFFER_LIGHTUPtr UBO;
 
@@ -41,12 +42,12 @@ private:
 	Animator* animator;
 	ProgramUPtr _shader;
 	
-
-	Camera* camera1;
+	int usingCameraID = 0;
+	
 	std::vector<LightMass*> light;
 	std::vector<Camera*> camera;
 	
-
+	Camera* camera1;
 	LightMass* light1;
 	LightMass* light2;
 	LightMass* light3;
