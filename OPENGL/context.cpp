@@ -89,7 +89,7 @@ void Context::Render ( ) {
     //m_assimp_Program->Use ( );
     MainDraw (CameraManager::getInstance().GetCameraPos() , CameraManager::getInstance ( ).Camera_transform() );
    
-    glViewport ( m_width / 2 ,0 , m_width/2 , m_height );
+    glViewport ( m_width*3 / 4 ,0 , m_width/4 , m_height );
     glDisable ( GL_CULL_FACE );
     MainDraw ( CameraManager::getInstance ( ).GetCamera2Pos ( ) , CameraManager::getInstance ( ).Camera2_transform ( ) );
    

@@ -109,7 +109,7 @@ public:
 			
 	}
 
-	void SetCamera ( glm::vec3 _pos , glm::vec3 _dir , float Near = 0.1f , float Far = 150.f , float Angle = 50.0f );
+	void SetCamera ( glm::vec3 _pos , glm::vec3 _dir , glm::vec3 _up= glm::vec3 ( 0.0f , 0.0f , 1.0f ),float Near = 0.1f , float Far = 150.f , float Angle = 50.0f );
 	
 	bool& cameraControl ( ) {
 		return m_cameraControl;

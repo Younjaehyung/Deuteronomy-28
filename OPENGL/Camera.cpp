@@ -66,7 +66,7 @@ void Camera::MouseMove ( double x , double y ) {
 
 }
 
-void Camera::SetCamera ( glm::vec3 _pos , glm::vec3 _dir , float Near, float Far , float Angle ) {
+void Camera::SetCamera ( glm::vec3 _pos , glm::vec3 _dir , glm::vec3 _up , float Near, float Far , float Angle ) {
 
 	m_cameraPos = _pos;
 	static_camera = 1;
@@ -74,10 +74,10 @@ void Camera::SetCamera ( glm::vec3 _pos , glm::vec3 _dir , float Near, float Far
 	m_cameraFront = glm::normalize ( _dir - _pos );
 
 	// 카메라의 오른쪽 벡터 계산
-	//glm::vec3 m_cameraRIGHT = glm::normalize ( glm::cross ( glm::vec3( ) , m_cameraFront ) );
+	glm::vec3 m_cameraRIGHT = glm::normalize ( glm::cross ( glm::vec3( ) , m_cameraFront ) );
 
 	// 카메라의 위쪽 벡터 재계산 (정규화)
-	m_cameraUp = glm::vec3 ( 0.0f , 0.0f , 1.0f );
+	m_cameraUp = _up;
 
 	// 뷰 행렬 생성
 	view = glm::lookAt ( m_cameraPos , _pos + m_cameraFront , glm::vec3(0.0f,0.0f,1.0f) );
