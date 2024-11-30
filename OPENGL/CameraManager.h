@@ -37,6 +37,12 @@ public:
 	}
 
 	void AddCamera (Camera* addcamera ) {
+		for ( auto& _camera : Cameras ) {
+			if ( addcamera == _camera ) {
+				return;
+			}
+		}
+		
 		Cameras.push_back ( addcamera );
 	}
 

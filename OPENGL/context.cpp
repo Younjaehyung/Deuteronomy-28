@@ -129,10 +129,10 @@ void Context::Render ( ) {
     //m_assimp_Program->Use ( );
     m_lightingShadowProgram->Use ( );
 
-    //glm::vec3 CameraPos ( CameraManager::getInstance ( ).GetCameraPos ( ) );
-    m_lightingShadowProgram->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
+
+    m_lightingShadowProgram->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCamera2Pos ( ) );
     m_lightingShadowProgram->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
-    m_lightingShadowProgram->SetUniform ( "transform" , Camera_Transform );
+    m_lightingShadowProgram->SetUniform ( "transform" , CameraManager::getInstance ( ).Camera2_transform ( ) );
     m_lightingShadowProgram->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
     LightManager::getInstance ( ).UpdateShadowMapping ( m_lightingShadowProgram.get ( ) );
 
@@ -144,9 +144,9 @@ void Context::Render ( ) {
 
     m_animationProgram->Use ( );
     //손전등
-    m_animationProgram->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCameraPos ( ) );
+    m_animationProgram->SetUniform ( "viewPos" , CameraManager::getInstance ( ).GetCamera2Pos ( ) );
     m_animationProgram->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
-    m_animationProgram->SetUniform ( "transform" , Camera_Transform );
+    m_animationProgram->SetUniform ( "transform" , CameraManager::getInstance ( ).Camera2_transform ( ) );
     m_animationProgram->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
 
 
@@ -366,7 +366,7 @@ bool Context::Init ( )
     m_material->specular = Texture::CreateFromImage ( Image::CreateSingleColorImage ( 4 , 4 ,
         glm::vec4 ( 0.5f , 0.5f , 0.5f , 1.0f ) ).get ( ) );
 
-
+    
     input::Initialize ( );
     Time::Initailize ( );
     SoundManager::getInstance ( ).Initialize ( );
@@ -376,24 +376,24 @@ bool Context::Init ( )
     mainCamera = new Camera;
     player = new Player;
     map = new Map;
-    item = new Item ( glm::vec3 ( 3.0f , 0.0f , 0.0f ) );
+    item = new Item ( glm::vec3 ( 3.0f , 1000.0f , 0.0f ) );
     object1 = new character( glm::vec3(84.0f , 0.0f , -10.0f) );
     object2 = new character( glm::vec3 (94.0f , 0.0f , -60.0f ) );
 
 
-
+   
     map->Initialize ("./model/NewNewNew.glb" );
     object1->Initialize ( "./model/monster_m/NiddleHeadRun.glb" );
     object2->Initialize ( "./model/BagMan2.glb" );
+    
     item->Initialize ( "./model/Cross.glb" );
     player->Initialize ("./model/SibalGLB/SibalIdle.glb" );
 
-    Time::Initailize ( );
-    SoundManager::getInstance ( ).Initialize ( );
     CollisionManager::getInstance ( ).Initialize ( );
-
+    
     CameraManager::getInstance ( ).SetCamera ( player->camera );
-
+    CameraManager::getInstance ( ).SetCamera2 ( object1->camera );
+   
    light1 = new LightMass;
    light1->SetLight ( glm::vec3 ( 2.0f , 4.0f , -1.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
    LightManager::getInstance ( ).AddLight ( light1 );
@@ -406,7 +406,7 @@ bool Context::Init ( )
 
     glDisable ( GL_STENCIL_TEST );
     glClearColor ( 0.0f , 0.0f , 0.0f , 1.0f );
-
+    
   return true;
 }
 

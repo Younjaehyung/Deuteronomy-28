@@ -61,7 +61,7 @@ struct LightD {
 };
 
 struct Light_ORI {
-    int directional = 0 ;
+    int directional = 0;
 
     glm::vec3 position{ glm::vec3 ( 3.0f, 3.0f, 3.0f ) }; //광원의 위치
     glm::vec3 direction{ glm::vec3 ( -0.2f, -1.0f, -0.3f ) };	//Directional Light

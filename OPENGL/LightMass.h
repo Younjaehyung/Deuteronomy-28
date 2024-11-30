@@ -10,6 +10,7 @@ class LightMass : public Object
 {
 private:
 	bool m_lightControl{ false };
+
 	std::string name;
 	Light_ORI* lightData;
 	glm::mat4 lightProjection;
@@ -17,7 +18,6 @@ private:
 	ShadowMapPtr m_shadowMap = ShadowMap::Create ( 2048 , 2048 );
 public:
 	LightMass ( ) {
-		lightData = new Light_ORI;
 		lightProjection = glm::mat4 ( 1.0f );
 		lightView = glm::mat4 ( 1.0f );
 	}
@@ -25,10 +25,13 @@ public:
 	//void Update ( );
 
 
-
-
-	void SetLight ( glm::vec3 pos , glm::vec3 dir , glm::vec2 cutoff );
+	void SetLight ( glm::vec3 pos , glm::vec3 dir , glm::vec2 cutoff,
+		float distance= 200.0f ,
+		glm::vec3 ambient = glm::vec3 ( 0.0f) , 
+		glm::vec3 diffuse = glm::vec3 ( 1.0f ) ,
+		glm::vec3 specualr = glm::vec3 ( 1.0f ) );
 	
+
 	void SetSynLight ( glm::vec3 pos , glm::vec3 dir,glm::mat4 projection , glm::mat4 view);
 
 
