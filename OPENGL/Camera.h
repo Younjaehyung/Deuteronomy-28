@@ -106,6 +106,8 @@ public:
 			
 	}
 
+	
+
 	bool& cameraControl ( ) {
 		return m_cameraControl;
 	}

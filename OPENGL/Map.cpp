@@ -65,11 +65,31 @@ void Map::Initialize ( const std::string& strName )
 	
 }
 
+void Map::SettingCamera ( )
+{
+  
+}
+
 void Map::SettingLight ( ) {
 
-    /*light1 = new LightMass;
-    light1->SetLight ( glm::vec3 ( 2.0f , 4.0f , -1.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
-    LightManager::getInstance ( ).AddLight ( light1 );*/
+
+    light3 = new LightMass;
+    light3->SetLight ( glm::vec3 ( 66.0f , 15.0f , -60.0f ) , glm::vec3 ( 3.0f , 0.0f , 2.0f ) , glm::vec2 ( 23.0f , 16.0f ) ,
+        10.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 165.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
+    LightManager::getInstance ( ).AddLight ( light3 );
+
+    light4 = new LightMass;
+    light4->SetLight ( glm::vec3 ( 33.0f , 15.0f , -54.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 9.0f , 5.0f ) ,
+        27.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 165.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
+    LightManager::getInstance ( ).AddLight ( light4 );
+
+
+
+}
+
+void Map::CollisionLight ( )
+{
+
 }
 
 void Map::RenderShadow ( glm::mat4 lightView , const Program* program )
@@ -79,3 +99,4 @@ void Map::RenderShadow ( glm::mat4 lightView , const Program* program )
     //std::cout << "model" << std::endl;
     m_model->Draw ( program );
 }
+

@@ -33,6 +33,7 @@ public:
 		glm::vec3 specualr = glm::vec3 ( 1.0f ) );
 	
 
+
 	void SetSynLight ( glm::vec3 pos , glm::vec3 dir,glm::mat4 projection , glm::mat4 view);
 
 
