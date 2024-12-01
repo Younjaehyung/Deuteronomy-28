@@ -42,7 +42,7 @@ public:
 	Light_ORI GetlightData ( ) {
 		return *lightData;
 	}
-	eLayerType objectID = eLayerType::Environment;
+
 	Light_ORI* SetlightData ( ) {
 		return lightData;
 	}
