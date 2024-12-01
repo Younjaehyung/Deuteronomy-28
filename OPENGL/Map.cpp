@@ -77,7 +77,7 @@ void Map::SettingCamera ( )
     camera1->SetCamera ( glm::vec3 ( 78.0f , 12.0f , -54.0f ) , glm::vec3 ( 59.0f , 0.0f , -54.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     newInstance->mapCamera = camera1;
     LightMass* Light1 = new LightMass;
-    Light1->SetLight ( glm::vec3 ( 45.0f , 12.0f , -26.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 14.5f , 18.0f ) ,
+    Light1->SetLight ( glm::vec3 ( 33.0f , 15.0f , -54.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 9.0f , 5.0f ) ,
         270.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     newInstance->Visullight.push_back ( Light1 );
     Light1 = new LightMass;
@@ -91,8 +91,8 @@ void Map::SettingCamera ( )
     camera1->SetCamera ( glm::vec3 ( 69.0f , 5.3f , -13.0f ) , glm::vec3 ( 54.0f , 0.0f , -23.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     newInstance->mapCamera = camera1;
     Light1 = new LightMass;
-    Light1->SetLight ( glm::vec3 ( 84.0f , 7.0f , -8.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 10.0f , 18.0f ) ,
-        270.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
+    Light1->SetLight ( glm::vec3 ( 66.0f , 12.0f , -18.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 2.5f , 24.0f ) ,
+        232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     newInstance->Visullight.push_back ( Light1 );
     Light1 = new LightMass;
     Light1->SetBox ( glm::vec3 ( 6.0f ) , "Room1" );
@@ -105,10 +105,14 @@ void Map::SettingCamera ( )
     camera1->SetCamera ( glm::vec3 ( 116.0f , 6.0f , -4.0f ) , glm::vec3 ( 100.0f , 0.0f , -8.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     newInstance->mapCamera = camera1;
     Light1 = new LightMass;
-    Light1->SetLight ( glm::vec3 ( 110.0f , 9.0f , -40.0f ) , glm::vec3 ( 0.0f , -3.0f , -4.0f ) , glm::vec2 ( 15.0f , 28.0f ) ,
-        232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
+    Light1->SetLight ( glm::vec3 ( 84.0f , 7.0f , -8.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 10.0f , 18.0f ) ,
+        270.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     newInstance->Visullight.push_back ( Light1 );
-    Light1 = new LightMass;
+    LightMass*Light2 = new LightMass;
+    Light2->SetLight ( glm::vec3 ( 112.0f , 7.0f , -10.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 16.0f , 24.0f ) ,
+        270.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
+    newInstance->Visullight.push_back ( Light2 );
+    Light2 = new LightMass;
     Light1->SetBox ( glm::vec3 ( 6.0f ) , "Corridor1" );
     Light1->SetobjectID ( eLayerType::Light );
     newInstance->CollisionLight.push_back ( Light1 );
@@ -119,7 +123,7 @@ void Map::SettingCamera ( )
     camera1->SetCamera ( glm::vec3 ( 120.0f , 6.0f , -55.0f ) , glm::vec3 ( 120.0f , 0.0f , -24.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     newInstance->mapCamera = camera1;
     Light1 = new LightMass;
-    Light1->SetLight ( glm::vec3 ( 94.0f , 7.5f , -60.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 3.0f , 28.0f ) ,
+    Light1->SetLight ( glm::vec3 ( 110.0f , 9.0f , -40.0f ) , glm::vec3 ( 0.0f , -3.0f , -4.0f ) , glm::vec2 ( 1.5f , 28.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) );
     newInstance->Visullight.push_back ( Light1 );
     Light1 = new LightMass;
@@ -133,7 +137,7 @@ void Map::SettingCamera ( )
     camera1->SetCamera ( glm::vec3 ( 92.0f , 6.0f , -25.0f ) , glm::vec3 ( 94.0f , 0.0f , -36.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     newInstance->mapCamera = camera1;
     Light1 = new LightMass;
-    Light1->SetLight ( glm::vec3 ( 60.0f , 13.0f , -88.0f ) , glm::vec3 ( 1.15f , -3.0f , 0.0f ) , glm::vec2 ( 25.0f , 28.0f ) ,
+    Light1->SetLight ( glm::vec3 ( 94.0f , 7.5f , -60.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 3.0f , 28.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     newInstance->Visullight.push_back ( Light1 );
     Light1 = new LightMass;
@@ -147,7 +151,7 @@ void Map::SettingCamera ( )
     camera1->SetCamera ( glm::vec3 ( 98.0f , 6.0f , -100.0f ) , glm::vec3 ( 94.0f , 0.0f , -85.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     newInstance->mapCamera = camera1;
     Light1 = new LightMass;
-    Light1->SetLight ( glm::vec3 ( 70.0f , 13.0f , -88.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 25.0f , 28.0f ) ,
+    Light1->SetLight ( glm::vec3 ( 94.0f , 7.5f , -88.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 3.0f , 28.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     newInstance->Visullight.push_back ( Light1 );
     Light1 = new LightMass;
@@ -161,7 +165,7 @@ void Map::SettingCamera ( )
     camera1->SetCamera ( glm::vec3 ( 55.0f , 3.5f , -85.0f ) , glm::vec3 ( 66.0f , 0.0f , -88.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     newInstance->mapCamera = camera1;
     Light1 = new LightMass;
-    Light1->SetLight ( glm::vec3 ( 42.0f , 18.0f , -84.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 6.8f , 30.0f ) ,
+    Light1->SetLight ( glm::vec3 ( 60.0f , 13.0f , -88.0f ) , glm::vec3 ( -1.15f , -3.0f , 0.0f ) , glm::vec2 ( 25.0f , 28.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     newInstance->Visullight.push_back ( Light1 );
     Light1 = new LightMass;
@@ -175,7 +179,7 @@ void Map::SettingCamera ( )
     camera1->SetCamera ( glm::vec3 ( 42.0f , 6.0f , -78.0f ) , glm::vec3 ( 30.0f , 0.0f , -36.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     newInstance->mapCamera = camera1;
     Light1 = new LightMass;
-    Light1->SetLight ( glm::vec3 ( 21.0f , 12.0f , -105.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 24.0f , 11.0f ) ,
+    Light1->SetLight ( glm::vec3 ( 42.0f , 18.0f , -84.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 6.8f , 30.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     newInstance->Visullight.push_back ( Light1 );
     Light1 = new LightMass;
@@ -198,6 +202,23 @@ void Map::SettingCamera ( )
     newInstance->CollisionLight.push_back ( Light1 );
     sightLight.push_back ( newInstance );
 
+    LightMass* Light5 = new LightMass;
+    Light5 = new LightMass; //홀
+    Light5->SetLight ( glm::vec3 ( 66.0f , 15.0f , -60.0f ) , glm::vec3 ( 3.0f , 0.0f , 2.0f ) , glm::vec2 ( 23.0f , 116.0f ) ,
+        150.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 165.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
+    normalLight.push_back ( Light5 );
+    
+    LightMass* Light3 = new LightMass;
+    Light3 = new LightMass; //자동차 헤드라이트 1
+    Light3->SetLight ( glm::vec3 ( -36.0f , 1.5f , -5.5f ) , glm::vec3 ( 0.8f , 0.0f , -3.0f ) , glm::vec2 ( 4.0f , 24.0f ) ,
+        150.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 255.0f , 255.0f , 255.0f ) , glm::vec3 ( 255.0f , 255.0f , 255.0f ) );
+    normalLight.push_back ( Light3 );
+
+    LightMass* Light4 = new LightMass;
+    Light4 = new LightMass; //자동차 헤드라이트
+    Light4->SetLight ( glm::vec3 ( -38.0f , 1.5f , -5.0f ) , glm::vec3 ( -0.8f , 0.0f , -3.0f ) , glm::vec2 ( 4.0f , 24.0f ) ,
+        150.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 255.0f , 255.0f , 255.0f ) , glm::vec3 ( 255.0f , 255.0f , 255.0f ) );
+    normalLight.push_back ( Light4 );
 
 
 
@@ -246,11 +267,15 @@ void Map::SettingCamera ( )
             
             LightManager::getInstance ( ).AddLight ( light );
         }
+        
         CameraManager::getInstance ( ).SetCamera2 ( object->mapCamera );
         //CameraManager::getInstance ( ).AddCamera ( _camera );
     }
     
-
+    for ( auto& light : normalLight ) {
+        std::cout << "나는 정왕의 오승원이다" << std::endl;
+        LightManager::getInstance ( ).AddLight ( light );
+    }
 
 
 }
