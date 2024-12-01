@@ -24,7 +24,7 @@ class Object {
 
 
 public:
-	int Destroy = 0;	//유효성 0: 실존 1: 없음
+	int Destroy = 0;	//유효성 0: 실존 1: 없음 (0일시 삭제됨)
 	std::string name;	//객체 이름(구체적인)
 	int typeID = 0;	//객체 그림자 여부
 	eLayerType objectID = eLayerType::Environment;	//객체 속성(충돌처리용)
@@ -36,28 +36,32 @@ public:
 	CollisionObject CollisionBox;
 	virtual void Update ( ) {}
 	
-	virtual CollisionObject GetBox ( ) { return CollisionBox; }
+	virtual CollisionObject GetBox ( ) { return CollisionBox; }	//충돌 박스 리턴
+	virtual void SetBox (glm::vec3  size, std::string name="" ) {	//충돌 박스 설정
+		CollisionBox.Size = size;
+		CollisionBox.name = name;
+	}
 	
-	virtual eLayerType GetObjectID ( ) { return objectID; }
+	virtual eLayerType GetObjectID ( ) { return objectID; }	//객체 충돌ID 리턴
 	virtual void SetPos ( glm::vec3 pos ) { Pos = pos; }
 	virtual glm::vec3& SetPos () { return Pos; }
-	virtual glm::vec3 GetPos ( ) {	return Pos;}
-	virtual int& GetDestroy ( ) { return Destroy; }
+	virtual glm::vec3 GetPos ( ) {	return Pos;}	
+	virtual int& GetDestroy ( ) { return Destroy; }	//삭제할지 리턴
 
-	virtual void AddBox ( std::string& name ,glm::vec3 size ) { 
+	virtual void AddBox ( std::string& name ,glm::vec3 size ) {		//사용안함
 		CollisionObject* box = new CollisionObject;
 		box->name = name;
 		box->Size = size;
 		//CollisionBox.push_back( box );
 	 }
-	//virtual void RemoveBox ( std::string& name) {}
+
 
 	
 	
+	//virtual ~Object ( ) {}
 
-
-	virtual void HandleCollision (Object* ) {}
-	virtual void RenderShadow ( glm::mat4 lightView , const Program* program ) {}
+	virtual bool HandleCollision ( Object* ) { return true; }	//상호 충돌 확인
+	virtual void RenderShadow ( glm::mat4 lightView , const Program* program ) {}	//그림자 랜더링
 	virtual void CollisionObserver (std::string& group, Object* object ) {}
 };
 

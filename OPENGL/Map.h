@@ -4,15 +4,25 @@
 #include "Animator.h"
 #include "CameraManager.h"
 #include "object.h"
+#include "LightMass.h"
+class character;
 
-class LightMass;
+
+struct SightLight {
+	int CollisionLight =0;
+
+	LightMass* sightlight = new LightMass;
+
+};
+
+
 class Map :public Object
 {
 public:
 
-	Map ( ) {
+	Map ( character* _monster ) {
 		typeID = 0;
-
+		monster = _monster;
 	}
 
 	virtual void Update ( );
@@ -44,12 +54,13 @@ private:
 	
 	int usingCameraID = 0;
 	float updateSightTime = 0.0f;
-	std::vector<LightMass*> normallight;
-	std::vector<LightMass*> sitghtlight;
+	std::vector<LightMass*> normalLight;
+	std::vector<SightLight*> sighttLight;
 	std::vector<Camera*> camera;
-	
+	character* monster;
+
 	Camera* camera1;
-	LightMass* light1;
+	SightLight* light1;
 
 
 };

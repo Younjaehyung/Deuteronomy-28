@@ -2,11 +2,12 @@
 #include "Time.h"
 #include "LightManager.h"
 #include "RandomEngine.h"
-
+#include "character.h"
 
 void Map::Update ( )
 {
     CameraLightUpdate ( );
+    CollisionLight ( );
 }
 
 void Map::Render ( const Program* program, glm::mat4 _cameraTransform )
@@ -54,8 +55,7 @@ void Map::Initialize ( const std::string& strName )
     UBO = UBOBUFFER_LIGHT::Create ( 20 );
 	ground = Mesh::CreatePlane ( );
 	m_model = Model::Load ( strName );
-	std::cerr << "MAPAA" << std::endl;
-	
+
     if ( !m_model ) {
         std::cerr << "program UserSetError id : " << m_model->Get ( ) << std::endl;
         return;
@@ -90,78 +90,78 @@ void Map::SettingCamera ( )
 void Map::SettingLight ( ) {
 
 
-    light1 = new LightMass;
-    light1->SetLight ( glm::vec3 ( -36.0f , 1.5f , -5.5f ) , glm::vec3 ( 0.8f , 0.0f , -3.0f ) , glm::vec2 ( 4.0f , 24.0f ) , 150.0f );
-    sitghtlight.push_back ( light1 );
+    light1 = new SightLight;
+    light1->sightlight->SetLight ( glm::vec3 ( -36.0f , 1.5f , -5.5f ) , glm::vec3 ( 0.8f , 0.0f , -3.0f ) , glm::vec2 ( 4.0f , 24.0f ) , 150.0f );
+    sighttLight.push_back ( light1 );
 
-    light1 = new LightMass;
-    light1->SetLight ( glm::vec3 ( -38.0f , 1.5f , -5.0f ) , glm::vec3 ( -0.8f , 0.0f , -3.0f ) , glm::vec2 ( 4.0f , 24.0f ) , 150.0f );
-    sitghtlight.push_back ( light1 );
+    light1 = new SightLight;
+    light1->sightlight->SetLight ( glm::vec3 ( -38.0f , 1.5f , -5.0f ) , glm::vec3 ( -0.8f , 0.0f , -3.0f ) , glm::vec2 ( 4.0f , 24.0f ) , 150.0f );
+    sighttLight.push_back ( light1 );
 
-    light1 = new LightMass;
-    light1->SetLight ( glm::vec3 ( 66.0f , 15.0f , -60.0f ) , glm::vec3 ( 3.0f , 0.0f , 2.0f ) , glm::vec2 ( 23.0f , 16.0f ) ,
+    light1 = new SightLight;
+    light1->sightlight->SetLight ( glm::vec3 ( 66.0f , 15.0f , -60.0f ) , glm::vec3 ( 3.0f , 0.0f , 2.0f ) , glm::vec2 ( 23.0f , 16.0f ) ,
         150.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 165.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
-    sitghtlight.push_back ( light1 );
+    sighttLight.push_back ( light1 );
 
-    light1 = new LightMass;
-    light1->SetLight ( glm::vec3 ( 33.0f , 15.0f , -54.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 9.0f , 5.0f ) ,
+    light1 = new SightLight;
+    light1->sightlight->SetLight ( glm::vec3 ( 33.0f , 15.0f , -54.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 9.0f , 5.0f ) ,
         270.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 165.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
-    sitghtlight.push_back ( light1 );
+    sighttLight.push_back ( light1 );
 
-    light1 = new LightMass;
-    light1->SetLight ( glm::vec3 ( 45.0f , 12.0f , -26.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 14.5f , 18.0f ) ,
+    light1 = new SightLight;
+    light1->sightlight->SetLight ( glm::vec3 ( 45.0f , 12.0f , -26.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 14.5f , 18.0f ) ,
         270.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
-    sitghtlight.push_back ( light1 );
+    sighttLight.push_back ( light1 );
 
-    light1 = new LightMass;
-    light1->SetLight ( glm::vec3 ( 66.0f , 12.0f , -18.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 2.5f , 18.0f ) ,
+    light1 = new SightLight;
+    light1->sightlight->SetLight ( glm::vec3 ( 66.0f , 12.0f , -18.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 2.5f , 18.0f ) ,
         270.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
-    sitghtlight.push_back ( light1 );
+    sighttLight.push_back ( light1 );
 
-    light1 = new LightMass;
-    light1->SetLight ( glm::vec3 ( 84.0f , 7.0f , -8.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 10.0f , 18.0f ) ,
+    light1 = new SightLight;
+    light1->sightlight->SetLight ( glm::vec3 ( 84.0f , 7.0f , -8.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 10.0f , 18.0f ) ,
         270.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
-    sitghtlight.push_back ( light1 );
+    sighttLight.push_back ( light1 );
 
-    light1 = new LightMass;
-    light1->SetLight ( glm::vec3 ( 112.0f , 7.0f , -7.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 14.0f , 18.0f ) ,
+    light1 = new SightLight;
+    light1->sightlight->SetLight ( glm::vec3 ( 112.0f , 7.0f , -7.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 14.0f , 18.0f ) ,
         270.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
-    sitghtlight.push_back ( light1 );
+    sighttLight.push_back ( light1 );
 
-    light1 = new LightMass;
-    light1->SetLight ( glm::vec3 ( 110.0f , 9.0f , -40.0f ) , glm::vec3 ( 0.0f , -3.0f , -4.0f ) , glm::vec2 ( 15.0f , 28.0f ) ,
+    light1 = new SightLight;
+    light1->sightlight->SetLight ( glm::vec3 ( 110.0f , 9.0f , -40.0f ) , glm::vec3 ( 0.0f , -3.0f , -4.0f ) , glm::vec2 ( 15.0f , 28.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
-    sitghtlight.push_back ( light1 );
+    sighttLight.push_back ( light1 );
 
-    light1 = new LightMass;
-    light1->SetLight ( glm::vec3 ( 94.0f , 7.5f , -60.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 3.0f , 28.0f ) ,
+    light1 = new SightLight;
+    light1->sightlight->SetLight ( glm::vec3 ( 94.0f , 7.5f , -60.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 3.0f , 28.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) );
-    sitghtlight.push_back ( light1 );
+    sighttLight.push_back ( light1 );
 
-    light1 = new LightMass;
-    light1->SetLight ( glm::vec3 ( 60.0f , 13.0f , -88.0f ) , glm::vec3 ( 1.15f , -3.0f , 0.0f ) , glm::vec2 ( 25.0f , 28.0f ) ,
+    light1 = new SightLight;
+    light1->sightlight->SetLight ( glm::vec3 ( 60.0f , 13.0f , -88.0f ) , glm::vec3 ( 1.15f , -3.0f , 0.0f ) , glm::vec2 ( 25.0f , 28.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
-    sitghtlight.push_back ( light1 );
+    sighttLight.push_back ( light1 );
 
-    light1 = new LightMass;
-    light1->SetLight ( glm::vec3 ( 42.0f , 18.0f , -84.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 6.8f , 30.0f ) ,
+    light1 = new SightLight;
+    light1->sightlight->SetLight ( glm::vec3 ( 42.0f , 18.0f , -84.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 6.8f , 30.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
-    sitghtlight.push_back ( light1 );
+    sighttLight.push_back ( light1 );
 
-    light1 = new LightMass;
-    light1->SetLight ( glm::vec3 ( 21.0f , 12.0f , -105.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 24.0f , 11.0f ) ,
+    light1 = new SightLight;
+    light1->sightlight->SetLight ( glm::vec3 ( 21.0f , 12.0f , -105.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 24.0f , 11.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
-    sitghtlight.push_back ( light1 );
+    sighttLight.push_back ( light1 );
 
-    light1 = new LightMass;
-    light1->SetLight ( glm::vec3 ( 64.0f , 13.0f , -115.0f ) , glm::vec3 ( 1.0f , -3.0f , 0.0f ) , glm::vec2 ( 24.0f , 11.0f ) ,
+    light1 = new SightLight;
+    light1->sightlight->SetLight ( glm::vec3 ( 64.0f , 13.0f , -115.0f ) , glm::vec3 ( 1.0f , -3.0f , 0.0f ) , glm::vec2 ( 24.0f , 11.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
-    sitghtlight.push_back ( light1 );
+    sighttLight.push_back ( light1 );
 
-    for ( auto& _light : sitghtlight ) {
-        LightManager::getInstance ( ).AddLight ( _light );
+    for ( auto& _light : sighttLight ) {
+        LightManager::getInstance ( ).AddLight ( _light->sightlight );
     }
-    sitghtlight[ 3 ]->Switch_lightControl ( ) = true;
+    sighttLight[ 3 ]->sightlight->Switch_lightControl ( ) = true;
 }
 
 void Map::CameraLightUpdate ( )
@@ -170,14 +170,13 @@ void Map::CameraLightUpdate ( )
 
     updateSightTime += Time::DeltaTime ( );
     int newCameraID = usingCameraID;
-    std::cerr << updateSightTime << std::endl;
+    std::cerr <<"Camera TIme:" << updateSightTime << std::endl;
     if ( updateSightTime >= 12.0f ) {
      
         std::uniform_int_distribution<int> camera_moving ( 0 , 0 );
 
         newCameraID = camera_moving ( RandomEngine::GetEngine() );
-        std::cerr << newCameraID << std::endl;
-        std::cerr << "이종현 씨붕방넘아" << std::endl;
+        std::cerr << "Camera Update:" << newCameraID << std::endl;
         updateSightTime = 0.0f;
     }
     
@@ -186,9 +185,11 @@ void Map::CameraLightUpdate ( )
     
     
     if ( usingCameraID != newCameraID ) {
-        sitghtlight[ usingCameraID ]->Switch_lightControl ( ) = false;
+        sighttLight[ usingCameraID ]->sightlight->Switch_lightControl ( ) = false;
+        sighttLight[ usingCameraID ]->sightlight->GetCollisionLight ( ) = 0;
         usingCameraID = newCameraID;
-        sitghtlight[ usingCameraID ]->Switch_lightControl() = true;
+        sighttLight[ usingCameraID ]->sightlight->GetCollisionLight ( ) = 0;
+        sighttLight[ usingCameraID ]->sightlight->Switch_lightControl() = true;
         CameraManager::getInstance ( ).SetCamera2 ( camera[usingCameraID] );
     }
    
@@ -196,6 +197,11 @@ void Map::CameraLightUpdate ( )
 
 void Map::CollisionLight ( )
 {
+    if ( sighttLight[ usingCameraID ]->sightlight->Switch_lightControl ( )&&
+         sighttLight[ usingCameraID ]->sightlight->GetCollisionLight () ==0 ) {
+        sighttLight[ usingCameraID ]->sightlight->GetCollisionLight ( ) = 1;
+        monster->notifyFromMap ( );
+    }
 
 }
 

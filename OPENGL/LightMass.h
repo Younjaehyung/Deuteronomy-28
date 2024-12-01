@@ -10,7 +10,7 @@ class LightMass : public Object
 {
 private:
 	bool m_lightControl{ false };
-
+	int CollisionLight = 0;
 	std::string name;
 	Light_ORI* lightData;
 	glm::mat4 lightProjection;
@@ -23,8 +23,8 @@ public:
 		lightData = new Light_ORI;
 	}
 
-	void Update ( ) {};
-
+	virtual void Update ( ) {};
+	virtual bool HandleCollision ( Object* );
 
 	void SetLight ( glm::vec3 pos , glm::vec3 dir , glm::vec2 cutoff,
 		float distance= 200.0f ,
@@ -64,6 +64,10 @@ public:
 	}
 	bool& Switch_lightControl ( ) {
 		return m_lightControl;
+	}
+
+	int& GetCollisionLight ( ) {
+		return CollisionLight;
 	}
 };
 

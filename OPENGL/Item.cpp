@@ -25,7 +25,7 @@ void Item::RenderShadow ( glm::mat4 lightView , const Program* program ) {
     }
 }
 
-void Item::HandleCollision ( Object* player )
+bool Item::HandleCollision ( Object* player )
 {
     if ( player->objectID == eLayerType::Player ) {
 
@@ -33,7 +33,7 @@ void Item::HandleCollision ( Object* player )
         
     }
 
-
+    return true;
 }
 
 

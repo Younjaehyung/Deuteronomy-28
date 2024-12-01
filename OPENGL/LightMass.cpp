@@ -35,3 +35,9 @@ void LightMass::SetSynLight ( glm::vec3 pos , glm::vec3 dir , glm::mat4 projecti
 	lightView = view;
 
 }
+
+bool LightMass::HandleCollision ( Object* object) {
+
+	CollisionLight = 1;
+	return true;
+}

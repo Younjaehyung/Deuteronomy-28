@@ -308,11 +308,11 @@ bool Context::Init ( )
 
     mainCamera = new Camera;
     player = new Player;
-    map = new Map;
+   
     item = new Item ( glm::vec3 ( 3.0f , 1000.0f , 0.0f ) );
     object1 = new character( glm::vec3(84.0f , 0.0f , -10.0f) );
     object2 = new character( glm::vec3 (94.0f , 0.0f , -60.0f ) );
-
+    map = new Map(object1);
 
    
     map->Initialize ("./model/NewNewNew.glb" );

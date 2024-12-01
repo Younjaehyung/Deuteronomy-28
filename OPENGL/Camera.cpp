@@ -33,7 +33,7 @@ void Camera::Update ( ) {
 			* glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( m_cameraYaw ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) )
 			* glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( m_cameraPitch ) , glm::vec3 ( 1.0f , 0.0f , 0.0f ) )
 			* glm::vec4 ( 0.0f , 0.0f , -1.0f , 0.0f );   //방향벡터에는 4번째 항에 0을 넣음
-		std::cerr << "내가 보이니?" << std::endl;
+
 	}
 
 	projection = glm::perspective ( glm::radians ( SightAngle ) , ( float ) Height / ( float ) Widht , SightNear , SightFar );   //원근투영

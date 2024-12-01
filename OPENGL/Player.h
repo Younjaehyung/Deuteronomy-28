@@ -20,11 +20,12 @@ public:
 		objectID = eLayerType::Player;
 	}
 
+
 	virtual void Update ( );
 	virtual void Status_Machine ( );
 	virtual void Render ( const Program* program, glm::mat4 _cameraTransform );
 	virtual void RenderShadow ( glm::mat4 lightView , const Program* program );
-	virtual void HandleCollision ( Object* object );
+	virtual bool HandleCollision ( Object* object );
 	virtual void Input ( GLFWwindow* window );
 	virtual void Initialize ( const std::string& strName = "" );
 
