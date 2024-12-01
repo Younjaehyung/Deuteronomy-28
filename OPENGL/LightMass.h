@@ -17,7 +17,7 @@ private:
 	glm::mat4 lightView;
 	ShadowMapPtr m_shadowMap = ShadowMap::Create ( 2048 , 2048 );
 public:
-	LightMass ( ) {
+	LightMass (  ) {
 		lightProjection = glm::mat4 ( 1.0f );
 		lightView = glm::mat4 ( 1.0f );
 		lightData = new Light_ORI;
@@ -42,9 +42,12 @@ public:
 	Light_ORI GetlightData ( ) {
 		return *lightData;
 	}
-
+	eLayerType objectID = eLayerType::Environment;
 	Light_ORI* SetlightData ( ) {
 		return lightData;
+	}
+	void SetobjectID ( eLayerType _objectID ) {
+		objectID = _objectID;
 	}
 
 	glm::mat4 GetlightProjection ( ) {
