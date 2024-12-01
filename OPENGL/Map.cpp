@@ -243,7 +243,7 @@ void Map::SettingCamera ( )
 
         //}
         for ( auto& light : object->Visullight ) {
-            std::cout << "나는 정왕의 오승원이다" << std::endl;
+            
             LightManager::getInstance ( ).AddLight ( light );
         }
         CameraManager::getInstance ( ).SetCamera2 ( object->mapCamera );

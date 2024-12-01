@@ -327,6 +327,7 @@ bool Context::Init ( )
 
    
     map->Initialize ("./model/NewNewNew.glb" );
+   
     object1->Initialize ( "./model/monster_m/NiddleHeadRun.glb" );
     object2->Initialize ( "./model/BagMan2.glb" );
     
@@ -349,7 +350,7 @@ bool Context::Init ( )
     obj.push_back ( item );
     obj.push_back ( map );
     obj.push_back ( player );
-    map->objectInit ( obj );
+    map->ObjectInitialize ( obj );
     glDisable ( GL_STENCIL_TEST );
     glClearColor ( 0.0f , 0.0f , 0.0f , 1.0f );
     

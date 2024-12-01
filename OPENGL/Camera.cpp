@@ -14,7 +14,7 @@ void Camera::Update ( ) {
 
 	//std::cout << "m_cameraPitch_moving :"  << m_cameraPitch_moving << std::endl;
 	if ( Ismoving == moving::run) {
-		m_cameraPitch_moving = 5.0f*cos( 10.0f * moving_Time );
+		m_cameraPitch_moving = 4.0f*cos( 10.0f * moving_Time );
 		moving_Time += Time::DeltaTime ( );
 		
 	}
@@ -28,18 +28,32 @@ void Camera::Update ( ) {
 	if ( !static_camera ) {
 		//m_cameraPitch_moving = glm::clamp ( m_cameraPitch_moving , -89.0f , 89.0f );
 		m_cameraFront =
-			glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( m_cameraPitch_moving ) , glm::vec3 ( 0.0f , 0.0f , 1.0f ) ) *
-			glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 0.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) )
-			* glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( m_cameraYaw ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) )
+			glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( m_cameraPitch_moving ) , glm::vec3 ( 0.0f , 0.0f , 0.0f ) ) *
+			 glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( m_cameraYaw ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) )
 			* glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( m_cameraPitch ) , glm::vec3 ( 1.0f , 0.0f , 0.0f ) )
 			* glm::vec4 ( 0.0f , 0.0f , -1.0f , 0.0f );   //방향벡터에는 4번째 항에 0을 넣음
+		
 
+		// 쿼터니언 생성
+		glm::vec3 front = glm::vec3 ( 0.0f , 0.0f , -1.0f );
+		glm::quat pitchQuat = glm::angleAxis ( glm::radians ( m_cameraPitch ) , glm::vec3 ( 1.0f , 0.0f , 0.0f ) );
+		glm::quat yawQuat = glm::angleAxis ( glm::radians ( m_cameraYaw ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+		glm::quat rollQuat = glm::angleAxis ( glm::radians ( m_cameraPitch_moving ) , glm::vec3 ( 1.0f , 0.0f , 0.0f ) );
+		// 쿼터니언 결합
+		glm::quat orientation = yawQuat * pitchQuat* rollQuat;
+		std::cout << "나는 정왕의 오승원이다!" << std::endl;
+		// 방향 벡터 변환
+		m_cameraFront =  orientation *front ;
+		view = glm::lookAt ( m_cameraPos , m_cameraPos + m_cameraFront , m_cameraUp );
+	}
+	else {
+		view = glm::lookAt ( m_cameraPos , m_cameraPos + m_cameraFront , m_cameraUp );
 	}
 
 	projection = glm::perspective ( glm::radians ( SightAngle ) , ( float ) Height / ( float ) Widht , SightNear , SightFar );   //원근투영
 
-	//카메라 위치 함수
-	view = glm::lookAt ( m_cameraPos , m_cameraPos + m_cameraFront , m_cameraUp );
+	
+	
 }
 
 void Camera::MouseMove ( double x , double y ) {
