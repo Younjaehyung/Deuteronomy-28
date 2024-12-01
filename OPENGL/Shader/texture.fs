@@ -22,13 +22,13 @@ void main() {
      vec2 uv = texCoord;
     
     // 화면 흔들림 효과
-    uv.x += sin(uv.y * 5.0 + time) * 0.0025; // 주기와 강도 조절
-    uv.y += cos(uv.x * 5.0 + time) * 0.0025; // 주기와 강도 조절
+    uv.x += sin(uv.y * 5.0 + time) * 0.0001; // 주기와 강도 조절
+    uv.y += cos(uv.x * 5.0 + time) * 0.0001; // 주기와 강도 조절
     
     // 컬러 채널 왜곡
-    float r = texture(tex, uv + vec2(0.003, 0.0)).r;
+    float r = texture(tex, uv + vec2(0.005, 0.0)).r;
     float g = texture(tex, uv).g;
-    float b = texture(tex, uv - vec2(0.003, 0.0)).b;
+    float b = texture(tex, uv - vec2(0.005, 0.0)).b;
 
     // 노이즈 적용
     float noise = random(uv + time) * 0.05;
