@@ -325,11 +325,13 @@ bool Context::Init ( )
     CollisionManager::getInstance ( ).Initialize ( );
     
     CameraManager::getInstance ( ).SetCamera ( player->camera );
-    //CameraManager::getInstance ( ).SetCamera2 ( object1->camera );
+    CameraManager::getInstance ( ).SetCamera2 ( mainCamera );
    
    light1 = new LightMass;
    light1->SetLight ( glm::vec3 ( 2.0f , 4.0f , -1.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
    LightManager::getInstance ( ).AddLight ( light1 );
+
+   
 
     obj.push_back ( object1 );
     obj.push_back ( object2 );
@@ -350,11 +352,19 @@ void Context::IMGUI_USER ( ) {
         if ( ImGui::ColorEdit4 ( "clear color" , glm::value_ptr ( m_clearColor ) ) ) {
             glClearColor ( m_clearColor.r , m_clearColor.g , m_clearColor.b , m_clearColor.a );
         }
+        ImGui::Separator ( );   //분할 선 그리기
+        ImGui::DragFloat3 ( "main camera pos" , glm::value_ptr ( player->SetPos ( ) ) , 0.01f );    //카메라 좌표변경 UI 세팅
+        ImGui::DragFloat ( "main camera yaw" , &m_cameraYaw , 0.5f );
+        ImGui::DragFloat ( "main camera pitch" , &m_cameraPitch , 0.5f , -89.0f , 89.0f );
 
         ImGui::Separator ( );   //분할 선 그리기
-        ImGui::DragFloat3 ( "camera pos" , glm::value_ptr ( player->SetPos ( ) ) , 0.01f );    //카메라 좌표변경 UI 세팅
-        ImGui::DragFloat ( "camera yaw" , &m_cameraYaw , 0.5f );
-        ImGui::DragFloat ( "camera pitch" , &m_cameraPitch , 0.5f , -89.0f , 89.0f );
+        ImGui::DragFloat3 ( "camera pos" , glm::value_ptr ( m_cameraP ) , 0.01f );    //카메라 좌표변경 UI 세팅
+        ImGui::DragFloat3 ( "camera dir" , glm::value_ptr ( m_cameraD) , 0.01f );
+        ImGui::DragFloat3 ( "camera up" , glm::value_ptr ( m_cameraU ) , 0.01f );
+
+
+        mainCamera->SetCamera ( m_cameraP, m_cameraD, m_cameraU );
+
         ImGui::Separator ( );
         if ( ImGui::Button ( "reset camera" ) ) {   //카메라 좌표 리셋 UI 세팅
             m_cameraYaw = 0.0f;

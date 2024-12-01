@@ -71,16 +71,16 @@ void Camera::SetCamera ( glm::vec3 _pos , glm::vec3 _dir , glm::vec3 _up , float
 	m_cameraPos = _pos;
 	static_camera = 1;
 	// 카메라가 바라보는 방향 벡터 계산 (정규화)
-	m_cameraFront = glm::normalize ( _dir - _pos );
+	m_cameraFront = glm::normalize ( _dir -  _pos );
 
 	// 카메라의 오른쪽 벡터 계산
-	glm::vec3 m_cameraRIGHT = glm::normalize ( glm::cross ( glm::vec3( ) , m_cameraFront ) );
+	glm::vec3 m_cameraRIGHT = glm::normalize ( glm::cross ( _up , m_cameraFront ) );
 
 	// 카메라의 위쪽 벡터 재계산 (정규화)
-	m_cameraUp = _up;
+	m_cameraUp = glm::normalize ( glm::cross ( m_cameraFront, m_cameraRIGHT ) );
 
 	// 뷰 행렬 생성
-	view = glm::lookAt ( m_cameraPos , _pos + m_cameraFront , glm::vec3(0.0f,0.0f,1.0f) );
+	view = glm::lookAt ( m_cameraPos , _pos + m_cameraFront , m_cameraUp );
 	SightNear = Near;
 	SightFar = Far;
 	SightAngle = Angle;

@@ -184,14 +184,14 @@ void Map::CameraLightUpdate ( )
 
     
     
-    if ( usingCameraID != newCameraID ) {
+    /*if ( usingCameraID != newCameraID ) {
         sighttLight[ usingCameraID ]->sightlight->Switch_lightControl ( ) = false;
         sighttLight[ usingCameraID ]->sightlight->GetCollisionLight ( ) = 0;
         usingCameraID = newCameraID;
         sighttLight[ usingCameraID ]->sightlight->GetCollisionLight ( ) = 0;
         sighttLight[ usingCameraID ]->sightlight->Switch_lightControl() = true;
         CameraManager::getInstance ( ).SetCamera2 ( camera[usingCameraID] );
-    }
+    }*/
    
 }
 

@@ -136,8 +136,10 @@ private:
 	};
 	Light m_light;
 
-
-	
+	glm::vec3 m_cameraD =  glm::vec3(0.0f);
+	glm::vec3 m_cameraP = glm::vec3 ( 0.0f );
+	glm::vec3 m_cameraU = glm::vec3 ( 0.0f );
+	float m_cameraA = 45.0f;
 	
 	bool m_blinn{ true };	//blinn 쉐이더 사용여부
 	bool m_animation{ true };	//애니메이션 사용 여부
