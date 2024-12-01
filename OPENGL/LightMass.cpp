@@ -4,7 +4,7 @@ void LightMass::SetLight ( glm::vec3 pos , glm::vec3 dir , glm::vec2 cutoff ,
 	float distance , glm::vec3 ambient , glm::vec3 diffuse , glm::vec3 specualr )
 {
 	int directional = 0;
-	m_lightControl = false;
+	m_lightControl = true;
 
 	lightData->directional = 0;
 

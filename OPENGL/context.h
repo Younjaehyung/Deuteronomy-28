@@ -25,11 +25,17 @@ CLASS_PTR(Context)
 class Context{
 public:
 	static ContextUPtr Create ( );
+
+	//게임 start
+
+
+	//게임 play
 	void Update ( );
 	void Render ( );
 	void ProcessInput ( GLFWwindow* window );
 	void IMGUI_USER ( );
-	
+	void UIDraw ( );
+
 	void Reshape ( int width , int height );
 	void MainDraw ( glm::vec3 _pos , glm::mat4 _cameraTransform );
 

@@ -70,15 +70,15 @@ void Context::Render ( ) {
     //m_simpleProgram->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
     //DrawScene (  m_simpleProgram.get ( ) );
 
-    //Framebuffer::BindToDefault ( );
+   
 
 
 
     LightManager::getInstance ( ).UpdateShadowMaps ( obj );
 
-    glViewport ( 0 , 0 , m_width/2 , m_height );
+    glViewport ( 0 , 0 , m_width , m_height );
 
-    //m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
+    m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
         //CollisionManager::getInstance ( ).Render ( );   //맵 그리드
 
     glDisable ( GL_CULL_FACE );
@@ -89,22 +89,26 @@ void Context::Render ( ) {
     //m_assimp_Program->Use ( );
     MainDraw (CameraManager::getInstance().GetCameraPos() , CameraManager::getInstance ( ).Camera_transform() );
    
-    glViewport ( m_width*3 / 4 ,0 , m_width/4 , m_height );
-    glDisable ( GL_CULL_FACE );
-    MainDraw ( CameraManager::getInstance ( ).GetCamera2Pos ( ) , CameraManager::getInstance ( ).Camera2_transform ( ) );
+   // glViewport ( m_width*3 / 4 ,0 , m_width/4 , m_height );
+    //glDisable ( GL_CULL_FACE );
+    //MainDraw ( CameraManager::getInstance ( ).GetCamera2Pos ( ) , CameraManager::getInstance ( ).Camera2_transform ( ) );
    
+   
+    UIDraw ( );
 
+
+    Framebuffer::BindToDefault ( );
     ////이중버퍼링
-    //m_textureProgram->Use ( );
-    //m_textureProgram->SetUniform ( "transform" ,
-    //    glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 2.0f , 1.0f ) ) );
-    //m_framebuffer->GetColorAttachment ( )->Bind ( );
-    //m_textureProgram->SetUniform ( "tex" , 0 );
-    //m_textureProgram->SetUniform ( "resolution" , glm::vec2 ( 2560 , 1440 ) );
-    //nowTime += Time::DeltaTime ( );
-    //m_textureProgram->SetUniform ( "time" , nowTime );
+    m_textureProgram->Use ( );
+    m_textureProgram->SetUniform ( "transform" ,
+        glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 2.0f , 1.0f ) ) );
+    m_framebuffer->GetColorAttachment ( )->Bind ( );
+    m_textureProgram->SetUniform ( "tex" , 0 );
+    m_textureProgram->SetUniform ( "resolution" , glm::vec2 ( 2560 , 1440 ) );
+    nowTime += Time::DeltaTime ( );
+    m_textureProgram->SetUniform ( "time" , nowTime );
 
-    //m_plane->Draw ( m_textureProgram.get ( ) );
+    m_plane->Draw ( m_textureProgram.get ( ) );
 }
 
 void Context :: Update ( ) {
@@ -190,7 +194,15 @@ void Context::MainDraw (glm::vec3 _pos, glm::mat4 _cameraTransform )
 
 }
 
+void Context::UIDraw ( )
+{
+    glDisable ( GL_DEPTH_TEST ); // DEPTH Buffer 사용 설정
+    glm::mat4 uiProjection = glm::ortho ( 0.0f , 1920.f , 0.0f , 1080.f , -1.0f , 1.0f );
 
+
+
+    glEnable ( GL_DEPTH_TEST ); // DEPTH Buffer 사용 설정
+}
 
 
 void Context::MouseButton ( int button , int action , double x , double y ) {
@@ -345,6 +357,10 @@ bool Context::Init ( )
   return true;
 }
 
+
+
+
+
 void Context::IMGUI_USER ( ) {
     //imgui 설정 부분
     if ( ImGui::Begin ( "ui window" ) ) {
@@ -359,11 +375,11 @@ void Context::IMGUI_USER ( ) {
 
         ImGui::Separator ( );   //분할 선 그리기
         ImGui::DragFloat3 ( "camera pos" , glm::value_ptr ( m_cameraP ) , 0.01f );    //카메라 좌표변경 UI 세팅
-        ImGui::DragFloat3 ( "camera dir" , glm::value_ptr ( m_cameraD) , 0.01f );
+        ImGui::DragFloat3 ( "camera dir" , glm::value_ptr ( m_cameraD ) , 0.01f );
         ImGui::DragFloat3 ( "camera up" , glm::value_ptr ( m_cameraU ) , 0.01f );
 
 
-        mainCamera->SetCamera ( m_cameraP, m_cameraD, m_cameraU );
+        mainCamera->SetCamera ( m_cameraP , m_cameraD , m_cameraU );
 
         ImGui::Separator ( );
         if ( ImGui::Button ( "reset camera" ) ) {   //카메라 좌표 리셋 UI 세팅
@@ -373,7 +389,7 @@ void Context::IMGUI_USER ( ) {
         }
         // 접을 수 있는 헤더, 열려있게 옵션 설정
         if ( ImGui::CollapsingHeader ( "light" , ImGuiTreeNodeFlags_DefaultOpen ) ) {
-            ImGui::DragFloat3 ( "l.position" , glm::value_ptr ( light1->SetlightData ()->position ) , 0.01f );
+            ImGui::DragFloat3 ( "l.position" , glm::value_ptr ( light1->SetlightData ( )->position ) , 0.01f );
             ImGui::DragFloat3 ( "l.direction" , glm::value_ptr ( light1->SetlightData ( )->direction ) , 0.01f );
             ImGui::DragFloat2 ( "l.cutoff" , glm::value_ptr ( m_light.cutoff ) , 0.1f , 0.0f , 180.0f );
             ImGui::DragFloat ( "l.distance" , &m_light.distance , 0.1f , 0.0f , 1000.0f );
@@ -381,12 +397,12 @@ void Context::IMGUI_USER ( ) {
             ImGui::ColorEdit3 ( "l.diffuse" , glm::value_ptr ( light1->SetlightData ( )->diffuse ) );
             ImGui::ColorEdit3 ( "l.specular" , glm::value_ptr ( light1->SetlightData ( )->specular ) );
 
-            light1->SetlightData ( )->attenuation= GetAttenuationCoeff (m_light.distance );
-            light1->SetlightView() = glm::lookAt ( light1->SetlightData ( )->position , light1->SetlightData ( )->position + light1->SetlightData ( )->direction , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
-       
+            light1->SetlightData ( )->attenuation = GetAttenuationCoeff ( m_light.distance );
+            light1->SetlightView ( ) = glm::lookAt ( light1->SetlightData ( )->position , light1->SetlightData ( )->position + light1->SetlightData ( )->direction , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+
             light1->SetlightData ( )->cutoff = glm::vec2 (
             cosf ( glm::radians ( m_light.cutoff[ 0 ] ) ) , cosf ( glm::radians ( m_light.cutoff[ 0 ] + m_light.cutoff[ 1 ] ) ) );
-        
+
         }
 
         if ( ImGui::CollapsingHeader ( "material" , ImGuiTreeNodeFlags_DefaultOpen ) ) {
@@ -397,10 +413,12 @@ void Context::IMGUI_USER ( ) {
         ImGui::Checkbox ( "animation" , &m_animation );
 
         float aspectRatio = ( float ) m_width / ( float ) m_width;
-        ImGui::Image ((ImTextureID) m_framebuffer->GetColorAttachment ( )->Get ( ) , ImVec2 ( 150 * aspectRatio , 150 ) );
-        
-        ImGui::Image ( ( ImTextureID ) LightManager::getInstance ( ).GetShadowMap ( 1 )->GetShadowMap ( )->Get ( ) ,ImVec2 ( 256 , 256 ) , ImVec2 ( 0 , 1 ) , ImVec2 ( 1 , 0 ) );
+        ImGui::Image ( ( ImTextureID ) m_framebuffer->GetColorAttachment ( )->Get ( ) , ImVec2 ( 150 * aspectRatio , 150 ) );
+
+        ImGui::Image ( ( ImTextureID ) LightManager::getInstance ( ).GetShadowMap ( 1 )->GetShadowMap ( )->Get ( ) , ImVec2 ( 256 , 256 ) , ImVec2 ( 0 , 1 ) , ImVec2 ( 1 , 0 ) );
     }
     ImGui::End ( );
 
 }
+
+

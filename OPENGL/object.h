@@ -48,12 +48,6 @@ public:
 	virtual glm::vec3 GetPos ( ) {	return Pos;}	
 	virtual int& GetDestroy ( ) { return Destroy; }	//삭제할지 리턴
 
-	virtual void AddBox ( std::string& name ,glm::vec3 size ) {		//사용안함
-		CollisionObject* box = new CollisionObject;
-		box->name = name;
-		box->Size = size;
-		//CollisionBox.push_back( box );
-	 }
 
 
 	
