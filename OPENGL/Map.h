@@ -9,11 +9,9 @@ class character;
 
 
 struct SightLight {
+	int CollisionLight =0;
 
-	Camera* mapCamera;
-
-	std::vector<LightMass*> CollisionLight;
-	std::vector<LightMass*> Visullight;
+	LightMass* sightlight = new LightMass;
 
 };
 
@@ -42,6 +40,8 @@ private:
 
 	UBOBUFFER_LIGHTUPtr UBO;
 
+	std::vector<Camera*> mapCamera;
+	std::vector<LightMass*> lightMass;
 	glm::mat4 modelTransform;
 	glm::vec2 m_prevMousePos{ glm::vec2 ( 0.0f ) };
 	//glm::vec3 Pos = glm::vec3 ( 0.0f , 0.0f , 0.0f );	//위치
@@ -55,10 +55,12 @@ private:
 	int usingCameraID = 0;
 	float updateSightTime = 0.0f;
 	std::vector<LightMass*> normalLight;
-	std::vector<SightLight*> sightLight;
-	
+	std::vector<SightLight*> sighttLight;
+	std::vector<Camera*> camera;
 	character* monster;
 
+	Camera* camera1;
+	SightLight* light1;
 
 
 };

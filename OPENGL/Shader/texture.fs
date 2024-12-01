@@ -19,20 +19,20 @@ void main() {
         discard;
 
         
-    //vec2 st = gl_FragCoord.xy / resolution.xy;
-    //float glitch = random(st * time);
-    //if (glitch > 0.9) {
-    //    st.x += random(st) * 0.9; // X축 글리치
-    //    pixel.xyz += random(st) * vec3(0.4, 0.8, 0.9); // 색상 왜곡
-    //}
+     vec2 uv = texCoord;
+    
+    // 화면 흔들림 효과
+    uv.x += sin(uv.y * 5.0 + time) * 0.0025; // 주기와 강도 조절
+    uv.y += cos(uv.x * 5.0 + time) * 0.0025; // 주기와 강도 조절
+    
+    // 컬러 채널 왜곡
+    float r = texture(tex, uv + vec2(0.003, 0.0)).r;
+    float g = texture(tex, uv).g;
+    float b = texture(tex, uv - vec2(0.003, 0.0)).b;
 
-    vec2 st = gl_FragCoord.xy / resolution.xy;
-    float noise = random(st * time); // 랜덤 노이즈
-    float scanline = sin(st.y * resolution.y * 0.1 + time * 50.0) * 0.1; // 스캔 라인
+    // 노이즈 적용
+    float noise = random(uv + time) * 0.05;
+    
+    fragColor = vec4(r + noise, g + noise, b + noise, 1.0);
 
-    //vec3 color = texture(screenTexture, st).rgb;
-     pixel.xyz += vec3(noise + scanline) * 0.2; // 노이즈와 스캔 라인 결합
-    //gl_FragColor = vec4( pixel.xyz, 1.0);
-
-    fragColor = pixel;
 }

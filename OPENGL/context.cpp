@@ -76,10 +76,10 @@ void Context::Render ( ) {
 
     LightManager::getInstance ( ).UpdateShadowMaps ( obj );
 
-    glViewport ( 0 , 0 , m_width/5 * 3 , m_height );
+    glViewport ( 0 , 0 , m_width , m_height );
 
 
-   // m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
+    m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
         //CollisionManager::getInstance ( ).Render ( );   //맵 그리드
 
     glDisable ( GL_CULL_FACE );
@@ -91,31 +91,23 @@ void Context::Render ( ) {
     MainDraw (CameraManager::getInstance().GetCameraPos() , CameraManager::getInstance ( ).Camera_transform() );
    
 
-   // glViewport ( m_width*3 / 4 ,0 , m_width/4 , m_height );
-    //glDisable ( GL_CULL_FACE );
-    //MainDraw ( CameraManager::getInstance ( ).GetCamera2Pos ( ) , CameraManager::getInstance ( ).Camera2_transform ( ) );
 
-    glViewport ( m_width / 5 * 3,0 , m_width/5 * 2 , m_height /2 );
-    glDisable ( GL_CULL_FACE );
-    MainDraw ( CameraManager::getInstance ( ).GetCamera2Pos ( ) , CameraManager::getInstance ( ).Camera2_transform ( ) );
-
-   
    
     UIDraw ( );
 
 
-    //Framebuffer::BindToDefault ( );
-    //////이중버퍼링
-    //m_textureProgram->Use ( );
-    //m_textureProgram->SetUniform ( "transform" ,
-    //    glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 2.0f , 1.0f ) ) );
-    //m_framebuffer->GetColorAttachment ( )->Bind ( );
-    //m_textureProgram->SetUniform ( "tex" , 0 );
-    //m_textureProgram->SetUniform ( "resolution" , glm::vec2 ( 2560 , 1440 ) );
-    //nowTime += Time::DeltaTime ( );
-    //m_textureProgram->SetUniform ( "time" , nowTime );
+    Framebuffer::BindToDefault ( );
+    ////이중버퍼링
+    m_textureProgram->Use ( );
+    m_textureProgram->SetUniform ( "transform" ,
+        glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 2.0f , 1.0f ) ) );
+    m_framebuffer->GetColorAttachment ( )->Bind ( );
+    m_textureProgram->SetUniform ( "tex" , 0 );
+    m_textureProgram->SetUniform ( "resolution" , glm::vec2 ( 2560 , 1440 ) );
+    nowTime += Time::DeltaTime ( );
+    m_textureProgram->SetUniform ( "time" , nowTime );
 
-    //m_plane->Draw ( m_textureProgram.get ( ) );
+    m_plane->Draw ( m_textureProgram.get ( ) );
 }
 
 void Context :: Update ( ) {
