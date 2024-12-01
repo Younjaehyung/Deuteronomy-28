@@ -86,11 +86,11 @@ void Map::SettingCamera ( )
     newInstance->CollisionLight.push_back ( Light1 );
     sightLight.push_back ( newInstance );
 
-    SightLight* newInstance = new SightLight;
-    Camera* camera1 = new Camera;   //방1번 출구
+    newInstance = new SightLight;
+    camera1 = new Camera;   //방1번 출구
     camera1->SetCamera ( glm::vec3 ( 69.0f , 5.3f , -13.0f ) , glm::vec3 ( 54.0f , 0.0f , -23.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     newInstance->mapCamera = camera1;
-    LightMass* Light1 = new LightMass;
+    Light1 = new LightMass;
     Light1->SetLight ( glm::vec3 ( 84.0f , 7.0f , -8.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 10.0f , 18.0f ) ,
         270.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     newInstance->Visullight.push_back ( Light1 );
@@ -100,11 +100,11 @@ void Map::SettingCamera ( )
     newInstance->CollisionLight.push_back ( Light1 );
     sightLight.push_back ( newInstance );
 
-    SightLight* newInstance = new SightLight;
-    Camera* camera1 = new Camera;   //방1 -> 방2 복도
+    newInstance = new SightLight;
+    camera1 = new Camera;   //방1 -> 방2 복도
     camera1->SetCamera ( glm::vec3 ( 116.0f , 6.0f , -4.0f ) , glm::vec3 ( 100.0f , 0.0f , -8.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     newInstance->mapCamera = camera1;
-    LightMass* Light1 = new LightMass;
+    Light1 = new LightMass;
     Light1->SetLight ( glm::vec3 ( 110.0f , 9.0f , -40.0f ) , glm::vec3 ( 0.0f , -3.0f , -4.0f ) , glm::vec2 ( 15.0f , 28.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     newInstance->Visullight.push_back ( Light1 );
@@ -114,11 +114,11 @@ void Map::SettingCamera ( )
     newInstance->CollisionLight.push_back ( Light1 );
     sightLight.push_back ( newInstance );
 
-    SightLight* newInstance = new SightLight;
-    Camera* camera1 = new Camera;   //마네킹 방
+    newInstance = new SightLight;
+    camera1 = new Camera;   //마네킹 방
     camera1->SetCamera ( glm::vec3 ( 120.0f , 6.0f , -55.0f ) , glm::vec3 ( 120.0f , 0.0f , -24.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     newInstance->mapCamera = camera1;
-    LightMass* Light1 = new LightMass;
+    Light1 = new LightMass;
     Light1->SetLight ( glm::vec3 ( 94.0f , 7.5f , -60.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 3.0f , 28.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) );
     newInstance->Visullight.push_back ( Light1 );
@@ -128,11 +128,11 @@ void Map::SettingCamera ( )
     newInstance->CollisionLight.push_back ( Light1 );
     sightLight.push_back ( newInstance );
 
-    SightLight* newInstance = new SightLight;
-    Camera* camera1 = new Camera;   //마네킹방 -> 복도
+    newInstance = new SightLight;
+    camera1 = new Camera;   //마네킹방 -> 복도
     camera1->SetCamera ( glm::vec3 ( 92.0f , 6.0f , -25.0f ) , glm::vec3 ( 94.0f , 0.0f , -36.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     newInstance->mapCamera = camera1;
-    LightMass* Light1 = new LightMass;
+    Light1 = new LightMass;
     Light1->SetLight ( glm::vec3 ( 60.0f , 13.0f , -88.0f ) , glm::vec3 ( 1.15f , -3.0f , 0.0f ) , glm::vec2 ( 25.0f , 28.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     newInstance->Visullight.push_back ( Light1 );
@@ -142,11 +142,11 @@ void Map::SettingCamera ( )
     newInstance->CollisionLight.push_back ( Light1 );
     sightLight.push_back ( newInstance );
 
-    SightLight* newInstance = new SightLight;
-    Camera* camera1 = new Camera;   //엉덩이탐정 복도 끝
+    newInstance = new SightLight;
+    camera1 = new Camera;   //엉덩이탐정 복도 끝
     camera1->SetCamera ( glm::vec3 ( 98.0f , 6.0f , -100.0f ) , glm::vec3 ( 94.0f , 0.0f , -85.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     newInstance->mapCamera = camera1;
-    LightMass* Light1 = new LightMass;
+    Light1 = new LightMass;
     Light1->SetLight ( glm::vec3 ( 70.0f , 13.0f , -88.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 25.0f , 28.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     newInstance->Visullight.push_back ( Light1 );
@@ -156,11 +156,11 @@ void Map::SettingCamera ( )
     newInstance->CollisionLight.push_back ( Light1 );
     sightLight.push_back ( newInstance );
 
-    SightLight* newInstance = new SightLight;
-    Camera* camera1 = new Camera;   //살덩이 방
+    newInstance = new SightLight;
+    camera1 = new Camera;   //살덩이 방
     camera1->SetCamera ( glm::vec3 ( 55.0f , 3.5f , -85.0f ) , glm::vec3 ( 66.0f , 0.0f , -88.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     newInstance->mapCamera = camera1;
-    LightMass* Light1 = new LightMass;
+    Light1 = new LightMass;
     Light1->SetLight ( glm::vec3 ( 42.0f , 18.0f , -84.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 6.8f , 30.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     newInstance->Visullight.push_back ( Light1 );
@@ -170,11 +170,11 @@ void Map::SettingCamera ( )
     newInstance->CollisionLight.push_back ( Light1 );
     sightLight.push_back ( newInstance );
 
-    SightLight* newInstance = new SightLight;
-    Camera* camera1 = new Camera;   //살덩이 방2
+    newInstance = new SightLight;
+    camera1 = new Camera;   //살덩이 방2
     camera1->SetCamera ( glm::vec3 ( 42.0f , 6.0f , -78.0f ) , glm::vec3 ( 30.0f , 0.0f , -36.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     newInstance->mapCamera = camera1;
-    LightMass* Light1 = new LightMass;
+    Light1 = new LightMass;
     Light1->SetLight ( glm::vec3 ( 21.0f , 12.0f , -105.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 24.0f , 11.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     newInstance->Visullight.push_back ( Light1 );
@@ -184,11 +184,11 @@ void Map::SettingCamera ( )
     newInstance->CollisionLight.push_back ( Light1 );
     sightLight.push_back ( newInstance );
 
-    SightLight* newInstance = new SightLight;
-    Camera* camera1 = new Camera;   //살덩이 방3
+    newInstance = new SightLight;
+    camera1 = new Camera;   //살덩이 방3
     camera1->SetCamera ( glm::vec3 ( 65.0f , 9.0f , -114.0f ) , glm::vec3 ( 50.0f , 0.0f , -115.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     newInstance->mapCamera = camera1;
-    LightMass* Light1 = new LightMass;
+    Light1 = new LightMass;
     Light1->SetLight ( glm::vec3 ( 64.0f , 13.0f , -115.0f ) , glm::vec3 ( 1.0f , -3.0f , 0.0f ) , glm::vec2 ( 24.0f , 11.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     newInstance->Visullight.push_back ( Light1 );
@@ -238,10 +238,21 @@ void Map::SettingCamera ( )
     //camera1->SetCamera ( glm::vec3 ( 65.0f , 9.0f , -114.0f ) , glm::vec3 ( 50.0f , 0.0f , -115.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     //camera.push_back ( camera1 );
     
-    //for ( auto& _camera : camera ) {
-    //    CameraManager::getInstance ( ).AddCamera ( _camera );
-    //}
-    //CameraManager::getInstance ( ).SetCamera2 ( camera[0] );
+    for ( auto& object : sightLight ) {
+        //for (auto& light : object->CollisionLight ) {
+
+        //}
+        for ( auto& light : object->Visullight ) {
+            std::cout << "나는 정왕의 오승원이다" << std::endl;
+            LightManager::getInstance ( ).AddLight ( light );
+        }
+        CameraManager::getInstance ( ).SetCamera2 ( object->mapCamera );
+        //CameraManager::getInstance ( ).AddCamera ( _camera );
+    }
+    
+
+
+
 }
 
 void Map::SettingLight ( ) {
@@ -359,12 +370,8 @@ void Map::CameraLightUpdate ( )
 
 void Map::CollisionLight ( )
 {
-    if ( sighttLight[ usingCameraID ]->sightlight->Switch_lightControl ( )&&
-         sighttLight[ usingCameraID ]->sightlight->GetCollisionLight () ) {
-        sighttLight[ usingCameraID ]->sightlight->GetCollisionLight ( ) = 1;
-        monster->notifyFromMap ( );
-    }
-
+    monster->notifyFromMap ( );
+    
 }
 
 void Map::RenderShadow ( glm::mat4 lightView , const Program* program )

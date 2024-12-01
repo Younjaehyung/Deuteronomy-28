@@ -349,7 +349,7 @@ bool Context::Init ( )
     obj.push_back ( item );
     obj.push_back ( map );
     obj.push_back ( player );
-
+    map->objectInit ( obj );
     glDisable ( GL_STENCIL_TEST );
     glClearColor ( 0.0f , 0.0f , 0.0f , 1.0f );
     

@@ -9,7 +9,7 @@
 class LightMass : public Object
 {
 private:
-	bool m_lightControl{ false };
+	bool m_lightControl{ true };
 	int CollisionLight = 0;
 	std::string name;
 	Light_ORI* lightData;
