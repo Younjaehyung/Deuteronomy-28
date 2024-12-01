@@ -73,12 +73,40 @@ void Map::SettingCamera ( )
 {
 
 
-    camera1 = new Camera;
-    camera1->SetCamera ( glm::vec3 ( 33.f , 10.f , -54.f ) , glm::vec3 ( 33.f , 0.f , -54.f ) );
+    camera1 = new Camera;   //홀
+    camera1->SetCamera ( glm::vec3 ( 78.0f , 12.0f , -54.0f ) , glm::vec3 ( 59.0f , 0.0f , -54.0f ), glm::vec3(0.0f, 1.0f, 0.0f) );
     camera.push_back ( camera1 );
     
-    camera1 = new Camera;
-    camera1->SetCamera ( glm::vec3 ( 45.0f , 10.0f , -26.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) );
+    camera1 = new Camera;//방1번 출구
+    camera1->SetCamera ( glm::vec3 ( 69.0f , 5.3f , -13.0f ) , glm::vec3 ( 54.0f , 0.0f , -23.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+    camera.push_back ( camera1 );
+
+    camera1 = new Camera;//방1->방2 복도
+    camera1->SetCamera ( glm::vec3 ( 116.0f , 6.0f , -4.0f ) , glm::vec3 ( 100.0f , 0.0f , -8.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+    camera.push_back ( camera1 );
+
+    camera1 = new Camera;//마네킹 방
+    camera1->SetCamera ( glm::vec3 ( 120.0f , 6.0f , -55.0f ) , glm::vec3 ( 120.0f , 0.0f , -24.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+    camera.push_back ( camera1 );
+
+    camera1 = new Camera;//마네킹 방 -> 복도
+    camera1->SetCamera ( glm::vec3 ( 92.0f , 6.0f , -25.0f ) , glm::vec3 ( 94.0f , 0.0f , -36.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+    camera.push_back ( camera1 );
+
+    camera1 = new Camera;//엉덩이탐정 복도 끝쪽
+    camera1->SetCamera ( glm::vec3 ( 98.0f , 6.0f , -100.0f ) , glm::vec3 ( 94.0f , 0.0f , -85.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+    camera.push_back ( camera1 );
+
+    camera1 = new Camera;//살덩이방 입구
+    camera1->SetCamera ( glm::vec3 ( 55.0f , 3.5f , -85.0f ) , glm::vec3 ( 66.0f , 0.0f , -88.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+    camera.push_back ( camera1 );
+
+    camera1 = new Camera;//살덩이방 -> 메인홀
+    camera1->SetCamera ( glm::vec3 ( 42.0f , 6.0f , -78.0f ) , glm::vec3 ( 30.0f , 0.0f , -36.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+    camera.push_back ( camera1 );
+
+    camera1 = new Camera;//살덩이방 끝
+    camera1->SetCamera ( glm::vec3 ( 65.0f , 9.0f , -114.0f ) , glm::vec3 ( 50.0f , 0.0f , -115.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     camera.push_back ( camera1 );
     
     for ( auto& _camera : camera ) {
@@ -99,7 +127,7 @@ void Map::SettingLight ( ) {
     sighttLight.push_back ( light1 );
 
     light1 = new SightLight;
-    light1->sightlight->SetLight ( glm::vec3 ( 66.0f , 15.0f , -60.0f ) , glm::vec3 ( 3.0f , 0.0f , 2.0f ) , glm::vec2 ( 23.0f , 16.0f ) ,
+    light1->sightlight->SetLight ( glm::vec3 ( 66.0f , 15.0f , -60.0f ) , glm::vec3 ( 3.0f , 0.0f , 2.0f ) , glm::vec2 ( 23.0f , 116.0f ) ,
         150.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 165.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     sighttLight.push_back ( light1 );
 
@@ -154,6 +182,7 @@ void Map::SettingLight ( ) {
     sighttLight.push_back ( light1 );
 
     light1 = new SightLight;
+    light1->sightlight->SetBox (glm::vec3(),name );
     light1->sightlight->SetLight ( glm::vec3 ( 64.0f , 13.0f , -115.0f ) , glm::vec3 ( 1.0f , -3.0f , 0.0f ) , glm::vec2 ( 24.0f , 11.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     sighttLight.push_back ( light1 );

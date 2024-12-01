@@ -76,7 +76,11 @@ void Context::Render ( ) {
 
     LightManager::getInstance ( ).UpdateShadowMaps ( obj );
 
+<<<<<<< HEAD
     glViewport ( 0 , 0 , m_width , m_height );
+=======
+    glViewport ( 0 , 0 , m_width/5 * 3 , m_height );
+>>>>>>> origin/main
 
     m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
         //CollisionManager::getInstance ( ).Render ( );   //맵 그리드
@@ -89,9 +93,15 @@ void Context::Render ( ) {
     //m_assimp_Program->Use ( );
     MainDraw (CameraManager::getInstance().GetCameraPos() , CameraManager::getInstance ( ).Camera_transform() );
    
+
    // glViewport ( m_width*3 / 4 ,0 , m_width/4 , m_height );
     //glDisable ( GL_CULL_FACE );
     //MainDraw ( CameraManager::getInstance ( ).GetCamera2Pos ( ) , CameraManager::getInstance ( ).Camera2_transform ( ) );
+
+    glViewport ( m_width / 5 * 3,0 , m_width/5 * 2 , m_height /2 );
+    glDisable ( GL_CULL_FACE );
+    MainDraw ( CameraManager::getInstance ( ).GetCamera2Pos ( ) , CameraManager::getInstance ( ).Camera2_transform ( ) );
+
    
    
     UIDraw ( );
