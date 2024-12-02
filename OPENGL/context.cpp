@@ -329,7 +329,7 @@ bool Context::Init ( )
     map->Initialize ("./model/NewNewNew.glb" );
    
     object1->Initialize ( "./model/monster_m/NiddleHeadRun.glb" );
-    object2->Initialize ( "./model/BagMan2.glb" );
+    object2->Initialize ( "./model/HulkRun.glb" );
     
     item->Initialize ( "./model/Cross.glb" );
     player->Initialize ("./model/SibalGLB/SibalIdle.glb" );
