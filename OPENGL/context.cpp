@@ -92,13 +92,23 @@ void Context::Render ( ) {
    
 
 
-   
-    UIDraw ( );
-
-
+    if ( player->IsFlashLight()) {
+        UIDraw ( );
+    }
     Framebuffer::BindToDefault ( );
-    ////이중버퍼링
+
     m_textureProgram->Use ( );
+    m_textureProgram->SetUniform ( "typeID" , 0 );
+    if ( 1==object1->GetPhase ( ) ) {
+        m_textureProgram->SetUniform ( "typeID" , 1 );
+    }
+    else if ( 2 == object1->GetPhase ( ) ) {
+        m_textureProgram->SetUniform ( "typeID" , 2 );
+    }
+
+    
+    ////이중버퍼링
+    
     m_textureProgram->SetUniform ( "transform" ,
         glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 2.0f , 1.0f ) ) );
     m_framebuffer->GetColorAttachment ( )->Bind ( );
@@ -194,6 +204,10 @@ void Context::MainDraw (glm::vec3 _pos, glm::mat4 _cameraTransform )
 
 }
 
+void Context::FrameBufferDraw ( )
+{
+}
+
 void Context::UIDraw ( )
 {
     glDisable ( GL_DEPTH_TEST ); 
@@ -283,7 +297,7 @@ bool Context::Init ( )
 
 
     }
-   
+  
     m_animationProgram = Program::Create ( "./shader/animation.vs" , "./shader/animation.fs" );
     if ( !m_animationProgram ) {
         std::cerr << "program UserSetError id : " << m_animationProgram->Get ( ) << std::endl;

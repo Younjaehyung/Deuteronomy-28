@@ -38,7 +38,7 @@ public:
 
 	void Reshape ( int width , int height );
 	void MainDraw ( glm::vec3 _pos , glm::mat4 _cameraTransform );
-
+	void FrameBufferDraw ( );
 
 	void MouseButton ( int button , int action , double x , double y );
 
@@ -83,6 +83,8 @@ private:
 	ProgramUPtr m_program;
 	ProgramUPtr m_simpleProgram;
 	ProgramUPtr m_simpleAnimationProgram;
+	ProgramUPtr m_textureNoise1Program;
+	ProgramUPtr m_textureNoise2Program;
 	ProgramUPtr m_textureProgram;
 	ProgramUPtr m_assimp_Program;
 	ProgramUPtr m_lightingShadowProgram;

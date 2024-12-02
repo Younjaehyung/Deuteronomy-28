@@ -261,6 +261,7 @@ void Player::Input ( GLFWwindow* window ) {
 	
 	if ( input::GetKeyDown ( eKeyCode::F ) ) {
 		FlashLight->Switch_lightControl() = !FlashLight->Switch_lightControl ( );
+		FlashLight_switch = !FlashLight_switch;
 	}
 
 

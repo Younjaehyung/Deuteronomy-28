@@ -46,6 +46,18 @@ public:
 	virtual void Render ( const Program* program );
 	virtual void Initialize ( const std::string& strName );
 	virtual void RenderShadow ( glm::mat4 lightView , const Program* program );
+	int GetPhase ( ) {
+		if ( phase == Phase::Mad ) {
+			return 2;
+		}
+		else if ( phase == Phase::Angry ) {
+			return 1;
+		}
+		else {
+			return 0;
+		}
+		
+	}
 	bool DynamicAlgorithm ( );
 	bool StaticAlgorithm (glm::ivec2 _path );
 	void Status_Machine ( );

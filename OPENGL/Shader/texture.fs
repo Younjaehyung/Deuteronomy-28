@@ -8,7 +8,7 @@ uniform sampler2D tex;
 
 uniform vec2 resolution; // 화면 크기 (예: 1920x1080)
 uniform float time;      // 시간 값 (초 단위)
-
+uniform int typeID;
 
 float random(vec2 st) {
     return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
@@ -19,6 +19,12 @@ void main() {
     if (pixel.a < 0.01)
         discard;
 
+    if(typeID==0){
+       fragColor = pixel;
+        return;
+    }
+
+    if(typeID ==1){
         
      vec2 uv = texCoord;
     
@@ -33,7 +39,43 @@ void main() {
 
     // 노이즈 적용
     float noise = random(uv + time) * 0.05;
-    
     fragColor = vec4(r + noise, g + noise, b + noise, 1.0);
+    return;
+    }
+    if(typeID==2){
+        vec2 uv = texCoord;
+    
+        // 화면 흔들림 효과
+        uv.x += sin(uv.y * 5.0 + time) * 0.0001; // 주기와 강도 조절
+        uv.y += cos(uv.x * 5.0 + time) * 0.0001; // 주기와 강도 조절
+    
+        // 컬러 채널 왜곡
+        float r = texture(tex, uv + vec2(0.005, 0.0)).r;
+        float g = texture(tex, uv).g;
+        float b = texture(tex, uv - vec2(0.005, 0.0)).b;
+
+        // 노이즈 적용
+        float noise = random(uv + time) * 0.05;
+        pixel = vec4(r + noise, g + noise, b + noise, 1.0);
+
+            //vec2 st = gl_FragCoord.xy / resolution.xy;
+        //float glitch = random(st * time);
+        //if (glitch > 0.9) {
+        //    st.x += random(st) * 0.9; // X축 글리치
+        //    pixel.xyz += random(st) * vec3(0.4, 0.8, 0.9); // 색상 왜곡
+        //}
+
+        vec2 st = gl_FragCoord.xy / resolution.xy;
+        noise = random(st * time); // 랜덤 노이즈
+        float scanline = sin(st.y * resolution.y * 0.1 + time * 50.0) * 0.1; // 스캔 라인
+
+        //vec3 color = texture(screenTexture, st).rgb;
+         pixel.xyz += vec3(noise + scanline) * 0.2; // 노이즈와 스캔 라인 결합
+        //gl_FragColor = vec4( pixel.xyz, 1.0);
+
+        fragColor = pixel;
+        return;
+    }
+    
 
 }
