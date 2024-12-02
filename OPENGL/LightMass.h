@@ -26,11 +26,11 @@ public:
 	virtual void Update ( ) {};
 	virtual bool HandleCollision ( Object* );
 
-	void SetLight ( glm::vec3 pos , glm::vec3 dir , glm::vec2 cutoff,
-		float distance= 200.0f ,
-		glm::vec3 ambient = glm::vec3 ( 0.0f) , 
+	void SetLight ( glm::vec3 pos , glm::vec3 dir , glm::vec2 cutoff ,
+		float distance = 200.0f ,
+		glm::vec3 ambient = glm::vec3 ( 0.0f ) ,
 		glm::vec3 diffuse = glm::vec3 ( 256.0f ) ,
-		glm::vec3 specualr = glm::vec3 ( 256.0f ) );
+		glm::vec3 specualr = glm::vec3 ( 256.0f ) , int _directional = 0);
 	
 
 

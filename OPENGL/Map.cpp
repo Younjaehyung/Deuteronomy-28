@@ -52,7 +52,7 @@ void Map::Render ( const Program* program, glm::mat4 _cameraTransform )
 void Map::Initialize ( const std::string& strName )
 {
 	
-    UBO = UBOBUFFER_LIGHT::Create ( 20 );
+    //UBO = UBOBUFFER_LIGHT::Create ( 30 );
 	ground = Mesh::CreatePlane ( );
 	m_model = Model::Load ( strName );
 
@@ -202,24 +202,20 @@ void Map::SettingCamera ( )
     newInstance->CollisionLight.push_back ( Light1 );
     sightLight.push_back ( newInstance );
 
-    LightMass* Light5 = new LightMass;
-    Light5 = new LightMass; //홀
+    LightMass* Light5 = new LightMass; //홀
     Light5->SetLight ( glm::vec3 ( 66.0f , 15.0f , -60.0f ) , glm::vec3 ( 3.0f , 0.0f , 2.0f ) , glm::vec2 ( 23.0f , 116.0f ) ,
         150.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 165.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     normalLight.push_back ( Light5 );
     
-    LightMass* Light3 = new LightMass;
-    Light3 = new LightMass; //자동차 헤드라이트 1
-    Light3->SetLight ( glm::vec3 ( -36.0f , 1.5f , -5.5f ) , glm::vec3 ( 0.8f , 0.0f , -3.0f ) , glm::vec2 ( 4.0f , 24.0f ) ,
-        150.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 255.0f , 255.0f , 255.0f ) , glm::vec3 ( 255.0f , 255.0f , 255.0f ) );
+    LightMass* Light3 = new LightMass;//자동차 헤드라이트 1
+    Light3->SetLight ( glm::vec3 ( -36.0f , 0.5f , -7.5f ) , glm::vec3 ( 0.8f , 0.2f , -3.0f ) , glm::vec2 ( 8.0f , 24.0f ) ,
+        250.0f , glm::vec3 ( 10.0f , 10.0f , 10.0f ) , glm::vec3 ( 255.0f , 255.0f , 255.0f ) , glm::vec3 ( 255.0f , 255.0f , 255.0f ) );
     normalLight.push_back ( Light3 );
 
-    LightMass* Light4 = new LightMass;
-    Light4 = new LightMass; //자동차 헤드라이트
-    Light4->SetLight ( glm::vec3 ( -38.0f , 1.5f , -5.0f ) , glm::vec3 ( -0.8f , 0.0f , -3.0f ) , glm::vec2 ( 4.0f , 24.0f ) ,
-        150.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 255.0f , 255.0f , 255.0f ) , glm::vec3 ( 255.0f , 255.0f , 255.0f ) );
+    LightMass* Light4 = new LightMass;//자동차 헤드라이트
+    Light4->SetLight ( glm::vec3 ( -38.0f , 0.5f , -7.0f ) , glm::vec3 ( -0.8f , 0.2f , -3.0f ) , glm::vec2 ( 8.0f , 24.0f ) ,
+        250.0f , glm::vec3 ( 10.0f , 10.0f , 10.0f ) , glm::vec3 ( 255.0f , 255.0f , 255.0f ) , glm::vec3 ( 255.0f , 255.0f , 255.0f ) );
     normalLight.push_back ( Light4 );
-
 
 
 
@@ -395,7 +391,17 @@ void Map::CameraLightUpdate ( )
 
 void Map::CollisionLight ( )
 {
-    monster->notifyFromMap ( );
+    for ( auto& _light : sightLight ) {
+        for ( auto& collider : _light->CollisionLight ) {
+            if ( collider->GetCollisionLight ( ) ) {
+                monster->notifyFromMap ( );
+                collider->GetCollisionLight ( ) = 0;
+                std::cout << "CollisionLight CollisionLight" << std::endl;
+            }
+           
+        }
+    }
+   
     
 }
 

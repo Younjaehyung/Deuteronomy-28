@@ -1,9 +1,9 @@
 ﻿#include "LightMass.h"
 
 void LightMass::SetLight ( glm::vec3 pos , glm::vec3 dir , glm::vec2 cutoff ,
-	float distance , glm::vec3 ambient , glm::vec3 diffuse , glm::vec3 specualr )
+	float distance , glm::vec3 ambient , glm::vec3 diffuse , glm::vec3 specualr, int _directional )
 {
-	int directional = 0;
+	int directional = _directional;
 	m_lightControl = true;
 
 	lightData->directional = 0;

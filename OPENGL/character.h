@@ -6,6 +6,28 @@
 #include "CameraManager.h"
 #include "Astar.h"
 
+enum class Phase {
+	Idle,
+	Angry,
+	Mad,
+	Crazy,
+};
+
+enum class Action {
+	Idle ,
+	running ,
+	walk ,
+	attack,
+	scream,
+};
+
+enum class Status {
+	start ,
+	running ,
+	exit ,
+};
+
+
 class character : public Object
 {
 public:
@@ -24,9 +46,28 @@ public:
 	virtual void Render ( const Program* program );
 	virtual void Initialize ( const std::string& strName );
 	virtual void RenderShadow ( glm::mat4 lightView , const Program* program );
-	virtual void Algorithm ( );
+	bool DynamicAlgorithm ( );
+	bool StaticAlgorithm ( );
+	void Status_Machine ( );
 
-	void notifyFromMap ( ) {}
+	void notifyFromMap (int alert = 0) {
+		if ( alert == 0 ) {
+			if ( phase == Phase::Idle ) {
+				phase = Phase::Angry;
+				action = Action::running;
+				status = Status::start;
+			}
+			else if ( phase == Phase::Angry ) {
+				phase = Phase::Mad;
+				action = Action::running;
+				status = Status::start;
+			}
+		}
+		else if ( alert == 1 ) {
+			phase = Phase::Crazy;
+		}
+
+	}
 	void Path_now ( ) {
 		//float dul = Pos.x - int ( Pos.x );
 
@@ -57,6 +98,11 @@ private:
 
 	ModelPtr _model;
 	Animation* idleAnim;
+	Animation* attackAnim;
+	Animation* runAnim;
+	Animation* walkAnim;
+	Animation* sceramAnim;
+
 	Animator* animator;
 	ProgramUPtr _shader;
 	UBOBUFFERUPtr UBO;
@@ -83,4 +129,11 @@ private:
 	//glm::vec3 Dir = glm::vec3 ( 0.0f , 0.0f , 1.0f );	//방향
 	glm::vec3 Dir2 = glm::vec3 ( 0.0f , 0.0f , -1.0f );	//방향
 	glm::quat quaternion;
+
+	enum Status status = Status::start;
+	enum Action action = Action::Idle;
+	enum Phase phase = Phase::Angry;
+
+	float time = 0.0f;
 };
+

@@ -168,6 +168,9 @@
     <ClCompile Include="RandomEngine.cpp">
       <Filter>Engine_SRC</Filter>
     </ClCompile>
+    <ClCompile Include="monster_state.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\assimp-master\include\assimp\defs.h">
@@ -319,6 +322,9 @@
     </ClInclude>
     <ClInclude Include="RandomEngine.h">
       <Filter>Engine_Header</Filter>
+    </ClInclude>
+    <ClInclude Include="monster_state.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
