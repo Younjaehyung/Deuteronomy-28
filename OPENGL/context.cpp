@@ -103,6 +103,7 @@ void Context::Render ( ) {
         glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 2.0f , 1.0f ) ) );
     m_framebuffer->GetColorAttachment ( )->Bind ( );
     m_textureProgram->SetUniform ( "tex" , 0 );
+
     m_textureProgram->SetUniform ( "resolution" , glm::vec2 ( 2560 , 1440 ) );
     nowTime += Time::DeltaTime ( );
     m_textureProgram->SetUniform ( "time" , nowTime );
@@ -195,12 +196,24 @@ void Context::MainDraw (glm::vec3 _pos, glm::mat4 _cameraTransform )
 
 void Context::UIDraw ( )
 {
-    glDisable ( GL_DEPTH_TEST ); // DEPTH Buffer 사용 설정
-    glm::mat4 uiProjection = glm::ortho ( 0.0f , 1920.f , 0.0f , 1080.f , -1.0f , 1.0f );
+    glDisable ( GL_DEPTH_TEST ); 
 
+    m_camerauiProgram->Use ( );
+    m_camerauiProgram->SetUniform ( "transform" , glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 2.0f , 1.0f ) ) );
+    CameraUITEXTURE->Bind ( );
+    m_camerauiProgram->SetUniform ( "tex" , 0 );
 
+    // 블렌딩 활성화
+    //glEnable ( GL_BLEND );
+    //glBlendFunc ( GL_SRC_ALPHA , GL_ONE_MINUS_SRC_ALPHA );
 
-    glEnable ( GL_DEPTH_TEST ); // DEPTH Buffer 사용 설정
+    // 캠코더 UI 렌더링
+    m_plane->Draw ( m_camerauiProgram.get ( ) );
+
+    // 블렌딩 비활성화 (다른 렌더링에 영향 없도록)
+    //glDisable ( GL_BLEND );
+
+    glEnable ( GL_DEPTH_TEST );
 }
 
 
@@ -225,9 +238,10 @@ bool Context::Init ( )
 
     m_box = Mesh::CreateBox ( );
     m_plane = Mesh::CreatePlane ( );
+    auto CameraUi = Image::Load ( "./model/UI/Camera.png" , false );
+    CameraUITEXTURE = Texture::CreateFromImage ( CameraUi.get());
 
 
-    
     auto cubeRight = Image::Load ( "./model/skybox/right.jpg" , false );
     auto cubeLeft = Image::Load ( "./model/skybox/left.jpg" , false );
     auto cubeTop = Image::Load ( "./model/skybox/top.jpg" , false );
@@ -302,6 +316,14 @@ bool Context::Init ( )
 
     }
 
+    m_camerauiProgram = Program::Create ( "./shader/cameraUI.vs" , "./shader/cameraUI.fs" );
+    if ( !m_camerauiProgram ) {
+        std::cerr << "program UserSetError id : " << m_camerauiProgram->Get ( ) << std::endl;
+        return false;
+
+
+    }
+
     m_material = Material::Create ( );
     
     m_material->diffuse = Texture::CreateFromImage ( Image::CreateSingleColorImage ( 4 , 4 ,
@@ -347,7 +369,7 @@ bool Context::Init ( )
    
 
     obj.push_back ( object1 );
-    obj.push_back ( object2 );
+   // obj.push_back ( object2 );
     obj.push_back ( item );
     obj.push_back ( map );
     obj.push_back ( player );

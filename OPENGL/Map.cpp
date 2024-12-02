@@ -289,7 +289,7 @@ void Map::SettingCamera ( )
     }
     
     for ( auto& light : normalLight ) {
-        std::cout << "나는 정왕의 오승원이다" << std::endl;
+
         LightManager::getInstance ( ).AddLight ( light );
     }
 
@@ -414,7 +414,7 @@ void Map::CollisionLight ( )
     for ( auto& _light : sightLight ) {
         for ( auto& collider : _light->CollisionLight ) {
             if ( collider->GetCollisionLight ( ) ) {
-                monster->notifyFromMap ( );
+                monster->notifyFromMap ( collider->GetPos() );
                 collider->GetCollisionLight ( ) = 0;
                 std::cout << "CollisionLight CollisionLight" << std::endl;
             }

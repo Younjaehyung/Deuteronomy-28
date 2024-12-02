@@ -32,9 +32,7 @@ public:
 			_Camera->Update ( );
 		}*/
 		
-		std::cout << using_Camera2->GetCameraFront ( ).x << std::endl;
-		std::cout << using_Camera2->GetCameraFront ( ).y << std::endl;
-		std::cout << using_Camera2->GetCameraFront ( ).z << std::endl;
+		
 		using_Camera->Update ( );
 		using_Camera2->Update ( );
 	}

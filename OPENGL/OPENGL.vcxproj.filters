@@ -388,5 +388,11 @@
     <None Include="Shader\simple_animation.vs">
       <Filter>shader</Filter>
     </None>
+    <None Include="Shader\cameraUI.fs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="Shader\cameraUI.vs">
+      <Filter>shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

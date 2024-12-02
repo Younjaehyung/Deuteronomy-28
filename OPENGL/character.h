@@ -47,20 +47,25 @@ public:
 	virtual void Initialize ( const std::string& strName );
 	virtual void RenderShadow ( glm::mat4 lightView , const Program* program );
 	bool DynamicAlgorithm ( );
-	bool StaticAlgorithm ( );
+	bool StaticAlgorithm (glm::ivec2 _path );
 	void Status_Machine ( );
 
-	void notifyFromMap (int alert = 0) {
-		if ( alert == 0 ) {
+	void notifyFromMap (glm::vec3 where, int alert = 0) {
+		if ( alert == 0 && chase ==0 ) {
 			if ( phase == Phase::Idle ) {
+				Path_now( where , chaseWhere );
 				phase = Phase::Angry;
 				action = Action::running;
 				status = Status::start;
+				chase = 1;
+				std::cout << "IDLE LIGHT EVENT!" << std::endl;
 			}
-			else if ( phase == Phase::Angry ) {
+			else if ( phase == Phase::Angry && chase == 0 ) {
 				phase = Phase::Mad;
 				action = Action::running;
 				status = Status::start;
+				chase = 1;
+				std::cout << "ANGRY LIGHT EVENT!" << std::endl;
 			}
 		}
 		else if ( alert == 1 ) {
@@ -68,6 +73,35 @@ public:
 		}
 
 	}
+	
+
+
+private:
+
+	void Path_now ( glm::vec3 Pos , glm::ivec2& path_now ) {
+		//float dul = Pos.x - int ( Pos.x );
+
+		path_now.x = ( int ( Pos.x ) - ( int ( Pos.x ) % 3 ) ) / 3;
+		// Z축 인덱스 계산
+		path_now.y = ( int ( Pos.z ) / 3 ) * 1; // 기본적으로 3의 배수로 변환
+		if ( Pos.z > 0 && int ( Pos.z ) % 3 != 0 ) {
+			path_now.y += 1; // 양수 방향 보정
+
+		}
+		path_now.y = -path_now.y;
+
+
+		if ( Pos.x < 0 ) {
+			path_now.x -= 1;
+
+		}
+
+
+
+		//std::cout << "path_now_x : " << path_now.x << std::endl;
+		//std::cout << "path_now_z : " << path_now.y << std::endl;
+	}
+
 	void Path_now ( ) {
 		//float dul = Pos.x - int ( Pos.x );
 
@@ -92,9 +126,6 @@ public:
 		//std::cout << "path_now_z : " << path_now_z << std::endl;
 		//std::cout <<"iint pos"<< int ( Pos.x ) << std::endl;
 	}
-
-
-private:
 
 	ModelPtr _model;
 	Animation* idleAnim;
@@ -132,8 +163,10 @@ private:
 
 	enum Status status = Status::start;
 	enum Action action = Action::Idle;
-	enum Phase phase = Phase::Angry;
+	enum Phase phase = Phase::Idle;
 
+	glm::ivec2 chaseWhere;
+	int chase = 0;
 	float time = 0.0f;
 };
 

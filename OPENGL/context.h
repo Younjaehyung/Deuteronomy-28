@@ -86,6 +86,7 @@ private:
 	ProgramUPtr m_textureProgram;
 	ProgramUPtr m_assimp_Program;
 	ProgramUPtr m_lightingShadowProgram;
+	ProgramUPtr m_camerauiProgram;
 	//사용자 지정 프레임버퍼
 	FramebufferUPtr m_framebuffer;
 
@@ -152,6 +153,7 @@ private:
 	bool m_cameraControl{ false };	//카메라 사용 여부 (우클릭)
 
 	//창크기
-	
+	//UI
+	TextureUPtr CameraUITEXTURE;
 };
 

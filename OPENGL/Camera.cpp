@@ -41,7 +41,7 @@ void Camera::Update ( ) {
 		glm::quat rollQuat = glm::angleAxis ( glm::radians ( m_cameraPitch_moving ) , glm::vec3 ( 1.0f , 0.0f , 0.0f ) );
 		// 쿼터니언 결합
 		glm::quat orientation = yawQuat * pitchQuat* rollQuat;
-		std::cout << "나는 정왕의 오승원이다!" << std::endl;
+
 		// 방향 벡터 변환
 		m_cameraFront =  orientation *front ;
 		view = glm::lookAt ( m_cameraPos , m_cameraPos + m_cameraFront , m_cameraUp );

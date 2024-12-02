@@ -5,6 +5,7 @@ out vec4 fragColor;
 
 uniform sampler2D tex;
 
+
 uniform vec2 resolution; // 화면 크기 (예: 1920x1080)
 uniform float time;      // 시간 값 (초 단위)
 
