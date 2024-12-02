@@ -1,6 +1,7 @@
 ﻿#include "character.h"
 #include "Time.h"
 #include  "LightManager.h"
+#include "Sound.h"
 
 void character::Update ( )
 {
@@ -342,6 +343,7 @@ void character::Status_Machine ( )
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( idleAnim );
 				status = Status::running;
+				
 			}
 			else if ( status == Status::running ) {
 				if ( StaticAlgorithm ( chaseWhere ) ) {
@@ -360,7 +362,8 @@ void character::Status_Machine ( )
 			std::cout << "running";
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( runAnim );
-
+				SoundManager::getInstance ( ).GetSoundID ( "Chase1" )->ReplaySound ( );
+				SoundManager::getInstance ( ).GetSoundID ( "Monster_Foot" )->ReplaySound ( );
 				status = Status::running;
 			}
 			else if ( status == Status::running ) {
@@ -418,6 +421,7 @@ void character::Status_Machine ( )
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( sceramAnim );
 				status = Status::running;
+				SoundManager::getInstance ( ).GetSoundID ( "Roar" )->ReplaySound ( );
 			}
 			else if ( status == Status::running ) {
 
@@ -440,13 +444,15 @@ void character::Status_Machine ( )
 				animator->PlayAnimation ( runAnim );
 				time = 0;
 				status = Status::running;
+				SoundManager::getInstance ( ).GetSoundID ( "Chase2" )->ReplaySound ( );
+				SoundManager::getInstance ( ).GetSoundID ( "Monster_Foot" )->ReplaySound ( );
 			}
 			else if ( status == Status::running ) {
-
+				
 				DynamicAlgorithm ( );
 
 				time += Time::DeltaTime ( );
-				if ( time > 12.0f ) {
+				if ( time > 6.0f ) {
 					phase == Phase::Idle;
 					time = 0;
 
@@ -481,6 +487,7 @@ void character::Status_Machine ( )
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( sceramAnim );
 				status = Status::running;
+				SoundManager::getInstance ( ).GetSoundID ( "Roar" )->ReplaySound ( );
 			}
 			else if ( status == Status::running ) {
 
