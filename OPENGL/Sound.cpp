@@ -106,9 +106,10 @@ inline void Sounds::playSound ( float volume )
 void Sounds::PauseSound ( ) {
 
 	if ( Channel != nullptr ) {
-		bool isPaused;
-		Channel->getPaused ( &isPaused );
-		Channel->setPaused ( !isPaused ); // 현재 상태에 따라 재생/일시 정지 전환
+		Channel->stop ( );
+		//bool isPaused;
+		//Channel->getPaused ( &isPaused );
+		//Channel->setPaused ( !isPaused ); // 현재 상태에 따라 재생/일시 정지 전환
 	}
 }
 
