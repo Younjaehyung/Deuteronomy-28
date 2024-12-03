@@ -3,6 +3,7 @@
 #include "LightManager.h"
 #include "RandomEngine.h"
 #include "character.h"
+#include "Sound.h"
 
 void Map::Update ( )
 {
@@ -59,13 +60,11 @@ void Map::Initialize ( const std::string& strName )
     if ( !m_model ) {
         std::cerr << "program UserSetError id : " << m_model->Get ( ) << std::endl;
         return;
-
-
     }
     SettingCamera ( );
     SettingLight ( );
 
-
+    SoundManager::getInstance ( ).GetSoundID ( "Ambient" )->ReplaySound ( 0.6f );
 	
 }
 

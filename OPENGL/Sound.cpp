@@ -22,7 +22,15 @@ bool SoundManager::Initialize ( ) {
 inline void SoundManager::CreateSoundlist ( ) {
 	//기본 음원을 넣는 포멧. 마지막에 숫자 0 : 음원루프x /숫자 1 : 음원루프O
 	
-	Channel.emplace ( "charge" , CreateSound ( "Sound/BFI_monster_Charge.mp3" , 0 ));
+	//Channel.emplace ( "charge" , CreateSound ( "Sound/BFI_monster_Charge.mp3" , 0 ));
+	Channel.emplace ( "Chase1" , CreateSound ( "sound/Deut_Sound/DEUT_Chase1.mp3" , 0 ) );
+	Channel.emplace ( "Chase2" , CreateSound ( "sound/Deut_Sound/DUET_Chase2.mp3" , 0 ) );
+	Channel.emplace ( "Ambient" , CreateSound ( "sound/Deut_Sound/DUET_Ambient.wav" , 1 ) );
+	Channel.emplace ( "Roar" , CreateSound ( "sound/Deut_Sound/DUET_Roar.mp3" , 0 ) );
+	Channel.emplace ( "Walk" , CreateSound ( "sound/Deut_Sound/DUET_Walk.mp3" , 0 ) );
+	Channel.emplace ( "HeartBeat" , CreateSound ( "sound/Deut_Sound/DUET_HeartBeat.wav" , 0 ) );
+	Channel.emplace ( "Monster_Foot" , CreateSound ( "sound/Deut_Sound/Deut_Monster_Foot.wav" , 0 ) );
+	Channel.emplace ( "GetItem" , CreateSound ( "sound/Deut_Sound/DUET_GetItem.mp3" , 0 ) );
 }
 
 void SoundManager::Update ( )
