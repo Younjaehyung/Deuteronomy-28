@@ -17,6 +17,7 @@
 #include "shadow.h"
 #include "LightManager.h"
 #include "Item.h"
+#include "Deathmap.h"
 
 CLASS_PTR(Context)
 //빛
@@ -72,6 +73,7 @@ private:
 	LightMass* light1;
 	Player* player;
 	Map* map;
+	Deathmap* Deathroom;
 	character* object1;		//Neddlehead
 	character* object2;		//Bagman
 	Item* item0;
