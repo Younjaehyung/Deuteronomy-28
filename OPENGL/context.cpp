@@ -364,7 +364,7 @@ bool Context::Init ( )
    
     map->Initialize ("./model/NewNewNew.glb" );
 
-    object1->Initialize ( "./model/Hulk/HulkIdle.glb" );
+    object1->Initialize ( "./model/HULK1/HulkIdle.glb" );
     object2->Initialize ( "./model/BagMan2.glb" );
 
     

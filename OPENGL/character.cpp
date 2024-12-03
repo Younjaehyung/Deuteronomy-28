@@ -67,11 +67,11 @@ void character::Initialize ( const std::string& strName )
 	name = "monster";
 	_model = Model::Load ( strName );
 	model = _model.get ( );
-	idleAnim = new Animation ( "./model/Hulk/HulkIdle.glb" , model );
-	attackAnim = new Animation ( "./model/Hulk/HulkAttack.glb" , model );
-	runAnim = new Animation ( "./model/Hulk/HulkRun.glb" , model );
-	walkAnim = new Animation ( "./model/Hulk/HulkWalk.glb" , model );
-	sceramAnim = new Animation ( "./model/Hulk/HulkScream.glb" , model );
+	idleAnim = new Animation ( "./model/HULK1/HulkIdle.glb" , model );
+	attackAnim = new Animation ( "./model/HULK1/HulkAttack.glb" , model );
+	runAnim = new Animation ( "./model/HULK1/HulkRun.glb" , model );
+	walkAnim = new Animation ( "./model/HULK1/HulkWalk.glb" , model );
+	sceramAnim = new Animation ( "./model/HULK1/HulkScream.glb" , model );
 
 	UBO = UBOBUFFER::Create (200 );
 
