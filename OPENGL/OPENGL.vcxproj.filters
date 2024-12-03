@@ -332,9 +332,12 @@
     <ClInclude Include="Deathmap.h">
       <Filter>GAME_HEADER</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="MATMAP.h">
       <Filter>GAME_SOURCE</Filter>
     </ClInclude>
+=======
+>>>>>>> origin/main
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\simple.fs">
