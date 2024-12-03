@@ -37,13 +37,19 @@ public:
 				gameobj.push_back ( _obj );
 			}
 		}
+		for ( auto& obj : Wall ) {
+			
+			gameobj.push_back ( obj );
+			
+		}
+
 	}
 
 private:
 	void CollisionLight ( );
 
 	void SettingCamera ( );
-	void SettingLight ( );
+	void SettingWall ( );
 	void CameraLightUpdate ( );
 
 	UBOBUFFER_LIGHTUPtr UBO;
@@ -62,7 +68,7 @@ private:
 	float updateSightTime = 0.0f;
 	std::vector<LightMass*> normalLight;
 	std::vector<SightLight*> sightLight;
-
+	std::vector<Object*> Wall;
 	character* monster;
 
 

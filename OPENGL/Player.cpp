@@ -5,6 +5,7 @@
 #include "CollisionManager.h"
 #include "LightManager.h"
 #include "input.h"
+#include "MATMAP.h"
 
 void Player::Update ( )
 {
@@ -56,9 +57,11 @@ void Player::Status_Machine ( )
 		SoundManager::getInstance ( ).GetSoundID ( "Walk" )->PauseSound ( );
 	}
 	if ( movestat == moving::sit && animator->GetCurrAnimation ( ) != sitAnim ) {
+		SoundManager::getInstance ( ).GetSoundID ( "Walk" )->PauseSound ( );
 		animator->PlayAnimation ( sitAnim );
 	}
 	if ( movestat == moving::sit_walk && animator->GetCurrAnimation ( ) != sitwalkAnim ) {
+		SoundManager::getInstance ( ).GetSoundID ( "Walk" )->PauseSound ( );
 		animator->PlayAnimation ( sitwalkAnim );
 	}
 	if ( movestat == moving::walk && animator->GetCurrAnimation ( ) != walkAnim ) {
@@ -182,6 +185,11 @@ void Player::Input ( GLFWwindow* window ) {
 
 	float speed = 8 * Time::DeltaTime ( );
 
+
+	glm::vec3 _pos = Pos;
+
+	
+
 	if ( (running_stamina>=0 )&&glfwGetKey ( window , GLFW_KEY_W ) == GLFW_PRESS && glfwGetKey ( window , GLFW_KEY_LEFT_SHIFT ) == GLFW_PRESS ) {
 		Pos += 1.5f*speed * cameraDirectionXZ;
 		movestat = moving::run;
@@ -245,6 +253,16 @@ void Player::Input ( GLFWwindow* window ) {
 		movestat = moving::walk;
 	}
 
+	glm::ivec2 now;
+	Path_now ( Pos , now);
+	std::cout << "POS1" << std::endl;
+	if ( now.x < 0 || now.y < 0 ) {
+
+	}
+	else if ( grid[ now.y ][now.x] != 0 && grid[ now.y ][ now.x ] != 3 ) {
+		Pos = _pos;
+	}
+	std::cout << "POS2" << std::endl;
 
 	if ( movestat == moving::run ) {
 
@@ -284,4 +302,28 @@ bool Player::HandleCollision ( Object* object )
 
 	return true;
 
+}
+
+void Player::Path_now ( glm::vec3 Pos , glm::ivec2& path_now ) {
+	//float dul = Pos.x - int ( Pos.x );
+
+	path_now.x = ( int ( Pos.x ) - ( int ( Pos.x ) % 3 ) ) / 3;
+	// Z축 인덱스 계산
+	path_now.y = ( int ( Pos.z ) / 3 ) * 1; // 기본적으로 3의 배수로 변환
+	if ( Pos.z > 0 && int ( Pos.z ) % 3 != 0 ) {
+		path_now.y += 1; // 양수 방향 보정
+
+	}
+	path_now.y = -path_now.y;
+
+
+	if ( Pos.x < 0 ) {
+		path_now.x -= 1;
+
+	}
+
+
+
+	//std::cout << "path_now_x : " << path_now.x << std::endl;
+	//std::cout << "path_now_z : " << path_now.y << std::endl;
 }

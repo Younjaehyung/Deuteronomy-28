@@ -390,9 +390,13 @@ void character::Status_Machine ( )
 			}
 			else if ( status == Status::running ) {
 
+				StaticAlgorithm ( glm::ivec2 ( 12 , 12 ) );
+				if (0  ){
+					status = Status::exit;
+				}
 			}
 			else if ( status == Status::exit ) {
-
+				status = Status::start;
 			}
 
 		}
@@ -411,7 +415,7 @@ void character::Status_Machine ( )
 			}
 			else if ( status == Status::exit ) {
 				chase = 0;
-				action = Action::Idle;
+				action = Action::walk;
 				status = Status::start;
 			}
 
@@ -453,7 +457,7 @@ void character::Status_Machine ( )
 
 				time += Time::DeltaTime ( );
 				if ( time > 6.0f ) {
-					phase == Phase::Idle;
+					phase = Phase::Idle;
 					time = 0;
 
 				}

@@ -8,6 +8,7 @@ enum class eLayerType : uint32_t {
 	Light ,
 	Environment ,
 	Item,
+	NOT,
 	Max // 총 레이어 수
 };
 
@@ -27,7 +28,7 @@ public:
 	int Destroy = 0;	//유효성 0: 실존 1: 없음 (0일시 삭제됨)
 	std::string name;	//객체 이름(구체적인)
 	int typeID = 0;	//객체 그림자 여부
-	eLayerType objectID = eLayerType::Environment;	//객체 속성(충돌처리용)
+	eLayerType objectID = eLayerType::NOT;	//객체 속성(충돌처리용)
 	glm::vec3 Pos{ 0.0f,0.0f,0.0f };
 	glm::mat4 Dir{ glm::mat4(1.0f) };
 	

@@ -28,7 +28,7 @@ public:
 	virtual bool HandleCollision ( Object* object );
 	virtual void Input ( GLFWwindow* window );
 	virtual void Initialize ( const std::string& strName = "" );
-
+	void Path_now ( glm::vec3 Pos , glm::ivec2& path_now );
 
 	bool IsFlashLight ( ) {
 		return FlashLight_switch;

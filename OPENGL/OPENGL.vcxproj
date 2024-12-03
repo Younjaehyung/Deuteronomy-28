@@ -142,6 +142,7 @@
     <ClCompile Include="common_include.cpp" />
     <ClCompile Include="context.cpp" />
     <ClCompile Include="Create_Graph.cpp" />
+    <ClCompile Include="Deathmap.cpp" />
     <ClCompile Include="framebuffer.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Gameobject.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="Common.h" />
     <ClInclude Include="CommonValues.h" />
     <ClInclude Include="Create_Graph.h" />
+    <ClInclude Include="Deathmap.h" />
     <ClInclude Include="Gameobject.h" />
     <ClInclude Include="buffer.h" />
     <ClInclude Include="character.h" />
@@ -208,6 +210,7 @@
     <ClInclude Include="LightManager.h" />
     <ClInclude Include="LightMass.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="MATMAP.h" />
     <ClInclude Include="mesh_user.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="monster_state.h" />
