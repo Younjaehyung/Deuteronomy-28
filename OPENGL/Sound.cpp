@@ -30,6 +30,7 @@ inline void SoundManager::CreateSoundlist ( ) {
 	Channel.emplace ( "Walk" , CreateSound ( "sound/Deut_Sound/DUET_Walk.mp3" , 0 ) );
 	Channel.emplace ( "HeartBeat" , CreateSound ( "sound/Deut_Sound/DUET_HeartBeat.wav" , 0 ) );
 	Channel.emplace ( "Monster_Foot" , CreateSound ( "sound/Deut_Sound/Deut_Monster_Foot.wav" , 0 ) );
+	Channel.emplace ( "GetItem" , CreateSound ( "sound/Deut_Sound/DUET_GetItem.mp3" , 0 ) );
 }
 
 void SoundManager::Update ( )
