@@ -184,9 +184,11 @@ void Context::MainDraw (glm::vec3 _pos, glm::mat4 _cameraTransform )
     LightManager::getInstance ( ).UpdateShadowMapping ( m_lightingShadowProgram.get ( ) );
 
     map->Render ( m_lightingShadowProgram.get ( ), _cameraTransform );
-    item->Render_2pass ( m_lightingShadowProgram.get ( ) , _cameraTransform );
-
-
+    item0->Render_2pass ( m_lightingShadowProgram.get ( ) , _cameraTransform );
+    item1->Render_2pass ( m_lightingShadowProgram.get ( ) , _cameraTransform );
+    item2->Render_2pass ( m_lightingShadowProgram.get ( ) , _cameraTransform );
+    item3->Render_2pass ( m_lightingShadowProgram.get ( ) , _cameraTransform );
+    
     m_animationProgram->Use ( );
     m_animationProgram->SetUniform ( "viewPos" , _pos );
     m_animationProgram->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
@@ -218,14 +220,14 @@ void Context::UIDraw ( )
     m_camerauiProgram->SetUniform ( "tex" , 0 );
 
     // 블렌딩 활성화
-    //glEnable ( GL_BLEND );
-    //glBlendFunc ( GL_SRC_ALPHA , GL_ONE_MINUS_SRC_ALPHA );
+    glEnable ( GL_BLEND );
+    glBlendFunc ( GL_SRC_ALPHA , GL_ONE_MINUS_SRC_ALPHA );
 
     // 캠코더 UI 렌더링
     m_plane->Draw ( m_camerauiProgram.get ( ) );
 
     // 블렌딩 비활성화 (다른 렌더링에 영향 없도록)
-    //glDisable ( GL_BLEND );
+    glDisable ( GL_BLEND );
 
     glEnable ( GL_DEPTH_TEST );
 }
@@ -355,8 +357,11 @@ bool Context::Init ( )
 
     mainCamera = new Camera;
     player = new Player;
-   
-    item = new Item ( glm::vec3 ( 3.0f , 1000.0f , 0.0f ) );
+
+    item0 = new Item ( glm::vec3 ( 66.0f , 0.0f , -54.0f ) );
+    item1 = new Item ( glm::vec3 ( 41.0f , 0.0f , -7.5f ) );
+    item2 = new Item ( glm::vec3 ( 112.0f , 0.0f , -60.0f ) );
+    item3 = new Item ( glm::vec3 ( 69.0f , 0.0f , -115.0f ) );
     object1 = new character( glm::vec3(84.0f , 0.0f , -10.0f) );
     object2 = new character( glm::vec3 (94.0f , 0.0f , -60.0f ) );
     map = new Map(object1);
@@ -365,7 +370,10 @@ bool Context::Init ( )
     map->Initialize ("./model/NewNewNew.glb" );
     object1->Initialize ( "./model/Hulk/HulkIdle.glb" );
     object2->Initialize ( "./model/BagMan2.glb" );
-    item->Initialize ( "./model/Cross.glb" );
+    item0->Initialize ( "./model/Cross.glb" );
+    item1->Initialize ( "./model/Cross.glb" );
+    item2->Initialize ( "./model/Cross.glb" );
+    item3->Initialize ( "./model/Cross.glb" );
     player->Initialize ("./model/SibalGLB/SibalIdle.glb" );
     CollisionManager::getInstance ( ).Initialize ( );
     CameraManager::getInstance ( ).SetCamera ( player->camera );
@@ -380,7 +388,10 @@ bool Context::Init ( )
 
     obj.push_back ( object1 );
    // obj.push_back ( object2 );
-    obj.push_back ( item );
+    obj.push_back ( item0 );
+    obj.push_back ( item1 );
+    obj.push_back ( item2 );
+    obj.push_back ( item3 );
     obj.push_back ( map );
     obj.push_back ( player );
     map->ObjectInitialize ( obj );

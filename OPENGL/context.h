@@ -74,7 +74,10 @@ private:
 	Map* map;
 	character* object1;		//Neddlehead
 	character* object2;		//Bagman
-	Item* item;
+	Item* item0;
+	Item* item1;
+	Item* item2;
+	Item* item3;
 
 	ProgramUPtr m_animationProgram;
 

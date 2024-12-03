@@ -4,14 +4,22 @@
 #include "CollisionManager.h"
 
 void Item::Update ( ) {
-    // 아이템은 정적이므로 업데이트 필요 없음
+        
+    itemRotatef += Time::DeltaTime() * 50.0f; // 초당 50도 회전
+
+    // 원점에서 회전
+        itemRotate = glm::rotate(glm::mat4(1.0f), glm::radians( itemRotatef ), glm::vec3(0.0f, 1.0f, 0.0f));
+
+
+
+   
 }
 
 void Item::Render_2pass ( const Program* program, glm::mat4 _cameraTransform ) {
     if ( model ) {
-        program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos ) );
+        program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos )* itemRotate );
         program->SetUniform ( "transform" , CameraManager::getInstance ( ).Camera_transform ( ) *
-                                          glm::translate ( glm::mat4 ( 1.0f ) , Pos ) );
+                                          glm::translate ( glm::mat4 ( 1.0f ) , Pos ) * itemRotate );
         LightManager::getInstance ( ).GetLightSetting ( program );
         model->Draw ( program );
     }
@@ -19,8 +27,8 @@ void Item::Render_2pass ( const Program* program, glm::mat4 _cameraTransform ) {
 
 void Item::RenderShadow ( glm::mat4 lightView , const Program* program ) {
     if ( model ) {
-        program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos ) );
-        program->SetUniform ( "transform" , lightView * glm::translate ( glm::mat4 ( 1.0f ) , Pos ) );
+        program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos ) * itemRotate );
+        program->SetUniform ( "transform" , lightView * glm::translate ( glm::mat4 ( 1.0f ) , Pos ) * itemRotate );
         model->Draw ( program );
     }
 }
