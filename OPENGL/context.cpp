@@ -384,7 +384,7 @@ bool Context::Initialize ( )
    light1->SetLight ( glm::vec3 ( 2.0f , 4.0f , -1.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
    LightManager::getInstance ( ).AddLight ( light1 );
 
-   player->SetPos (glm::vec3(  12.f , 0.f , -50.f) );
+   player->SetPos (glm::vec3(  -6.0f , 0.0f , -10.f) );
 
     obj.push_back ( object1 );
    // obj.push_back ( object2 );

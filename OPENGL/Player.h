@@ -88,7 +88,7 @@ private:
 	bool FlashLight_switch{ true };
 
 	std::vector<Item*> Inventory;
-
+	int ItemCount = 0;
 	glm::mat4 modelTransform;
 	glm::vec2 m_prevMousePos{ glm::vec2 ( 0.0f ) };
 	//glm::vec3 Pos = glm::vec3 ( 0.0f , 0.0f , 0.0f );	//위치
