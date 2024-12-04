@@ -358,7 +358,7 @@ bool Context::Initialize ( )
 
     item0 = new Item ( glm::vec3 ( 66.0f , 0.0f , -54.0f ) );
     item1 = new Item ( glm::vec3 ( 41.0f , 0.0f , -7.5f ) );
-    item2 = new Item ( glm::vec3 ( 112.0f , 0.0f , -60.0f ) );
+    item2 = new Item ( glm::vec3 ( 112.0f , 0.0f , -66.0f ) );
     item3 = new Item ( glm::vec3 ( 69.0f , 0.0f , -115.0f ) );
     object1 = new character( glm::vec3(84.0f , 0.0f , -10.0f) );
     object2 = new character( glm::vec3 (94.0f , 0.0f , -60.0f ) );

@@ -75,6 +75,7 @@ void CollisionManager::InitializeCollisionMatrix ( ) {
 	// Enemy와 충돌하는 레이어 설정
 	mCollisionLayerMatrix[ ( uint32_t ) eLayerType::Enemy ].set ( ( uint32_t ) eLayerType::Player );
 	mCollisionLayerMatrix[ ( uint32_t ) eLayerType::Light ].set ( ( uint32_t ) eLayerType::Player );
+	mCollisionLayerMatrix[ ( uint32_t ) eLayerType::Item ].set ( ( uint32_t ) eLayerType::Player );
 	//mCollisionLayerMatrix[ ( uint32_t ) eLayerType::Enemy ].set ( ( uint32_t ) eLayerType::Light );
 
 	// Projectile과 충돌하는 레이어 설정

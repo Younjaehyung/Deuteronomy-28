@@ -17,6 +17,7 @@ public:
     Item ( glm::vec3 pos ) {
         Pos = pos;
         model = nullptr;
+        objectID = eLayerType::Item;
     }
 
     virtual void Update ( );
@@ -32,4 +33,5 @@ private:
     glm::mat4 itemRotate;
     glm::mat4 modelTransform;
     int Itemptype;
+    
 };
