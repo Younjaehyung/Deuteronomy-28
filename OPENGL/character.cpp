@@ -260,7 +260,7 @@ void character::Status_Machine ( )
 				
 				time += Time::DeltaTime ( );
 
-				if ( time > 7.0f ) {
+				if ( time > 4.0f ) {
 					status = Status::exit;
 				}
 			}
@@ -299,6 +299,7 @@ void character::Status_Machine ( )
 				}
 			}
 			else if ( status == Status::exit ) {
+
 				status = Status::start;
 			}
 
@@ -353,7 +354,7 @@ void character::Status_Machine ( )
 				status = Status::exit;
 			}
 			else if ( status == Status::exit ) {
-
+				action = Action::walk;
 				status = Status::start;
 			}
 
@@ -389,13 +390,12 @@ void character::Status_Machine ( )
 				status = Status::running;
 			}
 			else if ( status == Status::running ) {
-
-				StaticAlgorithm ( glm::ivec2 ( 12 , 12 ) );
-				if (0  ){
+				if ( StaticAlgorithm ( glm::ivec2 ( 12 , 18 ) ) ) {
 					status = Status::exit;
 				}
 			}
 			else if ( status == Status::exit ) {
+
 				status = Status::start;
 			}
 
@@ -415,7 +415,7 @@ void character::Status_Machine ( )
 			}
 			else if ( status == Status::exit ) {
 				chase = 0;
-				action = Action::walk;
+				action = Action::Idle;
 				status = Status::start;
 			}
 
@@ -425,13 +425,17 @@ void character::Status_Machine ( )
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( sceramAnim );
 				status = Status::running;
+				time = 0.0f;
 				SoundManager::getInstance ( ).GetSoundID ( "Roar" )->ReplaySound ( );
 			}
 			else if ( status == Status::running ) {
-
+				time += Time::DeltaTime ( );
+				if ( time>3.0f ) {
+					status = Status::exit;
+				}
 			}
 			else if ( status == Status::exit ) {
-
+				status = Status::start;
 			}
 
 		}
@@ -440,13 +444,14 @@ void character::Status_Machine ( )
 
 		std::cout << std::endl;
 	}
+
 	if ( phase == Phase::Mad ) {
 		std::cout << "Mad : ";
 		if ( action == Action::running ) {
 			std::cout << "running";
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( runAnim );
-				time = 0;
+				time = 0.0f;
 				status = Status::running;
 				SoundManager::getInstance ( ).GetSoundID ( "Chase2" )->ReplaySound ( );
 				SoundManager::getInstance ( ).GetSoundID ( "Monster_Foot" )->ReplaySound ( );
@@ -456,17 +461,17 @@ void character::Status_Machine ( )
 				DynamicAlgorithm ( );
 
 				time += Time::DeltaTime ( );
-				if ( time > 6.0f ) {
-					phase = Phase::Idle;
+				if ( time > 12.0f ) {
+					
 					time = 0;
-
+					status = Status::exit;
 				}
 
 				
 			}
 			else if ( status == Status::exit ) {
-
-				action = Action::attack;
+				phase = Phase::Idle;
+				action = Action::Idle;
 				status = Status::start;
 			}
 
@@ -491,13 +496,17 @@ void character::Status_Machine ( )
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( sceramAnim );
 				status = Status::running;
+				time = 0.0f;
 				SoundManager::getInstance ( ).GetSoundID ( "Roar" )->ReplaySound ( );
 			}
 			else if ( status == Status::running ) {
-
+				time += Time::DeltaTime ( );
+				if(time >3.0f ){
+				status = Status::exit;}
 			}
 			else if ( status == Status::exit ) {
-
+				action = Action::running;
+				status = Status::start;
 			}
 
 		}
@@ -506,53 +515,39 @@ void character::Status_Machine ( )
 	}
 	if ( phase == Phase::Crazy ) {
 
-		if ( action == Action::Idle ) {
-
-			if ( status == Status::start ) {
-				animator->PlayAnimation ( idleAnim );
-				status = Status::running;
-			}
-			else if ( status == Status::running ) {
-
-
-			}
-			else if ( status == Status::exit ) {
-
-
-			}
-
-		}
+		std::cout << "Crazy : ";
 		if ( action == Action::running ) {
-
+			std::cout << "running";
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( runAnim );
-
+				time = 0.0f;
 				status = Status::running;
+				SoundManager::getInstance ( ).GetSoundID ( "Chase2" )->ReplaySound ( );
+				SoundManager::getInstance ( ).GetSoundID ( "Monster_Foot" )->ReplaySound ( );
 			}
 			else if ( status == Status::running ) {
 
-			}
-			else if ( status == Status::exit ) {
+				DynamicAlgorithm ( );
 
-			}
+				time += Time::DeltaTime ( );
+				if ( time > 12.0f ) {
 
-		}
-		if ( action == Action::walk ) {
+					time = 0;
+					status = Status::exit;
+				}
 
-			if ( status == Status::start ) {
-				animator->PlayAnimation ( walkAnim );
-				status = Status::running;
-			}
-			else if ( status == Status::running ) {
 
 			}
 			else if ( status == Status::exit ) {
-
+				phase = Phase::Idle;
+				action = Action::Idle;
+				status = Status::start;
 			}
 
 		}
+
 		if ( action == Action::attack ) {
-
+			std::cout << "attack";
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( attackAnim );
 				status = Status::running;
@@ -566,19 +561,26 @@ void character::Status_Machine ( )
 
 		}
 		if ( action == Action::scream ) {
-
+			std::cout << "scream";
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( sceramAnim );
 				status = Status::running;
+				time = 0.0f;
+				SoundManager::getInstance ( ).GetSoundID ( "Roar" )->ReplaySound ( );
 			}
 			else if ( status == Status::running ) {
-
+				time += Time::DeltaTime ( );
+				if ( time > 3.0f ) {
+					status = Status::exit;
+				}
 			}
 			else if ( status == Status::exit ) {
-
+				action = Action::running;
+				status = Status::start;
 			}
 
 		}
+		std::cout << std::endl;
 
 
 	}
@@ -590,8 +592,20 @@ void character::Status_Machine ( )
 		if ( distance >= ( ( p2.x - p1.x ) * ( p2.x - p1.x ) ) + ( ( p2.z - p1.z ) * ( p2.z - p1.z ) ) ) {
 
 			phase = Phase::Mad;
-			action = Action::running;
+			action = Action::scream;
 			status = Status::start;
 		}
 	}
 }
+//
+//idle:
+//정적탐색 = > 두리번거리기
+//walk = > idle
+//
+//angry :
+//소리 지르기 = > 라이트달리기 = > 공격 = > 두리번 거리기 = > 정적탐색 = > 두리번거리기
+//scream = > running->attack = > Idle = > walk = > 반복 ( 준 Idle상태 )
+//
+//mad:
+//소리 지르기 = > 동적달리기 = > ( 12초 후 idle or 공격 )
+//scream = > running -> 12초후 Idle
