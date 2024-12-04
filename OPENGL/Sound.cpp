@@ -28,9 +28,13 @@ inline void SoundManager::CreateSoundlist ( ) {
 	Channel.emplace ( "Ambient" , CreateSound ( "sound/Deut_Sound/DUET_Ambient.wav" , 1 ) );
 	Channel.emplace ( "Roar" , CreateSound ( "sound/Deut_Sound/DUET_Roar.mp3" , 0 ) );
 	Channel.emplace ( "Walk" , CreateSound ( "sound/Deut_Sound/DUET_Walk.mp3" , 0 ) );
-	Channel.emplace ( "HeartBeat" , CreateSound ( "sound/Deut_Sound/DUET_HeartBeat.wav" , 0 ) );
+	Channel.emplace ( "HeartBeat" , CreateSound ( "sound/Deut_Sound/DUET_HeartBeat.mp3" , 0 ) );
 	Channel.emplace ( "Monster_Foot" , CreateSound ( "sound/Deut_Sound/Deut_Monster_Foot.wav" , 0 ) );
 	Channel.emplace ( "GetItem" , CreateSound ( "sound/Deut_Sound/DUET_GetItem.mp3" , 0 ) );
+	Channel.emplace ( "Monster_Walk" , CreateSound ( "sound/Deut_Sound/Deut_Monster_Walk.mp3" , 0 ) );
+	Channel.emplace ( "Monster_Run" , CreateSound ( "sound/Deut_Sound/Deut_Monster_Run.mp3" , 0 ) );
+	Channel.emplace ( "Gameover" , CreateSound ( "sound/Deut_Sound/Duet_Die_Noise.mp3" , 0 ) );
+	Channel.emplace ( "Monster_Run" , CreateSound ( "sound/Deut_Sound/Deut_Monster_Run.mp3" , 0 ) );
 }
 
 void SoundManager::Update ( )

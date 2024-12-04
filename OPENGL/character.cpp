@@ -17,7 +17,7 @@ void character::Update ( )
 
 bool character::HandleCollision ( Object* object )
 {
-	if(  )
+	
 	return false;
 }
 
@@ -261,16 +261,21 @@ void character::Status_Machine ( )
 				animator->PlayAnimation ( idleAnim );
 				time = 0.0f;
 				status = Status::running;
+				SoundManager::getInstance ( ).GetSoundID ( "Chase1" )->PauseSound ( );
+				SoundManager::getInstance ( ).GetSoundID ( "Chase2" )->PauseSound ( );
+				
 			}
 			else if ( status == Status::running ) {
 				
 				time += Time::DeltaTime ( );
+				
 
 				if ( time > 4.0f ) {
 					status = Status::exit;
 				}
 			}
 			else if ( status == Status::exit ) {
+				
 
 				status = Status::start;
 			}
@@ -280,7 +285,7 @@ void character::Status_Machine ( )
 			std::cout << "running";
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( runAnim );
-
+				SoundManager::getInstance ( ).GetSoundID ( "Monster_Walk" )->ReplaySound ( );
 				status = Status::running;
 			}
 			else if ( status == Status::running ) {
@@ -289,6 +294,7 @@ void character::Status_Machine ( )
 				}
 			}
 			else if ( status == Status::exit ) {
+				SoundManager::getInstance ( ).GetSoundID ( "Monster_Walk" )->PauseSound ( );
 				status = Status::start;
 			}
 
@@ -459,8 +465,8 @@ void character::Status_Machine ( )
 				animator->PlayAnimation ( runAnim );
 				time = 0.0f;
 				status = Status::running;
-				SoundManager::getInstance ( ).GetSoundID ( "Chase2" )->ReplaySound ( );
-				SoundManager::getInstance ( ).GetSoundID ( "Monster_Foot" )->ReplaySound ( );
+				SoundManager::getInstance ( ).GetSoundID ( "Chase2" )->ReplaySound (0.3f);
+				SoundManager::getInstance ( ).GetSoundID ( "Monster_Run" )->ReplaySound ( );
 			}
 			else if ( status == Status::running ) {
 				
@@ -528,8 +534,8 @@ void character::Status_Machine ( )
 				animator->PlayAnimation ( runAnim );
 				time = 0.0f;
 				status = Status::running;
-				SoundManager::getInstance ( ).GetSoundID ( "Chase2" )->ReplaySound ( );
-				SoundManager::getInstance ( ).GetSoundID ( "Monster_Foot" )->ReplaySound ( );
+				SoundManager::getInstance ( ).GetSoundID ( "Chase2" )->ReplaySound ( 0.7f );
+				SoundManager::getInstance ( ).GetSoundID ( "Monster_Run" )->ReplaySound ( );
 			}
 			else if ( status == Status::running ) {
 
