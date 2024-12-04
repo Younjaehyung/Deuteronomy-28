@@ -25,6 +25,11 @@ public:
 	void InitializeCollisionMatrix ( );
 	bool Check_AABB_Collision ( Object* box1 , Object* box2 );
 	bool ShouldCollide ( eLayerType type1 , eLayerType type2 );
+	int GetGameEnd () {
+		return gameend;
+	}
+
+
 
 	glm::vec3 ReturnPlayer ( ) {
 		for (auto player : collider ){
@@ -70,7 +75,7 @@ private:
 	std::bitset<( uint32_t ) eLayerType::Max> mCollisionLayerMatrix[ ( uint32_t ) eLayerType::Max ];
 	std::vector<Object*> collider;
 
-
+	bool gameend = 0;
 
 	int Map_Matrix[ 100 ][ 100 ] = {};
 

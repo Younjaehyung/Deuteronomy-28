@@ -8,26 +8,24 @@ void Deathmap::Update ( )
 
 }
 
-void Deathmap::Render ( const Program* program , glm::mat4 _cameraTransform )
+void Deathmap::Render ()
 {
-	LightManager::getInstance ( ).GetLightSetting ( program );
-	m_model->Draw ( program );
+
+	LightManager::getInstance ( ).GetLightSetting ( m_simpleProgram.get() );
+    m_map->Draw ( m_simpleProgram.get ( ) );
+
+    LightManager::getInstance ( ).GetLightSetting ( m_simpleAnimationProgram.get ( ) );
+    m_player->Draw ( m_simpleAnimationProgram.get ( ) );
+    m_monster->Draw ( m_simpleAnimationProgram.get ( ) );
 
 }
 
-void Deathmap::Initialize ( const std::string& strName )
+bool Deathmap::Initialize ()
 {
-	m_model = Model::Load ( strName );
-	if ( !m_model ) {
-		std::cerr << "program UserSetError id : " << m_model->Get ( ) << std::endl;
-		return;
-	}
+    std::cerr << "DEATH MAP start " << std::endl;
+    
+
+
+
 }
 
-void Deathmap::RenderShadow ( glm::mat4 lightView , const Program* program )
-{
-	program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos ) );
-	program->SetUniform ( "transform" , lightView * glm::translate ( glm::mat4 ( 1.0f ) , Pos ) );
-	//std::cout << "model" << std::endl;
-	m_model->Draw ( program );
-}

@@ -67,7 +67,7 @@ int main ( )
 
 
     //context 객체 생성
-    auto context = Context::Create ( );
+    auto* context = new GameManager;
     if ( !context ) {
         std::cerr << "failed to create context" << std::endl;
 
@@ -79,7 +79,7 @@ int main ( )
     //glfwSetInputMode ( window , GLFW_CURSOR , GLFW_CURSOR_DISABLED );   //마우스 커서 숨기기
     //glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     //glfw userpointer 저장
-    glfwSetWindowUserPointer ( window , context.get ( ) );
+    glfwSetWindowUserPointer ( window , context );
     //윈도우창 사이즈 설정
     OnFramebufferSizeChange ( window , 640 , 480 );
     glfwSetFramebufferSizeCallback ( window , OnFramebufferSizeChange );
@@ -90,7 +90,8 @@ int main ( )
     glfwSetMouseButtonCallback ( window , OnMouseButton );
     glfwSetMouseButtonCallback ( window , OnMouseButton );
     glfwSetCharCallback ( window , OnCharEvent );
-    
+
+
 
     while ( !glfwWindowShouldClose ( window ) ) {   //윈도우가 종료되었는지 확인
            glfwPollEvents ( ); //프레임 안정화
@@ -117,7 +118,7 @@ int main ( )
    
     glfwSetInputMode ( window , GLFW_CURSOR , GLFW_CURSOR_DISABLED );
     //context 객체 소멸
-    context.reset ( );
+    delete context;
   
     //imgui 종료
     ImGui_ImplOpenGL3_DestroyFontsTexture ( );
@@ -140,7 +141,7 @@ void show_glfw_error ( int error , const char* description ) {
 
 void OnFramebufferSizeChange ( GLFWwindow* window , int width , int height ) {
     std::cerr << "framebuffer size changed: " << width  << height << std::endl;
-    auto context = ( Context* ) glfwGetWindowUserPointer ( window );
+    auto context = ( GameManager* ) glfwGetWindowUserPointer ( window );
     context->Reshape ( width , height );
     glm::vec2& xypos = CameraManager::getInstance().GetCusor ( );
     xypos.x = width / 2;
@@ -157,7 +158,7 @@ void key_pressed ( GLFWwindow* window , int key , int scancode , int action , in
 }
 
 void OnCursorPos ( GLFWwindow* window , double x , double y ) {
-    auto context = ( Context* ) glfwGetWindowUserPointer ( window );
+    auto context = ( GameManager* ) glfwGetWindowUserPointer ( window );
     //context->MouseMove ( x , y );
     CameraManager::getInstance ( ).Input ( x , y );
 
@@ -167,7 +168,7 @@ void OnCursorPos ( GLFWwindow* window , double x , double y ) {
 }
 
 void OnMouseButton ( GLFWwindow* window , int button , int action , int modifier ) {
-    auto context = ( Context* ) glfwGetWindowUserPointer ( window );
+    auto context = ( GameManager* ) glfwGetWindowUserPointer ( window );
     double x , y;
     glfwGetCursorPos ( window , &x , &y );
     context->MouseButton ( button , action , x , y );

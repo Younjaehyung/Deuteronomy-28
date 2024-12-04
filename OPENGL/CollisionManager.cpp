@@ -2,6 +2,7 @@
 #include "CameraManager.h"
 
 void CollisionManager::Update ( std::vector<Object*>& colliders ) {
+	gameend = 0;
 	collider = colliders;
 	for ( size_t i = 0; i < collider.size ( ); ++i ) {
 		for ( size_t j = i + 1; j < collider.size ( ); ++j ) {
@@ -16,11 +17,18 @@ void CollisionManager::Update ( std::vector<Object*>& colliders ) {
 				if ( Check_AABB_Collision ( obj1 , obj2 ) ) {	//충돌 했냐?
 					obj1->HandleCollision ( obj2 );
 					obj2->HandleCollision ( obj1 );
+					if ( obj1->name == "player" && obj1->name == "monster1" ) {
+						gameend = 1;
+					}
+					else if ( obj1->name == "player" && obj1->name == "exit" ) {
+						gameend = 2;
+					}
 					std:: cout << obj1->name << " " << obj2->name << std::endl;
 				}
 			}
 		}
 	}
+	
 }
 
 bool CollisionManager::ShouldCollide ( eLayerType type1 , eLayerType type2 ) {

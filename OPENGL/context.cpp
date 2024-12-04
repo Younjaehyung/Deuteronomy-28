@@ -7,7 +7,7 @@
 ContextUPtr Context::Create ( )
 {
     auto context = ContextUPtr ( new Context ( ) ); //context uniquePointer 생성
-    if ( !context->Init ( ) ) { //초기화 
+    if ( !context->Initialize ( ) ) { //초기화 
         std::cerr << "create Init() err" << std::endl;
         // 실패시
         return nullptr;
@@ -250,7 +250,7 @@ void Context::MouseButton ( int button , int action , double x , double y ) {
 }
 
 
-bool Context::Init ( )
+bool Context::Initialize ( )
 {
 
     m_box = Mesh::CreateBox ( );
@@ -350,9 +350,6 @@ bool Context::Init ( )
         glm::vec4 ( 0.5f , 0.5f , 0.5f , 1.0f ) ).get ( ) );
 
 
-    input::Initialize ( );
-    Time::Initailize ( );
-    SoundManager::getInstance ( ).Initialize ( );
     LightManager::getInstance ( ).Initialize ( m_simpleProgram.get ( ) , m_simpleAnimationProgram.get ( ) );
 
 

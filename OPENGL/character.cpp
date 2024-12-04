@@ -17,7 +17,10 @@ void character::Update ( )
 
 bool character::HandleCollision ( Object* object )
 {
-	if(  )
+	if ( object->objectID == eLayerType::Player ) {
+		
+	}
+
 	return false;
 }
 

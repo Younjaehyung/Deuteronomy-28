@@ -18,12 +18,13 @@
 #include "LightManager.h"
 #include "Item.h"
 #include "Deathmap.h"
+#include "Scene.h"
 
 CLASS_PTR(Context)
 //빛
 
 
-class Context{
+class Context : public Scene {
 public:
 	static ContextUPtr Create ( );
 
@@ -61,11 +62,17 @@ public:
 		}
 	}
 
+	virtual int Check ( ) {
+
+		return CollisionManager::getInstance ( ).GetGameEnd ( );
+	
+	}
+
 	int m_width{ 640 };
 	int m_height{ 480 };
 private:
 	Context ( ) {};
-	bool Init ( );
+	bool Initialize ( );
 	
 	std::vector<Object*> obj;
 	Camera* mainCamera;

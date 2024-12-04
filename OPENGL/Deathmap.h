@@ -5,22 +5,46 @@
 #include "CameraManager.h"
 #include "object.h"
 #include "LightMass.h"
+#include "Scene.h"
 
-class Deathmap :public Object
+class Deathmap :public Scene
 {
-	ModelPtr m_model;
+	ModelPtr m_map;
+	ModelPtr m_player;
+	ModelPtr m_monster;
+
 	Camera* mapCamera;
 	std::vector<LightMass*> Visullight;
 
+	ProgramUPtr m_program;
+	ProgramUPtr m_simpleProgram;
+	ProgramUPtr m_simpleAnimationProgram;
 public:
-	Deathmap ( glm::vec3 _pos ) {
+	Deathmap () {
 		typeID = 0;
-		Pos = _pos;
+		std::cerr << "DEATH MAP Initialize " << std::endl;
+		m_simpleProgram = Program::Create ( "./shader/lighting_shadow.vs" , "./shader/lighting_shadow.fs" );
+		if ( !m_simpleProgram ) {
+			std::cerr << "program UserSetError id : " << m_simpleProgram->Get ( ) << std::endl;
+			return;
+
+
+		}
+
+		m_simpleAnimationProgram = Program::Create ( "./shader/lighting_shadow.vs" , "./shader/lighting_shadow.fs" );
+		if ( !m_simpleAnimationProgram ) {
+			std::cerr << "program UserSetError id : " << m_simpleAnimationProgram->Get ( ) << std::endl;
+			return ;
+
+
+		}
 	}
 	virtual void Update ( );
-	virtual void Render ( const Program* program , glm::mat4 _cameraTransform );
-	virtual void Initialize ( const std::string& strName );
-	virtual void RenderShadow ( glm::mat4 lightView , const Program* program );
+	virtual void Render ( );
+	virtual bool Initialize ();
+	virtual int Check ( ) {
+		return true;
+	}
 
 };
 

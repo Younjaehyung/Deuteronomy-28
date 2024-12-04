@@ -1,41 +1,56 @@
 ﻿#pragma once
-#include "Layer.h"
+#include "model.h"
+#include "Animation.h"
+#include "Animator.h"
+#include "CameraManager.h"
+#include "object.h"
+#include "LightMass.h"
 
+enum class Status {
+	start ,
+	running ,
+	exit ,
+};
 
-class Scene {
+class Scene : public Object{
 private:
-	std::vector <Layer*> Layers;
+	
 public:
-	Scene ( );
-	virtual ~Scene ( );
+	Scene ( ) {};
+	virtual ~Scene ( ) {};
 
 	virtual void Update ( )
 	{
-		for ( auto& _Layer : Layers ) {
-			_Layer->Update ( );
-		}
+
 	}
 
-	virtual void Initialize ( )
+	virtual bool Initialize ( )
 	{
-		for ( auto& _Layer : Layers ) {
-			_Layer->Initialize ( );
-		}
+
 	}
 
-	virtual void FixedUpdate ( )
+	virtual void ProcessInput ( GLFWwindow* window )
 	{
-		for ( auto& _Layer : Layers ) {
-			_Layer->FixedUpdate ( );
-		}
+	
+	}
+
+	virtual void MouseButton ( int button , int action , double x , double y ) {
+	
+	}
+
+	virtual void FixedUpdate ( ){
+
 	}
 
 	virtual void Render ( )
 	{
-		for ( auto& _Layer : Layers ) {
-			_Layer->Render ( );
-		}
 
 	}
 
+	virtual void Reshape ( int width , int height ) {
+	}
+
+	virtual int Check () {
+		return true;
+	}
 };

@@ -14,7 +14,7 @@ class LightManager
 	const int MAXLIGHTNUM =20;//최대 빛 개수
 	int LightNum = 0;//전체 빛 개수
 	int ableLightNum = 0;//활성 빛 개수
-	UBOBUFFER_LIGHTPtr UBOLight;
+	//UBOBUFFER_LIGHTPtr UBOLight;
 	Program* m_simpleProgram =nullptr;
 	Program* m_simpleAnimationProgram = nullptr;
 	std::vector<LightMass*> lightMass;//빛 
@@ -39,7 +39,7 @@ public:
 	void Initialize (Program* program, Program* program2 ) {
 		m_simpleProgram = program;
 		m_simpleAnimationProgram = program2;
-		UBOLight = UBOBUFFER_LIGHT::Create ( MAXLIGHTNUM );
+		//UBOLight = UBOBUFFER_LIGHT::Create ( MAXLIGHTNUM );
 		
 	}
 
@@ -48,10 +48,12 @@ public:
 	}
 
 
-	UBOBUFFER_LIGHTPtr GetLight ( ) {
-		return UBOLight;
+	//UBOBUFFER_LIGHTPtr GetLight ( ) {
+	//	return UBOLight;
+	//}
+
+	void ClearManager ( ) {
+		lightMass.clear ( );
 	}
-
-
 };
 
