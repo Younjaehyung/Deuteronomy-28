@@ -310,7 +310,7 @@ void Map::CameraLightUpdate ( )
     updateSightTime += Time::DeltaTime ( );
     int newCameraID = usingCameraID;
     std::cerr <<"Camera TIme:" << updateSightTime << std::endl;
-    if ( updateSightTime >= 12.0f ) {
+    if ( updateSightTime >= 3.0f ) {
      
         std::uniform_int_distribution<int> camera_moving ( 0 , sightLight.size()-1 );
 
