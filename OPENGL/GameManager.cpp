@@ -25,12 +25,10 @@ void GameManager::Initialize ( )
 	Scene* intromode = new Gameintro;
 	Scenes.push_back ( intromode );
 
-	ContextUPtr playmode = Context::Create ( );
-	Scenes.push_back( playmode.get ( ) );
+	Scene* playmode = new Context;
+	Scenes.push_back( playmode );
 
 	Death = new Deathmap;
-	
-
 	Life = new Lifemap;
 	
 	Scenes.push_back ( overmode );
@@ -38,7 +36,7 @@ void GameManager::Initialize ( )
 
 	Scene* endmode = new gameover;
 	Scenes.push_back ( endmode );
-
+	
 	//Scenes[ static_cast< int >( mode ) ]->Initialize ( );
 
 }
@@ -76,11 +74,14 @@ void GameManager::GameLogic ( ) {
 
 		}
 		if ( status == Status::start ) {
-			_scene->Initialize ( );
+			
+				//_scene->Initialize ( );
+			
 			if ( mode == gamemode::Gameover ) {
 				overmode = EndingNum == 1 ? Death : Life;
 				EndingNum = 0;
 			}
+			
 			status = Status::running;
 		}
 
@@ -104,12 +105,14 @@ void GameManager::Reshape ( int width , int height ) {
 	m_height = height;
 	glViewport ( 0 , 0 , m_width , m_height );
 
-	if ( m_width <= 1 ) {
-		m_width = 1;
-	}
-	if ( m_height <= 1 ) {
-		m_height = 1;
-	}
-
+	//if ( m_width <= 1 ) {
+	//	m_width = 1;
+	//}
+	//if ( m_height <= 1 ) {
+	//	m_height = 1;
+	//}
+	//
+	std::cout << Scenes.size() << std::endl;
 	Scenes[ static_cast< int >( mode ) ]->Reshape ( m_width , m_height );
+	
 }

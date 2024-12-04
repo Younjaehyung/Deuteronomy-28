@@ -6,11 +6,7 @@
 #include "object.h"
 #include "LightMass.h"
 
-enum class Status {
-	start ,
-	running ,
-	exit ,
-};
+
 
 class Scene : public Object{
 private:
@@ -26,7 +22,7 @@ public:
 
 	virtual bool Initialize ( )
 	{
-
+		return true;
 	}
 
 	virtual void ProcessInput ( GLFWwindow* window )
@@ -48,6 +44,7 @@ public:
 	}
 
 	virtual void Reshape ( int width , int height ) {
+		std::cout << "나는 정왕의 오승원이다" << std::endl;
 	}
 
 	virtual int Check () {

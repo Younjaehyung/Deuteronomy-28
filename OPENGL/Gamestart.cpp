@@ -10,5 +10,6 @@ void Gamestart::Render (  )
 
 bool Gamestart::Initialize ( )
 {
+	return true;
 }
 

@@ -171,8 +171,20 @@
     <ClCompile Include="monster_state.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Gamestart.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="gameover.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="Deathmap.cpp">
-      <Filter>GAME_SOURCE</Filter>
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Lifemap.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Gameintro.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -329,11 +341,23 @@
     <ClInclude Include="monster_state.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Deathmap.h">
+    <ClInclude Include="MATMAP.h">
       <Filter>GAME_HEADER</Filter>
     </ClInclude>
-    <ClInclude Include="MATMAP.h">
-      <Filter>GAME_SOURCE</Filter>
+    <ClInclude Include="Gamestart.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="gameover.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Deathmap.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Lifemap.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Gameintro.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

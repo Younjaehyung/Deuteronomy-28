@@ -1,5 +1,6 @@
 ﻿#pragma once
-class Gameintro
+#include "Scene.h"
+class Gameintro : public Scene
 {
 };
 

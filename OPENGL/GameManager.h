@@ -18,16 +18,14 @@ enum class gamemode {
 
 class GameManager
 {
-private:
-	Scene* Death = new Deathmap;
-	Scene* Life = new Lifemap;
-	Scene* overmode;
-	int EndingNum = 0;
-	std::vector<Scene*> Scenes;
-	enum Status status = Status::start;
-	enum gamemode prevmode = gamemode::start;
-	enum gamemode mode = gamemode::start;
+
 public:
+	enum class Status {
+		start ,
+		running ,
+		exit ,
+	};
+
 	int m_width{ 640 };
 	int m_height{ 480 };
 
@@ -47,5 +45,14 @@ public:
 		FixedUpdate ( );
 		Render ( );
 	}
+private:
+	Scene* Death;
+	Scene* Life;
+	Scene* overmode;
+	int EndingNum = 0;
+	std::vector<Scene*> Scenes;
+	enum Status status = Status::start;
+	enum gamemode prevmode = gamemode::start;
+	enum gamemode mode = gamemode::play;
 };
 

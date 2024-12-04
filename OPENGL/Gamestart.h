@@ -18,8 +18,10 @@ public:
 	}
 	virtual void Update ( );
 	virtual void Render ( );
-	virtual void Initialize ();
-
+	virtual bool Initialize ();
+	virtual int Check ( ) {
+		return true;
+	}
 
 
 };

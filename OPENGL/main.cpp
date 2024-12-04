@@ -68,10 +68,11 @@ int main ( )
 
     //context 객체 생성
     auto* context = new GameManager;
+    context->Initialize ( );
     if ( !context ) {
+       
+       
         std::cerr << "failed to create context" << std::endl;
-
-
         glfwTerminate ( );
         return -1;
     }
@@ -80,29 +81,31 @@ int main ( )
     //glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     //glfw userpointer 저장
     glfwSetWindowUserPointer ( window , context );
+
     //윈도우창 사이즈 설정
     OnFramebufferSizeChange ( window , 640 , 480 );
     glfwSetFramebufferSizeCallback ( window , OnFramebufferSizeChange );
-   
+    std::cout << "나는 정왕의 오승원이다" << std::endl;
+    std::cout << "나는 정왕의 오승원이다" << std::endl;
+    std::cout << "나는 정왕의 오승원이다" << std::endl;
     //키보드, 마우스 콜백함수 설정
     glfwSetKeyCallback ( window , key_pressed );
     glfwSetCursorPosCallback ( window , OnCursorPos );
     glfwSetMouseButtonCallback ( window , OnMouseButton );
     glfwSetMouseButtonCallback ( window , OnMouseButton );
     glfwSetCharCallback ( window , OnCharEvent );
-
-
-
+   
     while ( !glfwWindowShouldClose ( window ) ) {   //윈도우가 종료되었는지 확인
            glfwPollEvents ( ); //프레임 안정화
            ImGui_ImplGlfw_NewFrame ( );    //imgui 새 랜더링 프레임이라고 알려줌
            ImGui::NewFrame ( );
-          
+           context->GameLogic ( );
+
            context->ProcessInput ( window );    //입력 
            context->Update ( );
 
            context-> Render ( );    //출력
-            
+           
            if ( CameraManager::getInstance ( ).ClickCamera ( ) ) {
                glfwSetCursorPos ( window , context->m_width / 2 , context->m_height / 2 );
            }
@@ -141,7 +144,7 @@ void show_glfw_error ( int error , const char* description ) {
 
 void OnFramebufferSizeChange ( GLFWwindow* window , int width , int height ) {
     std::cerr << "framebuffer size changed: " << width  << height << std::endl;
-    auto context = ( GameManager* ) glfwGetWindowUserPointer ( window );
+    auto* context = ( GameManager* ) glfwGetWindowUserPointer ( window );
     context->Reshape ( width , height );
     glm::vec2& xypos = CameraManager::getInstance().GetCusor ( );
     xypos.x = width / 2;

@@ -4,16 +4,16 @@
 #include "Sound.h"
 #include "CollisionManager.h"
 #include "input.h"
-ContextUPtr Context::Create ( )
-{
-    auto context = ContextUPtr ( new Context ( ) ); //context uniquePointer 생성
-    if ( !context->Initialize ( ) ) { //초기화 
-        std::cerr << "create Init() err" << std::endl;
-        // 실패시
-        return nullptr;
-    }
-    return std::move ( context );   //소유권 이양 (이동연산자)
-}
+//ContextUPtr Context::Create ( )
+//{
+//    auto context = ContextUPtr ( new Context ( ) ); //context uniquePointer 생성
+//    if ( !context->Initialize ( ) ) { //초기화 
+//        std::cerr << "create Init() err" << std::endl;
+//        // 실패시
+//        return nullptr;
+//    }
+//    return std::move ( context );   //소유권 이양 (이동연산자)
+//}
 
 void Context::Render ( ) {
 
@@ -157,10 +157,11 @@ void Context::ProcessInput ( GLFWwindow* window ) {
 }
 
 void Context::Reshape ( int width , int height ) {
+    std::cout <<"뭘봐 오승원" << std::endl;
     m_width = width;
     m_height = height;
     glViewport ( 0 , 0 , m_width , m_height );
-   
+    
     if ( m_width <= 1 ) {
         m_width = 1;
     }
@@ -184,7 +185,6 @@ void Context::MainDraw (glm::vec3 _pos, glm::mat4 _cameraTransform )
     LightManager::getInstance ( ).UpdateShadowMapping ( m_lightingShadowProgram.get ( ) );
 
     map->Render ( m_lightingShadowProgram.get ( ), _cameraTransform );
-    Deathroom->Render ( m_lightingShadowProgram.get ( ) , _cameraTransform );
     item0->Render_2pass ( m_lightingShadowProgram.get ( ) , _cameraTransform );
     item1->Render_2pass ( m_lightingShadowProgram.get ( ) , _cameraTransform );
     item2->Render_2pass ( m_lightingShadowProgram.get ( ) , _cameraTransform );
@@ -363,11 +363,9 @@ bool Context::Initialize ( )
     object1 = new character( glm::vec3(84.0f , 0.0f , -10.0f) );
     object2 = new character( glm::vec3 (94.0f , 0.0f , -60.0f ) );
     map = new Map(object1);
-    Deathroom = new Deathmap ( glm::vec3 ( 0.0f , 100.0f , 0.0f ) );
 
    
     map->Initialize ("./model/NewNewNew.glb" );
-    Deathroom->Initialize ( "./model/DeathRoom.glb" );
 
     object1->Initialize ( "./model/HULK1/HulkIdle.glb" );
 
@@ -394,7 +392,6 @@ bool Context::Initialize ( )
     obj.push_back ( item1 );
     obj.push_back ( item2 );
     obj.push_back ( item3 );
-    obj.push_back ( Deathroom );
     obj.push_back ( map );
     obj.push_back ( player );
     map->ObjectInitialize ( obj );

@@ -144,8 +144,10 @@
     <ClCompile Include="Create_Graph.cpp" />
     <ClCompile Include="Deathmap.cpp" />
     <ClCompile Include="framebuffer.cpp" />
+    <ClCompile Include="Gameintro.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Gameobject.cpp" />
+    <ClCompile Include="gameover.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -155,6 +157,7 @@
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="Lifemap.cpp" />
     <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="LightMass.cpp" />
     <ClCompile Include="main.cpp" />
@@ -170,6 +173,7 @@
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="shadow.cpp" />
     <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="Gamestart.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="vertex_layout.cpp" />
@@ -189,6 +193,7 @@
     <ClInclude Include="CommonValues.h" />
     <ClInclude Include="Create_Graph.h" />
     <ClInclude Include="Deathmap.h" />
+    <ClInclude Include="Gameintro.h" />
     <ClInclude Include="Gameobject.h" />
     <ClInclude Include="buffer.h" />
     <ClInclude Include="character.h" />
@@ -197,6 +202,7 @@
     <ClInclude Include="context.h" />
     <ClInclude Include="framebuffer.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="gameover.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="include\assimp-master\include\assimp\defs.h" />
     <ClInclude Include="include\assimp-master\include\assimp\Importer.hpp" />
@@ -207,6 +213,7 @@
     <ClInclude Include="include\assimp-master\include\assimp\scene.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="Lifemap.h" />
     <ClInclude Include="LightManager.h" />
     <ClInclude Include="LightMass.h" />
     <ClInclude Include="Map.h" />
@@ -225,6 +232,7 @@
     <ClInclude Include="shader.h" />
     <ClInclude Include="shadow.h" />
     <ClInclude Include="Sound.h" />
+    <ClInclude Include="Gamestart.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="vertex_layout.h" />

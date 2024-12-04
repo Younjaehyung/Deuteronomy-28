@@ -26,23 +26,23 @@ CLASS_PTR(Context)
 
 class Context : public Scene {
 public:
-	static ContextUPtr Create ( );
+	//static ContextUPtr Create ( );
 
 	//게임 start
 
 
 	//게임 play
-	void Update ( );
-	void Render ( );
-	void ProcessInput ( GLFWwindow* window );
+	virtual void Update ( );
+	virtual void Render ( );
+	virtual void ProcessInput ( GLFWwindow* window );
 	void IMGUI_USER ( );
 	void UIDraw ( );
 
-	void Reshape ( int width , int height );
+	virtual void Reshape ( int width , int height );
 	void MainDraw ( glm::vec3 _pos , glm::mat4 _cameraTransform );
 	void FrameBufferDraw ( );
 
-	void MouseButton ( int button , int action , double x , double y );
+	virtual void MouseButton ( int button , int action , double x , double y );
 
 
 	void GameobjectUpdate ( ) {
@@ -70,8 +70,9 @@ public:
 
 	int m_width{ 640 };
 	int m_height{ 480 };
+	Context ( ) { Initialize ( ); };
 private:
-	Context ( ) {};
+	
 	bool Initialize ( );
 	
 	std::vector<Object*> obj;

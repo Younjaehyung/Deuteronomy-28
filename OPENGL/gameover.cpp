@@ -22,6 +22,15 @@ bool gameover::Initialize ( )
 
     }
 
+    m_simpleAnimationProgram = Program::Create ( "./shader/lighting.vs" , "./shader/lighting.fs" );
+    if ( !m_program ) {
+        std::cerr << "program UserSetError id : " << m_program->Get ( ) << std::endl;
+        return false;
+
+
+    }
+
+
 }
 
 void gameover::ProcessInput ( )

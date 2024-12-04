@@ -26,6 +26,6 @@ bool Deathmap::Initialize ()
     
 
 
-
+    return true;
 }
 
