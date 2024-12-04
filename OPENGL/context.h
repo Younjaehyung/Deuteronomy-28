@@ -51,15 +51,18 @@ public:
 		}
 	}
 	void GameobjectDelete ( ) {
+		std::cout << "나는 삭제왕 오승원이다1" << std::endl;
 		for ( auto it = obj.begin ( ); it != obj.end ( );) {
 			if ( ( *it )->GetDestroy ( ) ) {
 				delete* it;
+				
 				it = obj.erase ( it );
 			}
 			else {
 				++it;
 			}
 		}
+		std::cout << "나는 삭제왕 오승원이다2" << std::endl;
 	}
 
 	virtual int Check ( ) {

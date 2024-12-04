@@ -27,7 +27,7 @@ class Object {
 public:
 	int Destroy = 0;	//유효성 0: 실존 1: 없음 (0일시 삭제됨)
 	std::string name;	//객체 이름(구체적인)
-	int typeID = 0;	//객체 그림자 여부
+	int typeID = 0;	//객체 애니메이션 그림자 여부
 	eLayerType objectID = eLayerType::NOT;	//객체 속성(충돌처리용)
 	glm::vec3 Pos{ 0.0f,0.0f,0.0f };
 	glm::mat4 Dir{ glm::mat4(1.0f) };
@@ -36,7 +36,7 @@ public:
 	//virtual std::vector<CollisionObject*> GetBox ( ) { return CollisionBox; }
 	CollisionObject CollisionBox;
 	virtual void Update ( ) {}
-	
+	virtual void Render ( const Program* program , glm::mat4 _cameraTransform ) {}
 	virtual CollisionObject GetBox ( ) { return CollisionBox; }	//충돌 박스 리턴
 	virtual void SetBox (glm::vec3  size, std::string name="" ) {	//충돌 박스 설정
 		CollisionBox.Size = size;

@@ -48,26 +48,17 @@ void character::RenderShadow ( glm::mat4 lightView , const Program* program )
 	model->Draw ( program );
 }
 
-void character::Render ( const Program* program )
+void character::Render ( const Program* program , glm::mat4 _cameraTransform )
 {
 
 	
 	const auto& transforms = animator->GetFinalBoneMatrices ( );
-	//
-	//for ( int i = 0; i < transforms.size ( ); i++ )
-	//{
-	//	UBO->UpdateBoneMatrices ( transforms );
-	//	char locbuff[ 100 ] = { '\0' };
-	//	snprintf ( locbuff , sizeof ( locbuff ) , "finalBonesMatrices[%d]" , i );
-	//	program->SetUniform ( "finalBonesMatrices[" + std::to_string ( i ) + "]" , transforms[ i ] );
-
-	//}
-
-
+	program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos ) * glm::mat4_cast ( quaternion ) );
+	program->SetUniform ( "transform" , _cameraTransform * glm::translate ( glm::mat4 ( 1.0f ) , Pos ) * glm::mat4_cast ( quaternion ) );
 	UBO->Bind ( program->Get ( ) , "Bones" );
 	UBO->UpdateBoneMatrices ( transforms );
-	
 
+	LightManager::getInstance ( ).GetLightSetting ( program );
 	model->Draw ( program );
 }
 

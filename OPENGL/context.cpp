@@ -128,9 +128,9 @@ void Context :: Update ( ) {
     CameraManager::getInstance ( ).Update ( );  //업데이트
     Camera_Transform = CameraManager::getInstance ( ).Camera_transform( );
     GameobjectUpdate ( );
-
+    std::cout << "나는 삭제왕 오승원이다4" << std::endl;
     CollisionManager::getInstance ( ).Update (obj );    //충돌체
-    
+    std::cout << "나는 삭제왕 오승원이다5" << std::endl;
 }
 
 void Context::ProcessInput ( GLFWwindow* window ) {
@@ -179,30 +179,30 @@ void Context::MainDraw (glm::vec3 _pos, glm::mat4 _cameraTransform )
     m_lightingShadowProgram->Use ( );
     glm::vec3 CameraPos ( _pos );
     m_lightingShadowProgram->SetUniform ( "viewPos" , _pos );
-    m_lightingShadowProgram->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
-    m_lightingShadowProgram->SetUniform ( "transform" , _cameraTransform );
     m_lightingShadowProgram->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
     LightManager::getInstance ( ).UpdateShadowMapping ( m_lightingShadowProgram.get ( ) );
 
-    map->Render ( m_lightingShadowProgram.get ( ), _cameraTransform );
-    item0->Render_2pass ( m_lightingShadowProgram.get ( ) , _cameraTransform );
-    item1->Render_2pass ( m_lightingShadowProgram.get ( ) , _cameraTransform );
-    item2->Render_2pass ( m_lightingShadowProgram.get ( ) , _cameraTransform );
-    item3->Render_2pass ( m_lightingShadowProgram.get ( ) , _cameraTransform );
+    for ( auto& _object : obj ) {
+        if ( _object->typeID == 0 ) {
+            _object->Render ( m_lightingShadowProgram.get ( ) , _cameraTransform );
+        }
+    }
+   
+    
+   
     
     m_animationProgram->Use ( );
     m_animationProgram->SetUniform ( "viewPos" , _pos );
     m_animationProgram->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
     m_animationProgram->SetUniform ( "transform" , _cameraTransform );
     m_animationProgram->SetUniform ( "blinn" , ( m_blinn ? 1 : 0 ) );
-
-
     LightManager::getInstance ( ).UpdateShadowMapping ( m_animationProgram.get ( ) );
 
-    object1->Render_2pass ( m_animationProgram.get ( ) , _cameraTransform );
-    object2->Render_2pass ( m_animationProgram.get ( ) , _cameraTransform );
-
-    player->Render ( m_animationProgram.get ( ) , _cameraTransform );
+    for ( auto& _object : obj ) {
+        if ( _object->typeID == 1 ) {
+            _object->Render ( m_animationProgram.get ( ) , _cameraTransform );
+        }
+    }
 
 
 }

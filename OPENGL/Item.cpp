@@ -15,6 +15,16 @@ void Item::Update ( ) {
    
 }
 
+void Item::Render ( const Program* program , glm::mat4 _cameraTransform ) {
+    if ( model ) {
+        program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos ) * itemRotate );
+        program->SetUniform ( "transform" , CameraManager::getInstance ( ).Camera_transform ( ) *
+                                          glm::translate ( glm::mat4 ( 1.0f ) , Pos ) * itemRotate );
+        LightManager::getInstance ( ).GetLightSetting ( program );
+        model->Draw ( program );
+    }
+}
+
 void Item::Render_2pass ( const Program* program, glm::mat4 _cameraTransform ) {
     if ( model ) {
         program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos )* itemRotate );
@@ -35,25 +45,19 @@ void Item::RenderShadow ( glm::mat4 lightView , const Program* program ) {
 
 bool Item::HandleCollision ( Object* player )
 {
+    std::cout << "나는 삭제왕 오승원이다3" << std::endl;
     if ( player->objectID == eLayerType::Player ) {
 
         GetDestroy ( ) = 1;
         
     }
-
+    
     return true;
 }
 
 
 
-void Item::Render ( const Program* program, glm::mat4 _cameraTransform ) {
-    if ( model ) {
-        program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos ) );
-        program->SetUniform ( "transform" , CameraManager::getInstance ( ).Camera_transform ( ) *
-                                          glm::translate ( glm::mat4 ( 1.0f ) , Pos ) );
-        model->Draw ( program );
-    }
-}
+
 
 
 

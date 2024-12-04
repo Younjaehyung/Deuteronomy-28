@@ -40,8 +40,10 @@ void Map::Render ( const Program* program, glm::mat4 _cameraTransform )
     program->SetUniform ( "color" , glm::vec3 ( 0.3f ) );
     UBO->Bind ( program->Get ( ) , "lights" );
     UBO->UpdateData ( _model->GetLight() );*/
+    program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
+    program->SetUniform ( "transform" , _cameraTransform );
     LightManager::getInstance ( ).GetLightSetting ( program );
-		m_model->Draw ( program );
+	m_model->Draw ( program );
 
         
 		//program->SetUniform ( "transform" , CameraManager::getInstance().Camera_transform()*glm::rotate( glm::mat4 ( 1.0f ),glm::radians(90.0f ),glm::vec3(1.0f,0.0f,0.0f) )
