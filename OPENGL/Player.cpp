@@ -299,6 +299,12 @@ bool Player::HandleCollision ( Object* object )
 		Inventory.push_back ( newItem );
 
 	}
+	if ( object->objectID == eLayerType::Enemy ) {
+		if ( object->name == "object1" ) {
+			
+		}
+
+	}
 
 	return true;
 

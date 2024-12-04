@@ -15,6 +15,12 @@ void character::Update ( )
 
 }
 
+bool character::HandleCollision ( Object* object )
+{
+	if(  )
+	return false;
+}
+
 void character::Render_2pass ( const Program* program , glm::mat4 _cameraTransform )
 {
 	const auto& transforms = animator->GetFinalBoneMatrices ( );
