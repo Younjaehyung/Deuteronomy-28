@@ -122,7 +122,7 @@ void Context::Render ( ) {
 }
 
 void Context :: Update ( ) {
-    Time::Update ( );
+   
     GameobjectDelete ( );   //삭제
 
     CameraManager::getInstance ( ).Update ( );  //업데이트
@@ -134,7 +134,7 @@ void Context :: Update ( ) {
 }
 
 void Context::ProcessInput ( GLFWwindow* window ) {
-    input::Update ( window );
+    
     player->Input ( window );
    /* glm::vec3 cameraDirectionXZ = glm::normalize ( glm::vec3 ( m_cameraFront.x , 0.0f , m_cameraFront.z ) );
     const float cameraSpeed = 0.05f;

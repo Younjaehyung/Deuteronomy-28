@@ -427,5 +427,11 @@
     <None Include="Shader\cameraUI.vs">
       <Filter>shader</Filter>
     </None>
+    <None Include="Shader\normal.fs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="Shader\normal.vs">
+      <Filter>shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

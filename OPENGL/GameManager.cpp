@@ -31,7 +31,7 @@ void GameManager::Initialize ( )
 	Death = new Deathmap;
 	Life = new Lifemap;
 	
-	Scenes.push_back ( overmode );
+	Scenes.push_back ( Death );
 
 
 	Scene* endmode = new gameover;
@@ -42,6 +42,8 @@ void GameManager::Initialize ( )
 }
 void GameManager::ProcessInput ( GLFWwindow* window )
 {
+	Time::Update ( );
+	input::Update ( window );
 	Scenes[ static_cast< int >( mode ) ]->ProcessInput ( window );
 }
 
@@ -51,14 +53,14 @@ void GameManager::FixedUpdate ( )
 
 void GameManager::Render ( )
 {
-
+	glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT ); //GL_DEPTH_BUFFER_BIT : DEPTH Buffer clear 세팅
 	Scenes[static_cast<int>(mode)]->Render ( );
 
 }
 
 void GameManager::GameLogic ( ) {
 	Scene* _scene = Scenes[ static_cast< int >( mode ) ];
-	
+	std::cout << "나는 정왕의 데스신 오승원이다." << std::endl;
 		
 		
 		if ( status == Status::running ) {
@@ -75,16 +77,16 @@ void GameManager::GameLogic ( ) {
 		}
 		if ( status == Status::start ) {
 			
-				//_scene->Initialize ( );
+			//_scene->Reset ( );
 			
 			if ( mode == gamemode::Gameover ) {
-				overmode = EndingNum == 1 ? Death : Life;
+				
+				overmode =(  EndingNum == 1 ? Death : Life);
 				EndingNum = 0;
 			}
 			
 			status = Status::running;
 		}
-
 
 		if ( static_cast< int >( mode ) == static_cast< int >( gamemode::Max ) ) {
 			mode = static_cast< gamemode >( 0 );

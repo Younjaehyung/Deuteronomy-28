@@ -1,26 +1,45 @@
 ﻿#pragma once
 #include "Scene.h"
+#include "input.h"
 
 class Gamestart :public Scene
 {
 	ModelPtr m_model;
+	MeshUPtr m_plane;
+	TextureUPtr MainUITEXTURE;
+
+	bool StartEngine{ false };
+
 	Camera* mapCamera;
 	std::vector<LightMass*> Visullight;
 
 	ProgramUPtr m_program;
 	ProgramUPtr m_simpleProgram;
 	ProgramUPtr m_simpleAnimationProgram;
+	ProgramUPtr m_camerauiProgram;
 
 public:
 	Gamestart ( ) {
 		typeID = 0;
-
+		Initialize ( );
 	}
 	virtual void Update ( );
 	virtual void Render ( );
 	virtual bool Initialize ();
+	virtual void ProcessInput ( GLFWwindow* window )
+	{
+		if ( input::GetKeyDown ( eKeyCode::SPACE ) ) {
+			StartEngine = 1;
+		}
+	}
+
 	virtual int Check ( ) {
-		return true;
+		if ( StartEngine ) {
+			std::cout << "나는 정왕의 신 오승원이다" << std::endl;
+			return true;
+		}
+
+		return false;
 	}
 
 
