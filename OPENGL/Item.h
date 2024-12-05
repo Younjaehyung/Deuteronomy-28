@@ -3,6 +3,7 @@
 #include "object.h"
 #include "model.h"
 #include "CameraManager.h"
+#include "Sound.h"
 
 class ItemState {
 

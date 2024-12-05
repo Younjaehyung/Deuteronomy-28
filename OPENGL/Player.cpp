@@ -295,6 +295,7 @@ void Player::Input ( GLFWwindow* window ) {
 bool Player::HandleCollision ( Object* object )
 {
 	if ( object->objectID == eLayerType::Item ) {
+		ItemCount++;
 		//Item* newItem = new Item;
 		//Inventory.push_back ( newItem );
 
