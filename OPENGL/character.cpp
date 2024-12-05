@@ -257,6 +257,7 @@ void character::Status_Machine ( )
 				animator->PlayAnimation ( idleAnim );
 				time = 0.0f;
 				status = Status::running;
+				std::cout << "나는 산기대의 오승원이다@@@@@@@@@@@@@@@@@@@@@@@@ " << std::endl;
 				SoundManager::getInstance ( ).GetSoundID ( "Chase1" )->PauseSound ( );
 				SoundManager::getInstance ( ).GetSoundID ( "Chase2" )->PauseSound ( );
 				
@@ -271,8 +272,7 @@ void character::Status_Machine ( )
 				}
 			}
 			else if ( status == Status::exit ) {
-				
-
+				action = Action::walk;
 				status = Status::start;
 			}
 
@@ -283,9 +283,17 @@ void character::Status_Machine ( )
 				animator->PlayAnimation ( runAnim );
 				SoundManager::getInstance ( ).GetSoundID ( "Monster_Walk" )->ReplaySound ( );
 				status = Status::running;
+
+				
 			}
 			else if ( status == Status::running ) {
-				if ( StaticAlgorithm ( glm::ivec2 ( 12 , 18 ) ) ) {
+				if ( StaticAlgorithm ( StaticPaths[ Cycleindex ] ) ) {
+					std::cout << "#############################Reached point: "
+						<< StaticPaths[ Cycleindex ].x << ", "
+						<< StaticPaths[ Cycleindex ].y << std::endl;
+
+					// 다음 경로로 이동 (순환)
+					Cycleindex = ( Cycleindex + 1 ) % StaticPaths.size ( );
 					status = Status::exit;
 				}
 			}
@@ -299,16 +307,29 @@ void character::Status_Machine ( )
 			std::cout << "walk";
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( walkAnim );
+				SoundManager::getInstance ( ).GetSoundID ( "Monster_Walk" )->ReplaySound ( );
+				std::cout << "나는 정왕의 오승원이다@@@@@@@@@@@@@@@@@@@@@@@@ " << std::endl;
+				Cycleindex = ( Cycleindex + 1 ) % StaticPaths.size ( );
+				//Cycleindex += 1;
+				Path_now ( StaticPaths[ Cycleindex ] , path );
+
 				status = Status::running;
 			}
 			else if ( status == Status::running ) {
-				if ( StaticAlgorithm ( glm::ivec2 ( 12 , 18 ) ) ) {
+				if ( StaticAlgorithm ( path ) ) {
+					std::cout << "나는 시흥의 오승원이다@@@@@@@@@@@@@@@@@@@@@@@@ " << std::endl;
+
+					// 다음 경로로 이동 (순환)
+					
+					
 					status = Status::exit;
 				}
 			}
 			else if ( status == Status::exit ) {
-
+				std::cout << "나는 송파의 오승원이다@@@@@@@@@@@@@@@@@@@@@@@@ "<< std::endl;
+				SoundManager::getInstance ( ).GetSoundID ( "Monster_Walk" )->PauseSound ( );
 				status = Status::start;
+				action = Action::Idle;
 			}
 
 		}
