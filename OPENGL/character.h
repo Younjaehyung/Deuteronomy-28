@@ -33,7 +33,7 @@ class character : public Object
 public:
 	Collision* collision;
 	Camera* camera;
-	
+
 
 	character (glm::vec3 pos) {
 		typeID = 1;
@@ -48,6 +48,8 @@ public:
 	virtual void Initialize ( const std::string& strName );
 	virtual void RenderShadow ( glm::mat4 lightView , const Program* program );
 	
+
+
 	int GetPhase ( ) {
 		if ( phase == Phase::Mad ) {
 			return 2;
@@ -160,11 +162,24 @@ private:
 			{1, 1, 1, 0, 1},
 			{0, 0, 0, 0, 0}
 	};
-	int pathindex = 0;
+
 	std::tuple<int , int> gotoPath;
 	int path_now_x;
 	int path_now_z;
+	int pathindex = 0;
+	std::vector<glm::vec3> StaticPaths
+	{
+	 glm::vec3 ( 46.0f ,0.0f, -24.0f ) ,
+	 glm::vec3 ( 108.0f ,0.0f, -42.0f ) ,
+	glm::vec3 ( 36.0f ,0.0f, -84.0f ) ,
+	 glm::vec3 ( 34.0f , 0.0f, -54.0f ),
+	 glm::vec3 (112.0f , 0.0f,-6.0f ) ,
+	 glm::vec3 ( 94.0f ,0.0f, -87.0f ) ,
+	 glm::vec3 ( 46.0f, 0.0f, -114.0f ) };
 
+	glm::ivec2 path;
+	
+	int Cycleindex = -1;
 	
 	Model* model;
 	std::vector<Camera*> mapCamera;
