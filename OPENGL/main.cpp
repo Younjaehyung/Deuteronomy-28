@@ -23,7 +23,7 @@ int main ( )
     glfwWindowHint ( GLFW_CONTEXT_VERSION_MINOR , 3 );
     glfwWindowHint ( GLFW_OPENGL_PROFILE , GLFW_OPENGL_CORE_PROFILE );
     glfwWindowHint ( GLFW_SAMPLES , 4 );// MSAA를 위해 4멀티샘플을 설정
-
+   // glfwWindowHint ( GLFW_DECORATED , GL_FALSE ); 화면 상단부 제거 (발표시 사용)
     //GLFW 윈도우창 생성
     GLFWwindow* window = glfwCreateWindow ( 640 , 480 , "OpenGL Example" , NULL , NULL );
     if ( !window ) {
@@ -65,7 +65,8 @@ int main ( )
     ImGui_ImplOpenGL3_CreateFontsTexture ( );
     ImGui_ImplOpenGL3_CreateDeviceObjects ( );
 
-
+   
+   // glfwMakeContextCurrent ( window );
     //context 객체 생성
     auto* context = new GameManager;
     context->Initialize ( );
@@ -81,7 +82,7 @@ int main ( )
     //glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     //glfw userpointer 저장
     glfwSetWindowUserPointer ( window , context );
-
+    
     //윈도우창 사이즈 설정
     OnFramebufferSizeChange ( window , 640 , 480 );
     glfwSetFramebufferSizeCallback ( window , OnFramebufferSizeChange );
@@ -94,14 +95,16 @@ int main ( )
     glfwSetMouseButtonCallback ( window , OnMouseButton );
     glfwSetMouseButtonCallback ( window , OnMouseButton );
     glfwSetCharCallback ( window , OnCharEvent );
-   
+  
     while ( !glfwWindowShouldClose ( window ) ) {   //윈도우가 종료되었는지 확인
            glfwPollEvents ( ); //프레임 안정화
            ImGui_ImplGlfw_NewFrame ( );    //imgui 새 랜더링 프레임이라고 알려줌
            ImGui::NewFrame ( );
-           context->GameLogic ( );
+           
 
            context->ProcessInput ( window );    //입력 
+           context->GameLogic ( );
+
            context->Update ( );
 
            context-> Render ( );    //출력

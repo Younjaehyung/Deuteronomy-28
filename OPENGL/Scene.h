@@ -44,10 +44,19 @@ public:
 	}
 
 	virtual void Reshape ( int width , int height ) {
-		std::cout << "나는 정왕의 오승원이다" << std::endl;
+		std::cout << "뭘봐 오승원" << std::endl;
+		
+		glViewport ( 0 , 0 , width , height );
+
+
 	}
 
 	virtual int Check () {
+		return true;
+	}
+
+	virtual bool Reset ( )
+	{
 		return true;
 	}
 };
