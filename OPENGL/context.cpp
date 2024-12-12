@@ -17,10 +17,11 @@
 
 void Context::Render ( ) {
 
-    
+    std::cout << "PlayMode" << std::endl;
     IMGUI_USER ( );
+    std::cout << "PlayMode" << std::endl;
     glEnable ( GL_DEPTH_TEST ); // DEPTH Buffer 사용 설정
-  
+    
     //cubebox
     //auto skyboxModelTransform =
     //    glm::translate ( glm::mat4 ( 1.0 ) , m_cameraPos ) *
@@ -455,14 +456,14 @@ void Context::IMGUI_USER ( ) {
 
         ImGui::Checkbox ( "l.blinn" , &m_blinn );
         ImGui::Checkbox ( "animation" , &m_animation );
-
+        
         float aspectRatio = ( float ) m_width / ( float ) m_width;
         ImGui::Image ( ( ImTextureID ) m_framebuffer->GetColorAttachment ( )->Get ( ) , ImVec2 ( 150 * aspectRatio , 150 ) );
-
+        
         ImGui::Image ( ( ImTextureID ) LightManager::getInstance ( ).GetShadowMap ( 1 )->GetShadowMap ( )->Get ( ) , ImVec2 ( 256 , 256 ) , ImVec2 ( 0 , 1 ) , ImVec2 ( 1 , 0 ) );
     }
     ImGui::End ( );
-
+    
 }
 
 

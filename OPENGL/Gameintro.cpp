@@ -1,5 +1,6 @@
 ﻿#include "Gameintro.h"
 #include "Time.h"
+#include "input.h"
 void Gameintro::Update ( )
 {
     if ( status == 0 ) {
@@ -14,6 +15,13 @@ void Gameintro::Update ( )
 
 }
 
+void Gameintro::ProcessInput ( GLFWwindow* window )
+{
+    if ( input::GetKeyDown ( eKeyCode::SPACE ) ) {
+        StartGame = 1;
+    }
+}
+
 void Gameintro::Render ( )
 {
     
@@ -25,14 +33,9 @@ void Gameintro::Render ( )
         MainUITEXTURE->Bind ( );
         m_camerauiProgram->SetUniform ( "tex" , 0 );
         
-        // 블렌딩 활성화
         
-
-        // 캠코더 UI 렌더링
         m_plane->Draw ( m_camerauiProgram.get ( ) );
-        //glEnable ( GL_DEPTH_TEST );
-        // 블렌딩 비활성화 (다른 렌더링에 영향 없도록)
-        
+     
         m_simpleProgram->Use ( );
         m_simpleProgram->SetUniform ( "transform" , mapCamera ->GetTransform()* glm::translate(glm::mat4(1.0f ) , car->GetPos ( ) )* glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 5.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) )* glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 90.0f ) , glm::vec3 ( -1.0f , 0.0f , 0.0f ) ) *glm::scale(glm::mat4(1.0f),glm::vec3(0.05f)) );
         m_simpleProgram->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , car->GetPos ( ) )* glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 5.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) ) * glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians(90.0f),glm::vec3(-1.0f,0.0f,0.0f )) *glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 0.05f ) ) );

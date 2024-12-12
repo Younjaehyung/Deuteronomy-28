@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include "common_include.h"
 
 //system은 다이렉트 디바이스와 유사하다. 사운드 시스템.
 //sound은 사운드 포인터로 실제 사운드 메모리이다.
@@ -40,6 +41,10 @@ public:
 	int& ReturnMod ( ) {
 		return mode;
 	}
+
+
+	
+
 };
 
 

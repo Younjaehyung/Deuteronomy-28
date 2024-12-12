@@ -52,7 +52,7 @@ public:
 	}
 
 	virtual int Check () {
-		return true;
+		return false;
 	}
 
 	virtual bool Reset ( )

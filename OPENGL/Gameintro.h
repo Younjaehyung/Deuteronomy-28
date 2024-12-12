@@ -33,7 +33,7 @@ class Gameintro : public Scene
 
 	Object* car;
 
-	
+	int StartGame = 0;
 	int status = 0;
 public:
 	Gameintro ( ) {
@@ -44,13 +44,13 @@ public:
 	virtual void Update ( );
 	virtual void Render ( );
 	virtual bool Initialize ( );
+	virtual void ProcessInput ( GLFWwindow* window );
 
 	virtual int Check ( ) {
 
 
-		return false;
+		return StartGame;
 	}
-
 
 
 };

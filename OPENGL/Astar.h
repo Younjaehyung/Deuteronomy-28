@@ -88,7 +88,7 @@ struct Node {
     }
 };
 
-const float distance = 49.0f;
+const float distance = 81.0f;
 
 class Astar {
 

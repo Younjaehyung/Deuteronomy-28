@@ -26,8 +26,21 @@ public:
 		exit ,
 	};
 
+	GameManager ( ) {
+		auto CameraUi = Image::Load ( "./model/UI/Camera.png" , false );
+		LoadingScreen = Texture::CreateFromImage ( CameraUi.get ( ) );
+	
+		m_LoadingScreenProgram = Program::Create ( "./shader/cameraUI.vs" , "./shader/cameraUI.fs" );
+		if ( !m_LoadingScreenProgram ) {
+			std::cerr << "program UserSetError id : " << m_LoadingScreenProgram->Get ( ) << std::endl;
+		}
+		std::cerr << "GameLoading Start!" << std::endl;
+	}
+
 	int m_width{ 640 };
 	int m_height{ 480 };
+
+	void LoadingScene ( );
 
 	void Update ( );
 	void Initialize ( );
@@ -46,6 +59,9 @@ public:
 		Render ( );
 	}
 private:
+	TextureUPtr LoadingScreen;
+	ProgramUPtr m_LoadingScreenProgram;
+
 	Scene* Death;
 	Scene* Life;
 	Scene* overmode;

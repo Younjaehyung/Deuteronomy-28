@@ -93,6 +93,24 @@ public:
 
 
 private:
+	void ApplySoundAttenuation ( const glm::vec3& soundPosition , const glm::vec3& listenerPosition ) {
+		float maxDistance = 80.0f;   // 최대 거리
+		float referenceDistance = 6.0f; // 최소 거리
+		float distance = CalculateDistance ( listenerPosition , soundPosition );
+
+		// 지수 기반 감쇠
+		float falloffFactor = 2.0f; // 감쇠 강도 (값이 클수록 소리 감쇠가 급격함)
+		float _volume = powf ( referenceDistance / ( referenceDistance + distance ) , falloffFactor );
+
+		// 클램핑
+		volume = std::clamp ( _volume , 0.0f , 1.0f ) * 10;
+	
+	}
+
+	float CalculateDistance ( const glm::vec3& pos1 , const glm::vec3& pos2 ) {
+		return glm::length ( pos2 - pos1 ); // glm의 벡터 길이 함수 사용
+	}
+
 
 	void Path_now ( glm::vec3 Pos , glm::ivec2& path_now ) {
 		//float dul = Pos.x - int ( Pos.x );
@@ -193,6 +211,8 @@ private:
 	enum Status status = Status::start;
 	enum Action action = Action::Idle;
 	enum Phase phase = Phase::Idle;
+
+	float volume = 1.0f;
 
 	glm::ivec2 chaseWhere;
 	int chase = 0;

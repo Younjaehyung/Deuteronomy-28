@@ -95,12 +95,12 @@ int main ( )
     glfwSetMouseButtonCallback ( window , OnMouseButton );
     glfwSetMouseButtonCallback ( window , OnMouseButton );
     glfwSetCharCallback ( window , OnCharEvent );
-  
+    
+
     while ( !glfwWindowShouldClose ( window ) ) {   //윈도우가 종료되었는지 확인
            glfwPollEvents ( ); //프레임 안정화
            ImGui_ImplGlfw_NewFrame ( );    //imgui 새 랜더링 프레임이라고 알려줌
            ImGui::NewFrame ( );
-           
 
            context->ProcessInput ( window );    //입력 
            context->GameLogic ( );

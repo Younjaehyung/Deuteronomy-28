@@ -12,10 +12,23 @@ void GameManager::Update ( )
 
 }
 
+void GameManager::LoadingScene ( ) {
+	auto m_plane = Mesh::CreatePlane ( );
+	m_LoadingScreenProgram->Use ( );
+	m_LoadingScreenProgram->SetUniform ( "transform" , glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 2.0f , 1.0f ) ) );
+	LoadingScreen->Bind ( );
+	m_LoadingScreenProgram->SetUniform ( "tex" , 0 );
+	m_plane->Draw ( m_LoadingScreenProgram.get ( ) );
+}
+
 void GameManager::Initialize ( )
 {
 	input::Initialize ( );
 	Time::Initailize ( );
+
+	
+	//LoadingScene ( );
+
 	SoundManager::getInstance ( ).Initialize ( );
 
 	
@@ -78,7 +91,7 @@ void GameManager::GameLogic ( ) {
 		if ( status == Status::start ) {
 			
 			//_scene->Reset ( );
-			
+			Reshape ( m_width , m_height );
 			if ( mode == gamemode::Gameover ) {
 				
 				overmode =(  EndingNum == 1 ? Death : Life);

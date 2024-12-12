@@ -66,7 +66,7 @@ public:
 	}
 
 	virtual int Check ( ) {
-
+		
 		return CollisionManager::getInstance ( ).GetGameEnd ( );
 	
 	}

@@ -249,6 +249,9 @@ bool character::StaticAlgorithm ( glm::ivec2 _path )
 
 void character::Status_Machine ( )
 {
+	ApplySoundAttenuation (this->GetPos(),CollisionManager::getInstance().ReturnPlayer() );
+
+
 	if ( phase == Phase::Idle ) {
 		std::cout << "Idle : ";
 		if ( action == Action::Idle ) {
@@ -281,7 +284,7 @@ void character::Status_Machine ( )
 			std::cout << "running";
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( runAnim );
-				SoundManager::getInstance ( ).GetSoundID ( "Monster_Walk" )->ReplaySound ( );
+				SoundManager::getInstance ( ).GetSoundID ( "Monster_Walk" )->ReplaySound (volume );
 				status = Status::running;
 
 				
@@ -296,6 +299,7 @@ void character::Status_Machine ( )
 					Cycleindex = ( Cycleindex + 1 ) % StaticPaths.size ( );
 					status = Status::exit;
 				}
+				SoundManager::getInstance ( ).GetSoundID ( "Monster_Walk" )->SetVolume ( volume );
 			}
 			else if ( status == Status::exit ) {
 				SoundManager::getInstance ( ).GetSoundID ( "Monster_Walk" )->PauseSound ( );
@@ -321,13 +325,14 @@ void character::Status_Machine ( )
 
 					// 다음 경로로 이동 (순환)
 					
-					
 					status = Status::exit;
 				}
+				std::cout << "나는 겜사의 오승원이다 지금 소리를 알려주지 : "<<volume << std::endl;
+				SoundManager::getInstance ( ).GetSoundID ( "Monster_Walk" )->SetVolume ( volume );
 			}
 			else if ( status == Status::exit ) {
 				std::cout << "나는 송파의 오승원이다@@@@@@@@@@@@@@@@@@@@@@@@ "<< std::endl;
-				SoundManager::getInstance ( ).GetSoundID ( "Monster_Walk" )->PauseSound ( );
+				SoundManager::getInstance ( ).GetSoundID ( "Monster_Walk" )->PauseSound (  );
 				status = Status::start;
 				action = Action::Idle;
 			}
@@ -393,7 +398,7 @@ void character::Status_Machine ( )
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( runAnim );
 				SoundManager::getInstance ( ).GetSoundID ( "Chase1" )->ReplaySound ( );
-				SoundManager::getInstance ( ).GetSoundID ( "Monster_Foot" )->ReplaySound ( );
+				SoundManager::getInstance ( ).GetSoundID ( "Monster_Foot" )->ReplaySound ( volume );
 				status = Status::running;
 			}
 			else if ( status == Status::running ) {
@@ -401,7 +406,7 @@ void character::Status_Machine ( )
 					std::cout <<"나는 바보" << chaseWhere.x << "   " << chaseWhere.y << std::endl;
 					status = Status::exit;
 				}
-
+				SoundManager::getInstance ( ).GetSoundID ( "Monster_Foot" )->SetVolume ( volume );
 				
 				
 			}
@@ -495,7 +500,7 @@ void character::Status_Machine ( )
 					time = 0;
 					status = Status::exit;
 				}
-
+				SoundManager::getInstance ( ).GetSoundID ( "Monster_Run" )->SetVolume ( volume );
 				
 			}
 			else if ( status == Status::exit ) {
@@ -564,7 +569,7 @@ void character::Status_Machine ( )
 					time = 0;
 					status = Status::exit;
 				}
-
+				SoundManager::getInstance ( ).GetSoundID ( "Monster_Run" )->SetVolume ( volume );
 
 			}
 			else if ( status == Status::exit ) {
