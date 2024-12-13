@@ -16,9 +16,9 @@ enum class moving {
 class Camera
 {
 private:
-	bool static_camera = 0;
+	bool static_camera = 0;	//카메라가 정적인지 아닌지
 
-	bool m_cameraControl = false;
+	bool m_cameraControl = false;	//카메라가 작동중인지 아닌지
 	enum moving Ismoving = moving::stop;
 	float moving_Time = 0.0f;
 	//카메라

@@ -18,6 +18,7 @@ public:
 	Player ( ){
 		typeID = 1;
 		objectID = eLayerType::Player;
+		
 	}
 
 
@@ -64,7 +65,13 @@ public:
 			//std::cout <<"iint pos"<< int ( Pos.x ) << std::endl;
 	}
 
-	
+	int GetMoveState ( ) {
+		return static_cast<int>(movestat);
+	}
+
+	int GetSeekState ( ) {
+		return Seek_switch;
+	}
 
 private:
 
@@ -86,6 +93,7 @@ private:
 	enum moving movestat;
 
 	bool FlashLight_switch{ true };
+	bool Seek_switch{ false };
 
 	std::vector<Item*> Inventory;
 	int ItemCount = 0;
@@ -96,7 +104,7 @@ private:
 	glm::vec3 Dir2 = glm::vec3 ( 0.0f , 0.0f , -1.0f );	//방향
 	//24: 4 = 맵 : 사람
 	
-
+	glm::vec3 prevPos;
 	
 };
 

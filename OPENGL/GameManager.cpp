@@ -93,8 +93,9 @@ void GameManager::GameLogic ( ) {
 			//_scene->Reset ( );
 			Reshape ( m_width , m_height );
 			if ( mode == gamemode::Gameover ) {
+				std::cout <<"나는 정왕 종결자 오승원이다" << EndingNum << std::endl;
+				overmode =  (EndingNum ==0 ) ? Death : Life;
 				
-				overmode =(  EndingNum == 1 ? Death : Life);
 				EndingNum = 0;
 			}
 			

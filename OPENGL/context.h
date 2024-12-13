@@ -92,6 +92,9 @@ private:
 	Item* item2;
 	Item* item3;
 
+	bool CameraLight{ false };
+	bool Seek{ false };
+
 	ProgramUPtr m_animationProgram;
 
 	//.vs .fs 프로그램 쉐이더 코드

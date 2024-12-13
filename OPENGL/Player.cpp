@@ -12,7 +12,7 @@ void Player::Update ( )
 	animator->UpdateAnimation ( Time::DeltaTime ( ) );
 	Status_Machine ( );
 	Path_now ( );
-	FlashLight->SetSynLight ( camera ->GetPos() , camera->GetCameraFront ( ) , camera->GetProjection ( ) , camera->GetView ( ) );
+	FlashLight->SetSynLight ( glm::vec3(camera ->GetPos().x,  camera->GetPos ( ).y-1.4 ,  camera->GetPos ( ).z) , camera->GetCameraFront ( ) , camera->GetProjection ( ) , camera->GetView ( ) );
 
 	Dir2 = camera->GetFront ( );
 	Dir = camera->GetDir ( );
@@ -144,7 +144,7 @@ void Player::RenderShadow ( glm::mat4 lightView , const Program* program )
 void Player::Initialize ( const std::string& strName )
 {
 	camera = new Camera;
-
+	camera->cameraControl ( ) = true;
 	name = "player";
 
 	UBO = UBOBUFFER::Create ( 200 );
@@ -186,7 +186,13 @@ void Player::Input ( GLFWwindow* window ) {
 	float speed = 8 * Time::DeltaTime ( );
 
 
-	glm::vec3 _pos = Pos;
+	prevPos = Pos;
+
+	if ( input::GetKeyDown ( eKeyCode::V ) ) {
+		Seek_switch = !Seek_switch;
+		CameraManager::getInstance ( ).ClickCamera ( ) = !CameraManager::getInstance ( ).ClickCamera ( );
+	}
+	if ( Seek_switch == 1 )return;
 
 	
 
@@ -253,7 +259,7 @@ void Player::Input ( GLFWwindow* window ) {
 		movestat = moving::walk;
 	}
 
-	glm::ivec2 now;
+	/*glm::ivec2 now;
 	Path_now ( Pos , now);
 	std::cout << "POS1" << std::endl;
 	if ( now.x < 0 || now.y < 0 ) {
@@ -262,7 +268,7 @@ void Player::Input ( GLFWwindow* window ) {
 	else if ( grid[ now.y ][now.x] != 0 && grid[ now.y ][ now.x ] != 3 ) {
 		Pos = _pos;
 	}
-	std::cout << "POS2" << std::endl;
+	std::cout << "POS2" << std::endl;*/
 
 	if ( movestat == moving::run ) {
 
@@ -277,6 +283,7 @@ void Player::Input ( GLFWwindow* window ) {
 			running_stamina = 10;
 		}
 	}
+
 
 	if ( (movestat == moving::stop)&&glfwGetKey ( window , GLFW_KEY_LEFT_CONTROL ) == GLFW_PRESS ) {
 		
@@ -305,6 +312,10 @@ bool Player::HandleCollision ( Object* object )
 			
 		}
 
+	}
+	if ( object->objectID == eLayerType::Environment ) {
+
+		Pos = prevPos;
 	}
 
 	return true;

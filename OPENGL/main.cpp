@@ -166,6 +166,7 @@ void key_pressed ( GLFWwindow* window , int key , int scancode , int action , in
 void OnCursorPos ( GLFWwindow* window , double x , double y ) {
     auto context = ( GameManager* ) glfwGetWindowUserPointer ( window );
     //context->MouseMove ( x , y );
+    
     CameraManager::getInstance ( ).Input ( x , y );
 
    

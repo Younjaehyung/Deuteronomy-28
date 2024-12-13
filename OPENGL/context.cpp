@@ -77,49 +77,76 @@ void Context::Render ( ) {
 
     LightManager::getInstance ( ).UpdateShadowMaps ( obj );
 
-    glViewport ( 0 , 0 , m_width , m_height );
+    if ( player->GetSeekState() ) {
+        glViewport ( 0 , 0 , m_width/2 , m_height );
 
-
-    m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
+       // m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
         //CollisionManager::getInstance ( ).Render ( );   //맵 그리드
 
-    glDisable ( GL_CULL_FACE );
+        glDisable ( GL_CULL_FACE );
 
-    glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT ); //GL_DEPTH_BUFFER_BIT : DEPTH Buffer clear 세팅
+        glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT ); //GL_DEPTH_BUFFER_BIT : DEPTH Buffer clear 세팅
 
-    //손전등
-    //m_assimp_Program->Use ( );
-    MainDraw (CameraManager::getInstance().GetCameraPos() , CameraManager::getInstance ( ).Camera_transform() );
-   
+        //손전등
+        //m_assimp_Program->Use ( );
+        MainDraw ( CameraManager::getInstance ( ).GetCameraPos ( ) , CameraManager::getInstance ( ).Camera_transform ( ) );
 
 
-    if ( player->IsFlashLight()) {
-        UIDraw ( );
+       // Framebuffer::BindToDefault ( );
+
+        glViewport ( m_width / 2 , 0 , m_width / 2 , m_height );
+        MainDraw ( CameraManager::getInstance ( ).GetCamera2Pos ( ) , CameraManager::getInstance ( ).Camera2_transform ( ) );
+
     }
-    Framebuffer::BindToDefault ( );
+    else {
+        glViewport ( 0 , 0 , m_width , m_height );
 
-    m_textureProgram->Use ( );
-    m_textureProgram->SetUniform ( "typeID" , 0 );
-    if ( 1==object1->GetPhase ( ) ) {
-        m_textureProgram->SetUniform ( "typeID" , 1 );
-    }
-    else if ( 2 == object1->GetPhase ( ) ) {
-        m_textureProgram->SetUniform ( "typeID" , 2 );
-    }
 
+        m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
+        //CollisionManager::getInstance ( ).Render ( );   //맵 그리드
+
+        glDisable ( GL_CULL_FACE );
+
+        glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT ); //GL_DEPTH_BUFFER_BIT : DEPTH Buffer clear 세팅
+
+        //손전등
+        //m_assimp_Program->Use ( );
+        MainDraw ( CameraManager::getInstance ( ).GetCameraPos ( ) , CameraManager::getInstance ( ).Camera_transform ( ) );
+
+
+
+        if ( player->IsFlashLight ( ) ) {
+            UIDraw ( );
+        }
+        Framebuffer::BindToDefault ( );
+
+
+        m_textureProgram->Use ( );
+        m_textureProgram->SetUniform ( "typeID" , 0 );
+        if ( 1 == object1->GetPhase ( ) ) {
+            m_textureProgram->SetUniform ( "typeID" , 1 );
+        }
+        else if ( 2 == object1->GetPhase ( ) ) {
+            m_textureProgram->SetUniform ( "typeID" , 2 );
+        }
+
+
+        ////이중버퍼링
+
+        m_textureProgram->SetUniform ( "transform" ,
+            glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 2.0f , 1.0f ) ) );
+        m_framebuffer->GetColorAttachment ( )->Bind ( );
+        m_textureProgram->SetUniform ( "tex" , 0 );
+
+        m_textureProgram->SetUniform ( "resolution" , glm::vec2 ( 2560 , 1440 ) );
+        nowTime += Time::DeltaTime ( );
+        m_textureProgram->SetUniform ( "time" , nowTime );
+
+        m_plane->Draw ( m_textureProgram.get ( ) );
+    }
     
-    ////이중버퍼링
-    
-    m_textureProgram->SetUniform ( "transform" ,
-        glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 2.0f , 1.0f ) ) );
-    m_framebuffer->GetColorAttachment ( )->Bind ( );
-    m_textureProgram->SetUniform ( "tex" , 0 );
 
-    m_textureProgram->SetUniform ( "resolution" , glm::vec2 ( 2560 , 1440 ) );
-    nowTime += Time::DeltaTime ( );
-    m_textureProgram->SetUniform ( "time" , nowTime );
 
-    m_plane->Draw ( m_textureProgram.get ( ) );
 }
 
 void Context :: Update ( ) {
@@ -131,12 +158,20 @@ void Context :: Update ( ) {
     GameobjectUpdate ( );
     std::cout << "나는 삭제왕 오승원이다4" << std::endl;
     CollisionManager::getInstance ( ).Update (obj );    //충돌체
+
+
     std::cout << "나는 삭제왕 오승원이다5" << std::endl;
 }
 
 void Context::ProcessInput ( GLFWwindow* window ) {
     
     player->Input ( window );
+
+
+    if ( input::GetKeyDown ( eKeyCode::F ) ) {
+        CameraLight = player->IsFlashLight ( );
+    }
+
    /* glm::vec3 cameraDirectionXZ = glm::normalize ( glm::vec3 ( m_cameraFront.x , 0.0f , m_cameraFront.z ) );
     const float cameraSpeed = 0.05f;
     if ( glfwGetKey ( window , GLFW_KEY_W ) == GLFW_PRESS )
@@ -398,7 +433,7 @@ bool Context::Initialize ( )
     map->ObjectInitialize ( obj );
     glDisable ( GL_STENCIL_TEST );
     glClearColor ( 0.0f , 0.0f , 0.0f , 1.0f );
-    
+    //CameraManager::getInstance ( ).ClickCamera ( ) = true;
   return true;
 }
 
