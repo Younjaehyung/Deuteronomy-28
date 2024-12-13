@@ -3,16 +3,32 @@
 #include  "LightManager.h"
 #include "Sound.h"
 
+const float distance1 = 81.0f;
+const float distance2 = 196.0f;
+const glm::vec3 cameraOffset(0.0f,0.0f,-1.0f);
+
 void character::Update ( )
 {
 	animator->UpdateAnimation ( Time::DeltaTime ( ) );
 	//Algorithm ( );
 	Status_Machine ( );
+	SetEyeLight ( );
+	
 	/*Dir2 = camera->GetFront ( );
 	Dir = camera->GetDir ( );*/
 	//camera->Camera_Ismoving ( movestat );
 	//카메라 흔들림 주석형
 
+}
+
+void character::SetEyeLight ( ) {
+	
+	camera->Camera_set ( glm::vec3 ( Pos.x , Pos.y + 6.4 , Pos.z ) + quaternion * cameraOffset );
+	camera->Update ( );
+	camera->GetView ( ) = glm::lookAt ( camera->GetPos() , camera->GetPos ( ) + quaternion*glm::vec3(0.0f,0.0f,-1.0f) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+	
+	
+	EYELIGHT->SetSynLight ( camera->GetPos() , quaternion * glm::vec3 ( 0.0f , 0.0f , -1.0f ) , camera->GetProjection ( ) , camera->GetView ( ) );
 }
 
 bool character::HandleCollision ( Object* object )
@@ -78,7 +94,12 @@ void character::Initialize ( const std::string& strName )
 
 	UBO = UBOBUFFER::Create (200 );
 
-	
+	EYELIGHT = new LightMass;
+
+	EYELIGHT->SetLight ( glm::vec3 ( 2.0f , 4.0f , -1.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 15.0f , 13.0f ),140.0f,glm::vec3(0.0f), glm::vec3 ( 255.0f , 25.0f,0.0f ), glm::vec3 ( 255.0f,25.0f,0.0f ) );
+
+	LightManager::getInstance ( ).AddLight ( EYELIGHT );
+
 	Animation* idleAnim = new Animation ( strName , model );
 	animator = new Animator ( idleAnim );
 	//Pos = glm::vec3 (5.0f,0.0f,-1.0f );
@@ -137,31 +158,37 @@ bool character::DynamicAlgorithm ( )
 
 	}
 	else {
-		float speed = 10.0f * Time::DeltaTime ( );
-		glm::mat4 dir_temp = glm::mat4 ( 1.0f );
-		glm::vec3 eulerAngles ( glm::radians ( 0.0f ) , glm::radians ( 0.0f ) , glm::radians ( 0.0f ) ); // XYZ 회전
+		float speed = 15.0f; // 이동 속도
+		float deltaTime = Time::DeltaTime ( );
+		float t = deltaTime * 5.0f; // 보간 비율
 
-		if ( path_now_x < goalx ) {
+		glm::vec3 direction = glm::vec3 ( 0.0f );
 
-			Pos.x += speed;
-			eulerAngles.y = glm::radians ( -90.0f );
-			//dir=glm::rotate()
+		// 목표 위치로의 방향 벡터 계산
+		if ( Pos.x < ( goalx * 3 ) + 1.5 ) {
+			direction.x = 1.0f;
 		}
-		else if ( path_now_x > goalx ) {
-			Pos.x -= speed;
-			eulerAngles.y = glm::radians ( 90.0f );
-		}
-
-		if ( path_now_z < goaly ) {
-			Pos.z -= speed;
-			eulerAngles.y = glm::radians ( 0.0f );
-		}
-		else if ( path_now_z > goaly ) {
-			Pos.z += speed;
-			eulerAngles.y = glm::radians ( 180.0f );
+		else if ( Pos.x > ( goalx * 3 ) + 1.5 ) {
+			direction.x = -1.0f;
 		}
 
-		quaternion = glm::quat ( eulerAngles );
+		if ( Pos.z > -( ( goaly * 3 ) + 1.5 ) ) {
+			direction.z = -1.0f;
+		}
+		else if ( Pos.z < -( ( goaly * 3 ) + 1.5 ) ) {
+			direction.z = 1.0f;
+		}
+
+		direction = glm::normalize ( direction );
+
+		// 현재 위치와 목표 위치 사이를 선형 보간을 통해 이동
+		Pos += direction * speed * deltaTime;
+
+		// 목표 방향 쿼터니언 계산
+		glm::quat targetQuat = glm::quatLookAt ( direction , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+
+		// 현재 쿼터니언과 목표 쿼터니언 사이를 SLERP로 보간
+		quaternion = Slerp ( quaternion , targetQuat , t );
 
 	}
 
@@ -384,15 +411,18 @@ void character::Status_Machine ( )
 			std::cout << "Idle";
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( idleAnim );
+				time = 0.0f;
 				status = Status::running;
-				
+
 			}
 			else if ( status == Status::running ) {
-				if ( StaticAlgorithm ( chaseWhere ) ) {
+
+				time += Time::DeltaTime ( );
+
+
+				if ( time > 4.0f ) {
 					status = Status::exit;
 				}
-
-				status = Status::exit;
 			}
 			else if ( status == Status::exit ) {
 				action = Action::walk;
@@ -428,16 +458,30 @@ void character::Status_Machine ( )
 			std::cout << "walk";
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( walkAnim );
+				SoundManager::getInstance ( ).GetSoundID ( "Monster_Walk" )->ReplaySound ( );
+				
+				Cycleindex = ( Cycleindex + 1 ) % StaticPaths.size ( );
+				//Cycleindex += 1;
+				Path_now ( StaticPaths[ Cycleindex ] , path );
+
 				status = Status::running;
 			}
 			else if ( status == Status::running ) {
-				if ( StaticAlgorithm ( glm::ivec2 ( 12 , 18 ) ) ) {
+				if ( StaticAlgorithm ( path ) ) {
+					
+
+					// 다음 경로로 이동 (순환)
+
 					status = Status::exit;
 				}
+				
+				SoundManager::getInstance ( ).GetSoundID ( "Monster_Walk" )->SetVolume ( volume );
 			}
 			else if ( status == Status::exit ) {
-
+				
+				SoundManager::getInstance ( ).GetSoundID ( "Monster_Walk" )->PauseSound ( );
 				status = Status::start;
+				action = Action::Idle;
 			}
 
 		}
@@ -477,6 +521,7 @@ void character::Status_Machine ( )
 			}
 			else if ( status == Status::exit ) {
 				status = Status::start;
+				action = Action::running;
 			}
 
 		}
@@ -502,9 +547,9 @@ void character::Status_Machine ( )
 				DynamicAlgorithm ( );
 
 				time += Time::DeltaTime ( );
-				if ( time > 12.0f ) {
+				if ( time > 12.0f  ) {
 					
-					time = 0;
+					time = 0.0f;
 					status = Status::exit;
 				}
 				SoundManager::getInstance ( ).GetSoundID ( "Monster_Run" )->SetVolume ( volume );
@@ -570,12 +615,6 @@ void character::Status_Machine ( )
 
 				DynamicAlgorithm ( );
 
-				time += Time::DeltaTime ( );
-				if ( time > 12.0f ) {
-
-					time = 0;
-					status = Status::exit;
-				}
 				SoundManager::getInstance ( ).GetSoundID ( "Monster_Run" )->SetVolume ( volume );
 
 			}
@@ -625,17 +664,31 @@ void character::Status_Machine ( )
 
 
 	}
+	
 
+	auto p1 = CollisionManager::getInstance ( ).ReturnPlayer ( );
+	auto p2 = Pos;
 	
 	if ( phase == Phase::Idle || phase == Phase::Angry ) {
-		auto p1 = CollisionManager::getInstance ( ).ReturnPlayer ( );
-		auto p2 = Pos;
-		if ( distance >= ( ( p2.x - p1.x ) * ( p2.x - p1.x ) ) + ( ( p2.z - p1.z ) * ( p2.z - p1.z ) ) ) {
+		
+		if ( distance1 >= ( ( p2.x - p1.x ) * ( p2.x - p1.x ) ) + ( ( p2.z - p1.z ) * ( p2.z - p1.z ) ) ) {
+
 
 			phase = Phase::Mad;
 			action = Action::scream;
 			status = Status::start;
+
+			
 		}
+	}
+	else if (  phase == Phase::Mad ) {
+
+		if ( distance2 >= ( ( p2.x - p1.x ) * ( p2.x - p1.x ) ) + ( ( p2.z - p1.z ) * ( p2.z - p1.z ) ) ) {
+
+			time = 0.0f;
+
+		}
+		
 	}
 }
 //

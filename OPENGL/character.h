@@ -33,7 +33,7 @@ class character : public Object
 public:
 	Collision* collision;
 	Camera* camera;
-
+	LightMass* EYELIGHT;
 
 	character (glm::vec3 pos) {
 		typeID = 1;
@@ -71,7 +71,7 @@ public:
 			if ( phase == Phase::Idle ) {
 				Path_now( where , chaseWhere );
 				phase = Phase::Angry;
-				action = Action::running;
+				action = Action::scream;
 				status = Status::start;
 				chase = 1;
 				std::cout << "IDLE LIGHT EVENT!" << std::endl;
@@ -120,7 +120,7 @@ private:
 		return glm::slerp ( start , end , t );
 	}
 
-
+	void SetEyeLight ( );
 
 	void Path_now ( glm::vec3 Pos , glm::ivec2& path_now ) {
 		//float dul = Pos.x - int ( Pos.x );
@@ -225,7 +225,7 @@ private:
 	float volume = 1.0f;
 
 	glm::ivec2 chaseWhere;
-	int chase = 0;
+	int chase = 0;	//쫓기시작했는지 트리거
 	float time = 0.0f;
 };
 
