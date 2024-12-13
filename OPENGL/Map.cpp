@@ -75,10 +75,10 @@ void Map::SettingCamera ( )
 
     SightLight* newInstance = new SightLight;
     Camera* camera1 = new Camera;   //홀
-    camera1->SetCamera ( glm::vec3 ( 78.0f , 12.0f , -54.0f ) , glm::vec3 ( 59.0f , 0.0f , -54.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+    camera1->SetCamera ( glm::vec3 ( 19.0f , 10.0f , -66.0f ) , glm::vec3 ( 46.0f , 0.0f , -54.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     newInstance->mapCamera = camera1;
     LightMass* Light1 = new LightMass;
-    Light1->SetLight ( glm::vec3 ( 39.0f , 15.0f , -54.0f ) , glm::vec3 ( -1.0f , -3.0f , 0.0f ) , glm::vec2 ( 15.0f , 10.0f ) ,
+    Light1->SetLight ( glm::vec3 ( 39.0f , 10.0f , -54.0f ) , glm::vec3 ( -1.0f , -3.0f , 0.0f ) , glm::vec2 ( 25.0f , 10.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     newInstance->Visullight.push_back ( Light1 );
 
@@ -94,7 +94,7 @@ void Map::SettingCamera ( )
     camera1->SetCamera ( glm::vec3 ( 69.0f , 5.3f , -13.0f ) , glm::vec3 ( 54.0f , 0.0f , -23.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     newInstance->mapCamera = camera1;
     Light1 = new LightMass;
-    Light1->SetLight ( glm::vec3 ( 66.0f , 12.0f , -18.0f ) , glm::vec3 ( -1.5f , -3.0f , 0.0f ) , glm::vec2 ( 15.0f , 30.0f ) ,
+    Light1->SetLight ( glm::vec3 ( 66.0f , 12.0f , -18.0f ) , glm::vec3 ( -1.5f , -3.0f , 0.0f ) , glm::vec2 ( 35.0f , 15.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     newInstance->Visullight.push_back ( Light1 );
     Corridor1 = new LightMass;
@@ -129,7 +129,7 @@ void Map::SettingCamera ( )
     camera1->SetCamera ( glm::vec3 ( 114.0f , 4.5f , -46.0f ) , glm::vec3 ( 108.0f , 0.0f , -60.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     newInstance->mapCamera = camera1;
     Light1 = new LightMass;
-    Light1->SetLight ( glm::vec3 ( 114.0f , 4.5f , -46.0f ) , glm::vec3 ( -2.5f , -3.0f , -3.5f ) , glm::vec2 ( 30.0f , 15.0f ) ,
+    Light1->SetLight ( glm::vec3 ( 114.0f , 4.5f , -46.0f ) , glm::vec3 ( -2.5f , -3.0f , -3.5f ) , glm::vec2 ( 35.0f , 15.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     newInstance->Visullight.push_back ( Light1 );
     Light2 = new LightMass;
@@ -145,10 +145,10 @@ void Map::SettingCamera ( )
 
     newInstance = new SightLight;
     camera1 = new Camera;   //마네킹방 -> 복도
-    camera1->SetCamera ( glm::vec3 ( 92.0f , 6.0f , -25.0f ) , glm::vec3 ( 94.0f , 0.0f , -36.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+    camera1->SetCamera ( glm::vec3 ( 91.0f , 3.0f , -24.0f ) , glm::vec3 ( 96.0f , 2.5f , -58.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     newInstance->mapCamera = camera1;
     Light1 = new LightMass;
-    Light1->SetLight ( glm::vec3 ( 94.0f , 8.0f , -21.0f ) , glm::vec3 ( 0.0f , -3.0f , -3.0f ) , glm::vec2 ( 30.0f , 15.0f ) ,
+    Light1->SetLight ( glm::vec3 ( 91.0f , 3.0f , -24.0f ) , glm::vec3 ( 3.0f , -3.0f , -2.5f ) , glm::vec2 ( 35.0f , 15.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     newInstance->Visullight.push_back ( Light1 );
     Corridor1 = new LightMass;
@@ -161,16 +161,16 @@ void Map::SettingCamera ( )
 
     newInstance = new SightLight;
     camera1 = new Camera;   //엉덩이탐정 복도 끝
-    camera1->SetCamera ( glm::vec3 ( 98.0f , 6.0f , -100.0f ) , glm::vec3 ( 94.0f , 0.0f , -85.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+    camera1->SetCamera ( glm::vec3 ( 98.0f , 4.0f , -100.0f ) , glm::vec3 ( 94.0f , 2.0f , -76.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     newInstance->mapCamera = camera1;
     Light1 = new LightMass;
-    Light1->SetLight ( glm::vec3 ( 94.0f , 7.5f , -88.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) , glm::vec2 ( 3.0f , 28.0f ) ,
+    Light1->SetLight ( glm::vec3 ( 95.0f , 3.0f , -98.0f ) , glm::vec3 ( 0.0f , -3.0f , 4.0f ) , glm::vec2 ( 40.0f , 20.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     newInstance->Visullight.push_back ( Light1 );
-    Light2 = new LightMass;
-    Light2->SetLight ( glm::vec3 ( 98.0f , 6.0f , -106.0f ) , glm::vec3 ( -1.5f , -3.0f , 1.1f ) , glm::vec2 ( 30.0f , 15.0f ) ,
-        232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
-    newInstance->Visullight.push_back ( Light2 );
+    //Light2 = new LightMass;
+    //Light2->SetLight ( glm::vec3 ( 98.0f , 6.0f , -106.0f ) , glm::vec3 ( -1.5f , -3.0f , 1.1f ) , glm::vec2 ( 35.0f , 15.0f ) ,
+    //    232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
+    //newInstance->Visullight.push_back ( Light2 );
     Corridor1 = new LightMass;
     Corridor1->SetPos ( glm::vec3 ( 95.0f , 0.0f , -95.0f ) );
     Corridor1->SetBox ( glm::vec3 ( 5.0f ) , "bokdo3" );
@@ -198,7 +198,7 @@ void Map::SettingCamera ( )
     camera1->SetCamera ( glm::vec3 ( 20.0f , 9.0f , -92.0f ) , glm::vec3 ( 36.0f , 0.0f , -81.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     newInstance->mapCamera = camera1;
     Light1 = new LightMass;
-    Light1->SetLight ( glm::vec3 ( 20.0f , 9.0f , -92.0f ) , glm::vec3 ( -2.5f , -3.0f , 2.0f ) , glm::vec2 ( 35.0f , 15.0f ) ,
+    Light1->SetLight ( glm::vec3 ( 20.0f , 9.0f , -92.0f ) , glm::vec3 ( 2.5f , -3.0f , 2.0f ) , glm::vec2 ( 35.0f , 15.0f ) ,
         232.0f , glm::vec3 ( 0.0f , 0.0f , 0.0f ) , glm::vec3 ( 150.0f , 0.0f , 0.0f ) , glm::vec3 ( 250.0f , 0.0f , 0.0f ) );
     newInstance->Visullight.push_back ( Light1 );
     Corridor1 = new LightMass;
