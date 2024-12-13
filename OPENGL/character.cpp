@@ -212,31 +212,38 @@ bool character::StaticAlgorithm ( glm::ivec2 _path )
 
 	}
 	else {
-		float speed = 10.0f * Time::DeltaTime ( );
-		glm::mat4 dir_temp = glm::mat4 ( 1.0f );
-		glm::vec3 eulerAngles ( glm::radians ( 0.0f ) , glm::radians ( 0.0f ) , glm::radians ( 0.0f ) ); // XYZ 회전
+		float speed = 10.0f; // 이동 속도
+		float deltaTime = Time::DeltaTime ( );
+		float t = deltaTime*5.0f; // 보간 비율
 
-		if ( path_now_x < goalx ) {
+		glm::vec3 direction = glm::vec3 ( 0.0f );
 
-			Pos.x += speed;
-			eulerAngles.y = glm::radians ( -90.0f );
-			//dir=glm::rotate()
+		// 목표 위치로의 방향 벡터 계산
+		if ( Pos.x < (goalx*3) +1.5 ) {
+			direction.x = 1.0f;
 		}
-		else if ( path_now_x > goalx ) {
-			Pos.x -= speed;
-			eulerAngles.y = glm::radians ( 90.0f );
-		}
-
-		if ( path_now_z < goaly ) {
-			Pos.z -= speed;
-			eulerAngles.y = glm::radians ( 0.0f );
-		}
-		else if ( path_now_z > goaly ) {
-			Pos.z += speed;
-			eulerAngles.y = glm::radians ( 180.0f );
+		else if ( Pos.x > ( goalx * 3 ) + 1.5 ) {
+			direction.x = -1.0f;
 		}
 
-		quaternion = glm::quat ( eulerAngles );
+		if ( Pos.z > -(( goaly * 3 ) + 1.5) ) {
+			direction.z = -1.0f;
+		}
+		else if ( Pos.z < -( ( goaly * 3 ) + 1.5 )) {
+			direction.z = 1.0f;
+		}
+
+		direction = glm::normalize ( direction );
+
+		// 현재 위치와 목표 위치 사이를 선형 보간을 통해 이동
+		Pos += direction * speed * deltaTime;
+
+		// 목표 방향 쿼터니언 계산
+		glm::quat targetQuat = glm::quatLookAt ( direction , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+
+		// 현재 쿼터니언과 목표 쿼터니언 사이를 SLERP로 보간
+		quaternion = Slerp ( quaternion , targetQuat , t );
+
 
 	}
 

@@ -111,6 +111,16 @@ private:
 		return glm::length ( pos2 - pos1 ); // glm의 벡터 길이 함수 사용
 	}
 
+	glm::vec3 Lerp ( const glm::vec3& start , const glm::vec3& end , float t ) {
+		return start + t * ( end - start );
+	}
+
+	// SLERP 함수 정의
+	glm::quat Slerp ( const glm::quat& start , const glm::quat& end , float t ) {
+		return glm::slerp ( start , end , t );
+	}
+
+
 
 	void Path_now ( glm::vec3 Pos , glm::ivec2& path_now ) {
 		//float dul = Pos.x - int ( Pos.x );
