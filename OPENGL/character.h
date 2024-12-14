@@ -197,13 +197,13 @@ private:
 	int pathindex = 0;
 	std::vector<glm::vec3> StaticPaths
 	{
-	 glm::vec3 ( 46.0f ,0.0f, -54.0f ) ,	//홀
 	 glm::vec3 ( 93.0f ,0.0f, -7.0f ) ,		//병원
 	 glm::vec3 ( 45.0f ,0.0f, -20.0f ) ,	//방1
 	 glm::vec3 ( 112.0f , 0.0f, -62.0f ),	//복도 시작
 	 glm::vec3 ( 95.0f , 0.0f,-88.0f ) ,	//복도끝
 	 glm::vec3 ( 30.0f, 0.0f, -102.0f ),		//마네킹
-	 glm::vec3 ( 46.0f ,0.0f, -88.0f )	//마네킹복도
+	 glm::vec3 ( 46.0f ,0.0f, -88.0f ),	//마네킹복도
+	 glm::vec3 ( 46.0f ,0.0f, -54.0f )	//홀
 	};
 
 	glm::ivec2 path;

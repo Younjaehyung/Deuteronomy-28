@@ -4,20 +4,42 @@
 #include "CollisionManager.h"
 
 void Door::Update ( ) {
-
-    if ( DoorRotatef >= -120.0f ) {
-        DoorRotatef += Time::DeltaTime ( ) * -15.0f; // 초당 50도 회전
+    std::cout << "나는 문짝 아이템 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
+    if ( ItemCount == 1 ) {
+        if ( DoorRotatef >= -120.0f ) {
+            DoorRotatef += Time::DeltaTime ( ) * -15.0f; // 초당 50도 회전
+            // 원점에서 회전
+            DoorRotate = glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( DoorRotatef ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+            SoundManager::getInstance ( ).GetSoundID ( "DoorOpen" )->ReplaySound ( 0.7f );
+        }
+    }
+    else if ( ItemCount == 2 ) {
+        if ( DoorRotatef <= 0.0f ) {
+            DoorRotatef += Time::DeltaTime ( ) * 30.0f; // 초당 50도 회전
+            // 원점에서 회전
+            DoorRotate = glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( DoorRotatef ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+            SoundManager::getInstance ( ).GetSoundID ( "DoorOpen" )->PauseSound();
+        }
+    }
+    else if ( ItemCount == 5 ) {
+        if ( DoorRotatef >= 120.0f ) {
+            DoorRotatef += Time::DeltaTime ( ) * 15.0f; // 초당 50도 회전
+            // 원점에서 회전
+            DoorRotate = glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( DoorRotatef ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+            SoundManager::getInstance ( ).GetSoundID ( "DoorOpen" )->ReplaySound ( );
+        }
+    }
+    else {
+        DoorRotatef += Time::DeltaTime ( ) * 0.0f; // 초당 50도 회전
         // 원점에서 회전
         DoorRotate = glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( DoorRotatef ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     }
-
-
-   
-
-
-
-
 }
+
+void Door::GetItemCount (int ItemNumber) {
+    ItemCount = ItemNumber;
+}
+
 
 void Door::Render ( const Program* program , glm::mat4 _cameraTransform ) {
     if ( model ) {
@@ -49,7 +71,7 @@ void Door::RenderShadow ( glm::mat4 lightView , const Program* program ) {
 
 bool Door::HandleCollision ( Object* player )
 {
-    std::cout << "나는 삭제왕 오승원이다3" << std::endl;
+    //std::cout << "나는 삭제왕 오승원이다3" << std::endl;
     //if ( player->objectID == eLayerType::Player ) {
     //    SoundManager::getInstance ( ).GetSoundID ( "GetItem" )->ReplaySound ( );
     //    GetDestroy ( ) = 1;

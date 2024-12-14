@@ -4,6 +4,7 @@
 #include "model.h"
 #include "CameraManager.h"
 #include "Sound.h"
+#include "Player.h"
 
 class DoorState {
 
@@ -18,10 +19,11 @@ public:
     Door ( glm::vec3 pos ) {
         Pos = pos;
         model = nullptr;
-        objectID = eLayerType::Item;
+        name = "aa";
     }
 
     virtual void Update ( );
+    virtual void GetItemCount (int ItemNumber);
     virtual void Render_2pass ( const Program* program , glm::mat4 _cameraTransform );
     virtual void Render ( const Program* program , glm::mat4 _cameraTransform );
     virtual void Initialize ( const std::string& strName );
@@ -34,5 +36,6 @@ private:
     glm::mat4 DoorRotate;
     glm::mat4 modelTransform;
     int Doortype;
+    int ItemCount = 0;
 
 };

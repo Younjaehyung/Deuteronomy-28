@@ -73,6 +73,10 @@ public:
 		return Seek_switch;
 	}
 
+	int GetItem ( ) {
+		return ItemCount;
+	}
+
 private:
 
 	float running_stamina{ 10.0f };

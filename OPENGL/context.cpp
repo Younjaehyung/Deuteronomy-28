@@ -165,6 +165,8 @@ void Context :: Update ( ) {
     CameraManager::getInstance ( ).Update ( );  //업데이트
     Camera_Transform = CameraManager::getInstance ( ).Camera_transform( );
     GameobjectUpdate ( );
+    Door1->GetItemCount (player->GetItem() );
+    Door2->GetItemCount ( player->GetItem ( ) );
 
     CollisionManager::getInstance ( ).Update (obj );    //충돌체
 
@@ -433,6 +435,7 @@ bool Context::Initialize ( )
     item1 = new Item ( glm::vec3 ( 41.0f , 0.0f , -7.5f ) );
     item2 = new Item ( glm::vec3 ( 112.0f , 0.0f , -66.0f ) );
     item3 = new Item ( glm::vec3 ( 69.0f , 0.0f , -115.0f ) );
+    item4 = new Item ( glm::vec3 ( -15.0f , 0.0f , -54.0f ) );
     Door1 = new Door ( glm::vec3 ( -3.0f , 0.0f , -52.0f ) );
     Door2 = new Door ( glm::vec3 ( 116.0f , 0.0f , -95.0f ) );
     object1 = new character( glm::vec3(84.0f , 0.0f , -10.0f) );
@@ -449,6 +452,7 @@ bool Context::Initialize ( )
     item1->Initialize ( "./model/Cross.glb" );
     item2->Initialize ( "./model/Cross.glb" );
     item3->Initialize ( "./model/Cross.glb" );
+    item4->Initialize ( "./model/Cross.glb" );
     Door1->Initialize ( "./model/Door.glb" );
     Door2->Initialize ( "./model/Door.glb" );
     player->Initialize ("./model/SibalGLB/SibalIdle.glb" );
@@ -469,6 +473,7 @@ bool Context::Initialize ( )
     obj.push_back ( item1 );
     obj.push_back ( item2 );
     obj.push_back ( item3 );
+    obj.push_back ( item4 );
     obj.push_back ( Door1 );
     obj.push_back ( Door2 );
     obj.push_back ( map );

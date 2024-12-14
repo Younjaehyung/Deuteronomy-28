@@ -40,6 +40,10 @@ public:
 	void UIDraw ( );
 	void SplitUIDraw ( );
 
+	void GetItemCount ( ) {
+
+	}
+
 	virtual void Reshape ( int width , int height );
 	void MainDraw ( glm::vec3 _pos , glm::mat4 _cameraTransform );
 	void FrameBufferDraw ( );
@@ -93,6 +97,7 @@ private:
 	Item* item1;
 	Item* item2;
 	Item* item3;
+	Item* item4;
 	Door* Door1;
 	Door* Door2;
 

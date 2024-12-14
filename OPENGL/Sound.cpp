@@ -35,6 +35,7 @@ inline void SoundManager::CreateSoundlist ( ) {
 	Channel.emplace ( "Monster_Run" , CreateSound ( "sound/Deut_Sound/Deut_Monster_Run.mp3" , 0 ) );
 	Channel.emplace ( "Gameover" , CreateSound ( "sound/Deut_Sound/Duet_Die_Noise.mp3" , 0 ) );
 	Channel.emplace ( "Monster_Run" , CreateSound ( "sound/Deut_Sound/Deut_Monster_Run.mp3" , 0 ) );
+	Channel.emplace ( "DoorOpen" , CreateSound ( "sound/Deut_Sound/Duet_DoorOpen.mp3" , 0 ) );
 }
 
 void SoundManager::Update ( )
