@@ -12,6 +12,8 @@ enum class gamemode {
 	intro,
 	play,
 	Gameover,
+	GameDeath ,
+	GameLive ,
 	Gameend,
 	Max
 };

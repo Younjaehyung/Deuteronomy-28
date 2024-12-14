@@ -1,44 +1,267 @@
 ﻿#include "Lifemap.h"
 #include "LightManager.h"
 #include "Time.h"
+#include "include/glm/gtc/quaternion.hpp"
 
 void Lifemap::Update ( )
 {
-    animator->UpdateAnimation ( Time::DeltaTime ( ) );
 
-    mapCamera->Update ( );
+    Panimator->UpdateAnimation ( Time::DeltaTime ( ) );
+    Manimator->UpdateAnimation ( Time::DeltaTime ( ) );
+    std::cout << "나는 모델러 이다찬이다" << std::endl;
+    std::cout << "극우좌파성향오승원이다" << std::endl;
+    std::cout << elapsedTime / animationDuration << std::endl;
+
+    elapsedTime += Time::DeltaTime ( );
+    float t = glm::clamp ( elapsedTime / animationDuration , 0.0f , 1.0f );
+    std::cout << t << std::endl;
+    // 위치 보간
+    glm::vec3 currentCameraPos = glm::mix ( initialCameraPos , finalCameraPos , t );
+    mapCamera->GetPos ( ) = currentCameraPos;
+    // 회전 보간
+    glm::quat currentCameraRot = glm::slerp ( initialCameraRot , finalCameraRot , t );
+
+    std::cout << currentCameraPos.x << currentCameraPos.x << currentCameraPos.y << currentCameraPos.z << std::endl;
+
+    // 카메라 매트릭스 업데이트
+
+    mapCamera->GetView ( ) = glm::lookAt (
+    currentCameraPos ,                // 카메라 위치
+    currentCameraPos + glm::normalize ( glm::vec3 ( DeathPos.x , currentCameraPos.y + 0.1f , DeathPos.z ) - currentCameraPos ) , // 카메라 방향
+    glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+
+    if ( elapsedTime >= animationDuration + 6.0f ) {
+        std::cout << "나는 모델러2 이다찬이다" << std::endl;
+        status = 1;
+    }
+    std::cout << Time::DeltaTime ( ) << std::endl;
+    std::cout << elapsedTime << std::endl;
 }
+
+
 
 void Lifemap::Render ( )
 {
+    glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT ); //GL_DEPTH_BUFFER_BIT : DEPTH Buffer clear 세팅
 
-    std::cout << "나는 정왕의 데스신 오승원이다." << std::endl;
-    auto _cameraTransform = mapCamera->GetProjection ( ) * mapCamera->GetView ( );
-
-    m_simpleProgram->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos ) );
-    m_simpleProgram->SetUniform ( "transform" , _cameraTransform * glm::translate ( glm::mat4 ( 1.0f ) , Pos ) );
-
-
-    //LightManager::getInstance ( ).GetLightSetting ( m_simpleProgram.get() );
-    m_map->Draw ( m_simpleProgram.get ( ) );
-
-    const auto& transforms = animator->GetFinalBoneMatrices ( );
-    m_simpleAnimationProgram->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos ) );
-    m_simpleAnimationProgram->SetUniform ( "transform" , _cameraTransform * glm::translate ( glm::mat4 ( 1.0f ) , Pos ) );
-    UBO->Bind ( m_simpleAnimationProgram->Get ( ) , "Bones" );
-    UBO->UpdateBoneMatrices ( transforms );
-
-    // LightManager::getInstance ( ).GetLightSetting ( m_simpleAnimationProgram.get ( ) );
-     //m_player->Draw ( m_simpleAnimationProgram.get ( ) );
-    m_monster->Draw ( m_simpleAnimationProgram.get ( ) );
+    shadowRender ( );
+    MainRender ( );
 
 }
 
+void Lifemap::MainRender ( )
+{
+    const auto& Mtransforms = Manimator->GetFinalBoneMatrices ( );
+    const auto& Ptransforms = Panimator->GetFinalBoneMatrices ( );
+    //그림자&&빛
+    glViewport ( 0 , 0 , m_width , m_height );
+    m_framebuffer->Bind ( );
+
+    //glDisable ( GL_CULL_FACE );
+    glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT ); //GL_DEPTH_BUFFER_BIT : DEPTH Buffer clear 세팅
+
+    program = m_lightingProgram.get ( );
+    Light_ORI lights = light->GetlightData ( );
+    std::cout << "나는 정왕의 데스신 오승원이다." << std::endl;
+    auto _cameraTransform = mapCamera->GetProjection ( ) * mapCamera->GetView ( );
+    program->Use ( );
+    program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.f , -1.f , -9.f ) ) * glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 0.5f ) ) * glm::mat4 ( 1.0f ) );
+    program->SetUniform ( "transform" , _cameraTransform * glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.f , -1.f , -9.f ) ) * glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 0.5f ) ) );
+    program->SetUniform ( "lights[0].directional" , 0 );
+    program->SetUniform ( "lights[0].direction" , lights.direction );
+    program->SetUniform ( "lights[0].attenuation" , lights.attenuation );
+    program->SetUniform ( "lights[0].cutoff" , lights.cutoff );
+    program->SetUniform ( "lights[0].position" , lights.position );
+    program->SetUniform ( "lights[0].ambient" , lights.ambient );
+    program->SetUniform ( "lights[0].diffuse" , lights.diffuse );
+    program->SetUniform ( "lights[0].specular" , lights.specular );
+    program->SetUniform ( "viewPos" , mapCamera->GetPos ( ) );
+    program->SetUniform ( "blinn" , 1 );
+    program->SetUniform ( "numLights" , 1 );
+
+    program->SetUniform ( "lightTransform[0]" , light->GetlightProjection ( ) * light->GetlightView ( ) );
+
+    glActiveTexture ( GL_TEXTURE0 + 5 );
+    light->GetlightShadowMap ( )->GetShadowMap ( )->Bind ( );
+    program->SetUniform ( "shadowMaps[0]" , 5 );
+
+
+    //m_map->Draw ( program );
+
+    program->SetUniform ( "transform" , _cameraTransform * glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 90.0f ) , glm::vec3 ( 1.0f , 0.0f , 0.0f ) )
+    * glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 100.0f , 100.0f , 100.0f ) ) );
+    ground->Draw ( program );
+
+    std::cout << "나는 정왕의 필멸자 오승원이다." << std::endl;
+
+    program = m_AnimationProgram.get ( );
+    program->Use ( );
+    program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
+    program->SetUniform ( "transform" , _cameraTransform * glm::mat4 ( 1.0f ) );
+    program->SetUniform ( "lights[0].directional" , 0 );
+    program->SetUniform ( "lights[0].direction" , lights.direction );
+    program->SetUniform ( "lights[0].attenuation" , lights.attenuation );
+    program->SetUniform ( "lights[0].cutoff" , lights.cutoff );
+    program->SetUniform ( "lights[0].position" , lights.position );
+    program->SetUniform ( "lights[0].ambient" , lights.ambient );
+    program->SetUniform ( "lights[0].diffuse" , lights.diffuse );
+    program->SetUniform ( "lights[0].specular" , lights.specular );
+    program->SetUniform ( "viewPos" , mapCamera->GetPos ( ) );
+    program->SetUniform ( "blinn" , 1 );
+    program->SetUniform ( "numLights" , 1 );
+    program->SetUniform ( "lightTransform[0]" , light->GetlightProjection ( ) * light->GetlightView ( ) );
+
+    glActiveTexture ( GL_TEXTURE0 + 5 );
+    light->GetlightShadowMap ( )->GetShadowMap ( )->Bind ( );
+    program->SetUniform ( "shadowMaps[0]" , 5 );
+
+    MUBO->Bind ( program->Get ( ) , "Bones" );
+    MUBO->UpdateBoneMatrices ( Mtransforms );
+    //m_monster->Draw ( program );
+
+
+    program = m_AnimationProgram.get ( );
+    program->Use ( );
+    program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) * glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 0.0f , -3.0f ) ) );
+    program->SetUniform ( "transform" , _cameraTransform * glm::mat4 ( 1.0f ) * glm::mat4 ( 1.0f ) * glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 0.0f , -3.0f ) ) );
+    program->SetUniform ( "lights[0].directional" , 0 );
+    program->SetUniform ( "lights[0].direction" , lights.direction );
+    program->SetUniform ( "lights[0].attenuation" , lights.attenuation );
+    program->SetUniform ( "lights[0].cutoff" , lights.cutoff );
+    program->SetUniform ( "lights[0].position" , lights.position );
+    program->SetUniform ( "lights[0].ambient" , lights.ambient );
+    program->SetUniform ( "lights[0].diffuse" , lights.diffuse );
+    program->SetUniform ( "lights[0].specular" , lights.specular );
+    program->SetUniform ( "viewPos" , mapCamera->GetPos ( ) );
+    program->SetUniform ( "blinn" , 1 );
+    program->SetUniform ( "numLights" , 1 );
+    program->SetUniform ( "lightTransform[0]" , light->GetlightProjection ( ) * light->GetlightView ( ) );
+
+    glActiveTexture ( GL_TEXTURE0 + 5 );
+    light->GetlightShadowMap ( )->GetShadowMap ( )->Bind ( );
+    program->SetUniform ( "shadowMaps[0]" , 5 );
+
+    PUBO->Bind ( program->Get ( ) , "Bones" );
+    PUBO->UpdateBoneMatrices ( Ptransforms );
+    m_player->Draw ( program );
+
+
+
+    Framebuffer::BindToDefault ( );
+    m_textureProgram->Use ( );
+    m_textureProgram->SetUniform ( "typeID" , 2 );
+    m_textureProgram->SetUniform ( "transform" ,
+               glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 2.0f , 1.0f ) ) );
+    m_framebuffer->GetColorAttachment ( )->Bind ( );
+    m_textureProgram->SetUniform ( "tex" , 0 );
+
+    m_textureProgram->SetUniform ( "resolution" , glm::vec2 ( 2560 , 1440 ) );
+    nowTime += Time::DeltaTime ( );
+    m_textureProgram->SetUniform ( "time" , nowTime );
+
+    m_plane->Draw ( m_textureProgram.get ( ) );
+
+
+    glDisable ( GL_DEPTH_TEST );
+
+
+
+
+    // 블렌딩 활성화
+    glEnable ( GL_BLEND );
+    glBlendFunc ( GL_SRC_ALPHA , GL_ONE_MINUS_SRC_ALPHA );
+    m_cameraUIProgram->Use ( );
+    m_cameraUIProgram->SetUniform ( "transform" , glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 2.0f , 1.0f ) ) );
+
+    CameraUITEXTURE->Bind ( );
+    m_cameraUIProgram->SetUniform ( "tex" , 0 );
+    m_plane->Draw ( m_cameraUIProgram.get ( ) );
+
+    // 캠코더 UI 렌더링
+    if ( status == 1 ) {
+        LIVETEXTURE->Bind ( );
+        m_cameraUIProgram->SetUniform ( "tex" , 0 );
+        m_plane->Draw ( m_cameraUIProgram.get ( ) );
+    }
+
+    // 블렌딩 비활성화 (다른 렌더링에 영향 없도록)
+    glDisable ( GL_BLEND );
+
+
+
+
+
+    glEnable ( GL_DEPTH_TEST );
+
+}
+
+void Lifemap::shadowRender ( )
+{
+    std::cout << "나는 정왕의 문재인 오승원이다." << std::endl;
+    const auto& Mtransforms = Manimator->GetFinalBoneMatrices ( );
+    const auto& Ptransforms = Panimator->GetFinalBoneMatrices ( );
+
+    glClearColor ( 0.1f , 0.0f , 0.0f , 1.0f );
+    glEnable ( GL_DEPTH_TEST );
+    glClear ( GL_DEPTH_BUFFER_BIT );
+    glEnable ( GL_CULL_FACE );
+    glCullFace ( GL_FRONT_FACE );
+
+    light->GetlightShadowMap ( )->Bind ( );
+    glViewport ( 0 , 0 ,
+    light->GetlightShadowMap ( )->GetShadowMap ( )->GetWidth ( ) ,
+    light->GetlightShadowMap ( )->GetShadowMap ( )->GetHeight ( ) );
+    glClear ( GL_DEPTH_BUFFER_BIT );
+
+    program = m_simpleProgram.get ( );
+
+    program->Use ( );
+    program->SetUniform ( "color" , glm::vec4 ( 1.0f , 1.0f , 1.0f , 1.0f ) );
+    program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.f , -1.f , -9.f ) ) * glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 0.5f ) ) );
+    program->SetUniform ( "transform" , light->GetlightProjection ( ) * light->GetlightView ( ) * glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.f , -1.f , -9.f ) ) * glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 0.5f ) ) );
+
+
+    m_map->Draw ( program );
+
+    program = m_simpleAnimationProgram.get ( );
+
+    program->Use ( );
+    program->SetUniform ( "color" , glm::vec4 ( 1.0f ) );
+    program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) * glm::mat4 ( 1.0f ) );
+    program->SetUniform ( "transform" , light->GetlightProjection ( ) * light->GetlightView ( ) * glm::mat4 ( 1.0f ) * glm::mat4 ( 1.0f )  );
+
+
+
+    MUBO->Bind ( program->Get ( ) , "Bones" );
+    MUBO->UpdateBoneMatrices ( Mtransforms );
+    //m_monster->Draw ( program );
+    std::cout << "나는 정왕의 병신 오승원이다." << std::endl;
+
+
+    program = m_simpleAnimationProgram.get ( );
+
+    program->Use ( );
+    program->SetUniform ( "color" , glm::vec4 ( 1.0f ) );
+    program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) * glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 3.0f , 0.0f , -5.0f ) ) );
+    program->SetUniform ( "transform" , light->GetlightProjection ( ) * light->GetlightView ( ) *  glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 3.0f , 0.0f , -5.0f )));
+    std::cout << "나는 정왕의 ro병신 오승원이다." << std::endl;
+    PUBO->Bind ( program->Get ( ) , "Bones" );
+    PUBO->UpdateBoneMatrices ( Ptransforms );
+    m_player->Draw ( program );
+
+    Framebuffer::BindToDefault ( );
+
+
+
+}
+
+
 bool Lifemap::Initialize ( )
 {
-    std::cerr << "Life MAP start " << std::endl;
+    std::cerr << "DEATH MAP start " << std::endl;
 
 
-	return false;
+
+    return true;
 }
 

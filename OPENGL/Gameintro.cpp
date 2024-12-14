@@ -44,9 +44,21 @@ void Gameintro::Render ( )
 
         std::cout << "나는 정왕의 인트로 오승원이다" << std::endl;
 
-
-
+        m_simpleProgram->SetUniform ( "transform" , mapCamera->GetTransform ( ) * 
+            glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) )*
+            glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 5.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) ) *
+            glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 90.0f ) , glm::vec3 ( 1.0f , 0.0f , 0.0f ) )
+               *glm::scale ( glm::mat4 ( 1.0f ) ,glm::vec3(1000.0f,1000.0f,1000.0f) ) ); 
+        m_simpleProgram->SetUniform ( "modelTransform" , 
+            glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3(0.0f,-3.0f,0.0f) )*
+            glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 5.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) ) *
+            glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 90.0f ) , glm::vec3 ( 1.0f , 0.0f , 0.0f ) )
+               * glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 1000.0f , 1000.0f , 1000.0f ) ) );
+        
+        ground->Draw ( m_simpleProgram.get() );
     }
+
+    
     else if ( status == 1 ) {
 
 
@@ -58,7 +70,7 @@ bool Gameintro::Initialize ( )
     m_plane = Mesh::CreatePlane ( );
     auto MainUI = Image::Load ( "./model/UI/Title.png" , true );
     MainUITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
-
+    ground = Mesh::CreatePlane ( );
     m_car = Model::Load ( "./model/Car.glb" );
     car->SetPos ( glm::vec3(0.f , -4.0f , -50.0f) );
 

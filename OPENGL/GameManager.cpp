@@ -41,12 +41,13 @@ void GameManager::Initialize ( )
 	Scene* playmode = new Context;
 	Scenes.push_back( playmode );
 
+	overmode = new Scene;
 	Death = new Deathmap;
 	Life = new Lifemap;
 	
+	Scenes.push_back ( overmode );
 	Scenes.push_back ( Death );
-
-
+	Scenes.push_back ( Life );
 	Scene* endmode = new gameover;
 	Scenes.push_back ( endmode );
 	
@@ -94,8 +95,16 @@ void GameManager::GameLogic ( ) {
 			
 			if ( mode == gamemode::Gameover ) {
 				std::cout <<"나는 정왕 종결자 오승원이다" << EndingNum << std::endl;
-				overmode =  (EndingNum ==2 ) ? Death : Life;
-				
+			
+				if ( EndingNum == 1 ) {
+					overmode = Death;
+					mode = static_cast< gamemode >( static_cast< int >( mode ) + 1 );
+					std::cout << "나는 죽었ㅇ다" << EndingNum << std::endl;
+				}
+				else {
+					mode = static_cast< gamemode >( static_cast< int >( mode ) + 2 );
+					std::cout << "나는 살았ㅇ다" << EndingNum << std::endl;
+				}
 				EndingNum = 0;
 			}
 			Reshape ( m_width , m_height );
