@@ -1,6 +1,7 @@
 ﻿#include "Deathmap.h"
 #include "LightManager.h"
 #include "Time.h"
+#include "Sound.h"
 #include "include/glm/gtc/quaternion.hpp"
 
 void Deathmap::Update ( )
@@ -264,8 +265,8 @@ void Deathmap::shadowRender ( )
 bool Deathmap::Initialize ()
 {
     std::cerr << "DEATH MAP start " << std::endl;
-    
-
+    SoundManager::getInstance ( ).GetSoundID ( "Die" )->ReplaySound ( );
+    SoundManager::getInstance ( ).GetSoundID ( "Roar" )->ReplaySound ( );
 
     return true;
 }

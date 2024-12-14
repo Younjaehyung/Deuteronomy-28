@@ -168,6 +168,16 @@ void Context :: Update ( ) {
     Door1->GetItemCount (player->GetItem() );
     Door2->GetItemCount ( player->GetItem ( ) );
 
+    if ( player->GetItem ( )==5 && Ending ==1) {
+        Ending = 1;
+        Object* Corridor7 = new Object;
+        Corridor7->name = "exit";
+        Corridor7->SetPos ( glm::vec3 ( -116.0f , 0.0f , -96.0f ) );
+        Corridor7->SetBox ( glm::vec3 ( 4.0f ) , "Escape" );
+        Corridor7->SetobjectID ( eLayerType::Environment );
+        obj.push_back ( Corridor7 );
+    }
+
     CollisionManager::getInstance ( ).Update (obj );    //충돌체
 
 
@@ -437,7 +447,7 @@ bool Context::Initialize ( )
     item3 = new Item ( glm::vec3 ( 69.0f , 0.0f , -115.0f ) );
     item4 = new Item ( glm::vec3 ( -15.0f , 0.0f , -54.0f ) );
     Door1 = new Door ( glm::vec3 ( -3.0f , 0.0f , -52.0f ) );
-    Door2 = new Door ( glm::vec3 ( 116.0f , 0.0f , -95.0f ) );
+    Door2 = new Door ( glm::vec3 ( 116.0f , 0.0f , -94.0f ) );
     object1 = new character( glm::vec3(84.0f , 0.0f , -10.0f) );
     object2 = new character( glm::vec3 (94.0f , 0.0f , -60.0f ) );
     map = new Map(object1);

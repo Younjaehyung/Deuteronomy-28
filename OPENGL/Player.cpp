@@ -73,7 +73,7 @@ void Player::Status_Machine ( )
 		SoundManager::getInstance ( ).GetSoundID ( "Walk" )->PauseSound ( );
 		animator->PlayAnimation ( runAnim );
 		SoundManager::getInstance ( ).GetSoundID ( "Walk" )->ReplaySound ( 0.7f );
-		SoundManager::getInstance ( ).GetSoundID ( "HeartBeat" )->ReplaySound ( 1.3f );
+		SoundManager::getInstance ( ).GetSoundID ( "HeartBeat" )->ReplaySound ( 2.0f );
 	}
 	
 

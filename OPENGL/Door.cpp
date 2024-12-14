@@ -10,24 +10,29 @@ void Door::Update ( ) {
             DoorRotatef += Time::DeltaTime ( ) * -15.0f; // 초당 50도 회전
             // 원점에서 회전
             DoorRotate = glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( DoorRotatef ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+        }
+        else if ( DoorRotatef <= 0.0f && DoorRotatef >= -30.0f) {
             SoundManager::getInstance ( ).GetSoundID ( "DoorOpen" )->ReplaySound ( 0.7f );
         }
+
     }
     else if ( ItemCount == 2 ) {
         if ( DoorRotatef <= 0.0f ) {
             DoorRotatef += Time::DeltaTime ( ) * 30.0f; // 초당 50도 회전
             // 원점에서 회전
             DoorRotate = glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( DoorRotatef ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
-            SoundManager::getInstance ( ).GetSoundID ( "DoorOpen" )->PauseSound();
+
         }
+
     }
     else if ( ItemCount == 5 ) {
         if ( DoorRotatef >= 120.0f ) {
             DoorRotatef += Time::DeltaTime ( ) * 15.0f; // 초당 50도 회전
             // 원점에서 회전
             DoorRotate = glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( DoorRotatef ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
-            SoundManager::getInstance ( ).GetSoundID ( "DoorOpen" )->ReplaySound ( );
+           
         }
+        SoundManager::getInstance ( ).GetSoundID ( "DoorOpen" )->ReplaySound ( );
     }
     else {
         DoorRotatef += Time::DeltaTime ( ) * 0.0f; // 초당 50도 회전

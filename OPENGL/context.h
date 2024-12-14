@@ -103,6 +103,7 @@ private:
 
 	bool CameraLight{ false };
 	bool Seek{ false };
+	int Ending = 0;
 
 	ProgramUPtr m_animationProgram;
 
