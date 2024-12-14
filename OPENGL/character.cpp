@@ -158,41 +158,44 @@ bool character::DynamicAlgorithm ( )
 
 	}
 	else {
-		float speed = 15.0f; // 이동 속도
+		float speed = 20.0f; // 이동 속도
 		float deltaTime = Time::DeltaTime ( );
-		float t = deltaTime * 5.0f; // 보간 비율
+		float rotationSpeed = 5.0f; // 회전 속도
 
-		glm::vec3 direction = glm::vec3 ( 0.0f );
+		glm::vec3 targetPosition ( ( goalx * 3 ) + 1.5f , Pos.y , -( ( goaly * 3 ) + 1.5f ) );
+		glm::vec3 direction = targetPosition - Pos;
 
-		// 목표 위치로의 방향 벡터 계산
-		if ( Pos.x < ( goalx * 3 ) + 1.5 ) {
-			direction.x = 1.0f;
-		}
-		else if ( Pos.x > ( goalx * 3 ) + 1.5 ) {
-			direction.x = -1.0f;
+		// 방향 벡터 정규화
+		if ( glm::length ( direction ) > 0.0f ) {
+			direction = glm::normalize ( direction );
 		}
 
-		if ( Pos.z > -( ( goaly * 3 ) + 1.5 ) ) {
-			direction.z = -1.0f;
-		}
-		else if ( Pos.z < -( ( goaly * 3 ) + 1.5 ) ) {
-			direction.z = 1.0f;
-		}
+		// 현재 방향 계산
+		glm::vec3 currentDir = glm::normalize ( quaternion * glm::vec3 ( 0.0f , 0.0f , -1.0f ) );
 
-		direction = glm::normalize ( direction );
-
-		// 현재 위치와 목표 위치 사이를 선형 보간을 통해 이동
-		Pos += direction * speed * deltaTime;
+		// 목표 방향과 현재 방향 사이의 각도 계산
+		float dotProduct = glm::dot ( currentDir , direction );
+		float angle = acos ( glm::clamp ( dotProduct , -1.0f , 1.0f ) ); // acos 값은 라디안 단위
 
 		// 목표 방향 쿼터니언 계산
-		glm::quat targetQuat = glm::quatLookAt ( direction , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+		glm::quat targetQuat;
+		if ( glm::length ( direction ) > 0.0f ) {
+			targetQuat = glm::quatLookAt ( direction , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+		}
+		else {
+			targetQuat = glm::quat ( 1.0f , 0.0f , 0.0f , 0.0f ); // 기본 쿼터니언
+		}
 
-		// 현재 쿼터니언과 목표 쿼터니언 사이를 SLERP로 보간
-		quaternion = Slerp ( quaternion , targetQuat , t );
+		// 현재 쿼터니언과 목표 쿼터니언 사이를 SLERP로 보간 (회전)
+		if ( angle > glm::radians ( 15.0f ) ) { // 각도 차이가 5도 이상인 경우 회전
+			quaternion = glm::slerp ( quaternion , targetQuat , deltaTime * rotationSpeed );
+		}
+		else {
+			// 각도 차이가 작으면 이동
+			Pos += currentDir * speed * deltaTime;
+		}
 
 	}
-
-
 	return false;
 }
 
@@ -239,37 +242,42 @@ bool character::StaticAlgorithm ( glm::ivec2 _path )
 
 	}
 	else {
-		float speed = 10.0f; // 이동 속도
+		float speed = 12.0f; // 이동 속도
 		float deltaTime = Time::DeltaTime ( );
-		float t = deltaTime*5.0f; // 보간 비율
+		float rotationSpeed = 5.0f; // 회전 속도
 
-		glm::vec3 direction = glm::vec3 ( 0.0f );
+		glm::vec3 targetPosition ( ( goalx * 3 ) + 1.5f , Pos.y , -( ( goaly * 3 ) + 1.5f ) );
+		glm::vec3 direction = targetPosition - Pos;
 
-		// 목표 위치로의 방향 벡터 계산
-		if ( Pos.x < (goalx*3) +1.5 ) {
-			direction.x = 1.0f;
-		}
-		else if ( Pos.x > ( goalx * 3 ) + 1.5 ) {
-			direction.x = -1.0f;
+		// 방향 벡터 정규화
+		if ( glm::length ( direction ) > 0.0f ) {
+			direction = glm::normalize ( direction );
 		}
 
-		if ( Pos.z > -(( goaly * 3 ) + 1.5) ) {
-			direction.z = -1.0f;
-		}
-		else if ( Pos.z < -( ( goaly * 3 ) + 1.5 )) {
-			direction.z = 1.0f;
-		}
+		// 현재 방향 계산
+		glm::vec3 currentDir = glm::normalize ( quaternion * glm::vec3 ( 0.0f , 0.0f , -1.0f ) );
 
-		direction = glm::normalize ( direction );
-
-		// 현재 위치와 목표 위치 사이를 선형 보간을 통해 이동
-		Pos += direction * speed * deltaTime;
+		// 목표 방향과 현재 방향 사이의 각도 계산
+		float dotProduct = glm::dot ( currentDir , direction );
+		float angle = acos ( glm::clamp ( dotProduct , -1.0f , 1.0f ) ); // acos 값은 라디안 단위
 
 		// 목표 방향 쿼터니언 계산
-		glm::quat targetQuat = glm::quatLookAt ( direction , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+		glm::quat targetQuat;
+		if ( glm::length ( direction ) > 0.0f ) {
+			targetQuat = glm::quatLookAt ( direction , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+		}
+		else {
+			targetQuat = glm::quat ( 1.0f , 0.0f , 0.0f , 0.0f ); // 기본 쿼터니언
+		}
 
-		// 현재 쿼터니언과 목표 쿼터니언 사이를 SLERP로 보간
-		quaternion = Slerp ( quaternion , targetQuat , t );
+		// 현재 쿼터니언과 목표 쿼터니언 사이를 SLERP로 보간 (회전)
+		if ( angle > glm::radians ( 15.0f ) ) { // 각도 차이가 5도 이상인 경우 회전
+			quaternion = glm::slerp ( quaternion , targetQuat , deltaTime * rotationSpeed );
+		}
+		else {
+			// 각도 차이가 작으면 이동
+			Pos += currentDir * speed * deltaTime;
+		}
 
 
 	}
@@ -544,7 +552,11 @@ void character::Status_Machine ( )
 			}
 			else if ( status == Status::running ) {
 				
-				DynamicAlgorithm ( );
+				if ( DynamicAlgorithm ( ) ) {
+				
+					action = Action::attack;
+					status = Status::start;
+				}
 
 				time += Time::DeltaTime ( );
 				if ( time > 12.0f  ) {
@@ -568,12 +580,20 @@ void character::Status_Machine ( )
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( attackAnim );
 				status = Status::running;
+				time = 0.0f;
 			}
 			else if ( status == Status::running ) {
+				time += Time::DeltaTime ( );
+				if ( time > 1.2f ) {
 
+					time = 0.0f;
+					status = Status::exit;
+				}
 			}
 			else if ( status == Status::exit ) {
 
+				action = Action::running;
+				status = Status::start;
 			}
 
 		}
@@ -608,35 +628,43 @@ void character::Status_Machine ( )
 				animator->PlayAnimation ( runAnim );
 				time = 0.0f;
 				status = Status::running;
-				SoundManager::getInstance ( ).GetSoundID ( "Chase2" )->ReplaySound ( 0.7f );
+				SoundManager::getInstance ( ).GetSoundID ( "Chase2" )->ReplaySound ( 0.3f );
 				SoundManager::getInstance ( ).GetSoundID ( "Monster_Run" )->ReplaySound ( );
 			}
 			else if ( status == Status::running ) {
 
-				DynamicAlgorithm ( );
+				if ( DynamicAlgorithm ( ) ) {
+
+					action = Action::attack;
+					status = Status::start;
+				}
 
 				SoundManager::getInstance ( ).GetSoundID ( "Monster_Run" )->SetVolume ( volume );
 
 			}
 			else if ( status == Status::exit ) {
-				phase = Phase::Idle;
-				action = Action::Idle;
-				status = Status::start;
+
 			}
 
 		}
 
 		if ( action == Action::attack ) {
-			std::cout << "attack";
+			std::cout << "scream";
 			if ( status == Status::start ) {
-				animator->PlayAnimation ( attackAnim );
+				animator->PlayAnimation ( sceramAnim );
 				status = Status::running;
+				time = 0.0f;
+				SoundManager::getInstance ( ).GetSoundID ( "Roar" )->ReplaySound ( );
 			}
 			else if ( status == Status::running ) {
-
+				time += Time::DeltaTime ( );
+				if ( time > 3.0f ) {
+					status = Status::exit;
+				}
 			}
 			else if ( status == Status::exit ) {
-
+				action = Action::running;
+				status = Status::start;
 			}
 
 		}

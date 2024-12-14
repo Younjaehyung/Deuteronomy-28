@@ -59,7 +59,7 @@ bool Gameintro::Initialize ( )
     auto MainUI = Image::Load ( "./model/UI/Title.png" , true );
     MainUITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
 
-    m_car = Model::Load ( "./model/OpenCar.glb" );
+    m_car = Model::Load ( "./model/Car.glb" );
     car->SetPos ( glm::vec3(0.f , -4.0f , -50.0f) );
 
     mapCamera = new Camera;
