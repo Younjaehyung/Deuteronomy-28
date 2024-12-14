@@ -12,6 +12,7 @@ class Deathmap :public Scene
 
 	LightMass* light;
 
+	MeshUPtr ground = Mesh::CreatePlane ( );
 	ModelPtr m_map;
 	ModelPtr _monster;
 	Model* m_monster;
@@ -31,13 +32,13 @@ class Deathmap :public Scene
 	float m_width=0.0f;
 	float m_height=0.0f;
 	float nowTime=0.0f;
-	float animationDuration = 1.5f; // 애니메이션 지속 시간 (초)
+	float animationDuration = 1.0f; // 애니메이션 지속 시간 (초)
 	float elapsedTime = 0.0f; // 경과 시간
 
-	glm::vec3 LifePos{1.0f,4.0f,-7.0f};
-	glm::vec3 DeathPos{ 1.0f , 0.5f , -7.0f };
+	glm::vec3 LifePos{ 1.0f , 8.5f , -7.0f};
+	glm::vec3 DeathPos{ 1.0f , 1.5f , -7.0f };
 
-	glm::vec3 initialCameraPos = LifePos + glm::vec3 ( 0.0f , 3.0f , -3.0f ); // 초기 카메라 위치
+	glm::vec3 initialCameraPos = LifePos + glm::vec3 ( 1.0f , -0.1f , -2.0f ); // 초기 카메라 위치
 	glm::vec3 finalCameraPos = DeathPos + glm::vec3 ( 1.0f , -0.1f , -2.0f ); // 최종 카메라 위치
 
 	glm::quat initialCameraRot = glm::quatLookAt ( glm::normalize ( LifePos - initialCameraPos ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
@@ -50,6 +51,9 @@ class Deathmap :public Scene
 	MeshUPtr m_plane;
 	FramebufferPtr m_framebuffer;
 	TextureUPtr CameraUITEXTURE;
+	TextureUPtr BloodTEXTURE;
+	TextureUPtr DIETEXTURE;
+
 	Program* program;
 	ProgramUPtr m_program;
 	ProgramUPtr m_simpleProgram;
@@ -59,6 +63,7 @@ class Deathmap :public Scene
 	ProgramUPtr m_lightingProgram;
 	ProgramUPtr m_AnimationProgram;
 
+	int status = 0;
 public:
 	Deathmap () {
 		typeID = 0;
@@ -112,11 +117,16 @@ public:
 		}
 		// Z축 기준 90도 회전 추가
 
-
+	
 		m_plane = Mesh::CreatePlane ( );
 		auto CameraUi = Image::Load ( "./model/UI/Camera.png" , false );
 		CameraUITEXTURE = Texture::CreateFromImage ( CameraUi.get ( ) );
 
+		auto blood = Image::Load ( "./model/UI/DieUI.png" , false );
+		BloodTEXTURE = Texture::CreateFromImage ( blood.get ( ) );
+
+		auto DIE = Image::Load ( "./model/UI/DIe.png" , true );
+		DIETEXTURE = Texture::CreateFromImage ( DIE.get ( ) );
 		light = new LightMass;
 		light->SetLight ( glm::vec3 ( 9.0f , 12.0f , -10.0f ) , glm::normalize(glm::vec3(-9.0f,-1.0f,10.0f)) , glm::vec2 ( 30.0f , 15.0f ) );
 

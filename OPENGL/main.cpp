@@ -23,7 +23,7 @@ int main ( )
     glfwWindowHint ( GLFW_CONTEXT_VERSION_MINOR , 3 );
     glfwWindowHint ( GLFW_OPENGL_PROFILE , GLFW_OPENGL_CORE_PROFILE );
     glfwWindowHint ( GLFW_SAMPLES , 4 );// MSAA를 위해 4멀티샘플을 설정
-   // glfwWindowHint ( GLFW_DECORATED , GL_FALSE ); 화면 상단부 제거 (발표시 사용)
+    //glfwWindowHint ( GLFW_DECORATED , GL_FALSE ); //화면 상단부 제거 (발표시 사용)
     //GLFW 윈도우창 생성
     GLFWwindow* window = glfwCreateWindow ( 640 , 480 , "OpenGL Example" , NULL , NULL );
     if ( !window ) {

@@ -11,7 +11,7 @@ void Deathmap::Update ( )
 
     std::cout << elapsedTime / animationDuration << std::endl;
 
-    elapsedTime += Time::DeltaTime ( )*0.1;
+    elapsedTime += Time::DeltaTime ( );
     float t = glm::clamp ( elapsedTime / animationDuration , 0.0f , 1.0f );
     std::cout << t << std::endl;
     // 위치 보간
@@ -26,8 +26,15 @@ void Deathmap::Update ( )
 
     mapCamera->GetView ( ) = glm::lookAt (
     currentCameraPos ,                // 카메라 위치
-    currentCameraPos + glm::normalize ( DeathPos - currentCameraPos ) * zRotation , // 카메라 방향
+    currentCameraPos + glm::normalize ( glm::vec3(DeathPos.x, currentCameraPos.y+0.1f, DeathPos.z) - currentCameraPos ), // 카메라 방향
     glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+
+    if ( elapsedTime >= animationDuration+3.0f ) {
+        status = 1;
+    }
+    if ( elapsedTime >= animationDuration+5.0f ) {
+        status = 2;
+    }
 
     std::cout << "나는 모델러2 이다찬이다" << std::endl;
 }
@@ -78,8 +85,14 @@ void Deathmap::MainRender ( )
     glActiveTexture ( GL_TEXTURE0 + 5 );
     light->GetlightShadowMap ( )->GetShadowMap ( )->Bind ( );
     program->SetUniform ( "shadowMaps[0]" , 5 );
+    
 
     m_map->Draw ( program );
+
+    program->SetUniform ( "transform" , _cameraTransform * glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 90.0f ) , glm::vec3 ( 1.0f , 0.0f , 0.0f ) )
+    * glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 100.0f , 100.0f , 100.0f ) ) );
+    ground->Draw ( program );
+
     std::cout << "나는 정왕의 필멸자 오승원이다." << std::endl;
 
     program = m_AnimationProgram.get ( );
@@ -138,15 +151,31 @@ void Deathmap::MainRender ( )
 
     m_cameraUIProgram->Use ( );
     m_cameraUIProgram->SetUniform ( "transform" , glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 2.0f , 1.0f ) ) );
-    CameraUITEXTURE->Bind ( );
-    m_cameraUIProgram->SetUniform ( "tex" , 0 );
+   
+   
 
+   
+
+   
     // 블렌딩 활성화
     glEnable ( GL_BLEND );
     glBlendFunc ( GL_SRC_ALPHA , GL_ONE_MINUS_SRC_ALPHA );
-
-    // 캠코더 UI 렌더링
+    CameraUITEXTURE->Bind ( );
+    m_cameraUIProgram->SetUniform ( "tex" , 0 );
     m_plane->Draw ( m_cameraUIProgram.get ( ) );
+    
+    if ( status == 1 ) {
+        BloodTEXTURE->Bind ( );
+        m_cameraUIProgram->SetUniform ( "tex" , 0 );
+        m_plane->Draw ( m_cameraUIProgram.get ( ) );
+    }
+    if ( status == 2 ) {
+        DIETEXTURE->Bind ( );
+        m_cameraUIProgram->SetUniform ( "tex" , 0 );
+        m_plane->Draw ( m_cameraUIProgram.get ( ) );
+    }
+    // 캠코더 UI 렌더링
+   
 
     // 블렌딩 비활성화 (다른 렌더링에 영향 없도록)
     glDisable ( GL_BLEND );
