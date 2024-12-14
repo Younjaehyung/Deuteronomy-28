@@ -187,6 +187,7 @@ void Player::Input ( GLFWwindow* window ) {
 
 
 	prevPos = Pos;
+	glm::vec3 _pos = Pos;
 
 	if ( input::GetKeyDown ( eKeyCode::V ) ) {
 		Seek_switch = !Seek_switch;
@@ -259,7 +260,7 @@ void Player::Input ( GLFWwindow* window ) {
 		movestat = moving::walk;
 	}
 
-	/*glm::ivec2 now;
+	glm::ivec2 now;
 	Path_now ( Pos , now);
 	std::cout << "POS1" << std::endl;
 	if ( now.x < 0 || now.y < 0 ) {
@@ -268,7 +269,7 @@ void Player::Input ( GLFWwindow* window ) {
 	else if ( grid[ now.y ][now.x] != 0 && grid[ now.y ][ now.x ] != 3 ) {
 		Pos = _pos;
 	}
-	std::cout << "POS2" << std::endl;*/
+	std::cout << "POS2" << std::endl;
 
 	if ( movestat == moving::run ) {
 
@@ -303,6 +304,22 @@ bool Player::HandleCollision ( Object* object )
 {
 	if ( object->objectID == eLayerType::Item ) {
 		ItemCount++;
+		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
+		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
+		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
+		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
+		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
+		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
+		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
+		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
+		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
+		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
+		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
+		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
+		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
+		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
+		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
+		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
 		//Item* newItem = new Item;
 		//Inventory.push_back ( newItem );
 

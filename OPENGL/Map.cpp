@@ -239,6 +239,35 @@ void Map::SettingCamera ( )
         250.0f , glm::vec3 ( 10.0f , 10.0f , 10.0f ) , glm::vec3 ( 255.0f , 255.0f , 255.0f ) , glm::vec3 ( 255.0f , 255.0f , 255.0f ) );
     normalLight.push_back ( Light4 );
 
+    Object* Corridor2 = new Object;
+    Corridor2->SetPos ( glm::vec3 ( -16.0f , 0.0f , -30.0f ) );
+    Corridor2->SetBox ( glm::vec3 ( 24.0f, 3.0f, 34.0f ) , "Start1" );
+    Corridor2->SetobjectID ( eLayerType::Environment );
+    Wall.push_back ( Corridor2 );
+
+    Object* Corridor3 = new Object;
+    Corridor3->SetPos ( glm::vec3 ( -40.0f , 0.0f , -36.0f ) );
+    Corridor3->SetBox ( glm::vec3 ( 4.0f , 3.0f , 48.0f ) , "Start2" );
+    Corridor3->SetobjectID ( eLayerType::Environment );
+    Wall.push_back ( Corridor3 );
+
+    Object* Corridor4 = new Object;
+    Corridor4->SetPos ( glm::vec3 ( -18.0f , 0.0f , -64.0f ) );
+    Corridor4->SetBox ( glm::vec3 ( 32.0f , 3.0f , 4.0f ) , "Start3" );
+    Corridor4->SetobjectID ( eLayerType::Environment );
+    Wall.push_back ( Corridor4 );
+
+    Object* Corridor5 = new Object;
+    Corridor5->SetPos ( glm::vec3 ( -22.0f , 0.0f , 5.0f ) );
+    Corridor5->SetBox ( glm::vec3 ( 36.0f , 3.0f , 6.0f ) , "Start4" );
+    Corridor5->SetobjectID ( eLayerType::Environment );
+    Wall.push_back ( Corridor5 );
+
+    Object* Corridor6 = new Object;
+    Corridor6->SetPos ( glm::vec3 ( -2.0f , 0.0f ,-6.0f ) );
+    Corridor6->SetBox ( glm::vec3 ( 4.0f , 3.0f , 6.0f ) , "Start4" );
+    Corridor6->SetobjectID ( eLayerType::Environment );
+    Wall.push_back ( Corridor6 );
 
     //camera1 = new Camera;   //홀
     //camera1->SetCamera ( glm::vec3 ( 78.0f , 12.0f , -54.0f ) , glm::vec3 ( 59.0f , 0.0f , -54.0f ), glm::vec3(0.0f, 1.0f, 0.0f) );

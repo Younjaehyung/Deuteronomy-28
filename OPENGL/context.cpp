@@ -165,11 +165,11 @@ void Context :: Update ( ) {
     CameraManager::getInstance ( ).Update ( );  //업데이트
     Camera_Transform = CameraManager::getInstance ( ).Camera_transform( );
     GameobjectUpdate ( );
-    std::cout << "나는 삭제왕 오승원이다4" << std::endl;
+
     CollisionManager::getInstance ( ).Update (obj );    //충돌체
 
 
-    std::cout << "나는 삭제왕 오승원이다5" << std::endl;
+
 }
 
 void Context::ProcessInput ( GLFWwindow* window ) {
@@ -202,7 +202,7 @@ void Context::ProcessInput ( GLFWwindow* window ) {
 }
 
 void Context::Reshape ( int width , int height ) {
-    std::cout <<"뭘봐 오승원" << std::endl;
+
     m_width = width;
     m_height = height;
     glViewport ( 0 , 0 , m_width , m_height );
@@ -461,7 +461,7 @@ bool Context::Initialize ( )
    light1->SetLight ( glm::vec3 ( 2.0f , 4.0f , -1.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
    LightManager::getInstance ( ).AddLight ( light1 );
 
-   player->SetPos (glm::vec3(  -12.0f , 0.0f , -64.0f) );
+   player->SetPos (glm::vec3(  -32.0f , 0.0f , -6.0f) );
 
     obj.push_back ( object1 );
    // obj.push_back ( object2 );
