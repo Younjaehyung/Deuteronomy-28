@@ -186,6 +186,9 @@
     <ClCompile Include="Gameintro.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\assimp-master\include\assimp\defs.h">
@@ -357,6 +360,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Gameintro.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

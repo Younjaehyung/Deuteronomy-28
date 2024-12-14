@@ -17,6 +17,7 @@
 #include "shadow.h"
 #include "LightManager.h"
 #include "Item.h"
+#include "Door.h"
 #include "Deathmap.h"
 #include "Scene.h"
 
@@ -92,6 +93,8 @@ private:
 	Item* item1;
 	Item* item2;
 	Item* item3;
+	Door* Door1;
+	Door* Door2;
 
 	bool CameraLight{ false };
 	bool Seek{ false };

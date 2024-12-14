@@ -143,6 +143,7 @@
     <ClCompile Include="context.cpp" />
     <ClCompile Include="Create_Graph.cpp" />
     <ClCompile Include="Deathmap.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="framebuffer.cpp" />
     <ClCompile Include="Gameintro.cpp" />
     <ClCompile Include="GameManager.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="CommonValues.h" />
     <ClInclude Include="Create_Graph.h" />
     <ClInclude Include="Deathmap.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="Gameintro.h" />
     <ClInclude Include="Gameobject.h" />
     <ClInclude Include="buffer.h" />
