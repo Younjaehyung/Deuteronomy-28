@@ -76,11 +76,12 @@ void Context::Render ( ) {
 
 
     LightManager::getInstance ( ).UpdateShadowMaps ( obj );
-
+    
     if ( player->GetSeekState() ) {
-        glViewport ( 0 , 0 , m_width/2 , m_height );
-
-       // m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
+        m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
+        
+        glViewport ( 0 , 0 , m_width/5 *2 , m_height );
+       
         //CollisionManager::getInstance ( ).Render ( );   //맵 그리드
 
         glDisable ( GL_CULL_FACE );
@@ -92,11 +93,19 @@ void Context::Render ( ) {
         MainDraw ( CameraManager::getInstance ( ).GetCameraPos ( ) , CameraManager::getInstance ( ).Camera_transform ( ) );
 
 
-       // Framebuffer::BindToDefault ( );
-
-        glViewport ( m_width / 2 , 0 , m_width / 2 , m_height );
+        glViewport ( m_width / 5 *2 , 0 , m_width / 5 * 3 , m_height );
         MainDraw ( CameraManager::getInstance ( ).GetCamera2Pos ( ) , CameraManager::getInstance ( ).Camera2_transform ( ) );
+        SplitUIDraw ( );
+        Framebuffer::BindToDefault ( );
 
+        m_textureProgram->Use ( );
+        m_textureProgram->SetUniform ( "typeID" , 0 );
+
+        m_framebuffer->GetColorAttachment ( )->Bind ( );
+        m_textureProgram->SetUniform ( "tex" , 0 );
+
+        glViewport (0, 0 , m_width  , m_height );
+        m_plane->Draw ( m_textureProgram.get ( ) );
     }
     else {
         glViewport ( 0 , 0 , m_width , m_height );
@@ -130,7 +139,6 @@ void Context::Render ( ) {
             m_textureProgram->SetUniform ( "typeID" , 2 );
         }
 
-
         ////이중버퍼링
 
         m_textureProgram->SetUniform ( "transform" ,
@@ -143,6 +151,7 @@ void Context::Render ( ) {
         m_textureProgram->SetUniform ( "time" , nowTime );
 
         m_plane->Draw ( m_textureProgram.get ( ) );
+        
     }
     
 
@@ -269,6 +278,32 @@ void Context::UIDraw ( )
     glEnable ( GL_DEPTH_TEST );
 }
 
+void Context::SplitUIDraw ( )
+{
+    glViewport ( 0 , 0 , m_width , m_height );
+
+
+    glDisable ( GL_DEPTH_TEST );
+
+    m_camerauiProgram->Use ( );
+    m_camerauiProgram->SetUniform ( "transform" , glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 2.0f , 1.0f ) ) );
+    SplitUITEXTURE->Bind ( );
+    m_camerauiProgram->SetUniform ( "tex" , 0 );
+
+    // 블렌딩 활성화
+    glEnable ( GL_BLEND );
+    glBlendFunc ( GL_SRC_ALPHA , GL_ONE_MINUS_SRC_ALPHA );
+
+    // 캠코더 UI 렌더링
+    m_plane->Draw ( m_camerauiProgram.get ( ) );
+
+    // 블렌딩 비활성화 (다른 렌더링에 영향 없도록)
+    glDisable ( GL_BLEND );
+
+    glEnable ( GL_DEPTH_TEST );
+}
+
+
 
 void Context::MouseButton ( int button , int action , double x , double y ) {
     if ( button == GLFW_MOUSE_BUTTON_RIGHT ) {
@@ -293,7 +328,8 @@ bool Context::Initialize ( )
     m_plane = Mesh::CreatePlane ( );
     auto CameraUi = Image::Load ( "./model/UI/Camera.png" , false );
     CameraUITEXTURE = Texture::CreateFromImage ( CameraUi.get());
-
+    auto SplitUi = Image::Load ( "./model/UI/SplitUI.png" , false );
+    SplitUITEXTURE = Texture::CreateFromImage ( SplitUi.get ( ) );
 
     auto cubeRight = Image::Load ( "./model/skybox/right.jpg" , false );
     auto cubeLeft = Image::Load ( "./model/skybox/left.jpg" , false );
@@ -376,6 +412,7 @@ bool Context::Initialize ( )
 
 
     }
+
 
     m_material = Material::Create ( );
     

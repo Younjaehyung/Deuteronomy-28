@@ -56,7 +56,7 @@ void Gameintro::Render ( )
 bool Gameintro::Initialize ( )
 {
     m_plane = Mesh::CreatePlane ( );
-    auto MainUI = Image::Load ( "./model/UI/Main.png" , true );
+    auto MainUI = Image::Load ( "./model/UI/Title.png" , true );
     MainUITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
 
     m_car = Model::Load ( "./model/OpenCar.glb" );

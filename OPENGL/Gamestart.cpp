@@ -30,7 +30,7 @@ void Gamestart::Render (  )
 bool Gamestart::Initialize ( )
 {
 	m_plane = Mesh::CreatePlane ( );
-    auto MainUI = Image::Load ( "./model/UI/Main.png" , true );
+    auto MainUI = Image::Load ( "./model/UI/Title.png" , true );
     MainUITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
 
     m_simpleProgram = Program::Create ( "./shader/simple.vs" , "./shader/simple.fs" );

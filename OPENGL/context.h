@@ -37,6 +37,7 @@ public:
 	virtual void ProcessInput ( GLFWwindow* window );
 	void IMGUI_USER ( );
 	void UIDraw ( );
+	void SplitUIDraw ( );
 
 	virtual void Reshape ( int width , int height );
 	void MainDraw ( glm::vec3 _pos , glm::mat4 _cameraTransform );
@@ -176,5 +177,6 @@ private:
 	//창크기
 	//UI
 	TextureUPtr CameraUITEXTURE;
+	TextureUPtr SplitUITEXTURE;
 };
 
