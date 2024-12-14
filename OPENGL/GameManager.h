@@ -69,6 +69,6 @@ private:
 	std::vector<Scene*> Scenes;
 	enum Status status = Status::start;
 	enum gamemode prevmode = gamemode::start;
-	enum gamemode mode = gamemode::start;
+	enum gamemode mode = gamemode::Gameover;
 };
 

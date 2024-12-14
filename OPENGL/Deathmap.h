@@ -9,43 +9,85 @@
 
 class Deathmap :public Scene
 {
-	struct DeathmapLight {
-		
 
-		glm::vec3 direction{0,0,0}; //태양광(모든 지점에 동일한 방향의 광선/Directional Light, Spot Light)
-
-			glm::vec3 attenuation = GetAttenuationCoeff ( 90.0f );; //광원의 빛 감쇠 계산식(Point Light, Spot Light)
-
-			glm::vec2 cutoff{ glm::vec2 ( 20.0f, 5.0f ) };    //광원의 빛 범위(Spot Light)
-
-			glm::vec3 position{0,10,0};  //광원의 위치
-			glm::vec3 ambient{0,0,0};   //주변광의 색상
-			glm::vec3 diffuse{255,255,255};   //확산광의 색상
-			glm::vec3 specular{255,255,255};  //반사광의 색상
-		
-	};
-	DeathmapLight light;
+	LightMass* light;
 
 	ModelPtr m_map;
-	ModelPtr m_player;
+	ModelPtr _monster;
 	Model* m_monster;
-
 	Animation* monsterAnim;
-	UBOBUFFERUPtr UBO;
-	Animator* animator;
+	UBOBUFFERUPtr MUBO;
+	Animator* Manimator;
+
+	Model* m_player;
+	ModelPtr _player;
+
+	Animation* playerAnim;
+	UBOBUFFERUPtr PUBO;
+	Animator* Panimator;
 
 	Camera* mapCamera;
 	//std::vector<LightMass*> Visullight;
-	
+	float m_width=0.0f;
+	float m_height=0.0f;
+	float nowTime=0.0f;
+	float animationDuration = 1.0f; // 애니메이션 지속 시간 (초)
+	float elapsedTime = 0.0f; // 경과 시간
 
+	glm::vec3 LifePos{0.0f,0.0f,-3.0f};
+	glm::vec3 DeathPos{ 0.0f , 0.0f , -3.0f };
+
+	glm::vec3 initialCameraPos = LifePos + glm::vec3 ( 0.0f , 3.0f , -3.0f ); // 초기 카메라 위치
+	glm::vec3 finalCameraPos = DeathPos + glm::vec3 ( 3.0f , 1.0f , -4.0f ); // 최종 카메라 위치
+
+	glm::quat initialCameraRot = glm::quatLookAt ( glm::normalize ( LifePos - initialCameraPos ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
+	
+	glm::quat zRotation = glm::angleAxis ( glm::radians ( 90.0f ) , glm::vec3 ( 0.0f , 0.0f , 1.0f ) );
+	glm::quat finalCameraRot = glm::quatLookAt ( glm::normalize ( DeathPos - finalCameraPos ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) )* zRotation;
+
+	glm::vec3 Cameramoving{ 7.0f , 5.0f , -3.0f };
+
+	MeshUPtr m_plane;
+	FramebufferPtr m_framebuffer;
+	TextureUPtr CameraUITEXTURE;
+	Program* program;
 	ProgramUPtr m_program;
 	ProgramUPtr m_simpleProgram;
 	ProgramUPtr m_simpleAnimationProgram;
+	ProgramUPtr m_cameraUIProgram;
+	ProgramUPtr m_textureProgram;
+	ProgramUPtr m_lightingProgram;
+	ProgramUPtr m_AnimationProgram;
+
 public:
 	Deathmap () {
 		typeID = 0;
 		std::cerr << "DEATH MAP Initialize " << std::endl;
-		m_simpleProgram = Program::Create ( "./shader/lighting.vs" , "./shader/lighting.fs" );
+		m_lightingProgram = Program::Create ( "./shader/lighting_shadow.vs" , "./shader/lighting_shadow.fs" );
+		if ( !m_lightingProgram ) {
+			std::cerr << "program UserSetError id : " << m_lightingProgram->Get ( ) << std::endl;
+			return;
+
+
+		}
+
+		m_AnimationProgram = Program::Create ( "./shader/animation.vs" , "./shader/animation.fs" );
+		if ( !m_AnimationProgram ) {
+			std::cerr << "program UserSetError id : " << m_AnimationProgram->Get ( ) << std::endl;
+			return ;
+
+			
+		}
+
+		m_cameraUIProgram = Program::Create ( "./shader/cameraUI.vs" , "./shader/cameraUI.fs" );
+		if ( !m_cameraUIProgram ) {
+			std::cerr << "program UserSetError id : " << m_cameraUIProgram->Get ( ) << std::endl;
+			return;
+
+
+		}
+
+		m_simpleProgram = Program::Create ( "./shader/simple.vs" , "./shader/simple.fs" );
 		if ( !m_simpleProgram ) {
 			std::cerr << "program UserSetError id : " << m_simpleProgram->Get ( ) << std::endl;
 			return;
@@ -53,27 +95,71 @@ public:
 
 		}
 
-		m_simpleAnimationProgram = Program::Create ( "./shader/animation.vs" , "./shader/animation.fs" );
+		m_simpleAnimationProgram = Program::Create ( "./shader/simple_animation.vs" , "./shader/simple_animation.fs" );
 		if ( !m_simpleAnimationProgram ) {
 			std::cerr << "program UserSetError id : " << m_simpleAnimationProgram->Get ( ) << std::endl;
-			return ;
+			return;
 
-			
+
 		}
-		m_map = Model::Load ("./model/DeathBox.glb" );
-		
-		UBO = UBOBUFFER::Create ( 200 );
-		auto _monster = Model::Load ( "./model/HULK1/Hulk_Death.glb"  );
-		m_monster = _monster.get ( );
-		monsterAnim = new Animation ( "./model/HULK1/Hulk_Death.glb" , m_monster );
-		animator = new Animator ( monsterAnim );
 
+		m_textureProgram = Program::Create ( "./shader/texture.vs" , "./shader/texture.fs" );
+		if ( !m_textureProgram ) {
+			std::cerr << "program UserSetError id : " << m_textureProgram->Get ( ) << std::endl;
+			return;
+
+
+		}
+		// Z축 기준 90도 회전 추가
+
+
+		m_plane = Mesh::CreatePlane ( );
+		auto CameraUi = Image::Load ( "./model/UI/Camera.png" , false );
+		CameraUITEXTURE = Texture::CreateFromImage ( CameraUi.get ( ) );
+
+		light = new LightMass;
+		light->SetLight ( glm::vec3 ( 9.0f , 12.0f , -10.0f ) , glm::normalize(glm::vec3(-9.0f,-1.0f,10.0f)) , glm::vec2 ( 30.0f , 15.0f ) );
+
+		m_map = Model::Load ("./model/DeathBox.glb" );
+		PUBO = UBOBUFFER::Create ( 200 );
+		MUBO = UBOBUFFER::Create ( 200 );
+		_monster = Model::Load ( "./model/HULK1/HulkBBoBBo.glb"  );
+		_player = Model::Load ( "./model/SibalGLB/SibalBbobbo.glb" );
+
+		m_monster = _monster.get ( );
+		m_player = _player.get ( );
+
+		monsterAnim = new Animation ("./model/HULK1/HulkBBoBBo.glb" , m_monster );
+		playerAnim = new Animation ( "./model/SibalGLB/SibalBbobbo.glb" , m_player );
+
+		Manimator = new Animator ( monsterAnim );
+		Panimator = new Animator ( playerAnim );
 		mapCamera = new Camera;
-		
+		mapCamera->SetCamera ( initialCameraPos , glm::vec3 ( -2.0f , 0.7f , 0.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
 	}
 	virtual void Update ( );
 	virtual void Render ( );
+	virtual void MainRender ( );
+	virtual void shadowRender ( );
 	virtual bool Initialize ();
+	virtual void Reshape ( int width , int height ) {
+		std::cout << "뭘봐 오승원" << std::endl;
+		m_width = width;
+		m_height = height;
+		glViewport ( 0 , 0 , m_width , m_height );
+
+		if ( m_width <= 1 ) {
+			m_width = 1;
+		}
+		if ( m_height <= 1 ) {
+			m_height = 1;
+		}
+		//std::cout << m_height << std::endl;
+		//사용자 정의 프레임버퍼 생성
+		m_framebuffer = Framebuffer::Create ( Texture::Create ( m_width , m_height , GL_RGBA ) );
+
+	}
+
 	virtual int Check ( ) {
 		return false;
 	}
