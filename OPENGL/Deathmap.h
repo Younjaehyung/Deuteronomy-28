@@ -31,14 +31,14 @@ class Deathmap :public Scene
 	float m_width=0.0f;
 	float m_height=0.0f;
 	float nowTime=0.0f;
-	float animationDuration = 1.0f; // 애니메이션 지속 시간 (초)
+	float animationDuration = 1.5f; // 애니메이션 지속 시간 (초)
 	float elapsedTime = 0.0f; // 경과 시간
 
-	glm::vec3 LifePos{0.0f,0.0f,-3.0f};
-	glm::vec3 DeathPos{ 0.0f , 0.0f , -3.0f };
+	glm::vec3 LifePos{1.0f,4.0f,-7.0f};
+	glm::vec3 DeathPos{ 1.0f , 0.5f , -7.0f };
 
 	glm::vec3 initialCameraPos = LifePos + glm::vec3 ( 0.0f , 3.0f , -3.0f ); // 초기 카메라 위치
-	glm::vec3 finalCameraPos = DeathPos + glm::vec3 ( 3.0f , 1.0f , -4.0f ); // 최종 카메라 위치
+	glm::vec3 finalCameraPos = DeathPos + glm::vec3 ( 1.0f , -0.1f , -2.0f ); // 최종 카메라 위치
 
 	glm::quat initialCameraRot = glm::quatLookAt ( glm::normalize ( LifePos - initialCameraPos ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
 	

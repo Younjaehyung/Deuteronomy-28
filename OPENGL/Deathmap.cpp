@@ -11,7 +11,7 @@ void Deathmap::Update ( )
 
     std::cout << elapsedTime / animationDuration << std::endl;
 
-    elapsedTime += Time::DeltaTime ( )*10.0;
+    elapsedTime += Time::DeltaTime ( )*0.1;
     float t = glm::clamp ( elapsedTime / animationDuration , 0.0f , 1.0f );
     std::cout << t << std::endl;
     // 위치 보간
@@ -24,8 +24,10 @@ void Deathmap::Update ( )
     
     // 카메라 매트릭스 업데이트
 
-    glm::mat4 viewMatrix = glm::translate ( glm::mat4 ( 1.0f ) , currentCameraPos ) * glm::mat4_cast ( currentCameraRot );
-    mapCamera->GetView (  )=viewMatrix;
+    mapCamera->GetView ( ) = glm::lookAt (
+    currentCameraPos ,                // 카메라 위치
+    currentCameraPos + glm::normalize ( DeathPos - currentCameraPos ) * zRotation , // 카메라 방향
+    glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
 
     std::cout << "나는 모델러2 이다찬이다" << std::endl;
 }
@@ -57,8 +59,8 @@ void Deathmap::MainRender ( )
     std::cout << "나는 정왕의 데스신 오승원이다." << std::endl;
     auto _cameraTransform = mapCamera->GetProjection ( ) * mapCamera->GetView ( );
     program->Use ( );
-    program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
-    program->SetUniform ( "transform" , _cameraTransform * glm::mat4 ( 1.0f ) );
+    program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.f , -1.f , -9.f ) ) * glm::scale( glm::mat4 ( 1.0f ) ,glm::vec3(0.5f))*glm::mat4 ( 1.0f ) );
+    program->SetUniform ( "transform" , _cameraTransform * glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.f,-1.f,-9.f ) ) *glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 0.5f ) ) );
     program->SetUniform ( "lights[0].directional" , 0 );
     program->SetUniform ( "lights[0].direction" , lights.direction );
     program->SetUniform ( "lights[0].attenuation" , lights.attenuation );
@@ -77,7 +79,7 @@ void Deathmap::MainRender ( )
     light->GetlightShadowMap ( )->GetShadowMap ( )->Bind ( );
     program->SetUniform ( "shadowMaps[0]" , 5 );
 
-    //m_map->Draw ( m_simpleProgram.get ( ) );
+    m_map->Draw ( program );
     std::cout << "나는 정왕의 필멸자 오승원이다." << std::endl;
 
     program = m_AnimationProgram.get ( );
@@ -154,7 +156,7 @@ void Deathmap::MainRender ( )
 
     Framebuffer::BindToDefault ( );
     m_textureProgram->Use ( );
-    m_textureProgram->SetUniform ( "typeID" , 1 );
+    m_textureProgram->SetUniform ( "typeID" , 2 );
     m_textureProgram->SetUniform ( "transform" ,
                glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 2.0f , 1.0f ) ) );
     m_framebuffer->GetColorAttachment ( )->Bind ( );
@@ -175,7 +177,7 @@ void Deathmap::shadowRender ( )
     const auto& Mtransforms = Manimator->GetFinalBoneMatrices ( );
     const auto& Ptransforms = Panimator->GetFinalBoneMatrices ( );
 
-    glClearColor ( 0.1f , 0.2f , 0.1f , 1.0f );
+    glClearColor ( 0.1f , 0.0f , 0.0f , 1.0f );
     glEnable ( GL_DEPTH_TEST );
     glClear ( GL_DEPTH_BUFFER_BIT );
     glEnable ( GL_CULL_FACE );
@@ -191,8 +193,8 @@ void Deathmap::shadowRender ( )
 
     program->Use ( );
     program->SetUniform ( "color" , glm::vec4 ( 1.0f , 1.0f , 1.0f , 1.0f ) );
-    program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
-    program->SetUniform ( "transform" , light->GetlightProjection ( ) * light->GetlightView ( ) * glm::vec4 ( 1.0f ) );
+    program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.f , -1.f , -9.f ) )* glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 0.5f ) ) );
+    program->SetUniform ( "transform" , light->GetlightProjection ( ) * light->GetlightView ( ) * glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.f , -1.f , -9.f ) )* glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 0.5f ) ));
 
 
     m_map->Draw ( program );

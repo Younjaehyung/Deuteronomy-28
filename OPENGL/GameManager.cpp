@@ -94,7 +94,7 @@ void GameManager::GameLogic ( ) {
 			
 			if ( mode == gamemode::Gameover ) {
 				std::cout <<"나는 정왕 종결자 오승원이다" << EndingNum << std::endl;
-				overmode =  (EndingNum ==0 ) ? Death : Life;
+				overmode =  (EndingNum ==2 ) ? Death : Life;
 				
 				EndingNum = 0;
 			}

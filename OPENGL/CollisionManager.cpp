@@ -13,14 +13,14 @@ void CollisionManager::Update ( std::vector<Object*>& colliders ) {
 			eLayerType type2 = obj2->GetObjectID ( );
 
 
-			if ( ShouldCollide ( type1 , type2 ) ) {	//충돌이 가능한 객체냐?
+			if ( ShouldCollide ( type1 , type2 ) || ShouldCollide ( type2 , type1 ) ) {	//충돌이 가능한 객체냐?
 				if ( Check_AABB_Collision ( obj1 , obj2 ) ) {	//충돌 했냐?
 					obj1->HandleCollision ( obj2 );
 					obj2->HandleCollision ( obj1 );
-					if ( obj1->name == "player" && obj1->name == "monster1" ) {
+					if ( (obj1->name == "player" && obj2->name == "monster1" )|| ( obj1->name == "monster1" && obj2->name == "player" ) ) {
 						gameend = 1;
 					}
-					else if ( obj1->name == "player" && obj1->name == "exit" ) {
+					else if ( (obj1->name == "player" && obj2->name == "exit")|| (obj1->name == "exit" && obj2->name == "player") ) {
 						gameend = 2;
 					}
 					std:: cout << obj1->name << " " << obj2->name << std::endl;
@@ -73,9 +73,13 @@ void CollisionManager::InitializeCollisionMatrix ( ) {
 	mCollisionLayerMatrix[ ( uint32_t ) eLayerType::Player ].set ( ( uint32_t ) eLayerType::Item );
 
 	// Enemy와 충돌하는 레이어 설정
-	mCollisionLayerMatrix[ ( uint32_t ) eLayerType::Enemy ].set ( ( uint32_t ) eLayerType::Player );
-	mCollisionLayerMatrix[ ( uint32_t ) eLayerType::Light ].set ( ( uint32_t ) eLayerType::Player );
-	mCollisionLayerMatrix[ ( uint32_t ) eLayerType::Item ].set ( ( uint32_t ) eLayerType::Player );
+	//mCollisionLayerMatrix[ ( uint32_t ) eLayerType::Enemy ].set ( ( uint32_t ) eLayerType::Player );
+	//mCollisionLayerMatrix[ ( uint32_t ) eLayerType::Light ].set ( ( uint32_t ) eLayerType::Player );
+	//mCollisionLayerMatrix[ ( uint32_t ) eLayerType::Item ].set ( ( uint32_t ) eLayerType::Player );
+	
+	
+	
+	
 	//mCollisionLayerMatrix[ ( uint32_t ) eLayerType::Enemy ].set ( ( uint32_t ) eLayerType::Light );
 
 	// Projectile과 충돌하는 레이어 설정
