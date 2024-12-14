@@ -87,7 +87,7 @@ void Deathmap::MainRender ( )
     program->SetUniform ( "shadowMaps[0]" , 5 );
     
 
-    m_map->Draw ( program );
+    //m_map->Draw ( program );
 
     program->SetUniform ( "transform" , _cameraTransform * glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 90.0f ) , glm::vec3 ( 1.0f , 0.0f , 0.0f ) )
     * glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 100.0f , 100.0f , 100.0f ) ) );
@@ -232,8 +232,8 @@ void Deathmap::shadowRender ( )
 
     program->Use ( );
     program->SetUniform ( "color" , glm::vec4 ( 1.0f ) );
-    program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f )* glm::mat4 ( 1.0f ) * glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 0.0f , -3.0f ) ) );
-    program->SetUniform ( "transform" , light->GetlightProjection ( ) * light->GetlightView ( ) * glm::mat4 ( 1.0f )* glm::mat4 ( 1.0f ) * glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 0.0f , -3.0f ) ) );
+    program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f )* glm::mat4 ( 1.0f )  );
+    program->SetUniform ( "transform" , light->GetlightProjection ( ) * light->GetlightView ( )  );
 
 
 
@@ -247,8 +247,8 @@ void Deathmap::shadowRender ( )
 
     program->Use ( );
     program->SetUniform ( "color" , glm::vec4 ( 1.0f ) );
-    program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) );
-    program->SetUniform ( "transform" , light->GetlightProjection ( ) * light->GetlightView ( ) * glm::mat4 ( 1.0f ) );
+    program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 0.0f , -3.0f ) ) );
+    program->SetUniform ( "transform" , light->GetlightProjection ( ) * light->GetlightView ( ) * glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 0.0f , -3.0f ) ) );
     std::cout << "나는 정왕의 ro병신 오승원이다." << std::endl;
     PUBO->Bind ( program->Get ( ) , "Bones" );
     PUBO->UpdateBoneMatrices ( Ptransforms );
