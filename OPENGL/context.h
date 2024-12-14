@@ -17,6 +17,7 @@
 #include "shadow.h"
 #include "LightManager.h"
 #include "Item.h"
+#include "Door.h"
 #include "Deathmap.h"
 #include "Scene.h"
 
@@ -37,6 +38,7 @@ public:
 	virtual void ProcessInput ( GLFWwindow* window );
 	void IMGUI_USER ( );
 	void UIDraw ( );
+	void SplitUIDraw ( );
 
 	virtual void Reshape ( int width , int height );
 	void MainDraw ( glm::vec3 _pos , glm::mat4 _cameraTransform );
@@ -91,6 +93,8 @@ private:
 	Item* item1;
 	Item* item2;
 	Item* item3;
+	Door* Door1;
+	Door* Door2;
 
 	bool CameraLight{ false };
 	bool Seek{ false };
@@ -176,5 +180,6 @@ private:
 	//창크기
 	//UI
 	TextureUPtr CameraUITEXTURE;
+	TextureUPtr SplitUITEXTURE;
 };
 

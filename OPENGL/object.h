@@ -42,6 +42,9 @@ public:
 		CollisionBox.Size = size;
 		CollisionBox.name = name;
 	}
+	void SetobjectID ( eLayerType _objectID ) {
+		objectID = _objectID;
+	}
 	
 	virtual eLayerType GetObjectID ( ) { return objectID; }	//객체 충돌ID 리턴
 	virtual void SetPos ( glm::vec3 pos ) { Pos = pos; }

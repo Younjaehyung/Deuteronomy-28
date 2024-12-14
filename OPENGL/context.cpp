@@ -76,11 +76,12 @@ void Context::Render ( ) {
 
 
     LightManager::getInstance ( ).UpdateShadowMaps ( obj );
-
+    
     if ( player->GetSeekState() ) {
-        glViewport ( 0 , 0 , m_width/2 , m_height );
-
-       // m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
+        m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
+        
+        glViewport ( 0 , 0 , m_width/5 *2 , m_height );
+       
         //CollisionManager::getInstance ( ).Render ( );   //맵 그리드
 
         glDisable ( GL_CULL_FACE );
@@ -92,11 +93,19 @@ void Context::Render ( ) {
         MainDraw ( CameraManager::getInstance ( ).GetCameraPos ( ) , CameraManager::getInstance ( ).Camera_transform ( ) );
 
 
-       // Framebuffer::BindToDefault ( );
-
-        glViewport ( m_width / 2 , 0 , m_width / 2 , m_height );
+        glViewport ( m_width / 5 *2 , 0 , m_width / 5 * 3 , m_height );
         MainDraw ( CameraManager::getInstance ( ).GetCamera2Pos ( ) , CameraManager::getInstance ( ).Camera2_transform ( ) );
+        SplitUIDraw ( );
+        Framebuffer::BindToDefault ( );
 
+        m_textureProgram->Use ( );
+        m_textureProgram->SetUniform ( "typeID" , 0 );
+
+        m_framebuffer->GetColorAttachment ( )->Bind ( );
+        m_textureProgram->SetUniform ( "tex" , 0 );
+
+        glViewport (0, 0 , m_width  , m_height );
+        m_plane->Draw ( m_textureProgram.get ( ) );
     }
     else {
         glViewport ( 0 , 0 , m_width , m_height );
@@ -130,7 +139,6 @@ void Context::Render ( ) {
             m_textureProgram->SetUniform ( "typeID" , 2 );
         }
 
-
         ////이중버퍼링
 
         m_textureProgram->SetUniform ( "transform" ,
@@ -143,6 +151,7 @@ void Context::Render ( ) {
         m_textureProgram->SetUniform ( "time" , nowTime );
 
         m_plane->Draw ( m_textureProgram.get ( ) );
+        
     }
     
 
@@ -156,11 +165,11 @@ void Context :: Update ( ) {
     CameraManager::getInstance ( ).Update ( );  //업데이트
     Camera_Transform = CameraManager::getInstance ( ).Camera_transform( );
     GameobjectUpdate ( );
-    std::cout << "나는 삭제왕 오승원이다4" << std::endl;
+
     CollisionManager::getInstance ( ).Update (obj );    //충돌체
 
 
-    std::cout << "나는 삭제왕 오승원이다5" << std::endl;
+
 }
 
 void Context::ProcessInput ( GLFWwindow* window ) {
@@ -193,7 +202,7 @@ void Context::ProcessInput ( GLFWwindow* window ) {
 }
 
 void Context::Reshape ( int width , int height ) {
-    std::cout <<"뭘봐 오승원" << std::endl;
+
     m_width = width;
     m_height = height;
     glViewport ( 0 , 0 , m_width , m_height );
@@ -269,6 +278,32 @@ void Context::UIDraw ( )
     glEnable ( GL_DEPTH_TEST );
 }
 
+void Context::SplitUIDraw ( )
+{
+    glViewport ( 0 , 0 , m_width , m_height );
+
+
+    glDisable ( GL_DEPTH_TEST );
+
+    m_camerauiProgram->Use ( );
+    m_camerauiProgram->SetUniform ( "transform" , glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 2.0f , 1.0f ) ) );
+    SplitUITEXTURE->Bind ( );
+    m_camerauiProgram->SetUniform ( "tex" , 0 );
+
+    // 블렌딩 활성화
+    glEnable ( GL_BLEND );
+    glBlendFunc ( GL_SRC_ALPHA , GL_ONE_MINUS_SRC_ALPHA );
+
+    // 캠코더 UI 렌더링
+    m_plane->Draw ( m_camerauiProgram.get ( ) );
+
+    // 블렌딩 비활성화 (다른 렌더링에 영향 없도록)
+    glDisable ( GL_BLEND );
+
+    glEnable ( GL_DEPTH_TEST );
+}
+
+
 
 void Context::MouseButton ( int button , int action , double x , double y ) {
     if ( button == GLFW_MOUSE_BUTTON_RIGHT ) {
@@ -293,7 +328,8 @@ bool Context::Initialize ( )
     m_plane = Mesh::CreatePlane ( );
     auto CameraUi = Image::Load ( "./model/UI/Camera.png" , false );
     CameraUITEXTURE = Texture::CreateFromImage ( CameraUi.get());
-
+    auto SplitUi = Image::Load ( "./model/UI/SplitUI.png" , false );
+    SplitUITEXTURE = Texture::CreateFromImage ( SplitUi.get ( ) );
 
     auto cubeRight = Image::Load ( "./model/skybox/right.jpg" , false );
     auto cubeLeft = Image::Load ( "./model/skybox/left.jpg" , false );
@@ -377,6 +413,7 @@ bool Context::Initialize ( )
 
     }
 
+
     m_material = Material::Create ( );
     
     m_material->diffuse = Texture::CreateFromImage ( Image::CreateSingleColorImage ( 4 , 4 ,
@@ -396,6 +433,8 @@ bool Context::Initialize ( )
     item1 = new Item ( glm::vec3 ( 41.0f , 0.0f , -7.5f ) );
     item2 = new Item ( glm::vec3 ( 112.0f , 0.0f , -66.0f ) );
     item3 = new Item ( glm::vec3 ( 69.0f , 0.0f , -115.0f ) );
+    Door1 = new Door ( glm::vec3 ( -3.0f , 0.0f , -52.0f ) );
+    Door2 = new Door ( glm::vec3 ( 116.0f , 0.0f , -95.0f ) );
     object1 = new character( glm::vec3(84.0f , 0.0f , -10.0f) );
     object2 = new character( glm::vec3 (94.0f , 0.0f , -60.0f ) );
     map = new Map(object1);
@@ -410,6 +449,8 @@ bool Context::Initialize ( )
     item1->Initialize ( "./model/Cross.glb" );
     item2->Initialize ( "./model/Cross.glb" );
     item3->Initialize ( "./model/Cross.glb" );
+    Door1->Initialize ( "./model/Door.glb" );
+    Door2->Initialize ( "./model/Door.glb" );
     player->Initialize ("./model/SibalGLB/SibalIdle.glb" );
     CollisionManager::getInstance ( ).Initialize ( );
     CameraManager::getInstance ( ).SetCamera ( player->camera );
@@ -420,7 +461,7 @@ bool Context::Initialize ( )
    light1->SetLight ( glm::vec3 ( 2.0f , 4.0f , -1.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
    LightManager::getInstance ( ).AddLight ( light1 );
 
-   player->SetPos (glm::vec3(  -12.0f , 0.0f , -64.0f) );
+   player->SetPos (glm::vec3(  -32.0f , 0.0f , -6.0f) );
 
     obj.push_back ( object1 );
    // obj.push_back ( object2 );
@@ -428,6 +469,8 @@ bool Context::Initialize ( )
     obj.push_back ( item1 );
     obj.push_back ( item2 );
     obj.push_back ( item3 );
+    obj.push_back ( Door1 );
+    obj.push_back ( Door2 );
     obj.push_back ( map );
     obj.push_back ( player );
     map->ObjectInitialize ( obj );
