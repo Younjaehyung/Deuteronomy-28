@@ -18,14 +18,23 @@ int main ( )
         return -1;
     }
 
+
+
+
     //버전 세팅
     glfwWindowHint ( GLFW_CONTEXT_VERSION_MAJOR , 3 );
     glfwWindowHint ( GLFW_CONTEXT_VERSION_MINOR , 3 );
     glfwWindowHint ( GLFW_OPENGL_PROFILE , GLFW_OPENGL_CORE_PROFILE );
     glfwWindowHint ( GLFW_SAMPLES , 4 );// MSAA를 위해 4멀티샘플을 설정
-    //glfwWindowHint ( GLFW_DECORATED , GL_FALSE ); //화면 상단부 제거 (발표시 사용)
+    glfwWindowHint ( GLFW_DECORATED , GL_FALSE ); //화면 상단부 제거 (발표시 사용)
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor ( );
+    const GLFWvidmode* mode = glfwGetVideoMode ( monitor );
+
+    // 전체화면 윈도우 생성
+    GLFWwindow* window = glfwCreateWindow ( mode->width , mode->height , "Deuteronomy" , monitor , nullptr );
+
     //GLFW 윈도우창 생성
-    GLFWwindow* window = glfwCreateWindow ( 640 , 480 , "OpenGL Example" , NULL , NULL );
+    //GLFWwindow* window = glfwCreateWindow ( 640 , 480 , "OpenGL Example" , NULL , NULL );
     if ( !window ) {
         std::cerr << "윈도우 생성 실패" << '\n';
   
@@ -109,10 +118,11 @@ int main ( )
 
            context-> Render ( );    //출력
            
-           if ( CameraManager::getInstance ( ).ClickCamera ( ) ) {
+           //if ( CameraManager::getInstance ( ).ClickCamera ( ) ) {
                glfwSetCursorPos ( window , context->m_width / 2 , context->m_height / 2 );
-           }
-        
+           //}
+               glfwSetInputMode ( window , GLFW_CURSOR , GLFW_CURSOR_DISABLED );
+               //마우스 감추기
            
            ImGui::Render ( );    //imgui 정보 종합
            ImGui_ImplOpenGL3_RenderDrawData ( ImGui::GetDrawData ( ) ); //imgui 그려줌

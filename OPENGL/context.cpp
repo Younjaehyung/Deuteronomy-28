@@ -336,6 +336,8 @@ void Context::MouseButton ( int button , int action , double x , double y ) {
             CameraManager::getInstance ().ClickCamera ( )  = false;
         }
     }
+    //추가
+    CameraManager::getInstance ( ).ClickCamera ( ) = true;
 }
 
 
