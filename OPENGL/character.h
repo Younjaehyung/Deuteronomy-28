@@ -86,6 +86,7 @@ public:
 		}
 		else if ( alert == 1 ) {
 			phase = Phase::Crazy;
+			chase = 1;
 		}
 
 	}
