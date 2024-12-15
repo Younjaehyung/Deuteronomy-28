@@ -41,6 +41,28 @@ void main() {
        fragColor = pixel;
         return;
     }
+    if(typeID==-1){
+    //노이즈
+      vec2 uv = texCoord;
+
+    // Horizontal offset to simulate screen tearing
+    float offset = random(vec2(uv.y, time)) * 0.01;
+    uv.x += offset;
+
+    // Add noise effect
+    float noise = random(uv + time);
+    vec3 noisyColor = texture(tex, uv).rgb + noise * 0.5;
+
+    // Apply mosaic effect
+    float blockSize = 0.001;
+    uv = floor(uv / blockSize) * blockSize;
+
+    pixel = texture(tex, uv) * vec4(noisyColor, 1.0);
+
+
+       fragColor = pixel;
+        return;
+    }
 
     if(typeID ==1){
         

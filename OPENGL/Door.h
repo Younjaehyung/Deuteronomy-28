@@ -33,9 +33,9 @@ private:
     ModelPtr model;
 
     float DoorRotatef = 0.0f;
-    glm::mat4 DoorRotate;
+    glm::mat4 DoorRotate= glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( DoorRotatef ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
     glm::mat4 modelTransform;
     int Doortype;
     int ItemCount = 0;
-
+    int status = 0;
 };

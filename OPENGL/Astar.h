@@ -211,7 +211,9 @@ public: // 휴리스틱 함수 ( 맨해튼 거리 )
             Path_now ( p1 , goal );
 
             
-
+            if ( goal.x < 0 || goal.y < 0 || goal.x > 39 || goal.y > 39 ) {
+                return false;
+            }
            
            if ( goal == origin_goal || goal.x < 0 || goal.y < 0 || grid[ goal.y ][ goal.x ] != 0 ) {
                 return false;
@@ -261,6 +263,9 @@ public: // 휴리스틱 함수 ( 맨해튼 거리 )
             //    path.clear ( );
 
             //}
+            if ( goal.x < 0 || goal.y < 0 || goal.x > 39 || goal.y > 39 ) {
+                return false;
+            }
                if ( goal == origin_goal || goal.x<0 || goal.y < 0 ||grid[goal.y][goal.x] != 0 ) {
                    return false;
                }

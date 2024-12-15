@@ -52,25 +52,42 @@ void Player::Update ( )
 
 void Player::Status_Machine ( )
 {
+	if ( HeartBeat == 1 ) {
+		HeartBeatTime += Time::DeltaTime ( );
+		if ( movestat == moving::run ) {
+			HeartBeatTime = 0.0f;
+		}
+		if ( HeartBeatTime >= 4.0f ) {
+			HeartBeat = 0;
+			HeartBeatTime = 0.0f;
+			SoundManager::getInstance ( ).GetSoundID ( "HeartBeat" )->PauseSound ( );
+		}
+	}
 	if ( movestat == moving::stop && animator->GetCurrAnimation() != idleAnim ) {
 		animator->PlayAnimation ( idleAnim );
 		SoundManager::getInstance ( ).GetSoundID ( "Walk" )->PauseSound ( );
+		
 	}
 	if ( movestat == moving::sit && animator->GetCurrAnimation ( ) != sitAnim ) {
 		SoundManager::getInstance ( ).GetSoundID ( "Walk" )->PauseSound ( );
+		
 		animator->PlayAnimation ( sitAnim );
 	}
 	if ( movestat == moving::sit_walk && animator->GetCurrAnimation ( ) != sitwalkAnim ) {
 		SoundManager::getInstance ( ).GetSoundID ( "Walk" )->PauseSound ( );
+		
 		animator->PlayAnimation ( sitwalkAnim );
 	}
 	if ( movestat == moving::walk && animator->GetCurrAnimation ( ) != walkAnim ) {
 		SoundManager::getInstance ( ).GetSoundID ( "Walk" )->PauseSound ( );
+		
 		animator->PlayAnimation ( walkAnim );
 		SoundManager::getInstance ( ).GetSoundID ( "Walk" )->ReplaySound ( 0.7f);
 	}
 	if ( movestat == moving::run && animator->GetCurrAnimation ( ) != runAnim ) {
 		SoundManager::getInstance ( ).GetSoundID ( "Walk" )->PauseSound ( );
+		SoundManager::getInstance ( ).GetSoundID ( "HeartBeat" )->PauseSound ( );
+		HeartBeat = 1;
 		animator->PlayAnimation ( runAnim );
 		SoundManager::getInstance ( ).GetSoundID ( "Walk" )->ReplaySound ( 0.7f );
 		SoundManager::getInstance ( ).GetSoundID ( "HeartBeat" )->ReplaySound ( 2.0f );

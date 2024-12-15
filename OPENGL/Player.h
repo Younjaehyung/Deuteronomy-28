@@ -96,6 +96,8 @@ private:
 
 	enum moving movestat;
 
+	float HeartBeatTime = 0.0f;
+	int HeartBeat = 0;
 	bool FlashLight_switch{ true };
 	bool Seek_switch{ false };
 

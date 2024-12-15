@@ -456,7 +456,7 @@ void character::Status_Machine ( )
 				
 			}
 			else if ( status == Status::exit ) {
-				
+				SoundManager::getInstance ( ).GetSoundID ( "Monster_Foot" )->PauseSound ( );
 				action = Action::attack;
 				status = Status::start;
 			}
@@ -467,7 +467,7 @@ void character::Status_Machine ( )
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( walkAnim );
 				SoundManager::getInstance ( ).GetSoundID ( "Monster_Walk" )->ReplaySound ( );
-				
+				SoundManager::getInstance ( ).GetSoundID ( "Chase1" )->PauseSound ( );
 				Cycleindex = ( Cycleindex + 1 ) % StaticPaths.size ( );
 				//Cycleindex += 1;
 				Path_now ( StaticPaths[ Cycleindex ] , path );
@@ -571,6 +571,8 @@ void character::Status_Machine ( )
 				phase = Phase::Idle;
 				action = Action::Idle;
 				status = Status::start;
+				SoundManager::getInstance ( ).GetSoundID ( "Chase2" )->PauseSound (  );
+				SoundManager::getInstance ( ).GetSoundID ( "Monster_Run" )->PauseSound ( );
 			}
 
 		}
@@ -643,7 +645,7 @@ void character::Status_Machine ( )
 
 			}
 			else if ( status == Status::exit ) {
-
+				SoundManager::getInstance ( ).GetSoundID ( "Monster_Run" )->PauseSound ( );
 			}
 
 		}

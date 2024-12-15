@@ -24,6 +24,7 @@ void CollisionManager::Update ( std::vector<Object*>& colliders ) {
 					else if ( (obj1->name == "player" && obj2->name == "exit")|| (obj1->name == "exit" && obj2->name == "player") ) {
 						gameend = 2;
 					}
+				
 					std:: cout << obj1->name << " " << obj2->name << std::endl;
 				}
 			}

@@ -76,7 +76,7 @@ void Context::Render ( ) {
 
 
     LightManager::getInstance ( ).UpdateShadowMaps ( obj );
-    
+    glViewport ( 0 , 0 , m_width , m_height );
     if ( player->GetSeekState() ) {
         m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
         
@@ -131,12 +131,17 @@ void Context::Render ( ) {
 
 
         m_textureProgram->Use ( );
-        m_textureProgram->SetUniform ( "typeID" , 0 );
-        if ( 1 == object1->GetPhase ( ) ) {
+        if ( player->IsFlashLight ( ) ) {
             m_textureProgram->SetUniform ( "typeID" , 1 );
         }
-        else if ( 2 == object1->GetPhase ( ) ) {
+        else {
+            m_textureProgram->SetUniform ( "typeID" , 0 );
+        }
+        if ( 1 == object1->GetPhase ( ) ) {
             m_textureProgram->SetUniform ( "typeID" , 2 );
+        }
+        else if ( 2 == object1->GetPhase ( ) ) {
+            m_textureProgram->SetUniform ( "typeID" , -1 );
         }
 
         ////이중버퍼링
@@ -168,13 +173,13 @@ void Context :: Update ( ) {
     Door1->GetItemCount (player->GetItem() );
     Door2->GetItemCount ( player->GetItem ( ) );
 
-    if ( player->GetItem ( )==5 && Ending ==1) {
+    if ( player->GetItem ( )==5 && Ending ==0) {
         Ending = 1;
         Object* Corridor7 = new Object;
         Corridor7->name = "exit";
-        Corridor7->SetPos ( glm::vec3 ( -116.0f , 0.0f , -96.0f ) );
+        Corridor7->SetPos ( glm::vec3 ( 116.0f , 0.0f , -96.0f ) );
         Corridor7->SetBox ( glm::vec3 ( 4.0f ) , "Escape" );
-        Corridor7->SetobjectID ( eLayerType::Environment );
+        Corridor7->SetobjectID ( eLayerType::Item );
         obj.push_back ( Corridor7 );
     }
 

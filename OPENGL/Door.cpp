@@ -4,23 +4,27 @@
 #include "CollisionManager.h"
 
 void Door::Update ( ) {
-    std::cout << "나는 문짝 아이템 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
+    std::cout << "나는 문짝 아이템 오승원이다. 아이템 개수를 알려주지:  " << std::endl;
+        
+        
+        
     if ( ItemCount == 1 ) {
+        if ( DoorRotatef==0.0f ) {
+            SoundManager::getInstance ( ).GetSoundID ( "DoorOpen" )->ReplaySound ( );
+        }
         if ( DoorRotatef >= -120.0f ) {
             DoorRotatef += Time::DeltaTime ( ) * -15.0f; // 초당 50도 회전
             // 원점에서 회전
             DoorRotate = glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( DoorRotatef ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
-<<<<<<< HEAD
-        }
-        else if ( DoorRotatef <= 0.0f && DoorRotatef >= -30.0f) {
-            SoundManager::getInstance ( ).GetSoundID ( "DoorOpen" )->ReplaySound ( 0.7f );
-=======
-            //SoundManager::getInstance ( ).GetSoundID ( "DoorOpen" )->ReplaySound ( 0.7f );
->>>>>>> origin/main
+
         }
 
     }
     else if ( ItemCount == 2 ) {
+        if ( status == 0 ) {
+            SoundManager::getInstance ( ).GetSoundID ( "DoorSlam" )->ReplaySound ( );
+            status = 1;
+        }
         if ( DoorRotatef <= 0.0f ) {
             DoorRotatef += Time::DeltaTime ( ) * 30.0f; // 초당 50도 회전
             // 원점에서 회전
@@ -30,19 +34,19 @@ void Door::Update ( ) {
 
     }
     else if ( ItemCount == 5 ) {
+        if ( status == 1 ) {
+            SoundManager::getInstance ( ).GetSoundID ( "DoorOpen" )->ReplaySound ( );
+            status = 2;
+        }
         if ( DoorRotatef >= 120.0f ) {
             DoorRotatef += Time::DeltaTime ( ) * 15.0f; // 초당 50도 회전
             // 원점에서 회전
             DoorRotate = glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( DoorRotatef ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
            
         }
-        SoundManager::getInstance ( ).GetSoundID ( "DoorOpen" )->ReplaySound ( );
+       
     }
-    else {
-        DoorRotatef += Time::DeltaTime ( ) * 0.0f; // 초당 50도 회전
-        // 원점에서 회전
-        DoorRotate = glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( DoorRotatef ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
-    }
+
 }
 
 void Door::GetItemCount (int ItemNumber) {
