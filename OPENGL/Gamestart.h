@@ -7,6 +7,7 @@ class Gamestart :public Scene
 	ModelPtr m_model;
 	MeshUPtr m_plane;
 	TextureUPtr MainUITEXTURE;
+	TextureUPtr MainStartTEXTURE;
 
 	bool StartEngine{ false };
 
@@ -32,7 +33,7 @@ public:
 			StartEngine = 1;
 		}
 	}
-
+	float startTime = 0.0f;
 	virtual int Check ( ) {
 		if ( StartEngine ) {
 			std::cout << "나는 정왕의 신 오승원이다" << std::endl;

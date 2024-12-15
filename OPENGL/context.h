@@ -148,7 +148,7 @@ private:
 	//카메라
 	float m_cameraPitch{ 0.0f };
 	float m_cameraYaw{ 0.0f };
-	
+	float RecTime = 0.0f;
 	float nowTime=0.0f;
 
 	glm::vec3 m_cameraPos{ glm::vec3 ( -10.0f, 3.0f, 3.0f ) };	//카메라의 위치
@@ -186,6 +186,7 @@ private:
 	//창크기
 	//UI
 	TextureUPtr CameraUITEXTURE;
+	TextureUPtr RecUITEXTURE;
 	TextureUPtr SplitUITEXTURE;
 };
 

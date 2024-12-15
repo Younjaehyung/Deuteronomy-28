@@ -30,6 +30,12 @@ void Deathmap::Update ( )
     currentCameraPos + glm::normalize ( glm::vec3(DeathPos.x, currentCameraPos.y+0.1f, DeathPos.z) - currentCameraPos ), // 카메라 방향
     glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
 
+    if ( SoundToggle == 0 ) {
+        SoundManager::getInstance ( ).GetSoundID ( "Die" )->ReplaySound ( );
+        SoundManager::getInstance ( ).GetSoundID ( "Roar" )->ReplaySound ( );
+        SoundToggle = 1;
+    }
+
     if ( elapsedTime >= animationDuration+3.0f ) {
         status = 1;
     }
@@ -265,8 +271,7 @@ void Deathmap::shadowRender ( )
 bool Deathmap::Initialize ()
 {
     std::cerr << "DEATH MAP start " << std::endl;
-    SoundManager::getInstance ( ).GetSoundID ( "Die" )->ReplaySound ( );
-    SoundManager::getInstance ( ).GetSoundID ( "Roar" )->ReplaySound ( );
+    
 
     return true;
 }

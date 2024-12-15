@@ -10,7 +10,7 @@ void Door::Update ( ) {
         
     if ( ItemCount == 1 ) {
         if ( DoorRotatef==0.0f ) {
-            SoundManager::getInstance ( ).GetSoundID ( "DoorOpen" )->ReplaySound ( );
+            SoundManager::getInstance ( ).GetSoundID ( "DoorOpen" )->ReplaySound (0.7f);
         }
         if ( DoorRotatef >= -120.0f ) {
             DoorRotatef += Time::DeltaTime ( ) * -15.0f; // 초당 50도 회전
@@ -22,7 +22,7 @@ void Door::Update ( ) {
     }
     else if ( ItemCount == 2 ) {
         if ( status == 0 ) {
-            SoundManager::getInstance ( ).GetSoundID ( "DoorSlam" )->ReplaySound ( );
+            SoundManager::getInstance ( ).GetSoundID ( "DoorSlam" )->ReplaySound (0.7f);
             status = 1;
         }
         if ( DoorRotatef <= 0.0f ) {
@@ -35,7 +35,7 @@ void Door::Update ( ) {
     }
     else if ( ItemCount == 5 ) {
         if ( status == 1 ) {
-            SoundManager::getInstance ( ).GetSoundID ( "DoorOpen" )->ReplaySound ( );
+            SoundManager::getInstance ( ).GetSoundID ( "DoorOpen" )->ReplaySound (0.7f);
             status = 2;
         }
         if ( DoorRotatef >= 120.0f ) {

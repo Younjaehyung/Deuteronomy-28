@@ -34,6 +34,8 @@ class Deathmap :public Scene
 	float nowTime=0.0f;
 	float animationDuration = 1.0f; // 애니메이션 지속 시간 (초)
 	float elapsedTime = 0.0f; // 경과 시간
+	int SoundToggle = 0;
+
 
 	glm::vec3 LifePos{ 1.0f , 8.5f , -7.0f};
 	glm::vec3 DeathPos{ 1.0f , 1.5f , -7.0f };

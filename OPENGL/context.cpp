@@ -92,7 +92,7 @@ void Context::Render ( ) {
         //m_assimp_Program->Use ( );
         MainDraw ( CameraManager::getInstance ( ).GetCameraPos ( ) , CameraManager::getInstance ( ).Camera_transform ( ) );
 
-
+        SoundManager::getInstance ( ).GetSoundID ( "WhiteNoise" )->ReplaySound (0.1f );
         glViewport ( m_width / 5 *2 , 0 , m_width / 5 * 3 , m_height );
         MainDraw ( CameraManager::getInstance ( ).GetCamera2Pos ( ) , CameraManager::getInstance ( ).Camera2_transform ( ) );
         SplitUIDraw ( );
@@ -109,7 +109,7 @@ void Context::Render ( ) {
     }
     else {
         glViewport ( 0 , 0 , m_width , m_height );
-
+        SoundManager::getInstance ( ).GetSoundID ( "WhiteNoise" )->PauseSound ();
 
         m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
         //CollisionManager::getInstance ( ).Render ( );   //맵 그리드
@@ -289,6 +289,20 @@ void Context::UIDraw ( )
     // 캠코더 UI 렌더링
     m_plane->Draw ( m_camerauiProgram.get ( ) );
 
+    if ( RecTime <= 3.0f ) {
+        RecTime += Time::DeltaTime ( ) * 3.0f;
+        RecUITEXTURE->Bind ( );
+    }
+    else if ( RecTime > 3.0f  && RecTime <= 6.0f) {
+        RecTime += Time::DeltaTime ( ) * 3.0f;
+    }
+    else {
+        RecTime = 0.0f;
+    }
+
+
+    m_camerauiProgram->SetUniform ( "tex" , 0 );
+    m_plane->Draw ( m_camerauiProgram.get ( ) );
     // 블렌딩 비활성화 (다른 렌더링에 영향 없도록)
     glDisable ( GL_BLEND );
 
@@ -345,6 +359,8 @@ bool Context::Initialize ( )
     m_plane = Mesh::CreatePlane ( );
     auto CameraUi = Image::Load ( "./model/UI/Camera.png" , false );
     CameraUITEXTURE = Texture::CreateFromImage ( CameraUi.get());
+    CameraUi = Image::Load ( "./model/UI/CameraRec.png" , false );
+    RecUITEXTURE = Texture::CreateFromImage ( CameraUi.get ( ) );
     auto SplitUi = Image::Load ( "./model/UI/SplitUI.png" , false );
     SplitUITEXTURE = Texture::CreateFromImage ( SplitUi.get ( ) );
 

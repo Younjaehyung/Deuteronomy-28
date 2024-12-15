@@ -38,7 +38,7 @@ inline void SoundManager::CreateSoundlist ( ) {
 	Channel.emplace ( "DoorOpen" , CreateSound ( "sound/Deut_Sound/Duet_DoorOpen.mp3" , 0 ) );
 	Channel.emplace ( "DoorSlam" , CreateSound ( "sound/Deut_Sound/Deut_DoorSlam.mp3" , 0 ) );
 	Channel.emplace ( "Die" , CreateSound ( "sound/Deut_Sound/Duet_Die_Noise.mp3" , 0 ) );
-	Channel.emplace ( "WhiteNoise" , CreateSound ( "sound/Deut_Sound/Deut_WhiteNoise.mp3" , 1 ) );
+	Channel.emplace ( "WhiteNoise" , CreateSound ( "sound/Deut_Sound/Deut_WhiteNoise.mp3" , 0 ) );
 }
 
 void SoundManager::Update ( )
