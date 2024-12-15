@@ -181,6 +181,7 @@ void Context :: Update ( ) {
         Corridor7->SetBox ( glm::vec3 ( 4.0f ) , "Escape" );
         Corridor7->SetobjectID ( eLayerType::Item );
         obj.push_back ( Corridor7 );
+        object1->notifyFromMap ( player->GetPos() , 1 );
     }
 
     CollisionManager::getInstance ( ).Update (obj );    //충돌체
@@ -349,6 +350,8 @@ void Context::MouseButton ( int button , int action , double x , double y ) {
             CameraManager::getInstance ().ClickCamera ( )  = false;
         }
     }
+    //추가
+    CameraManager::getInstance ( ).ClickCamera ( ) = true;
 }
 
 

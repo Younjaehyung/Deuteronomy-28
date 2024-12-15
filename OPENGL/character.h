@@ -78,7 +78,7 @@ public:
 			}
 			else if ( phase == Phase::Angry && chase == 0 ) {
 				phase = Phase::Mad;
-				action = Action::running;
+				action = Action::scream;
 				status = Status::start;
 				chase = 1;
 				std::cout << "ANGRY LIGHT EVENT!" << std::endl;
@@ -86,6 +86,9 @@ public:
 		}
 		else if ( alert == 1 ) {
 			phase = Phase::Crazy;
+			action = Action::scream;
+			status = Status::start;
+			chase = 1;
 		}
 
 	}

@@ -69,7 +69,8 @@ void main() {
 
     // 기본 색상 (예: 빨강)으로 설정하여 텍스처 로딩 문제 확인
    
- 
+    vec3 ambientLight = vec3(0.1,0.1,0.0) * texColor; 
+    result += ambientLight;
 
     for (int i = 0; i < numLights; ++i) {
         Light light = lights[i];
@@ -123,5 +124,7 @@ void main() {
     }
     //result = vec3(result.x/numLights,result.y/numLights,result.z/numLights);
     //fragColor = vec4(texture(shadowMaps[0], fragCoord.xy).rrr, 1.0);
+
+
     fragColor = vec4(result, 1.0);
 }
