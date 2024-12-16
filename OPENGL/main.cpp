@@ -91,13 +91,12 @@ int main ( )
     //glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     //glfw userpointer 저장
     glfwSetWindowUserPointer ( window , context );
-    
+
     //윈도우창 사이즈 설정
-    OnFramebufferSizeChange ( window , 640 , 480 );
+    OnFramebufferSizeChange ( window , mode->width , mode->height );
     glfwSetFramebufferSizeCallback ( window , OnFramebufferSizeChange );
-    std::cout << "나는 정왕의 오승원이다" << std::endl;
-    std::cout << "나는 정왕의 오승원이다" << std::endl;
-    std::cout << "나는 정왕의 오승원이다" << std::endl;
+
+
     //키보드, 마우스 콜백함수 설정
     glfwSetKeyCallback ( window , key_pressed );
     glfwSetCursorPosCallback ( window , OnCursorPos );

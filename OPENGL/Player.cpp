@@ -208,12 +208,14 @@ void Player::Input ( GLFWwindow* window ) {
 
 	if ( input::GetKeyDown ( eKeyCode::V ) ) {
 		Seek_switch = !Seek_switch;
-		CameraManager::getInstance ( ).ClickCamera ( ) = !CameraManager::getInstance ( ).ClickCamera ( );
+		//CameraManager::getInstance ( ).ClickCamera ( ) = !CameraManager::getInstance ( ).ClickCamera ( );
 		if ( Seek_switch ) {
 			SoundManager::getInstance ( ).GetSoundID ( "WhiteNoise" )->ReplaySound ( 0.1f );
+			CameraManager::getInstance ( ).ClickCamera ( ) = false;
 		}
 		else {
 			SoundManager::getInstance ( ).GetSoundID ( "WhiteNoise" )->PauseSound ( );
+			CameraManager::getInstance ( ).ClickCamera ( ) = true;
 		}
 		
 		
@@ -290,6 +292,9 @@ void Player::Input ( GLFWwindow* window ) {
 	std::cout << "POS1" << std::endl;
 	if ( now.x < 0 || now.y < 0 ) {
 
+	}
+	else if (now.x >39 || now.y > 39 ) {
+		Pos = _pos;
 	}
 	else if ( grid[ now.y ][now.x] != 0 && grid[ now.y ][ now.x ] != 3 ) {
 		Pos = _pos;
