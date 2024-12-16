@@ -1,6 +1,7 @@
 ﻿#include "Gameintro.h"
 #include "Time.h"
 #include "input.h"
+#include "Sound.h"
 void Gameintro::Update ( )
 {
     if ( status == 0 ) {
@@ -108,7 +109,7 @@ bool Gameintro::Initialize ( )
 
     }
 
-
+    SoundManager::getInstance ( ).GetSoundID ( "DoorSlam" )->ReplaySound ( 0.7f );
 
     return true;
 }

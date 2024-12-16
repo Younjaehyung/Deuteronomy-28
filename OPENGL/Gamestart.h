@@ -6,8 +6,11 @@ class Gamestart :public Scene
 {
 	ModelPtr m_model;
 	MeshUPtr m_plane;
-	TextureUPtr MainUITEXTURE;
+	TextureUPtr Main1UITEXTURE;
 	TextureUPtr MainStartTEXTURE;
+	TextureUPtr Main2UITEXTURE;
+	TextureUPtr Main3UITEXTURE;
+	TextureUPtr Main4UITEXTURE;
 
 	bool StartEngine{ false };
 
