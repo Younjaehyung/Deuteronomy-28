@@ -471,7 +471,7 @@ bool Context::Initialize ( )
     item3 = new Item ( glm::vec3 ( 69.0f , 0.0f , -115.0f ) );
     item4 = new Item ( glm::vec3 ( -15.0f , 0.0f , -54.0f ) );
     Door1 = new Door ( glm::vec3 ( -3.0f , 0.0f , -52.0f ) );
-    Door2 = new Door ( glm::vec3 ( 116.0f , 0.0f , -94.0f ) );
+    Door2 = new Door ( glm::vec3 ( 116.0f , 0.0f , -96.0f ) );
     object1 = new character( glm::vec3(84.0f , 0.0f , -10.0f) );
     object2 = new character( glm::vec3 (94.0f , 0.0f , -60.0f ) );
     map = new Map(object1);

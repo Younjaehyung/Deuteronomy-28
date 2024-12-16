@@ -124,7 +124,9 @@ void main() {
     }
     //result = vec3(result.x/numLights,result.y/numLights,result.z/numLights);
     //fragColor = vec4(texture(shadowMaps[0], fragCoord.xy).rrr, 1.0);
+    float alpha = texture(material.diffuse, fs_in.texCoord).a;
+    if(alpha <0.01)
+        discard;
 
-
-    fragColor = vec4(result, 1.0);
+    fragColor = vec4(result,alpha );
 }

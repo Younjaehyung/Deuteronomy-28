@@ -13,16 +13,16 @@ void Gamestart::Render (  )
     m_camerauiProgram->Use ( );
     m_camerauiProgram->SetUniform ( "transform" , glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 2.0f , 1.0f ) ) );
     MainUITEXTURE->Bind ( );
-    //if ( startTime <= 1.0f ) {
-    //    startTime += Time::DeltaTime ( ) * 1.0f;
-    //    MainStartTEXTURE->Bind ( );
-    //}
-    //else if ( startTime > 1.0f && startTime <= 2.0f ) {
-    //    startTime += Time::DeltaTime ( ) * 1.0f;
-    //}
-    //else {
-    //    startTime = 0.0f;
-    //}
+    if ( startTime <= 2.0f ) {
+        startTime += Time::DeltaTime ( ) * 1.0f;
+        MainStartTEXTURE->Bind ( );
+    }
+    else if ( startTime > 2.0f && startTime <= 4.0f ) {
+        startTime += Time::DeltaTime ( ) * 1.0f;
+    }
+    else {
+        startTime = 0.0f;
+    }
 
     m_camerauiProgram->SetUniform ( "tex" , 0 );
 
