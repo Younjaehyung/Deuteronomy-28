@@ -30,7 +30,7 @@ void Gameintro::Render ( )
         //glDisable(GL_DEPTH_TEST);
 
         m_camerauiProgram->Use ( );
-        m_camerauiProgram->SetUniform ( "transform" , mapCamera->GetTransform ( ) * glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 (200.0f , 100.0f , 100.0f ) ) );
+        m_camerauiProgram->SetUniform ( "transform" , mapCamera->GetTransform ( ) * glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3(0.0f,8.f,0.0f) )* glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 5.0f ) , glm::vec3 ( 1.0f , 0.0f , 0.0f ) )* glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 (300.0f , 150.0f , 100.0f ) ) );
         MainUITEXTURE->Bind ( );
         m_camerauiProgram->SetUniform ( "tex" , 0 );
         
@@ -47,14 +47,12 @@ void Gameintro::Render ( )
 
         m_simpleProgram->SetUniform ( "transform" , mapCamera->GetTransform ( ) * 
             glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) )*
-            glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 5.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) ) *
-            glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 90.0f ) , glm::vec3 ( 1.0f , 0.0f , 0.0f ) )
-               *glm::scale ( glm::mat4 ( 1.0f ) ,glm::vec3(1000.0f,1000.0f,1000.0f) ) ); 
+            glm::rotate(glm::mat4(1.0f),glm::radians(90.0f),glm::vec3(0.0f,1.0f,0.0f))*
+            glm::scale ( glm::mat4 ( 1.0f ) ,glm::vec3(5.0f,5.0f,5.0f) ) ); 
         m_simpleProgram->SetUniform ( "modelTransform" , 
             glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3(0.0f,-3.0f,0.0f) )*
-            glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 5.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) ) *
-            glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 90.0f ) , glm::vec3 ( 1.0f , 0.0f , 0.0f ) )
-               * glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 1000.0f , 1000.0f , 1000.0f ) ) );
+            glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( 90.0f ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) ) *
+            glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 5.0f , 5.0f , 5.0f ) ) );
         
         ground->Draw ( m_simpleProgram.get() );
     }
@@ -69,22 +67,23 @@ void Gameintro::Render ( )
 bool Gameintro::Initialize ( )
 {
     m_plane = Mesh::CreatePlane ( );
-    auto MainUI = Image::Load ( "./model/UI/Title.png" , true );
+    auto MainUI = Image::Load ( "./model/UI/Intro.jpg" , true );
     MainUITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
-    ground = Mesh::CreatePlane ( );
+    ground = Model::Load ( "./model/IntroMap.glb" );
     m_car = Model::Load ( "./model/Car.glb" );
     car->SetPos ( glm::vec3(0.f , -4.0f , -50.0f) );
 
     mapCamera = new Camera;
-    mapCamera->SetCamera ( glm::vec3 ( 0.0f , 0.0f , 149.0f ), glm::vec3 ( 0.0f , 0.0f , 0.0f ),glm::vec3(0.0f,1.0f,0.0f));
+    mapCamera->SetCamera ( glm::vec3 ( 0.0f , 1.0f , 149.0f ), glm::vec3 ( 0.0f , 0.0f , 0.0f ),glm::vec3(0.0f,1.0f,0.0f));
 
-    m_simpleProgram = Program::Create ( "./shader/normal.vs" , "./shader/normal.fs" );
+    m_simpleProgram = Program::Create ( "./shader/normala.vs" , "./shader/normala.fs" );
     if ( !m_simpleProgram ) {
         std::cerr << "program UserSetError id : " << m_simpleProgram->Get ( ) << std::endl;
         return false;
 
 
     }
+
 
     m_program = Program::Create ( "./shader/lighting.vs" , "./shader/lighting.fs" );
     if ( !m_program ) {

@@ -256,6 +256,8 @@
     <None Include="Shader\lighting_shadow.vs" />
     <None Include="Shader\normal.fs" />
     <None Include="Shader\normal.vs" />
+    <None Include="Shader\normala.fs" />
+    <None Include="Shader\normala.vs" />
     <None Include="Shader\simple.fs" />
     <None Include="Shader\simple.vs" />
     <None Include="Shader\simple_animation.fs" />

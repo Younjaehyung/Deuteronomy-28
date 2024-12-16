@@ -16,7 +16,7 @@ class Gameintro : public Scene
 		glm::vec3 specular;  //반사광의 색상
 	};
 
-	MeshUPtr ground;
+	ModelPtr ground;
 	ModelPtr m_model;
 	ModelPtr m_car;
 	MeshUPtr m_plane;
@@ -36,6 +36,7 @@ class Gameintro : public Scene
 	int soundToggle = 0;
 	int StartGame = 0;
 	int status = 0;
+	
 public:
 	Gameintro ( ) {
 		typeID = 0;

@@ -445,5 +445,11 @@
     <None Include="Shader\normal.vs">
       <Filter>shader</Filter>
     </None>
+    <None Include="Shader\normala.fs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="Shader\normala.vs">
+      <Filter>shader</Filter>
+    </None>
   </ItemGroup>
 </Project>
