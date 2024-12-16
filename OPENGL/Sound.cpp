@@ -44,6 +44,7 @@ inline void SoundManager::CreateSoundlist ( ) {
 	Channel.emplace ( "Monster_Eat" , CreateSound ( "sound/Deut_Sound/Deut_Eat.mp3" , 0 ) );
 	Channel.emplace ( "Camera" , CreateSound ( "sound/Deut_Sound/Deut_Camera.mp3" , 0 ) );
 	Channel.emplace ( "Player_Die" , CreateSound ( "sound/Deut_Sound/Duet_PlayerDie.mp3" , 0 ) );
+	Channel.emplace ( "Run" , CreateSound ( "sound/Deut_Sound/DUET_Run.mp3" , 1 ) );
 }
 
 void SoundManager::Update ( )

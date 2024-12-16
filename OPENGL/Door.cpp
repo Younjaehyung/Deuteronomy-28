@@ -22,7 +22,7 @@ void Door::Update ( ) {
     }
     else if ( ItemCount == 2 ) {
         if ( status == 0 ) {
-            SoundManager::getInstance ( ).GetSoundID ( "DoorSlam" )->ReplaySound (0.7f);
+            SoundManager::getInstance ( ).GetSoundID ( "DoorSlam" )->ReplaySound (0.5f);
             status = 1;
         }
         if ( DoorRotatef <= 0.0f ) {
