@@ -26,7 +26,7 @@ void Door::Update ( ) {
             status = 1;
         }
         if ( DoorRotatef <= 0.0f ) {
-            DoorRotatef += Time::DeltaTime ( ) * 30.0f; // 초당 50도 회전
+            DoorRotatef += Time::DeltaTime ( ) * 60.0f; // 초당 50도 회전
             // 원점에서 회전
             DoorRotate = glm::rotate ( glm::mat4 ( 1.0f ) , glm::radians ( DoorRotatef ) , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
 

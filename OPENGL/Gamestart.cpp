@@ -4,7 +4,7 @@
 void Gamestart::Update ( )
 {
     if ( soundToggle == 0 ) {
-        SoundManager::getInstance ( ).GetSoundID ( "Intro" )->ReplaySound ( 0.2 );
+        SoundManager::getInstance ( ).GetSoundID ( "Intro" )->ReplaySound ( 0.6 );
         soundToggle = 1;
 
     }
@@ -16,13 +16,25 @@ void Gamestart::Render (  )
 
     m_camerauiProgram->Use ( );
     m_camerauiProgram->SetUniform ( "transform" , glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 2.0f , 1.0f ) ) );
-    MainUITEXTURE->Bind ( );
-    if ( startTime <= 2.0f ) {
-        startTime += Time::DeltaTime ( ) * 1.0f;
-        MainStartTEXTURE->Bind ( );
+
+
+
+
+    if ( startTime <= 0.1f ) {
+        startTime += Time::DeltaTime ( ) * 0.7f;
+        Main1UITEXTURE->Bind ( );
     }
-    else if ( startTime > 2.0f && startTime <= 4.0f ) {
-        startTime += Time::DeltaTime ( ) * 1.0f;
+    else if ( startTime > 0.1f && startTime <= 0.2f ) {
+        startTime += Time::DeltaTime ( ) * 0.7f;
+        Main2UITEXTURE->Bind ( );
+    }
+    else if ( startTime > 0.2f && startTime <= 0.3f ) {
+        startTime += Time::DeltaTime ( ) * 0.7f;
+        Main3UITEXTURE->Bind ( );
+    }
+    else if ( startTime > 0.3f && startTime <= 0.4f ) {
+        startTime += Time::DeltaTime ( ) * 0.7f;
+        Main4UITEXTURE->Bind ( );
     }
     else {
         startTime = 0.0f;
@@ -46,10 +58,16 @@ void Gamestart::Render (  )
 bool Gamestart::Initialize ( )
 {
 	m_plane = Mesh::CreatePlane ( );
-    auto MainUI = Image::Load ( "./model/UI/Title.png" , true );
-    MainUITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
-    MainUI = Image::Load ( "./model/UI/TitleStart.png" , true );
-    MainStartTEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
+    auto MainUI = Image::Load ( "./model/UI/Title_1.png" , true );
+    Main1UITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
+    MainUI = Image::Load ( "./model/UI/Title_2.png" , true );
+    Main2UITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
+    MainUI = Image::Load ( "./model/UI/Title_3.png" , true );
+    Main3UITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
+    MainUI = Image::Load ( "./model/UI/Title_4.png" , true );
+    Main4UITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
+    //MainUI = Image::Load ( "./model/UI/TitleStart.png" , true );
+    //MainStartTEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
     
     m_simpleProgram = Program::Create ( "./shader/simple.vs" , "./shader/simple.fs" );
     if ( !m_simpleProgram ) {
