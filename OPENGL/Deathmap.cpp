@@ -12,9 +12,10 @@ void Deathmap::Update ( )
         auto cameraPos = mapCamera->GetPos ( );
         mapCamera->GetPos ( ) = { cameraPos.x-0.2f,cameraPos.y-3.0f,cameraPos.z };
         if ( SoundToggle == 0 ) {
+            SoundManager::getInstance ( ).GetSoundID ( "Player_Die" )->ReplaySound ( 1.5f );
+            SoundManager::getInstance ( ).GetSoundID ( "Roar" )->ReplaySound (0.7f);
+            SoundManager::getInstance ( ).GetSoundID ( "Monster_Eat" )->ReplaySound ( 0.9f );
             
-            SoundManager::getInstance ( ).GetSoundID ( "Roar" )->ReplaySound ( );
-            SoundManager::getInstance ( ).GetSoundID ( "Monster_Eat" )->ReplaySound ( 0.9 );
             SoundToggle = 1;
         }
 
