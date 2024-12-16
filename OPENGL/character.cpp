@@ -605,6 +605,7 @@ void character::Status_Machine ( )
 				animator->PlayAnimation ( sceramAnim );
 				status = Status::running;
 				time = 0.0f;
+				SoundManager::getInstance ( ).GetSoundID ( "Chase2" )->PauseSound ( );
 				SoundManager::getInstance ( ).GetSoundID ( "Roar" )->ReplaySound ( );
 			}
 			else if ( status == Status::running ) {

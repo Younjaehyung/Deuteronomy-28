@@ -18,7 +18,7 @@
 void Context::Render ( ) {
 
     std::cout << "PlayMode" << std::endl;
-    IMGUI_USER ( );
+    //IMGUI_USER ( );
     std::cout << "PlayMode" << std::endl;
     glEnable ( GL_DEPTH_TEST ); // DEPTH Buffer 사용 설정
     
@@ -92,7 +92,7 @@ void Context::Render ( ) {
         //m_assimp_Program->Use ( );
         MainDraw ( CameraManager::getInstance ( ).GetCameraPos ( ) , CameraManager::getInstance ( ).Camera_transform ( ) );
 
-        SoundManager::getInstance ( ).GetSoundID ( "WhiteNoise" )->ReplaySound (0.1f );
+        
         glViewport ( m_width / 5 *2 , 0 , m_width / 5 * 3 , m_height );
         MainDraw ( CameraManager::getInstance ( ).GetCamera2Pos ( ) , CameraManager::getInstance ( ).Camera2_transform ( ) );
         SplitUIDraw ( );
@@ -109,7 +109,7 @@ void Context::Render ( ) {
     }
     else {
         glViewport ( 0 , 0 , m_width , m_height );
-        SoundManager::getInstance ( ).GetSoundID ( "WhiteNoise" )->PauseSound ();
+        
 
         m_framebuffer->Bind ( );    //사용자정의프레임버퍼 BIND
         //CollisionManager::getInstance ( ).Render ( );   //맵 그리드

@@ -18,7 +18,7 @@ void Item::Update ( ) {
 void Item::Render ( const Program* program , glm::mat4 _cameraTransform ) {
     if ( model ) {
         program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos ) * itemRotate );
-        program->SetUniform ( "transform" , CameraManager::getInstance ( ).Camera_transform ( ) *
+        program->SetUniform ( "transform" , _cameraTransform *
                                           glm::translate ( glm::mat4 ( 1.0f ) , Pos ) * itemRotate );
         LightManager::getInstance ( ).GetLightSetting ( program );
         model->Draw ( program );
@@ -28,7 +28,7 @@ void Item::Render ( const Program* program , glm::mat4 _cameraTransform ) {
 void Item::Render_2pass ( const Program* program, glm::mat4 _cameraTransform ) {
     if ( model ) {
         program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , Pos )* itemRotate );
-        program->SetUniform ( "transform" , CameraManager::getInstance ( ).Camera_transform ( ) *
+        program->SetUniform ( "transform" , _cameraTransform *
                                           glm::translate ( glm::mat4 ( 1.0f ) , Pos ) * itemRotate );
         LightManager::getInstance ( ).GetLightSetting ( program );
         model->Draw ( program );

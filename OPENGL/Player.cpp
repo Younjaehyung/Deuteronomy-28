@@ -209,6 +209,14 @@ void Player::Input ( GLFWwindow* window ) {
 	if ( input::GetKeyDown ( eKeyCode::V ) ) {
 		Seek_switch = !Seek_switch;
 		CameraManager::getInstance ( ).ClickCamera ( ) = !CameraManager::getInstance ( ).ClickCamera ( );
+		if ( Seek_switch ) {
+			SoundManager::getInstance ( ).GetSoundID ( "WhiteNoise" )->ReplaySound ( 0.1f );
+		}
+		else {
+			SoundManager::getInstance ( ).GetSoundID ( "WhiteNoise" )->PauseSound ( );
+		}
+		
+		
 	}
 	if ( Seek_switch == 1 )return;
 
