@@ -2,6 +2,8 @@
 
 void gameover::Update ( )
 {
+
+
 }
 
 bool gameover::Initialize ( )
@@ -43,6 +45,6 @@ void gameover::FixedUpdate ( )
 
 void gameover::Render ( )
 {
-	m_program->Use ( );
+	//m_program->Use ( );
 
 }

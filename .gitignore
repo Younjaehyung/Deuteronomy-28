@@ -446,6 +446,7 @@ FodyWeavers.xsd
 
 !OPENGL/model/**/*.obj
 !OPENGL/include/fmod/**
+Game/**
 
 # Local History for Visual Studio Code
 .history/

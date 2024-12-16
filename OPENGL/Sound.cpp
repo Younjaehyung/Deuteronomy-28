@@ -38,6 +38,7 @@ inline void SoundManager::CreateSoundlist ( ) {
 	Channel.emplace ( "DoorOpen" , CreateSound ( "sound/Deut_Sound/Duet_DoorOpen.mp3" , 0 ) );
 	Channel.emplace ( "DoorSlam" , CreateSound ( "sound/Deut_Sound/Deut_Slam.mp3" , 0 ) );
 	Channel.emplace ( "Die" , CreateSound ( "sound/Deut_Sound/Duet_Die_Noise.mp3" , 0 ) );
+	Channel.emplace ( "Intro" , CreateSound ( "sound/Deut_Sound/DUET_GoingHorror.wav" , 0 ) );
 	Channel.emplace ( "WhiteNoise" , CreateSound ( "sound/Deut_Sound/Deut_WhiteNoise.mp3" , 0 ) );
 	Channel.emplace ( "Car" , CreateSound ( "sound/Deut_Sound/Deut_Car.mp3" , 0 ) );
 	Channel.emplace ( "Monster_Eat" , CreateSound ( "sound/Deut_Sound/Deut_Eat.mp3" , 0 ) );
@@ -122,6 +123,7 @@ void Sounds::PauseSound ( ) {
 		//Channel->setPaused ( !isPaused ); // 현재 상태에 따라 재생/일시 정지 전환
 	}
 }
+
 
 
 void Sounds::ReplaySound (float volume ) {

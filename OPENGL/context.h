@@ -43,7 +43,7 @@ public:
 	void GetItemCount ( ) {
 
 	}
-
+	virtual bool Reset ( );
 	virtual void Reshape ( int width , int height );
 	void MainDraw ( glm::vec3 _pos , glm::mat4 _cameraTransform );
 	void FrameBufferDraw ( );
@@ -62,6 +62,25 @@ public:
 			if ( ( *it )->GetDestroy ( ) ) {
 				delete* it;
 				
+				it = obj.erase ( it );
+			}
+			else {
+				++it;
+			}
+		}
+		std::cout << "나는 삭제왕 오승원이다2" << std::endl;
+	}
+	void GameobjectDeleteAll ( ) {
+		std::cout << "나는 삭제왕 오승원이다1" << std::endl;
+		for ( auto it = obj.begin ( ); it != obj.end ( );) {
+			if ( ( *it )->name == "map" ) {
+				++it;
+				continue;
+			}
+
+			if ( ( *it ) ) {
+				delete* it;
+
 				it = obj.erase ( it );
 			}
 			else {

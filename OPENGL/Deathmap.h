@@ -6,6 +6,7 @@
 #include "object.h"
 #include "LightMass.h"
 #include "Scene.h"
+#include "input.h"
 
 class Deathmap :public Scene
 {
@@ -17,8 +18,10 @@ class Deathmap :public Scene
 	ModelPtr _monster;
 	Model* m_monster;
 	Animation* monsterAnim;
+	Animation* monster2Anim;
 	UBOBUFFERUPtr MUBO;
 	Animator* Manimator;
+	Animator* Manima2tor;
 
 	Model* m_player;
 	ModelPtr _player;
@@ -32,7 +35,7 @@ class Deathmap :public Scene
 	float m_width=0.0f;
 	float m_height=0.0f;
 	float nowTime=0.0f;
-	float animationDuration = 1.0f; // 애니메이션 지속 시간 (초)
+	float animationDuration = 1.5f; // 애니메이션 지속 시간 (초)
 	float elapsedTime = 0.0f; // 경과 시간
 	int SoundToggle = 0;
 
@@ -64,8 +67,11 @@ class Deathmap :public Scene
 	ProgramUPtr m_textureProgram;
 	ProgramUPtr m_lightingProgram;
 	ProgramUPtr m_AnimationProgram;
-
+	
+	int restart = 0;
 	int status = 0;
+	int attack = 0;
+	float attack_time = 0.0f;
 public:
 	Deathmap () {
 		typeID = 0;
@@ -130,7 +136,7 @@ public:
 		auto DIE = Image::Load ( "./model/UI/DIe.png" , true );
 		DIETEXTURE = Texture::CreateFromImage ( DIE.get ( ) );
 		light = new LightMass;
-		light->SetLight ( glm::vec3 ( 9.0f , 12.0f , -10.0f ) , glm::normalize(glm::vec3(-9.0f,-1.0f,10.0f)) , glm::vec2 ( 30.0f , 15.0f ) );
+		light->SetLight ( glm::vec3 ( 10.0f , 12.0f , -16.0f ) , glm::normalize(glm::vec3(-9.0f,-1.0f,10.0f)) , glm::vec2 ( 30.0f , 15.0f ) );
 
 		m_map = Model::Load ("./model/DeathBox.glb" );
 		PUBO = UBOBUFFER::Create ( 200 );
@@ -142,8 +148,9 @@ public:
 		m_player = _player.get ( );
 
 		monsterAnim = new Animation ("./model/HULK1/HulkBBoBBo.glb" , m_monster );
+		monster2Anim = new Animation ( "./model/HULK1/Hulk_Death.glb" , m_monster );
 		playerAnim = new Animation ( "./model/SibalGLB/SibalBbobbo.glb" , m_player );
-
+		Manima2tor = new Animator ( monster2Anim );
 		Manimator = new Animator ( monsterAnim );
 		Panimator = new Animator ( playerAnim );
 		mapCamera = new Camera;
@@ -172,8 +179,21 @@ public:
 
 	}
 
+	void ProcessInput ( GLFWwindow* window )
+	{
+
+		if (input::GetKeyDown ( eKeyCode::SPACE )) {
+			restart = 1;
+		}
+	}
+
 	virtual int Check ( ) {
-		return false;
+		if (restart) {
+			restart = 0;
+			return 1;
+		}
+
+		return 0;
 	}
 
 };

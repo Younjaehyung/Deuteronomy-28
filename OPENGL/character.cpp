@@ -158,7 +158,7 @@ bool character::DynamicAlgorithm ( )
 
 	}
 	else {
-		float speed = 20.0f; // 이동 속도
+		float speed = 30.0f; // 이동 속도
 		float deltaTime = Time::DeltaTime ( );
 		float rotationSpeed = 5.0f; // 회전 속도
 
@@ -242,7 +242,7 @@ bool character::StaticAlgorithm ( glm::ivec2 _path )
 
 	}
 	else {
-		float speed = 12.0f; // 이동 속도
+		float speed = 14.0f; // 이동 속도
 		float deltaTime = Time::DeltaTime ( );
 		float rotationSpeed = 5.0f; // 회전 속도
 

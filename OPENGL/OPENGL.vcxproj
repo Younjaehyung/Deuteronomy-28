@@ -149,6 +149,7 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Gameobject.cpp" />
     <ClCompile Include="gameover.cpp" />
+    <ClCompile Include="GameResource.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="framebuffer.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="gameover.h" />
+    <ClInclude Include="GameResource.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="include\assimp-master\include\assimp\defs.h" />
     <ClInclude Include="include\assimp-master\include\assimp\Importer.hpp" />

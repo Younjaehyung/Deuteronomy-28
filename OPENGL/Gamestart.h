@@ -13,7 +13,7 @@ class Gamestart :public Scene
 	TextureUPtr Main4UITEXTURE;
 
 	bool StartEngine{ false };
-
+	int soundToggle = 0;
 	Camera* mapCamera;
 	std::vector<LightMass*> Visullight;
 

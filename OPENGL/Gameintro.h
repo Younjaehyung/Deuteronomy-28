@@ -33,6 +33,7 @@ class Gameintro : public Scene
 
 	Object* car;
 
+	int soundToggle = 0;
 	int StartGame = 0;
 	int status = 0;
 	

@@ -1,9 +1,13 @@
 ﻿#include "Gamestart.h"
 #include "Time.h"
-
+#include "Sound.h"
 void Gamestart::Update ( )
 {
-    
+    if ( soundToggle == 0 ) {
+        SoundManager::getInstance ( ).GetSoundID ( "Intro" )->ReplaySound ( 0.2 );
+        soundToggle = 1;
+
+    }
 }
 
 void Gamestart::Render (  )

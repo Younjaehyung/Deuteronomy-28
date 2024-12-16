@@ -12,7 +12,7 @@ void Gameintro::Update ( )
     else if ( status == 1 ) {
 
     }
-   
+    
 
 }
 

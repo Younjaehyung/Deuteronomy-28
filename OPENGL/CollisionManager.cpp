@@ -62,7 +62,7 @@ bool CollisionManager::Check_Collider (const std::string& name1, const std::stri
 void CollisionManager::Initialize ( ){	
 
 
-	world_coord_init ( );
+	//world_coord_init ( );
 	InitializeCollisionMatrix ( );
 }
 
