@@ -12,7 +12,7 @@ private:
 	Camera* using_Camera2 = nullptr;
 
 
-	bool m_cameraControl = false;
+	bool m_cameraControl = true;
 	bool m_camera2Control = false;
 
 public:

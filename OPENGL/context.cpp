@@ -342,9 +342,9 @@ void Context::SplitUIDraw ( )
 
 
 void Context::MouseButton ( int button , int action , double x , double y ) {
-    if ( button == GLFW_MOUSE_BUTTON_RIGHT ) {
+    /*if ( button == GLFW_MOUSE_BUTTON_RIGHT ) {
         if ( action == GLFW_PRESS ) {
-            // 마우스 조작 시작 시점에 현재 마우스 커서 위치 저장
+             //마우스 조작 시작 시점에 현재 마우스 커서 위치 저장
             m_prevMousePos = glm::vec2 ( ( float ) x , ( float ) y );
             
             CameraManager::getInstance().ClickCamera ( ) = true;
@@ -353,9 +353,9 @@ void Context::MouseButton ( int button , int action , double x , double y ) {
            
             CameraManager::getInstance ().ClickCamera ( )  = false;
         }
-    }
+    }*/
     //추가
-    CameraManager::getInstance ( ).ClickCamera ( ) = true;
+    //CameraManager::getInstance ( ).ClickCamera ( ) = true;
 }
 
 

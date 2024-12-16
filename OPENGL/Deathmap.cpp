@@ -54,7 +54,10 @@ void Deathmap::Update ( )
         if ( elapsedTime >= animationDuration + 3.0f ) {
             status = 1;
             attack = 2;
-            SoundManager::getInstance ( ).GetSoundID ( "Die" )->ReplaySound ( 0.8 );
+
+            SoundManager::getInstance ( ).StopAllChannels ( );
+            SoundManager::getInstance ( ).GetSoundID ( "Die" )->ReplaySound ( 0.6 );
+
         }
         
     }
