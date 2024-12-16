@@ -1,6 +1,7 @@
 ﻿#include "Gameintro.h"
 #include "Time.h"
 #include "input.h"
+#include "Sound.h"
 void Gameintro::Update ( )
 {
     if ( status == 0 ) {
@@ -11,7 +12,7 @@ void Gameintro::Update ( )
     else if ( status == 1 ) {
 
     }
-   
+    
 
 }
 

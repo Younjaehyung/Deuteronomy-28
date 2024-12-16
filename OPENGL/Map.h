@@ -22,16 +22,16 @@ class Map :public Object
 {
 public:
 
-	Map ( character* _monster ) {
+	Map ( ) {
 		typeID = 0;
-		monster = _monster;
+		name = "map";
 	}
 
 	virtual void Update ( );
 	virtual void Render ( const Program* program , glm::mat4 _cameraTransform );
 	virtual void Initialize ( const std::string& strName );
 	virtual void RenderShadow ( glm::mat4 lightView , const Program* program );
-	void ObjectInitialize ( std::vector<Object*>& gameobj) {
+	void ObjectInitialize ( std::vector<Object*>& gameobj , character* _monster ) {
 		for ( auto& obj : sightLight ) {
 			for ( auto& _obj : obj->CollisionLight ) {
 				gameobj.push_back ( _obj );
@@ -42,7 +42,7 @@ public:
 			gameobj.push_back ( obj );
 			
 		}
-
+		monster = _monster;
 	}
 
 private:

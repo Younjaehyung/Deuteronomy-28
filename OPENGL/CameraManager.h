@@ -21,6 +21,12 @@ public:
 		return instance;
 	}
 
+	void ResetCamera ( ) {
+		Cameras.clear ( );
+		m_cameraControl = false;
+		m_camera2Control = false;
+	}
+
 	bool& ClickCamera ( ) {
 
 		//return using_Camera->cameraControl();

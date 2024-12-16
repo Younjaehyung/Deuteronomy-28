@@ -12,6 +12,8 @@ class gameover :public Scene
 	ProgramUPtr m_simpleProgram;
 	ProgramUPtr m_simpleAnimationProgram;
 
+	int end = 0;
+
 	Map* map;
 	Player* player;
 	character* object1;		//Neddlehead

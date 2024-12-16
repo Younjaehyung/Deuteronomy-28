@@ -66,7 +66,10 @@ public:
 
 	void world_coord_render ( );
 	void world_coord_init ( );
-
+	void ResetCollision ( ) {
+		gameend = 0;
+		collider.clear ( );
+	}
 
 
 private:

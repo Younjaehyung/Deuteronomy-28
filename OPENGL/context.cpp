@@ -473,15 +473,15 @@ bool Context::Initialize ( )
     Door1 = new Door ( glm::vec3 ( -3.0f , 0.0f , -52.0f ) );
     Door2 = new Door ( glm::vec3 ( 116.0f , 0.0f , -94.0f ) );
     object1 = new character( glm::vec3(84.0f , 0.0f , -10.0f) );
-    object2 = new character( glm::vec3 (94.0f , 0.0f , -60.0f ) );
-    map = new Map(object1);
+    //object2 = new character( glm::vec3 (94.0f , 0.0f , -60.0f ) );
+    map = new Map();
 
    
     map->Initialize ("./model/NewNewNew.glb" );
 
     object1->Initialize ( "./model/HULK1/HulkIdle.glb" );
 
-    object2->Initialize ( "./model/BagMan2.glb" );
+    //->Initialize ( "./model/BagMan2.glb" );
     item0->Initialize ( "./model/Cross.glb" );
     item1->Initialize ( "./model/Cross.glb" );
     item2->Initialize ( "./model/Cross.glb" );
@@ -512,7 +512,7 @@ bool Context::Initialize ( )
     obj.push_back ( Door2 );
     obj.push_back ( map );
     obj.push_back ( player );
-    map->ObjectInitialize ( obj );
+    map->ObjectInitialize ( obj, object1 );
     glDisable ( GL_STENCIL_TEST );
     glClearColor ( 0.0f , 0.0f , 0.0f , 1.0f );
     //CameraManager::getInstance ( ).ClickCamera ( ) = true;
@@ -521,7 +521,67 @@ bool Context::Initialize ( )
 
 
 
+bool Context::Reset ( )
+{
+    GameobjectDeleteAll ( );
 
+
+
+    mainCamera = new Camera;
+    player = new Player;
+
+    item0 = new Item ( glm::vec3 ( 66.0f , 0.0f , -54.0f ) );
+    item1 = new Item ( glm::vec3 ( 41.0f , 0.0f , -7.5f ) );
+    item2 = new Item ( glm::vec3 ( 112.0f , 0.0f , -66.0f ) );
+    item3 = new Item ( glm::vec3 ( 69.0f , 0.0f , -115.0f ) );
+    item4 = new Item ( glm::vec3 ( -15.0f , 0.0f , -54.0f ) );
+    Door1 = new Door ( glm::vec3 ( -3.0f , 0.0f , -52.0f ) );
+    Door2 = new Door ( glm::vec3 ( 116.0f , 0.0f , -94.0f ) );
+    object1 = new character ( glm::vec3 ( 84.0f , 0.0f , -10.0f ) );
+    //object2 = new character ( glm::vec3 ( 94.0f , 0.0f , -60.0f ) );
+ 
+
+
+    map->Initialize ( "./model/NewNewNew.glb" );
+
+    object1->Initialize ( "./model/HULK1/HulkIdle.glb" );
+
+    //object2->Initialize ( "./model/BagMan2.glb" );
+    item0->Initialize ( "./model/Cross.glb" );
+    item1->Initialize ( "./model/Cross.glb" );
+    item2->Initialize ( "./model/Cross.glb" );
+    item3->Initialize ( "./model/Cross.glb" );
+    item4->Initialize ( "./model/Cross.glb" );
+    Door1->Initialize ( "./model/Door.glb" );
+    Door2->Initialize ( "./model/Door.glb" );
+    player->Initialize ( "./model/SibalGLB/SibalIdle.glb" );
+    CollisionManager::getInstance ( ).Initialize ( );
+    CameraManager::getInstance ( ).SetCamera ( player->camera );
+    CameraManager::getInstance ( ).SetCamera2 ( mainCamera );
+
+
+    light1 = new LightMass;
+    light1->SetLight ( glm::vec3 ( 2.0f , 4.0f , -1.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 60.0f , 5.0f ) );
+    LightManager::getInstance ( ).AddLight ( light1 );
+
+    player->SetPos ( glm::vec3 ( -32.0f , 0.0f , -6.0f ) );
+
+    obj.push_back ( object1 );
+    // obj.push_back ( object2 );
+    obj.push_back ( item0 );
+    obj.push_back ( item1 );
+    obj.push_back ( item2 );
+    obj.push_back ( item3 );
+    obj.push_back ( item4 );
+    obj.push_back ( Door1 );
+    obj.push_back ( Door2 );
+    obj.push_back ( map );
+    obj.push_back ( player );
+    map->ObjectInitialize ( obj , object1 );
+
+
+    return true;
+}
 
 void Context::IMGUI_USER ( ) {
     //imgui 설정 부분

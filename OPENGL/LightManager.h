@@ -32,6 +32,11 @@ public:
 	void GetLightSetting ( const Program* programs );
 	void UpdateShadowMapping ( const Program* program );
 	void AddLight ( LightMass* addlight );
+	void ResetLight ( ) {
+		LightNum = 0;//전체 빛 개수
+		ableLightNum = 0;//활성 빛 개수
+		lightMass.clear ( );
+	}
 	ShadowMapPtr GetShadowMap ( int i ) {
 		return lightMass[ i ]->GetlightShadowMap ( );
 	}

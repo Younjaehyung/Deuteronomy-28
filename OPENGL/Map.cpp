@@ -66,7 +66,7 @@ void Map::Initialize ( const std::string& strName )
     SettingCamera ( );
     SettingWall ( );
 
-    SoundManager::getInstance ( ).GetSoundID ( "Ambient" )->ReplaySound ( 0.6f );
+    
 	
 }
 
