@@ -57,6 +57,9 @@ public:
 		else if ( phase == Phase::Angry ) {
 			return 1;
 		}
+		else if ( phase == Phase::Crazy ) {
+			return 3;
+		}
 		else {
 			return 0;
 		}

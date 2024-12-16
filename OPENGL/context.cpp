@@ -125,11 +125,11 @@ void Context::Render ( ) {
 
 
         if ( player->IsFlashLight ( ) ) {
-            if ( cameraOn == true ) {
-                SoundManager::getInstance ( ).GetSoundID ( "Camera" )->ReplaySound ( 1.0f );
-                cameraOn = !cameraOn;
-            }
+
             UIDraw ( );
+        }
+        if (  object1->GetPhase ( ) ) {
+            PhaseDraw ( );
         }
         Framebuffer::BindToDefault ( );
 
@@ -314,6 +314,42 @@ void Context::UIDraw ( )
     glEnable ( GL_DEPTH_TEST );
 }
 
+void Context::PhaseDraw ( )
+{
+    glDisable ( GL_DEPTH_TEST );
+
+    m_camerauiProgram->Use ( );
+    m_camerauiProgram->SetUniform ( "transform" , glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 2.0f , 1.0f ) ) );
+    
+    if ( 1 == object1->GetPhase ( ) ) {
+        Phase1UITEXTURE->Bind ( );
+
+    }
+    else if (  2== object1->GetPhase ( ) ) {
+        Phase2UITEXTURE->Bind ( );
+    }
+    else if ( 3 == object1->GetPhase ( ) ) {
+        Phase2UITEXTURE->Bind ( );
+    }
+   
+    m_camerauiProgram->SetUniform ( "tex" , 0 );
+
+    // 블렌딩 활성화
+    glEnable ( GL_BLEND );
+    glBlendFunc ( GL_SRC_ALPHA , GL_ONE_MINUS_SRC_ALPHA );
+
+    // 캠코더 UI 렌더링
+    m_plane->Draw ( m_camerauiProgram.get ( ) );
+
+
+    m_camerauiProgram->SetUniform ( "tex" , 0 );
+    m_plane->Draw ( m_camerauiProgram.get ( ) );
+    // 블렌딩 비활성화 (다른 렌더링에 영향 없도록)
+    glDisable ( GL_BLEND );
+
+    glEnable ( GL_DEPTH_TEST );
+}
+
 void Context::SplitUIDraw ( )
 {
     glViewport ( 0 , 0 , m_width , m_height );
@@ -370,6 +406,11 @@ bool Context::Initialize ( )
     RecUITEXTURE = Texture::CreateFromImage ( CameraUi.get ( ) );
     auto SplitUi = Image::Load ( "./model/UI/SplitUI.png" , false );
     SplitUITEXTURE = Texture::CreateFromImage ( SplitUi.get ( ) );
+
+    auto Phase1 = Image::Load ( "./model/UI/Phase1.png" , false );
+    Phase1UITEXTURE = Texture::CreateFromImage ( Phase1.get ( ) );
+    auto Phase2 = Image::Load ( "./model/UI/Phase2.png" , false );
+    Phase2UITEXTURE = Texture::CreateFromImage ( Phase2.get ( ) );
 
     auto cubeRight = Image::Load ( "./model/skybox/right.jpg" , false );
     auto cubeLeft = Image::Load ( "./model/skybox/left.jpg" , false );

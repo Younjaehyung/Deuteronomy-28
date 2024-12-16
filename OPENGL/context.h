@@ -38,6 +38,7 @@ public:
 	virtual void ProcessInput ( GLFWwindow* window );
 	void IMGUI_USER ( );
 	void UIDraw ( );
+	void PhaseDraw ( );
 	void SplitUIDraw ( );
 
 	void GetItemCount ( ) {
@@ -98,7 +99,7 @@ public:
 
 	int m_width{ 640 };
 	int m_height{ 480 };
-	bool cameraOn{ false };
+
 	Context ( ) { Initialize ( ); };
 private:
 	
@@ -124,6 +125,8 @@ private:
 	bool CameraLight{ false };
 	bool Seek{ false };
 	int Ending = 0;
+	
+
 
 	ProgramUPtr m_animationProgram;
 
@@ -208,5 +211,8 @@ private:
 	TextureUPtr CameraUITEXTURE;
 	TextureUPtr RecUITEXTURE;
 	TextureUPtr SplitUITEXTURE;
+	TextureUPtr Phase1UITEXTURE;
+	TextureUPtr Phase2UITEXTURE;
+		
 };
 
