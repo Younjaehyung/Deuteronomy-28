@@ -323,7 +323,13 @@ void Player::Input ( GLFWwindow* window ) {
 	
 	if ( input::GetKeyDown ( eKeyCode::F ) ) {
 		FlashLight->Switch_lightControl() = !FlashLight->Switch_lightControl ( );
-		SoundManager::getInstance ( ).GetSoundID ( "Camera" )->ReplaySound ( );
+		if ( FlashLight_switch == true ) {
+			SoundManager::getInstance ( ).GetSoundID ( "CameraOn" )->ReplaySound ( 0.3f );
+		}
+		else if ( FlashLight_switch == false) {
+			SoundManager::getInstance ( ).GetSoundID ( "CameraOff" )->ReplaySound ( 0.3f );
+		}
+
 		FlashLight_switch = !FlashLight_switch;
 	}
 
