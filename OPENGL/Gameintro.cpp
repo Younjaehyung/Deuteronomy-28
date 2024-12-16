@@ -115,7 +115,7 @@ bool Gameintro::Initialize ( )
 
     }
 
-    SoundManager::getInstance ( ).GetSoundID ( "DoorSlam" )->ReplaySound ( 0.7f );
+    
 
     return true;
 }
