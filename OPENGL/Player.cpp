@@ -179,7 +179,7 @@ void Player::Initialize ( const std::string& strName )
 	
 	FlashLight = new LightMass;
 
-	FlashLight->SetLight( glm::vec3 ( 2.0f , 4.0f , -1.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 3.0f , 27.0f ) );
+	FlashLight->SetLight( glm::vec3 ( 2.0f , 4.0f , -1.0f ) , glm::vec3 ( 3.0f , 0.0f , 0.0f ) , glm::vec2 ( 3.0f , 27.0f ),180.0f );
 	
 	LightManager::getInstance ( ).AddLight ( FlashLight );
 
@@ -341,22 +341,6 @@ bool Player::HandleCollision ( Object* object )
 {
 	if ( object->objectID == eLayerType::Item ) {
 		ItemCount++;
-		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
-		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
-		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
-		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
-		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
-		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
-		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
-		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
-		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
-		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
-		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
-		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
-		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
-		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
-		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
-		std::cout << "나는 아이템왕 오승원이다. 아이템 개수를 알려주지:  " << ItemCount << std::endl;
 		//Item* newItem = new Item;
 		//Inventory.push_back ( newItem );
 

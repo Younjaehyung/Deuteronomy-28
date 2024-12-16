@@ -23,7 +23,7 @@ public:
 
 	void ResetCamera ( ) {
 		Cameras.clear ( );
-		m_cameraControl = false;
+		m_cameraControl = true;
 		m_camera2Control = false;
 	}
 

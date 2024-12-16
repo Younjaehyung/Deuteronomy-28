@@ -160,7 +160,7 @@ bool character::DynamicAlgorithm ( )
 	else {
 		float speed = 30.0f; // 이동 속도
 		float deltaTime = Time::DeltaTime ( );
-		float rotationSpeed = 5.0f; // 회전 속도
+		float rotationSpeed = 7.0f; // 회전 속도
 
 		glm::vec3 targetPosition ( ( goalx * 3 ) + 1.5f , Pos.y , -( ( goaly * 3 ) + 1.5f ) );
 		glm::vec3 direction = targetPosition - Pos;
@@ -244,7 +244,7 @@ bool character::StaticAlgorithm ( glm::ivec2 _path )
 	else {
 		float speed = 14.0f; // 이동 속도
 		float deltaTime = Time::DeltaTime ( );
-		float rotationSpeed = 5.0f; // 회전 속도
+		float rotationSpeed = 7.0f; // 회전 속도
 
 		glm::vec3 targetPosition ( ( goalx * 3 ) + 1.5f , Pos.y , -( ( goaly * 3 ) + 1.5f ) );
 		glm::vec3 direction = targetPosition - Pos;
@@ -442,7 +442,7 @@ void character::Status_Machine ( )
 			std::cout << "running";
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( runAnim );
-				SoundManager::getInstance ( ).GetSoundID ( "Chase1" )->ReplaySound ( 0.3f );
+				SoundManager::getInstance ( ).GetSoundID ( "Chase1" )->ReplaySound ( 0.5f );
 				SoundManager::getInstance ( ).GetSoundID ( "Monster_Foot" )->ReplaySound ( volume );
 				status = Status::running;
 			}
@@ -547,7 +547,7 @@ void character::Status_Machine ( )
 				animator->PlayAnimation ( runAnim );
 				time = 0.0f;
 				status = Status::running;
-				SoundManager::getInstance ( ).GetSoundID ( "Chase2" )->ReplaySound (0.3f);
+				SoundManager::getInstance ( ).GetSoundID ( "Chase2" )->ReplaySound (0.5f);
 				SoundManager::getInstance ( ).GetSoundID ( "Monster_Run" )->ReplaySound ( );
 			}
 			else if ( status == Status::running ) {

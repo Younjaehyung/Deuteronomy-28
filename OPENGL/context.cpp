@@ -129,7 +129,7 @@ void Context::Render ( ) {
             UIDraw ( );
         }
         if (  object1->GetPhase ( ) ) {
-            PhaseDraw ( );
+           // PhaseDraw ( );
         }
         Framebuffer::BindToDefault ( );
 
@@ -137,16 +137,21 @@ void Context::Render ( ) {
         m_textureProgram->Use ( );
         if ( player->IsFlashLight ( ) ) {
             m_textureProgram->SetUniform ( "typeID" , 1 );
+
+            if ( 1 == object1->GetPhase ( ) ) {
+                m_textureProgram->SetUniform ( "typeID" , 2 );
+            }
+            else if ( 2 == object1->GetPhase ( ) ) {
+                m_textureProgram->SetUniform ( "typeID" , -1 );
+            }
+            else if ( 3 == object1->GetPhase ( ) ) {
+                m_textureProgram->SetUniform ( "typeID" , -1 );
+            }
         }
         else {
             m_textureProgram->SetUniform ( "typeID" , 0 );
         }
-        if ( 1 == object1->GetPhase ( ) ) {
-            m_textureProgram->SetUniform ( "typeID" , 2 );
-        }
-        else if ( 2 == object1->GetPhase ( ) ) {
-            m_textureProgram->SetUniform ( "typeID" , -1 );
-        }
+       
 
         ////이중버퍼링
 

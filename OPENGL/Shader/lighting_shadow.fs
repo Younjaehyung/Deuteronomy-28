@@ -69,7 +69,7 @@ void main() {
 
     // 기본 색상 (예: 빨강)으로 설정하여 텍스처 로딩 문제 확인
    
-    vec3 ambientLight = vec3(0.05,0.05,0.0) * texColor; 
+    vec3 ambientLight = vec3(0.05,0.035,0.0) * texColor; 
     result += ambientLight;
 
     for (int i = 0; i < numLights; ++i) {
