@@ -125,6 +125,10 @@ void Context::Render ( ) {
 
 
         if ( player->IsFlashLight ( ) ) {
+            if ( cameraOn == true ) {
+                SoundManager::getInstance ( ).GetSoundID ( "Camera" )->ReplaySound ( 1.0f );
+                cameraOn = !cameraOn;
+            }
             UIDraw ( );
         }
         Framebuffer::BindToDefault ( );

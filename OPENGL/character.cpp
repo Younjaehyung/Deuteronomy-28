@@ -442,7 +442,7 @@ void character::Status_Machine ( )
 			std::cout << "running";
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( runAnim );
-				SoundManager::getInstance ( ).GetSoundID ( "Chase1" )->ReplaySound ( );
+				SoundManager::getInstance ( ).GetSoundID ( "Chase1" )->ReplaySound ( 0.3f );
 				SoundManager::getInstance ( ).GetSoundID ( "Monster_Foot" )->ReplaySound ( volume );
 				status = Status::running;
 			}
@@ -519,7 +519,7 @@ void character::Status_Machine ( )
 				animator->PlayAnimation ( sceramAnim );
 				status = Status::running;
 				time = 0.0f;
-				SoundManager::getInstance ( ).GetSoundID ( "Roar" )->ReplaySound ( );
+				SoundManager::getInstance ( ).GetSoundID ( "Roar" )->ReplaySound (0.6f);
 			}
 			else if ( status == Status::running ) {
 				time += Time::DeltaTime ( );

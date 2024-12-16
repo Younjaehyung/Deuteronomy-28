@@ -98,6 +98,7 @@ public:
 
 	int m_width{ 640 };
 	int m_height{ 480 };
+	bool cameraOn{ false };
 	Context ( ) { Initialize ( ); };
 private:
 	
