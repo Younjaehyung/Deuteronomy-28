@@ -21,7 +21,7 @@ class Gameintro : public Scene
 	ModelPtr m_car;
 	MeshUPtr m_plane;
 	TextureUPtr MainUITEXTURE;
-
+	int soundToggle = 0;
 
 	Camera* mapCamera;
 	std::vector<LightMass*> Visullight;
@@ -33,7 +33,6 @@ class Gameintro : public Scene
 
 	Object* car;
 
-	int soundToggle = 0;
 	int StartGame = 0;
 	int status = 0;
 	

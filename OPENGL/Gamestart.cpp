@@ -4,7 +4,7 @@
 void Gamestart::Update ( )
 {
     if ( soundToggle == 0 ) {
-        SoundManager::getInstance ( ).GetSoundID ( "Intro" )->ReplaySound ( 0.2 );
+        SoundManager::getInstance ( ).GetSoundID ( "Intro" )->ReplaySound ( 0.6 );
         soundToggle = 1;
 
     }

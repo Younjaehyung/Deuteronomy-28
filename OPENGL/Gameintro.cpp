@@ -4,6 +4,12 @@
 #include "Sound.h"
 void Gameintro::Update ( )
 {
+    if ( soundToggle == 0 ) {
+        SoundManager::getInstance ( ).GetSoundID ( "Car" )->ReplaySound ( 0.6 );
+        soundToggle = 1;
+
+    }
+
     if ( status == 0 ) {
         auto carpos = car->SetPos ( );
         carpos = {carpos.x+Time::DeltaTime ( )*1.4 ,carpos.y,carpos.z + Time::DeltaTime ( ) * 35 };

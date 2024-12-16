@@ -149,7 +149,6 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Gameobject.cpp" />
     <ClCompile Include="gameover.cpp" />
-    <ClCompile Include="GameResource.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />

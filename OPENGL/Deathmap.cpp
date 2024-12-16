@@ -14,6 +14,7 @@ void Deathmap::Update ( )
         if ( SoundToggle == 0 ) {
             
             SoundManager::getInstance ( ).GetSoundID ( "Roar" )->ReplaySound ( );
+            SoundManager::getInstance ( ).GetSoundID ( "Monster_Eat" )->ReplaySound ( 0.9 );
             SoundToggle = 1;
         }
 
@@ -52,7 +53,7 @@ void Deathmap::Update ( )
         if ( elapsedTime >= animationDuration + 3.0f ) {
             status = 1;
             attack = 2;
-            SoundManager::getInstance ( ).GetSoundID ( "Die" )->ReplaySound ( 0.6 );
+            SoundManager::getInstance ( ).GetSoundID ( "Die" )->ReplaySound ( 0.8 );
         }
         
     }
