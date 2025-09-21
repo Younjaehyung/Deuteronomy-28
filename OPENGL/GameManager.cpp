@@ -76,7 +76,7 @@ void GameManager::Render ( )
 
 void GameManager::GameLogic ( ) {
 	Scene* _scene = Scenes[ static_cast< int >( mode ) ];
-	std::cout << "나는 정왕의 데스신 오승원이다." << std::endl;
+	
 		
 		
 		if ( status == Status::running ) {

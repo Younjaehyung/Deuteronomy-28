@@ -302,7 +302,7 @@ void character::Status_Machine ( )
 				animator->PlayAnimation ( idleAnim );
 				time = 0.0f;
 				status = Status::running;
-				std::cout << "나는 산기대의 오승원이다@@@@@@@@@@@@@@@@@@@@@@@@ " << std::endl;
+				
 				SoundManager::getInstance ( ).GetSoundID ( "Chase1" )->PauseSound ( );
 				SoundManager::getInstance ( ).GetSoundID ( "Chase2" )->PauseSound ( );
 				
@@ -354,7 +354,7 @@ void character::Status_Machine ( )
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( walkAnim );
 				SoundManager::getInstance ( ).GetSoundID ( "Monster_Walk" )->ReplaySound ( );
-				std::cout << "나는 정왕의 오승원이다@@@@@@@@@@@@@@@@@@@@@@@@ " << std::endl;
+				
 				Cycleindex = ( Cycleindex + 1 ) % StaticPaths.size ( );
 				//Cycleindex += 1;
 				Path_now ( StaticPaths[ Cycleindex ] , path );
@@ -363,17 +363,17 @@ void character::Status_Machine ( )
 			}
 			else if ( status == Status::running ) {
 				if ( StaticAlgorithm ( path ) ) {
-					std::cout << "나는 시흥의 오승원이다@@@@@@@@@@@@@@@@@@@@@@@@ " << std::endl;
+					
 
 					// 다음 경로로 이동 (순환)
 					
 					status = Status::exit;
 				}
-				std::cout << "나는 겜사의 오승원이다 지금 소리를 알려주지 : "<<volume << std::endl;
+				
 				SoundManager::getInstance ( ).GetSoundID ( "Monster_Walk" )->SetVolume ( volume );
 			}
 			else if ( status == Status::exit ) {
-				std::cout << "나는 송파의 오승원이다@@@@@@@@@@@@@@@@@@@@@@@@ "<< std::endl;
+				
 				SoundManager::getInstance ( ).GetSoundID ( "Monster_Walk" )->PauseSound (  );
 				status = Status::start;
 				action = Action::Idle;

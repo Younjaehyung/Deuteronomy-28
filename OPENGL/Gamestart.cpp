@@ -20,20 +20,20 @@ void Gamestart::Render (  )
 
 
 
-    if ( startTime <= 0.2f ) {
-        startTime += Time::DeltaTime ( ) * 0.2f;
+    if ( startTime <= 2.2f ) {
+        startTime += Time::DeltaTime ( );
         Main1UITEXTURE->Bind ( );
     }
-    else if ( startTime > 0.2f && startTime <= 0.4f ) {
-        startTime += Time::DeltaTime ( ) * 0.2f;
+    else if ( startTime > 2.2f && startTime <= 2.4f ) {
+        startTime += Time::DeltaTime ( );
         Main2UITEXTURE->Bind ( );
     }
-    else if ( startTime > 0.4f && startTime <= 0.6f ) {
-        startTime += Time::DeltaTime ( ) * 0.2f;
+    else if ( startTime > 2.4f && startTime <= 2.6f ) {
+        startTime += Time::DeltaTime ( );
         Main3UITEXTURE->Bind ( );
     }
-    else if ( startTime > 0.6f && startTime <= 0.8f ) {
-        startTime += Time::DeltaTime ( ) * 0.2f;
+    else if ( startTime > 2.6f && startTime <= 2.8f ) {
+        startTime += Time::DeltaTime ( );
         Main4UITEXTURE->Bind ( );
     }
     else {

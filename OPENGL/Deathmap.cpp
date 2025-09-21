@@ -97,7 +97,7 @@ void Deathmap::MainRender ( )
 
     program = m_lightingProgram.get ( );
     Light_ORI lights = light->GetlightData ( );
-    std::cout << "나는 정왕의 데스신 오승원이다." << std::endl;
+    
     auto _cameraTransform = mapCamera->GetProjection ( ) * mapCamera->GetView ( );
     program->Use ( );
     program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.f , -1.f , -9.f ) ) * glm::scale( glm::mat4 ( 1.0f ) ,glm::vec3(0.5f))*glm::mat4 ( 1.0f ) );
