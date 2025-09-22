@@ -141,8 +141,16 @@ public:
 		m_map = Model::Load ("./model/DeathBox.glb" );
 		PUBO = UBOBUFFER::Create ( 200 );
 		MUBO = UBOBUFFER::Create ( 200 );
-		_monster = Model::Load ( "./model/HULK1/HulkBBoBBo.glb"  );
-		_player = Model::Load ( "./model/SibalGLB/SibalBbobbo.glb" );
+
+		if ( CUTEMDOE == 0 ) {//25.09.23임시로 추가
+			_monster = Model::Load ( "./model/HULK1/HulkBBoBBo.glb" );
+			_player = Model::Load ( "./model/SibalGLB/SibalBbobbo.glb" );
+		}
+		else { //Cute
+			_monster = Model::Load ( "./model/HULK1/HulkBBoBBo.glb" );
+			_player = Model::Load ( "./model/SibalGLB/SibalBbobbo.glb" );
+		}
+		
 
 		m_monster = _monster.get ( );
 		m_player = _player.get ( );

@@ -84,13 +84,27 @@ void character::Initialize ( const std::string& strName )
 
 	camera = new Camera;
 	name = "monster";
-	_model = Model::Load ( strName );
-	model = _model.get ( );
-	idleAnim = new Animation ( "./model/HULK1/HulkIdle.glb" , model );
-	attackAnim = new Animation ( "./model/HULK1/HulkAttack.glb" , model );
-	runAnim = new Animation ( "./model/HULK1/HulkRun.glb" , model );
-	walkAnim = new Animation ( "./model/HULK1/HulkWalk.glb" , model );
-	sceramAnim = new Animation ( "./model/HULK1/HulkScream.glb" , model );
+
+	if (CUTEMDOE ==0 ) {	// scare
+		_model = Model::Load ( strName );
+		model = _model.get ( );
+		idleAnim = new Animation ( "./model/HULK1/HulkIdle.glb" , model );
+		attackAnim = new Animation ( "./model/HULK1/HulkAttack.glb" , model );
+		runAnim = new Animation ( "./model/HULK1/HulkRun.glb" , model );
+		walkAnim = new Animation ( "./model/HULK1/HulkWalk.glb" , model );
+		sceramAnim = new Animation ( "./model/HULK1/HulkScream.glb" , model );
+
+	}
+	else {		//cute
+		_model = Model::Load ( "./model/Usagi/Usagi_Idle.glb" );
+		model = _model.get ( );
+		idleAnim = new Animation ( "./model/Usagi/Usagi_Idle.glb" , model );
+		attackAnim = new Animation ( "./model/Usagi/Usagi_Attack.glb" , model );
+		runAnim = new Animation ( "./model/Usagi/Usagi_Run.glb" , model );
+		walkAnim = new Animation ( "./model/Usagi/Usagi_Walk.glb" , model );
+		sceramAnim = new Animation ( "./model/Usagi/Usagi_Scream.glb" , model );
+
+	}
 
 	UBO = UBOBUFFER::Create (200 );
 

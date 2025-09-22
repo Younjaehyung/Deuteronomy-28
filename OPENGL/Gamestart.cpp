@@ -58,14 +58,23 @@ void Gamestart::Render (  )
 bool Gamestart::Initialize ( )
 {
 	m_plane = Mesh::CreatePlane ( );
-    auto MainUI = Image::Load ( "./model/UI/Title_1.png" , true );
-    Main1UITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
-    MainUI = Image::Load ( "./model/UI/Title_2.png" , true );
-    Main2UITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
-    MainUI = Image::Load ( "./model/UI/Title_3.png" , true );
-    Main3UITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
-    MainUI = Image::Load ( "./model/UI/Title_4.png" , true );
-    Main4UITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
+
+    if ( CUTEMDOE == 0 ) {
+        auto MainUI = Image::Load ( "./model/UI/Title_1.png" , true );
+        Main1UITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
+        Main2UITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
+        Main3UITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
+        Main4UITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
+
+	}
+	else {
+		auto MainUI = Image::Load ( "./model/UI/Cute_Title.png" , true );
+        Main1UITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
+        Main2UITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
+        Main3UITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
+        Main4UITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
+	}
+
     //MainUI = Image::Load ( "./model/UI/TitleStart.png" , true );
     //MainStartTEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
     

@@ -23,29 +23,56 @@ inline void SoundManager::CreateSoundlist ( ) {
 	//기본 음원을 넣는 포멧. 마지막에 숫자 0 : 음원루프x /숫자 1 : 음원루프O
 	
 	//Channel.emplace ( "charge" , CreateSound ( "Sound/BFI_monster_Charge.mp3" , 0 ));
-	Channel.emplace ( "Chase1" , CreateSound ( "sound/Deut_Sound/DEUT_Chase1.mp3" , 1 ) );
-	Channel.emplace ( "Chase2" , CreateSound ( "sound/Deut_Sound/DUET_Chase2.mp3" , 1 ) );
-	Channel.emplace ( "Ambient" , CreateSound ( "sound/Deut_Sound/DUET_Ambient.wav" , 1 ) );
-	Channel.emplace ( "Roar" , CreateSound ( "sound/Deut_Sound/DUET_Roar.mp3" , 0 ) );
-	Channel.emplace ( "Walk" , CreateSound ( "sound/Deut_Sound/DUET_Walk.mp3" , 1 ) );
-	Channel.emplace ( "HeartBeat" , CreateSound ( "sound/Deut_Sound/DUET_HeartBeat.mp3" , 1 ) );
-	Channel.emplace ( "Monster_Foot" , CreateSound ( "sound/Deut_Sound/Deut_Monster_Foot.wav" , 1 ) );
-	Channel.emplace ( "GetItem" , CreateSound ( "sound/Deut_Sound/DUET_GetItem.mp3" , 0 ) );
-	Channel.emplace ( "Monster_Walk" , CreateSound ( "sound/Deut_Sound/Deut_Monster_Walk.mp3" , 1 ) );
-	Channel.emplace ( "Monster_Run" , CreateSound ( "sound/Deut_Sound/Deut_Monster_Run.mp3" , 1 ) );
-	Channel.emplace ( "Gameover" , CreateSound ( "sound/Deut_Sound/Duet_Die_Noise.mp3" , 0 ) );
-	Channel.emplace ( "Monster_Run" , CreateSound ( "sound/Deut_Sound/Deut_Monster_Run.mp3" , 1 ) );
-	Channel.emplace ( "DoorOpen" , CreateSound ( "sound/Deut_Sound/Duet_DoorOpen.mp3" , 0 ) );
-	Channel.emplace ( "DoorSlam" , CreateSound ( "sound/Deut_Sound/Deut_Slam.mp3" , 0 ) );
-	Channel.emplace ( "Die" , CreateSound ( "sound/Deut_Sound/Duet_Die_Noise.mp3" , 0 ) );
-	Channel.emplace ( "Intro" , CreateSound ( "sound/Deut_Sound/DUET_GoingHorror.wav" , 0 ) );
-	Channel.emplace ( "WhiteNoise" , CreateSound ( "sound/Deut_Sound/Deut_WhiteNoise.mp3" , 0 ) );
-	Channel.emplace ( "Car" , CreateSound ( "sound/Deut_Sound/Deut_Car.mp3" , 0 ) );
-	Channel.emplace ( "Monster_Eat" , CreateSound ( "sound/Deut_Sound/Deut_Eat.mp3" , 0 ) );
-	Channel.emplace ( "CameraOff" , CreateSound ( "sound/Deut_Sound/Deut_CameraOff.mp3" , 0 ) );
-	Channel.emplace ( "CameraOn" , CreateSound ( "sound/Deut_Sound/Deut_CameraOn.mp3" , 0 ) );
-	Channel.emplace ( "Player_Die" , CreateSound ( "sound/Deut_Sound/Duet_PlayerDie.mp3" , 0 ) );
-	Channel.emplace ( "Run" , CreateSound ( "sound/Deut_Sound/DUET_Run.mp3" , 1 ) );
+	
+	if ( CUTEMDOE == 0 ) {
+		Channel.emplace ( "Chase1" , CreateSound ( "sound/Deut_Sound/DEUT_Chase1.mp3" , 1 ) );
+		Channel.emplace ( "Chase2" , CreateSound ( "sound/Deut_Sound/DUET_Chase2.mp3" , 1 ) );
+		Channel.emplace ( "Ambient" , CreateSound ( "sound/Deut_Sound/DUET_Ambient.wav" , 1 ) );
+		Channel.emplace ( "Roar" , CreateSound ( "sound/Deut_Sound/DUET_Roar.mp3" , 0 ) );
+		Channel.emplace ( "Walk" , CreateSound ( "sound/Deut_Sound/DUET_Walk.mp3" , 1 ) );
+		Channel.emplace ( "HeartBeat" , CreateSound ( "sound/Deut_Sound/DUET_HeartBeat.mp3" , 1 ) );
+		Channel.emplace ( "Monster_Foot" , CreateSound ( "sound/Deut_Sound/Deut_Monster_Foot.wav" , 1 ) );
+		Channel.emplace ( "GetItem" , CreateSound ( "sound/Deut_Sound/DUET_GetItem.mp3" , 0 ) );
+		Channel.emplace ( "Monster_Walk" , CreateSound ( "sound/Deut_Sound/Deut_Monster_Walk.mp3" , 1 ) );
+		Channel.emplace ( "Monster_Run" , CreateSound ( "sound/Deut_Sound/Deut_Monster_Run.mp3" , 1 ) );
+		Channel.emplace ( "Gameover" , CreateSound ( "sound/Deut_Sound/Duet_Die_Noise.mp3" , 0 ) );
+		Channel.emplace ( "Monster_Run" , CreateSound ( "sound/Deut_Sound/Deut_Monster_Run.mp3" , 1 ) );
+		Channel.emplace ( "DoorOpen" , CreateSound ( "sound/Deut_Sound/Duet_DoorOpen.mp3" , 0 ) );
+		Channel.emplace ( "DoorSlam" , CreateSound ( "sound/Deut_Sound/Deut_Slam.mp3" , 0 ) );
+		Channel.emplace ( "Die" , CreateSound ( "sound/Deut_Sound/Duet_Die_Noise.mp3" , 0 ) );
+		Channel.emplace ( "Intro" , CreateSound ( "sound/Deut_Sound/DUET_GoingHorror.wav" , 0 ) );
+		Channel.emplace ( "WhiteNoise" , CreateSound ( "sound/Deut_Sound/Deut_WhiteNoise.mp3" , 0 ) );
+		Channel.emplace ( "Car" , CreateSound ( "sound/Deut_Sound/Deut_Car.mp3" , 0 ) );
+		Channel.emplace ( "Monster_Eat" , CreateSound ( "sound/Deut_Sound/Deut_Eat.mp3" , 0 ) );
+		Channel.emplace ( "CameraOff" , CreateSound ( "sound/Deut_Sound/Deut_CameraOff.mp3" , 0 ) );
+		Channel.emplace ( "CameraOn" , CreateSound ( "sound/Deut_Sound/Deut_CameraOn.mp3" , 0 ) );
+		Channel.emplace ( "Player_Die" , CreateSound ( "sound/Deut_Sound/Duet_PlayerDie.mp3" , 0 ) );
+		Channel.emplace ( "Run" , CreateSound ( "sound/Deut_Sound/DUET_Run.mp3" , 1 ) );
+	}
+	else { //cute
+		Channel.emplace ( "Chase1" , CreateSound ( "sound/Deut_Sound/Cute_Chase2.mp3" , 1 ) );
+		Channel.emplace ( "Chase2" , CreateSound ( "sound/Deut_Sound/Cute_Chase3.mp3" , 1 ) );
+		Channel.emplace ( "Ambient" , CreateSound ( "sound/Deut_Sound/DUET_Ambient.wav" , 1 ) );
+		Channel.emplace ( "Roar" , CreateSound ( "sound/Deut_Sound/Cute_Usagi_Scream.mp3" , 0 ) );
+		Channel.emplace ( "Walk" , CreateSound ( "sound/Deut_Sound/Cute_Walk.mp3" , 1 ) );
+		Channel.emplace ( "HeartBeat" , CreateSound ( "sound/Deut_Sound/DUET_HeartBeat.mp3" , 1 ) );
+		Channel.emplace ( "Monster_Foot" , CreateSound ( "sound/Deut_Sound/Cute_Usagi_Walk.wav" , 1 ) );
+		Channel.emplace ( "GetItem" , CreateSound ( "sound/Deut_Sound/DUET_GetItem.mp3" , 0 ) );
+		Channel.emplace ( "Monster_Walk" , CreateSound ( "sound/Deut_Sound/Cute_Usagi_Walk.mp3" , 1 ) );
+		Channel.emplace ( "Monster_Run" , CreateSound ( "sound/Deut_Sound/Cute_Usagi_Run.mp3" , 1 ) );
+		Channel.emplace ( "Gameover" , CreateSound ( "sound/Deut_Sound/Duet_Die_Noise.mp3" , 0 ) );
+		Channel.emplace ( "DoorOpen" , CreateSound ( "sound/Deut_Sound/Cute_Door.mp3" , 0 ) );
+		Channel.emplace ( "DoorSlam" , CreateSound ( "sound/Deut_Sound/Cute_DoorSlam.mp3" , 0 ) );
+		Channel.emplace ( "Die" , CreateSound ( "sound/Deut_Sound/Duet_Die_Noise.mp3" , 0 ) );
+		Channel.emplace ( "Intro" , CreateSound ( "sound/Deut_Sound/Cute_Title.mp3" , 0 ) );
+		Channel.emplace ( "WhiteNoise" , CreateSound ( "sound/Deut_Sound/Deut_WhiteNoise.mp3" , 0 ) );
+		Channel.emplace ( "Car" , CreateSound ( "sound/Deut_Sound/Deut_Car.mp3" , 0 ) );
+		Channel.emplace ( "Monster_Eat" , CreateSound ( "sound/Deut_Sound/Deut_Eat.mp3" , 0 ) );
+		Channel.emplace ( "CameraOff" , CreateSound ( "sound/Deut_Sound/Deut_CameraOff.mp3" , 0 ) );
+		Channel.emplace ( "CameraOn" , CreateSound ( "sound/Deut_Sound/Deut_CameraOn.mp3" , 0 ) );
+		Channel.emplace ( "Player_Die" , CreateSound ( "sound/Deut_Sound/Cute_Diesound.mp3" , 0 ) );
+		Channel.emplace ( "Run" , CreateSound ( "sound/Deut_Sound/Cute_Run.mp3" , 1 ) );
+	}
 }
 
 void SoundManager::Update ( )

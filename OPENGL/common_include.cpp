@@ -3,6 +3,8 @@
 #include <fstream>
 #include <sstream>
 
+int CUTEMDOE = 1;
+
 std::optional<std::string> LoadTextFile ( const std::string& filename )
 {
 	std::ifstream fin ( filename );

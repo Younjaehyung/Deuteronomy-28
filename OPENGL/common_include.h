@@ -33,6 +33,8 @@ std::optional<std::string> LoadTextFile ( const std::string& filename );
 
 glm::vec3 GetAttenuationCoeff ( float distance );	//Point Light 감쇠 계산 함수
 
+extern int CUTEMDOE;
+
 //매크로 Shader 클래스
 #define CLASS_PTR(klassName)\
 class klassName;\
