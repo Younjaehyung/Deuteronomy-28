@@ -105,20 +105,20 @@ void GameManager::GameLogic ( ) {
 			SoundManager::getInstance ( ).GetSoundID ( "Ambient" )->ReplaySound ( 0.6f );
 			//_scene->Reset ( );
 			if ( mode == gamemode::Gameover ) {
-				std::cout <<"나는 정왕 종결자 오승원이다" << EndingNum << std::endl;
+
 			
 				if ( EndingNum == 1 ) {
 					overmode = Death;
 					mode = static_cast< gamemode >( static_cast< int >( mode ) + 1 );
-					std::cout << "나는 죽었ㅇ다" << EndingNum << std::endl;
+
 				}
 				else {
 					mode = static_cast< gamemode >( static_cast< int >( mode ) + 2 );
-					std::cout << "나는 살았ㅇ다" << EndingNum << std::endl;
+
 				}
 				EndingNum = 0;
 			}
-			if ( mode == gamemode::Gameend) {
+			if ( mode == gamemode::Gameend ) {
 				EndingNum == 0;
 				mode = static_cast< gamemode >( static_cast< int >( gamemode::play ) );
 				CollisionManager::getInstance ( ).ResetCollision ( );
@@ -127,8 +127,7 @@ void GameManager::GameLogic ( ) {
 				Scenes[ static_cast< int >( gamemode::play ) ] = new Context;
 				Scenes[ static_cast< int >( gamemode::GameDeath ) ] = new Deathmap;
 				SoundManager::getInstance ( ).StopAllChannels ( );
-				SoundManager::getInstance ( ).GetSoundID ( "Ambient" )->ReplaySound();
-				std::cout << "나는 불꽃페미니스트전사 오승원이다!!" << std::endl;
+				SoundManager::getInstance ( ).GetSoundID ( "Ambient" )->ReplaySound ( );
 			}
 
 			Reshape ( m_width , m_height );

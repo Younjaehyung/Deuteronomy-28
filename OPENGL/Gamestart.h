@@ -39,7 +39,7 @@ public:
 	float startTime = 0.0f;
 	virtual int Check ( ) {
 		if ( StartEngine ) {
-			std::cout << "나는 정왕의 신 오승원이다" << std::endl;
+
 			return true;
 		}
 

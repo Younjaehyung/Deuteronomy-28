@@ -153,7 +153,7 @@ public:
 	virtual void shadowRender ( );
 	virtual bool Initialize ( );
 	virtual void Reshape ( int width , int height ) {
-		std::cout << "뭘봐 오승원" << std::endl;
+
 		m_width = width;
 		m_height = height;
 		glViewport ( 0 , 0 , m_width , m_height );

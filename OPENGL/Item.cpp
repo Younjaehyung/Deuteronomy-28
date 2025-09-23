@@ -45,7 +45,7 @@ void Item::RenderShadow ( glm::mat4 lightView , const Program* program ) {
 
 bool Item::HandleCollision ( Object* player )
 {
-    std::cout << "나는 삭제왕 오승원이다3" << std::endl;
+
     if ( player->objectID == eLayerType::Player ) {
         SoundManager::getInstance ( ).GetSoundID ( "GetItem" )->ReplaySound ( );
         GetDestroy ( ) = 1;

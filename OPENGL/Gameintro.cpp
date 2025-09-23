@@ -49,7 +49,7 @@ void Gameintro::Render ( )
         m_simpleProgram->SetUniform ( "viewPos" , mapCamera->GetPos() );
         m_car->Draw ( m_simpleProgram.get ( ) );
 
-        std::cout << "나는 정왕의 인트로 오승원이다" << std::endl;
+
 
         m_simpleProgram->SetUniform ( "transform" , mapCamera->GetTransform ( ) * 
             glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 0.0f , -3.0f , 0.0f ) )*

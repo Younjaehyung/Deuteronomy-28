@@ -4,8 +4,7 @@
 #include "CollisionManager.h"
 
 void Door::Update ( ) {
-    std::cout << "나는 문짝 아이템 오승원이다. 아이템 개수를 알려주지:  " << std::endl;
-        
+
         
         
     if ( ItemCount == 1 ) {

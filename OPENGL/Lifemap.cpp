@@ -8,8 +8,7 @@ void Lifemap::Update ( )
 
     Panimator->UpdateAnimation ( Time::DeltaTime ( ) );
     Manimator->UpdateAnimation ( Time::DeltaTime ( ) );
-    std::cout << "나는 모델러 이다찬이다" << std::endl;
-    std::cout << "극우좌파성향오승원이다" << std::endl;
+
     std::cout << elapsedTime / animationDuration << std::endl;
 
     elapsedTime += Time::DeltaTime ( );
@@ -31,7 +30,7 @@ void Lifemap::Update ( )
     glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
 
     if ( elapsedTime >= animationDuration + 6.0f ) {
-        std::cout << "나는 모델러2 이다찬이다" << std::endl;
+
         status = 1;
     }
     std::cout << Time::DeltaTime ( ) << std::endl;
@@ -92,7 +91,6 @@ void Lifemap::MainRender ( )
     * glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 100.0f , 100.0f , 100.0f ) ) );
     ground->Draw ( program );
 
-    std::cout << "나는 정왕의 필멸자 오승원이다." << std::endl;
 
     program = m_AnimationProgram.get ( );
     program->Use ( );
@@ -197,7 +195,7 @@ void Lifemap::MainRender ( )
 
 void Lifemap::shadowRender ( )
 {
-    std::cout << "나는 정왕의 문재인 오승원이다." << std::endl;
+
     const auto& Mtransforms = Manimator->GetFinalBoneMatrices ( );
     const auto& Ptransforms = Panimator->GetFinalBoneMatrices ( );
 
@@ -235,7 +233,7 @@ void Lifemap::shadowRender ( )
     MUBO->Bind ( program->Get ( ) , "Bones" );
     MUBO->UpdateBoneMatrices ( Mtransforms );
     //m_monster->Draw ( program );
-    std::cout << "나는 정왕의 병신 오승원이다." << std::endl;
+
 
 
     program = m_simpleAnimationProgram.get ( );
@@ -244,7 +242,7 @@ void Lifemap::shadowRender ( )
     program->SetUniform ( "color" , glm::vec4 ( 1.0f ) );
     program->SetUniform ( "modelTransform" , glm::mat4 ( 1.0f ) * glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 3.0f , 0.0f , -5.0f ) ) );
     program->SetUniform ( "transform" , light->GetlightProjection ( ) * light->GetlightView ( ) *  glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 3.0f , 0.0f , -5.0f )));
-    std::cout << "나는 정왕의 ro병신 오승원이다." << std::endl;
+
     PUBO->Bind ( program->Get ( ) , "Bones" );
     PUBO->UpdateBoneMatrices ( Ptransforms );
     m_player->Draw ( program );

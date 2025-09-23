@@ -27,7 +27,7 @@ void Deathmap::Update ( )
     else if ( attack == 1 ) {
         Panimator->UpdateAnimation ( Time::DeltaTime ( ) );
         Manimator->UpdateAnimation ( Time::DeltaTime ( ) );
-        std::cout << "나는 모델러 이다찬이다" << std::endl;
+
 
         std::cout << elapsedTime / animationDuration << std::endl;
 
@@ -68,7 +68,7 @@ void Deathmap::Update ( )
         }
     }
 
-    std::cout << "나는 모델러2 이다찬이다" << std::endl;
+
 }
 
 
@@ -127,7 +127,6 @@ void Deathmap::MainRender ( )
     * glm::scale ( glm::mat4 ( 1.0f ) , glm::vec3 ( 100.0f , 100.0f , 100.0f ) ) );
     ground->Draw ( program );
 
-    std::cout << "나는 정왕의 필멸자 오승원이다." << std::endl;
 
     if ( attack == 0 ) {
         const auto& Mtransforms = Manima2tor->GetFinalBoneMatrices ( );
@@ -277,7 +276,7 @@ void Deathmap::MainRender ( )
 
 void Deathmap::shadowRender ( )
 {
-    std::cout << "나는 정왕의 문재인 오승원이다." << std::endl;
+
     const auto& Mtransforms = Manimator->GetFinalBoneMatrices ( );
     const auto& Ptransforms = Panimator->GetFinalBoneMatrices ( );
 
@@ -315,7 +314,7 @@ void Deathmap::shadowRender ( )
     MUBO->Bind ( program->Get ( ) , "Bones" );
     MUBO->UpdateBoneMatrices ( Mtransforms );
     m_monster->Draw ( program );
-    std::cout << "나는 정왕의 병신 오승원이다." << std::endl;
+
 
 
     program = m_simpleAnimationProgram.get ( );
@@ -324,7 +323,7 @@ void Deathmap::shadowRender ( )
     program->SetUniform ( "color" , glm::vec4 ( 1.0f ) );
     program->SetUniform ( "modelTransform" , glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 0.0f , -3.0f ) ) );
     program->SetUniform ( "transform" , light->GetlightProjection ( ) * light->GetlightView ( ) * glm::translate ( glm::mat4 ( 1.0f ) , glm::vec3 ( 2.0f , 0.0f , -3.0f ) ) );
-    std::cout << "나는 정왕의 ro병신 오승원이다." << std::endl;
+
     PUBO->Bind ( program->Get ( ) , "Bones" );
     PUBO->UpdateBoneMatrices ( Ptransforms );
     m_player->Draw ( program );

@@ -44,7 +44,7 @@ public:
 	}
 
 	virtual void Reshape ( int width , int height ) {
-		std::cout << "뭘봐 오승원" << std::endl;
+
 		
 		glViewport ( 0 , 0 , width , height );
 
