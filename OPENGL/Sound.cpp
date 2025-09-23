@@ -52,7 +52,7 @@ inline void SoundManager::CreateSoundlist ( ) {
 	else { //cute
 		Channel.emplace ( "Chase1" , CreateSound ( "sound/Deut_Sound/Cute_Chase2.mp3" , 1 ) );
 		Channel.emplace ( "Chase2" , CreateSound ( "sound/Deut_Sound/Cute_Chase3.mp3" , 1 ) );
-		Channel.emplace ( "Ambient" , CreateSound ( "sound/Deut_Sound/DUET_Ambient.wav" , 1 ) );
+		Channel.emplace ( "Ambient" , CreateSound ( "sound/Deut_Sound/Cute_Noise.wav" , 1 ) );
 		Channel.emplace ( "Roar" , CreateSound ( "sound/Deut_Sound/Cute_Usagi_Scream.mp3" , 0 ) );
 		Channel.emplace ( "Walk" , CreateSound ( "sound/Deut_Sound/Cute_Walk.mp3" , 1 ) );
 		Channel.emplace ( "HeartBeat" , CreateSound ( "sound/Deut_Sound/DUET_HeartBeat.mp3" , 1 ) );

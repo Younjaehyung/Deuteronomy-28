@@ -129,5 +129,5 @@ void main() {
         discard;
 
     //최대 엠비언트 밝기 조정
-    fragColor = vec4(result*1.2f,alpha );
+    fragColor = vec4(result*2.0f,alpha );
 }

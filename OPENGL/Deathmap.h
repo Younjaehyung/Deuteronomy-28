@@ -130,8 +130,16 @@ public:
 		auto CameraUi = Image::Load ( "./model/UI/Camera.png" , false );
 		CameraUITEXTURE = Texture::CreateFromImage ( CameraUi.get ( ) );
 
-		auto blood = Image::Load ( "./model/UI/DieUI.png" , false );
-		BloodTEXTURE = Texture::CreateFromImage ( blood.get ( ) );
+		if ( CUTEMDOE == 0 ) {
+			auto blood = Image::Load ( "./model/UI/DieUI.png" , false );
+			BloodTEXTURE = Texture::CreateFromImage ( blood.get ( ) );
+		}
+		else {
+			auto blood = Image::Load ( "./model/UI/Cute_Die.png" , false );
+			BloodTEXTURE = Texture::CreateFromImage ( blood.get ( ) );
+		}
+
+
 
 		auto DIE = Image::Load ( "./model/UI/DIe.png" , true );
 		DIETEXTURE = Texture::CreateFromImage ( DIE.get ( ) );
@@ -147,7 +155,7 @@ public:
 			_player = Model::Load ( "./model/SibalGLB/SibalBbobbo.glb" );
 		}
 		else { //Cute
-			_monster = Model::Load ( "./model/HULK1/HulkBBoBBo.glb" );
+			_monster = Model::Load ( "./model/Usagi/Usagi_BBobbo.glb" );
 			_player = Model::Load ( "./model/SibalGLB/SibalBbobbo.glb" );
 		}
 		
@@ -155,8 +163,15 @@ public:
 		m_monster = _monster.get ( );
 		m_player = _player.get ( );
 
-		monsterAnim = new Animation ("./model/HULK1/HulkBBoBBo.glb" , m_monster );
-		monster2Anim = new Animation ( "./model/HULK1/Hulk_Death.glb" , m_monster );
+		if ( CUTEMDOE == 0 ) {
+			monsterAnim = new Animation ( "./model/HULK1/HulkBBoBBo.glb" , m_monster );
+			monster2Anim = new Animation ( "./model/HULK1/Hulk_Death.glb" , m_monster );
+		}
+		else {
+			monsterAnim = new Animation ( "./model/Usagi/Usagi_BBobbo.glb" , m_monster );
+			monster2Anim = new Animation ( "./model/Usagi/Usagi_ExBbobbo.glb" , m_monster );
+		}
+		
 		playerAnim = new Animation ( "./model/SibalGLB/SibalBbobbo.glb" , m_player );
 		Manima2tor = new Animator ( monster2Anim );
 		Manimator = new Animator ( monsterAnim );

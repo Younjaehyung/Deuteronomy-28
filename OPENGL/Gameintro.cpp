@@ -73,8 +73,16 @@ void Gameintro::Render ( )
 bool Gameintro::Initialize ( )
 {
     m_plane = Mesh::CreatePlane ( );
-    auto MainUI = Image::Load ( "./model/UI/Intro.jpg" , true );
-    MainUITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
+
+    if ( CUTEMDOE == 0 ) {
+        auto MainUI = Image::Load ( "./model/UI/Intro.jpg" , true );
+        MainUITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
+    }
+    else {
+        auto MainUI = Image::Load ( "./model/UI/Cute_Intro.png" , true );
+        MainUITEXTURE = Texture::CreateFromImage ( MainUI.get ( ) );
+    }
+
     ground = Model::Load ( "./model/IntroMap.glb" );
     m_car = Model::Load ( "./model/Car.glb" );
     car->SetPos ( glm::vec3(0.f , -4.0f , -50.0f) );
