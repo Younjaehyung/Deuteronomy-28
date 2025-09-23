@@ -180,14 +180,14 @@ public: // 휴리스틱 함수 ( 맨해튼 거리 )
 
         // 경로 출력
         if ( !path.empty ( ) ) {
-            std::cout << "Path found:\n";
+
             for ( const auto& [x , y] : path ) {
                 std::cout << "(" << x << ", " << y << ") ";
             }
             std::cout << std::endl;
         }
         else {
-            std::cout << "No path found.\n";
+
         }
 
        

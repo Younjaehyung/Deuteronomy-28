@@ -29,18 +29,16 @@ void Deathmap::Update ( )
         Manimator->UpdateAnimation ( Time::DeltaTime ( ) );
 
 
-        std::cout << elapsedTime / animationDuration << std::endl;
+
 
         elapsedTime += Time::DeltaTime ( );
         float t = glm::clamp ( elapsedTime / animationDuration , 0.0f , 1.0f );
-        std::cout << t << std::endl;
+
         // 위치 보간
         glm::vec3 currentCameraPos = glm::mix ( initialCameraPos , finalCameraPos , t );
         mapCamera->GetPos ( ) = currentCameraPos;
         // 회전 보간
         glm::quat currentCameraRot = glm::slerp ( initialCameraRot , finalCameraRot , t );
-
-        std::cout << currentCameraPos.x << currentCameraPos.x << currentCameraPos.y << currentCameraPos.z << std::endl;
 
         // 카메라 매트릭스 업데이트
 
@@ -337,7 +335,7 @@ void Deathmap::shadowRender ( )
 
 bool Deathmap::Initialize ()
 {
-    std::cerr << "DEATH MAP start " << std::endl;
+  //  std::cerr << "DEATH MAP start " << std::endl;
     
 
     return true;

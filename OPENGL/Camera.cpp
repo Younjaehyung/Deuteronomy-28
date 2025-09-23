@@ -8,13 +8,33 @@ const float camera_float = 0.2f;
 
 void Camera::Update ( ) {
 	
+
+
+
+	if (! (m_TcameraYaw - 0.2f <= m_cameraYaw && m_cameraYaw <= m_TcameraYaw + 0.2f )) {
+		m_cameraYaw -= deltaPos.x * 0.1f;
+	}
+	else {
+		m_cameraYaw = m_TcameraYaw;
+	}
+	if (!( m_TcameraPitch - 0.2f <= m_cameraPitch && m_cameraPitch <= m_TcameraPitch + 0.2f )) {
+		m_cameraPitch -= deltaPos.y * 0.1f;
+	}
+	else {
+		m_cameraPitch = m_TcameraPitch;
+	}
+
+
+
+
 	//Debugging ( );
 	float m_cameraPitch_movingR{ 0.0f };//뛸때 화면 흔들림
 	float m_cameraPitch_moving{ 0.0f };//뛸때 화면 흔들림
 
 	//std::cout << "m_cameraPitch_moving :"  << m_cameraPitch_moving << std::endl;
 	if ( Ismoving == moving::run) {
-		m_cameraPitch_moving = 4.0f*cos( 10.0f * moving_Time );
+		m_cameraPitch_moving = .8f*cos( 10.0f * moving_Time );
+		m_cameraYaw += .1f * cos ( 10.0f * moving_Time );
 		moving_Time += Time::DeltaTime ( );
 		
 	}
@@ -24,6 +44,9 @@ void Camera::Update ( ) {
 		//moving_Time = 0;
 		moving_Time += Time::DeltaTime ( );
 	}
+
+
+
 
 	if ( !static_camera ) {
 		//m_cameraPitch_moving = glm::clamp ( m_cameraPitch_moving , -89.0f , 89.0f );
@@ -57,16 +80,17 @@ void Camera::Update ( ) {
 }
 
 void Camera::MouseMove ( double x , double y ) {
-	
-
 
 
 	auto pos = glm::vec2 ( ( float ) x , ( float ) y );
-	auto deltaPos = pos - m_prevMousePos;
+	deltaPos = pos - m_prevMousePos;
 
-	const float cameraRotSpeed = 0.6f;
-	m_cameraYaw -= deltaPos.x * cameraRotSpeed;
-	m_cameraPitch -= deltaPos.y * cameraRotSpeed;
+
+
+	const float cameraRotSpeed = 0.2f;
+	m_TcameraYaw -= deltaPos.x * cameraRotSpeed;
+	m_TcameraPitch -= deltaPos.y * cameraRotSpeed;
+
 
 	if ( m_cameraYaw < 0.0f )   m_cameraYaw += 360.0f;
 	if ( m_cameraYaw > 360.0f ) m_cameraYaw -= 360.0f;
@@ -74,6 +98,15 @@ void Camera::MouseMove ( double x , double y ) {
 	if ( m_cameraPitch > 89.0f )  m_cameraPitch = 89.0f;
 	if ( m_cameraPitch < -89.0f ) m_cameraPitch = -89.0f;
 
+
+
+		//glm::vec2 pos{ ( float ) x, ( float ) y };
+		//glm::vec2 delta = pos - m_prevMousePos;
+		//m_prevMousePos = pos;
+
+		//m_yawTarget = WrapDeg ( m_yawTarget - delta.x * m_mouseSensitivity );
+		//m_pitchTarget = std::clamp ( m_pitchTarget - delta.y * m_mouseSensitivity , -89.f , 89.f );
+	
 
 
 

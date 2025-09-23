@@ -46,7 +46,7 @@ bool Framebuffer::InitWithColorAttachment ( const TexturePtr colorAttachment ) {
 
     auto result = glCheckFramebufferStatus ( GL_FRAMEBUFFER );
     if ( result != GL_FRAMEBUFFER_COMPLETE ) {
-        std::cerr<< "failed to create framebuffer" << result <<std::endl;
+      //  std::cerr<< "failed to create framebuffer" << result <<std::endl;
         return false;
     }
 

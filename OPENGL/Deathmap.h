@@ -75,10 +75,10 @@ class Deathmap :public Scene
 public:
 	Deathmap () {
 		typeID = 0;
-		std::cerr << "DEATH MAP Initialize " << std::endl;
+
 		m_lightingProgram = Program::Create ( "./shader/lighting_shadow.vs" , "./shader/lighting_shadow.fs" );
 		if ( !m_lightingProgram ) {
-			std::cerr << "program UserSetError id : " << m_lightingProgram->Get ( ) << std::endl;
+			//std::cerr << "program UserSetError id : " << m_lightingProgram->Get ( ) << std::endl;
 			return;
 
 
@@ -86,7 +86,7 @@ public:
 
 		m_AnimationProgram = Program::Create ( "./shader/animation.vs" , "./shader/animation.fs" );
 		if ( !m_AnimationProgram ) {
-			std::cerr << "program UserSetError id : " << m_AnimationProgram->Get ( ) << std::endl;
+			//std::cerr << "program UserSetError id : " << m_AnimationProgram->Get ( ) << std::endl;
 			return ;
 
 			
@@ -94,7 +94,7 @@ public:
 
 		m_cameraUIProgram = Program::Create ( "./shader/cameraUI.vs" , "./shader/cameraUI.fs" );
 		if ( !m_cameraUIProgram ) {
-			std::cerr << "program UserSetError id : " << m_cameraUIProgram->Get ( ) << std::endl;
+			//std::cerr << "program UserSetError id : " << m_cameraUIProgram->Get ( ) << std::endl;
 			return;
 
 
@@ -102,7 +102,7 @@ public:
 
 		m_simpleProgram = Program::Create ( "./shader/simple.vs" , "./shader/simple.fs" );
 		if ( !m_simpleProgram ) {
-			std::cerr << "program UserSetError id : " << m_simpleProgram->Get ( ) << std::endl;
+			//std::cerr << "program UserSetError id : " << m_simpleProgram->Get ( ) << std::endl;
 			return;
 
 
@@ -110,7 +110,7 @@ public:
 
 		m_simpleAnimationProgram = Program::Create ( "./shader/simple_animation.vs" , "./shader/simple_animation.fs" );
 		if ( !m_simpleAnimationProgram ) {
-			std::cerr << "program UserSetError id : " << m_simpleAnimationProgram->Get ( ) << std::endl;
+			//std::cerr << "program UserSetError id : " << m_simpleAnimationProgram->Get ( ) << std::endl;
 			return;
 
 
@@ -118,7 +118,7 @@ public:
 
 		m_textureProgram = Program::Create ( "./shader/texture.vs" , "./shader/texture.fs" );
 		if ( !m_textureProgram ) {
-			std::cerr << "program UserSetError id : " << m_textureProgram->Get ( ) << std::endl;
+			//std::cerr << "program UserSetError id : " << m_textureProgram->Get ( ) << std::endl;
 			return;
 
 

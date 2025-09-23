@@ -27,8 +27,8 @@ bool Shader::LoadFile ( const std::string& filename , GLenum shaderType ) {
     if ( !success ) {
         char infoLog[ 1024 ];
         glGetShaderInfoLog ( m_shader , 1024 , nullptr , infoLog ); //shader에 대한 로그를 얻어옴. 컴파일 에러 얻어내는 용도로 사용
-        std::cerr << "failed to compile shader: " << filename << std::endl;
-        std::cerr<< "reason: " << infoLog  <<std::endl;
+    //    std::cerr << "failed to compile shader: " << filename << std::endl;
+     //   std::cerr<< "reason: " << infoLog  <<std::endl;
         return false;
     }
     return true;

@@ -84,7 +84,7 @@ bool Gameintro::Initialize ( )
 
     m_simpleProgram = Program::Create ( "./shader/normala.vs" , "./shader/normala.fs" );
     if ( !m_simpleProgram ) {
-        std::cerr << "program UserSetError id : " << m_simpleProgram->Get ( ) << std::endl;
+        //std::cerr << "program UserSetError id : " << m_simpleProgram->Get ( ) << std::endl;
         return false;
 
 
@@ -93,7 +93,7 @@ bool Gameintro::Initialize ( )
 
     m_program = Program::Create ( "./shader/lighting.vs" , "./shader/lighting.fs" );
     if ( !m_program ) {
-        std::cerr << "program UserSetError id : " << m_program->Get ( ) << std::endl;
+       // std::cerr << "program UserSetError id : " << m_program->Get ( ) << std::endl;
         return false;
 
 
@@ -101,7 +101,7 @@ bool Gameintro::Initialize ( )
 
     m_simpleAnimationProgram = Program::Create ( "./shader/simple_animation.vs" , "./shader/simple_animation.fs" );
     if ( !m_simpleAnimationProgram ) {
-        std::cerr << "program UserSetError id : " << m_simpleAnimationProgram->Get ( ) << std::endl;
+        //std::cerr << "program UserSetError id : " << m_simpleAnimationProgram->Get ( ) << std::endl;
         return false;
 
 
@@ -109,7 +109,7 @@ bool Gameintro::Initialize ( )
 
     m_camerauiProgram = Program::Create ( "./shader/cameraUI.vs" , "./shader/cameraUI.fs" );
     if ( !m_camerauiProgram ) {
-        std::cerr << "program UserSetError id : " << m_camerauiProgram->Get ( ) << std::endl;
+       // std::cerr << "program UserSetError id : " << m_camerauiProgram->Get ( ) << std::endl;
         return false;
 
 

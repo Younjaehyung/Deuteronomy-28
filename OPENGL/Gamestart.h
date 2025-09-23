@@ -27,6 +27,8 @@ public:
 		typeID = 0;
 		Initialize ( );
 	}
+	void PrintLogo ( );
+
 	virtual void Update ( );
 	virtual void Render ( );
 	virtual bool Initialize ();

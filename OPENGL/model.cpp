@@ -16,9 +16,9 @@ bool Model::LoadByAssimp ( const std::string& filename ) {
     auto scene = importer.ReadFile ( filename , aiProcess_Triangulate | aiProcess_FlipUVs );
 
     this->filename = filename;
-    std::cerr << "Successed to load model :" << filename << std::endl;
+   // std::cerr << "Successed to load model :" << filename << std::endl;
     if ( !scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode ) {
-        std::cerr << "Failed to load model :" << filename << std::endl;
+      //  std::cerr << "Failed to load model :" << filename << std::endl;
         return false;
     }
 
@@ -38,10 +38,10 @@ bool Model::LoadByAssimp ( const std::string& filename ) {
             int textureIndex = std::stoi ( filepath.C_Str ( ) + 1 ); // "*0"에서 인덱스 추출
             auto embeddedTexture = scene->mTextures[ textureIndex ];
 
-            std::cerr << "Texture embeddedTexture : "<< dirname<<"::" << embeddedTexture->pcData << std::endl;
+            //std::cerr << "Texture embeddedTexture : "<< dirname<<"::" << embeddedTexture->pcData << std::endl;
             if ( embeddedTexture && embeddedTexture->mHeight == 0 ) {
                 // 텍스처가 메모리에 포함되어 있음 (compressed format)
-                std::cerr << "Texture embeddedTexture == 0: " << embeddedTexture->pcData << std::endl;
+            //    std::cerr << "Texture embeddedTexture == 0: " << embeddedTexture->pcData << std::endl;
                 auto image = Image::LoadFromMemory ( reinterpret_cast< const unsigned char* >( embeddedTexture->pcData ) ,
                                                    embeddedTexture->mWidth , false ); // flipVertical 값을 설정
                 return Texture::CreateFromImage ( image.get ( ) );
@@ -74,7 +74,7 @@ bool Model::LoadByAssimp ( const std::string& filename ) {
     
 
     if ( !scene->HasLights ( ) ) {
-        std::cerr << "Failed to load lights or no lights in scene!" << std::endl;
+    //    std::cerr << "Failed to load lights or no lights in scene!" << std::endl;
       
     }
     else {
@@ -111,7 +111,7 @@ bool Model::LoadByAssimp ( const std::string& filename ) {
                 // 스포트라이트의 내부 및 외부 각도를 Cos로 변환
                 lightData.cutoff = cosf ( glm::radians ( light->mAngleInnerCone ));
                 lightData.outerCutoff = cosf ( glm::radians ( light->mAngleInnerCone + light->mAngleOuterCone ));
-                std::cout << "!!!NOW SPOT" << std::endl;
+
             }
             else if ( light->mType == aiLightSource_DIRECTIONAL ) {
                 lightData.type = aiLightSource_DIRECTIONAL;
@@ -122,9 +122,6 @@ bool Model::LoadByAssimp ( const std::string& filename ) {
             // 조명 데이터 저장
             m_lights.push_back ( lightData );
 
-            std::cerr << "Loaded light: " << name << " (Type: " << lightData.type << ")" << std::endl;
-            std::cerr << scene->mNumLights << std::endl;
-        
         }
     }
     ProcessNode ( scene->mRootNode , scene );
@@ -147,7 +144,7 @@ void Model::ProcessNode ( aiNode* node , const aiScene* scene ) {
 
 //삼각형 MESH에 대한 세팅
 void Model::ProcessMesh ( aiMesh* mesh , const aiScene* scene ) {
-    std::cerr << "process mesh: "<< mesh->mName.C_Str ( ) <<" vert "<< mesh->mNumVertices <<"face" << mesh->mNumFaces << std::endl;
+ //   std::cerr << "process mesh: "<< mesh->mName.C_Str ( ) <<" vert "<< mesh->mNumVertices <<"face" << mesh->mNumFaces << std::endl;
  
 
     std::vector<Vertex> vertices;
@@ -189,7 +186,7 @@ void Model::ProcessMesh ( aiMesh* mesh , const aiScene* scene ) {
     }
 
     ExtractBoneWeightForVertices ( vertices , mesh , scene );
-    std::cerr << "MESH" << std::endl;
+  //  std::cerr << "MESH" << std::endl;
 
     auto glMesh = Mesh::Create ( vertices , indices , GL_TRIANGLES );
     if ( mesh->mMaterialIndex >= 0 )
@@ -197,7 +194,7 @@ void Model::ProcessMesh ( aiMesh* mesh , const aiScene* scene ) {
 
     m_meshes.push_back ( std::move ( glMesh ) );
 
-    std::cerr << "process mesh complete " << std::endl;
+  //  std::cerr << "process mesh complete " << std::endl;
 
 
 }

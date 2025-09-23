@@ -117,7 +117,7 @@ void character::Initialize ( const std::string& strName )
 	Animation* idleAnim = new Animation ( strName , model );
 	animator = new Animator ( idleAnim );
 	//Pos = glm::vec3 (5.0f,0.0f,-1.0f );
-	std::cerr << "OBJECT INITIALIZE!" << std::endl;
+//	std::cerr << "OBJECT INITIALIZE!" << std::endl;
 	if ( !_model ) {
 		std::cerr << "program UserSetError id : " << _model->Get ( ) << std::endl;
 		return;
@@ -150,13 +150,13 @@ bool character::DynamicAlgorithm ( )
 		std::tie ( goalx , goaly ) = gotoPath;
 	}
 	else {
-		std::cout << "NOT PATH IS RENEW" << std::endl;
+
 		return false;
 	}
 	std::tuple<int , int> gotoPath2 = algorithm->path[ algorithm->path.size ( ) - 1 ];
 	std::tie ( Lastgoalx , Lastgoaly ) = gotoPath2;
 	if ( path_now_x == Lastgoalx && path_now_z == Lastgoaly ) {
-		std::cout << "GOAL IN1" << std::endl;
+
 		return true;
 	}
 
@@ -166,7 +166,7 @@ bool character::DynamicAlgorithm ( )
 			pathindex += 1;
 		}
 		else {
-			std::cout << "GOAL IN2" << std::endl;
+
 			return true;
 		}
 
@@ -234,13 +234,13 @@ bool character::StaticAlgorithm ( glm::ivec2 _path )
 		std::tie ( goalx , goaly ) = gotoPath;
 	}
 	else {
-		std::cout << "NOT PATH IS RENEW" << std::endl;
+
 		return false;
 	}
 	std::tuple<int , int> gotoPath2 = algorithm->path[ algorithm->path.size ( ) - 1 ];
 	std::tie ( Lastgoalx , Lastgoaly ) = gotoPath2;
 	if ( path_now_x == Lastgoalx && path_now_z == Lastgoaly ) {
-		std::cout << "GOAL IN1" << std::endl;
+
 		return true;
 	}
 
@@ -250,7 +250,7 @@ bool character::StaticAlgorithm ( glm::ivec2 _path )
 			pathindex += 1;
 		}
 		else {
-			std::cout << "GOAL IN2" << std::endl;
+
 			return true;
 		}
 
@@ -309,9 +309,9 @@ void character::Status_Machine ( )
 
 
 	if ( phase == Phase::Idle ) {
-		std::cout << "Idle : ";
+
 		if ( action == Action::Idle ) {
-			std::cout << "Idle";
+
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( idleAnim );
 				time = 0.0f;
@@ -337,7 +337,7 @@ void character::Status_Machine ( )
 
 		}
 		if ( action == Action::running ) {
-			std::cout << "running";
+
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( runAnim );
 				SoundManager::getInstance ( ).GetSoundID ( "Monster_Walk" )->ReplaySound (volume );
@@ -347,9 +347,7 @@ void character::Status_Machine ( )
 			}
 			else if ( status == Status::running ) {
 				if ( StaticAlgorithm ( StaticPaths[ Cycleindex ] ) ) {
-					std::cout << "#############################Reached point: "
-						<< StaticPaths[ Cycleindex ].x << ", "
-						<< StaticPaths[ Cycleindex ].y << std::endl;
+
 
 					// 다음 경로로 이동 (순환)
 					Cycleindex = ( Cycleindex + 1 ) % StaticPaths.size ( );
@@ -364,7 +362,7 @@ void character::Status_Machine ( )
 
 		}
 		if ( action == Action::walk ) {
-			std::cout << "walk";
+
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( walkAnim );
 				SoundManager::getInstance ( ).GetSoundID ( "Monster_Walk" )->ReplaySound ( );
@@ -395,7 +393,7 @@ void character::Status_Machine ( )
 
 		}
 		if ( action == Action::attack ) {
-			std::cout << "attack";
+
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( attackAnim );
 				status = Status::running;
@@ -409,7 +407,7 @@ void character::Status_Machine ( )
 
 		}
 		if ( action == Action::scream ) {
-			std::cout << "scream";
+
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( sceramAnim );
 				status = Status::running;
@@ -424,13 +422,12 @@ void character::Status_Machine ( )
 		}
 
 
-		std::cout<<std::endl;
 
 	}
 	if ( phase == Phase::Angry ) {
-		std::cout << "ANGRY : ";
+
 		if ( action == Action::Idle ) {
-			std::cout << "Idle";
+
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( idleAnim );
 				time = 0.0f;
@@ -453,7 +450,7 @@ void character::Status_Machine ( )
 
 		}
 		if ( action == Action::running ) {
-			std::cout << "running";
+
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( runAnim );
 				SoundManager::getInstance ( ).GetSoundID ( "Chase1" )->ReplaySound ( 0.5f );
@@ -462,7 +459,7 @@ void character::Status_Machine ( )
 			}
 			else if ( status == Status::running ) {
 				if( StaticAlgorithm ( chaseWhere ) ) {
-					std::cout <<"나는 바보" << chaseWhere.x << "   " << chaseWhere.y << std::endl;
+
 					status = Status::exit;
 				}
 				SoundManager::getInstance ( ).GetSoundID ( "Monster_Foot" )->SetVolume ( volume );
@@ -477,7 +474,7 @@ void character::Status_Machine ( )
 
 		}
 		if ( action == Action::walk ) {
-			std::cout << "walk";
+
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( walkAnim );
 				SoundManager::getInstance ( ).GetSoundID ( "Monster_Walk" )->ReplaySound ( );
@@ -508,7 +505,7 @@ void character::Status_Machine ( )
 
 		}
 		if ( action == Action::attack ) {
-			std::cout << "attack";
+
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( attackAnim );
 				status = Status::running;
@@ -528,7 +525,7 @@ void character::Status_Machine ( )
 
 		}
 		if ( action == Action::scream ) {
-			std::cout << "scream";
+
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( sceramAnim );
 				status = Status::running;
@@ -548,15 +545,12 @@ void character::Status_Machine ( )
 
 		}
 
-
-
-		std::cout << std::endl;
 	}
 
 	if ( phase == Phase::Mad ) {
-		std::cout << "Mad : ";
+
 		if ( action == Action::running ) {
-			std::cout << "running";
+
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( runAnim );
 				time = 0.0f;
@@ -592,7 +586,7 @@ void character::Status_Machine ( )
 		}
 
 		if ( action == Action::attack ) {
-			std::cout << "attack";
+
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( attackAnim );
 				status = Status::running;
@@ -614,7 +608,7 @@ void character::Status_Machine ( )
 
 		}
 		if ( action == Action::scream ) {
-			std::cout << "scream";
+
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( sceramAnim );
 				status = Status::running;
@@ -633,14 +627,13 @@ void character::Status_Machine ( )
 			}
 
 		}
-		std::cout << std::endl;
+
 		
 	}
 	if ( phase == Phase::Crazy ) {
 
-		std::cout << "Crazy : ";
 		if ( action == Action::running ) {
-			std::cout << "running";
+
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( runAnim );
 				time = 0.0f;
@@ -666,7 +659,7 @@ void character::Status_Machine ( )
 		}
 
 		if ( action == Action::attack ) {
-			std::cout << "scream";
+
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( sceramAnim );
 				status = Status::running;
@@ -686,7 +679,7 @@ void character::Status_Machine ( )
 
 		}
 		if ( action == Action::scream ) {
-			std::cout << "scream";
+
 			if ( status == Status::start ) {
 				animator->PlayAnimation ( sceramAnim );
 				status = Status::running;
@@ -705,8 +698,6 @@ void character::Status_Machine ( )
 			}
 
 		}
-		std::cout << std::endl;
-
 
 	}
 	

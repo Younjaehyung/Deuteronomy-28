@@ -77,14 +77,14 @@ public:
 				action = Action::scream;
 				status = Status::start;
 				chase = 1;
-				std::cout << "IDLE LIGHT EVENT!" << std::endl;
+
 			}
 			else if ( phase == Phase::Angry && chase == 0 ) {
 				phase = Phase::Mad;
 				action = Action::scream;
 				status = Status::start;
 				chase = 1;
-				std::cout << "ANGRY LIGHT EVENT!" << std::endl;
+
 			}
 		}
 		else if ( alert == 1 ) {

@@ -27,6 +27,11 @@ private:
 	float m_cameraYaw{ 0.0f };
 	float m_camerRoll{ 0.0f };
 
+	float m_TcameraPitch{ 0.0f };
+
+	float m_TcameraYaw{ 0.0f };
+	float m_TcamerRoll{ 0.0f };
+
 	glm::vec3 m_cameraPos{ glm::vec3 ( 0.0f, 0.0f, 0.0f ) };	//카메라의 위치
 	glm::vec3 m_cameraFront{ glm::vec3 ( 0.0f, 0.0f, -1.0f ) };	//카메라가 보고 있는 방향
 	glm::vec3 m_cameraUp{ glm::vec3 ( 0.0f, 1.0f, 0.0f ) };		//카메라 up벡터
@@ -44,6 +49,8 @@ private:
 
 	
 	glm::vec2 m_prevMousePos{ glm::vec2 ( 0.0f ) };
+	glm::vec2  deltaPos;
+	float elpasedTime{};
 public:
 	
 	Camera ( ) {
@@ -55,8 +62,7 @@ public:
 	}
 
 	void Debugging ( ) {
-		std::cout << "m_cameraPos Pos : " << m_cameraPos.y << std::endl;
-		
+
 	}
 
 	
@@ -114,5 +120,16 @@ public:
 	bool& cameraControl ( ) {
 		return m_cameraControl;
 	}
+
+private:
+		static inline float WrapDeg ( float a ) {
+			a = std::fmod ( a , 360.f );
+			if ( a < 0.f ) a += 360.f;
+			return a;
+		}
+		static inline float ShortestAngleDeltaDeg ( float from , float to ) {
+			float d = std::fmod ( to - from + 540.f , 360.f ) - 180.f; // [-180,180)
+			return d;
+		}
 };
 

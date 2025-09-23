@@ -23,25 +23,83 @@ void GameManager::LoadingScene ( ) {
 
 void GameManager::Initialize ( )
 {
-	input::Initialize ( );
-	Time::Initailize ( );
 
 	
+
+	input::Initialize ( );
+	Time::Initailize ( );
+	std::cout << "=================================================================================================" << std::endl;
+
+	std::cout << "d8888b. " << std::endl;
+	std::cout << "88  `8D " << std::endl;
+	std::cout << "88   88 " << std::endl;
+	std::cout << "88   88 " << std::endl;
+	std::cout << "88  .8D " << std::endl;
+	std::cout << "Y8888D' "<< std::endl;
+
+	std::cout << "=================================================================================================" << std::endl;
+	
+
 	//LoadingScene ( );
 
 	SoundManager::getInstance ( ).Initialize ( );
+	system ( "cls" );
+	std::cout << "=================================================================================================" << std::endl;
+	std::cout << "d8888b. d88888b db    db d888888b " << std::endl;
+	std::cout << "88  `8D 88'     88    88 `~~88~~' " << std::endl;
+	std::cout << "88   88 88ooooo 88    88    88	" << std::endl;
+	std::cout << "88   88 88~~~~~ 88    88    88	" << std::endl;
+	std::cout << "88  .8D 88.     88b  d88    88	" << std::endl;
+	std::cout << "Y8888D' Y88888P ~Y8888P'    YP	" << std::endl;
+	std::cout << "=================================================================================================" << std::endl;
+	
 
 	
 	Scene* startmode = new Gamestart;
 	Scenes.push_back ( startmode );
 
+
+
 	Scene* intromode = new Gameintro;
 	Scenes.push_back ( intromode );
+	system ( "cls" );
+	std::cout << "=================================================================================================" << std::endl;
+	std::cout << "d8888b. d88888b db    db d888888b d88888b d8888b.	" << std::endl;
+	std::cout << "88  `8D 88'     88    88 `~~88~~' 88'     88  `8D	" << std::endl;
+	std::cout << "88   88 88ooooo 88    88    88    88ooooo 88oobY'	" << std::endl;
+	std::cout << "88   88 88~~~~~ 88    88    88    88~~~~~ 88`8b	" << std::endl;
+	std::cout << "88  .8D 88.     88b  d88    88    88.     88 `88.	" << std::endl;
+	std::cout << "Y8888D' Y88888P ~Y8888P'    YP    Y88888P 88   YD	" << std::endl;
+	std::cout << "=================================================================================================" << std::endl;
+
+	
 
 	Scene* playmode = new Context;
 	Scenes.push_back( playmode );
 
+	system ( "cls" );
+	std::cout << "=================================================================================================" << std::endl;
+	std::cout << "d8888b. d88888b db    db d888888b d88888b d8888b.  .d88b.  d8b   db " << std::endl;
+	std::cout << "88  `8D 88'     88    88 `~~88~~' 88'     88  `8D .8P  Y8. 888o  88 " << std::endl;
+	std::cout << "88   88 88ooooo 88    88    88    88ooooo 88oobY' 88    88 88V8o 88 " << std::endl;
+	std::cout << "88   88 88~~~~~ 88    88    88    88~~~~~ 88`8b   88    88 88 V8o88 " << std::endl;
+	std::cout << "88  .8D 88.     88b  d88    88    88.     88 `88. `8b  d8' 88  V888 " << std::endl;
+	std::cout << "Y8888D' Y88888P ~Y8888P'    YP    Y88888P 88   YD  `Y88P'  VP   V8P " << std::endl;
+	std::cout << "=================================================================================================" << std::endl;
+
 	overmode = new Scene;
+
+	system ( "cls" );
+	std::cout << "=================================================================================================" << std::endl;
+	std::cout << "d8888b. d88888b db    db d888888b d88888b d8888b.  .d88b.  d8b   db  .d88b.  .88b  d88.		   " << std::endl;
+	std::cout << "88  `8D 88'     88    88 `~~88~~' 88'     88  `8D .8P  Y8. 888o  88 .8P  Y8. 88'YbdP`88		   " << std::endl;
+	std::cout << "88   88 88ooooo 88    88    88    88ooooo 88oobY' 88    88 88V8o 88 88    88 88  88  88		   " << std::endl;
+	std::cout << "88   88 88~~~~~ 88    88    88    88~~~~~ 88`8b   88    88 88 V8o88 88    88 88  88  88		   " << std::endl;
+	std::cout << "88  .8D 88.     88b  d88    88    88.     88 `88. `8b  d8' 88  V888 `8b  d8' 88  88  88		   " << std::endl;
+	std::cout << "Y8888D' Y88888P ~Y8888P'    YP    Y88888P 88   YD  `Y88P'  VP   V8P  `Y88P'  YP  YP  YP		   " << std::endl;
+	std::cout << "=================================================================================================" << std::endl;
+
+
 	Death = new Deathmap;
 	Life = new Lifemap;
 	
@@ -52,6 +110,15 @@ void GameManager::Initialize ( )
 	Scenes.push_back ( endmode );
 	
 	//Scenes[ static_cast< int >( mode ) ]->Initialize ( );
+	system ( "cls" );
+	std::cout << "=================================================================================================" << std::endl;
+	std::cout << "d8888b. d88888b db    db d888888b d88888b d8888b.  .d88b.  d8b   db  .d88b.  .88b  d88. db    db " << std::endl;
+	std::cout << "88  `8D 88'     88    88 `~~88~~' 88'     88  `8D .8P  Y8. 888o  88 .8P  Y8. 88'YbdP`88 `8b  d8' " << std::endl;
+	std::cout << "88   88 88ooooo 88    88    88    88ooooo 88oobY' 88    88 88V8o 88 88    88 88  88  88  `8bd8'  " << std::endl;
+	std::cout << "88   88 88~~~~~ 88    88    88    88~~~~~ 88`8b   88    88 88 V8o88 88    88 88  88  88    88    " << std::endl;
+	std::cout << "88  .8D 88.     88b  d88    88    88.     88 `88. `8b  d8' 88  V888 `8b  d8' 88  88  88    88    " << std::endl;
+	std::cout << "Y8888D' Y88888P ~Y8888P'    YP    Y88888P 88   YD  `Y88P'  VP   V8P  `Y88P'  YP  YP  YP    YP    " << std::endl;
+	std::cout << "=================================================================================================" << std::endl;
 
 }
 void GameManager::ProcessInput ( GLFWwindow* window )
@@ -161,7 +228,7 @@ void GameManager::Reshape ( int width , int height ) {
 	//	m_height = 1;
 	//}
 	//
-	std::cout << Scenes.size() << std::endl;
+
 	Scenes[ static_cast< int >( mode ) ]->Reshape ( m_width , m_height );
 	
 }

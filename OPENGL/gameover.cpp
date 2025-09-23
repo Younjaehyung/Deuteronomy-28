@@ -10,7 +10,7 @@ bool gameover::Initialize ( )
 {
     m_simpleProgram = Program::Create ( "./shader/simple.vs" , "./shader/simple.fs" );
     if ( !m_simpleProgram ) {
-        std::cerr << "program UserSetError id : " << m_simpleProgram->Get ( ) << std::endl;
+        //std::cerr << "program UserSetError id : " << m_simpleProgram->Get ( ) << std::endl;
         return false;
 
 
@@ -18,7 +18,7 @@ bool gameover::Initialize ( )
 
     m_program = Program::Create ( "./shader/lighting.vs" , "./shader/lighting.fs" );
     if ( !m_program ) {
-        std::cerr << "program UserSetError id : " << m_program->Get ( ) << std::endl;
+       // std::cerr << "program UserSetError id : " << m_program->Get ( ) << std::endl;
         return false;
 
 
@@ -26,7 +26,7 @@ bool gameover::Initialize ( )
 
     m_simpleAnimationProgram = Program::Create ( "./shader/lighting.vs" , "./shader/lighting.fs" );
     if ( !m_program ) {
-        std::cerr << "program UserSetError id : " << m_program->Get ( ) << std::endl;
+       // std::cerr << "program UserSetError id : " << m_program->Get ( ) << std::endl;
         return false;
 
 

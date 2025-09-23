@@ -18,8 +18,8 @@ ProgramUPtr Program::Create (const std::string& vertShaderFilename ,const std::s
 	ShaderPtr fs = Shader::CreateFromFile ( fragShaderFilename ,GL_FRAGMENT_SHADER );
 	if ( !vs || !fs )
 		return nullptr;
-	std::cerr << "vertex shader id: " << vs->Get ( ) << std::endl;
-	std::cerr << "fragment shader id: " << fs->Get ( ) << std::endl;
+	//std::cerr << "vertex shader id: " << vs->Get ( ) << std::endl;
+	//std::cerr << "fragment shader id: " << fs->Get ( ) << std::endl;
 
 
 	return std::move ( Create ( { vs, fs } ) );
@@ -51,7 +51,7 @@ bool Program::link ( const std::vector<ShaderPtr>& shaders )
 		if ( !success ) {
 			char infoLog[ 1024 ];
 			glGetProgramInfoLog ( m_program , 1024 , nullptr , infoLog );	//program에 대한 로그를 얻어옴. 링크 에러 얻어내는 용도
-			std::cout<<"failed to link program:" << infoLog <<std::endl;	
+		//	std::cout<<"failed to link program:" << infoLog <<std::endl;	
 			return false;
 		}
 		return true;

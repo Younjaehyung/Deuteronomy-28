@@ -183,7 +183,7 @@ void Player::Initialize ( const std::string& strName )
 	
 	LightManager::getInstance ( ).AddLight ( FlashLight );
 
-	std::cerr << "Player INITIALIZE!" << std::endl;
+	//std::cerr << "Player INITIALIZE!" << std::endl;
 	if ( !_model ) {
 		std::cerr << "program UserSetError id : " << _model->Get ( ) << std::endl;
 		return;
@@ -289,7 +289,7 @@ void Player::Input ( GLFWwindow* window ) {
 
 	glm::ivec2 now;
 	Path_now ( Pos , now);
-	std::cout << "POS1" << std::endl;
+
 	if ( now.x < 0 || now.y < 0 ) {
 
 	}
@@ -299,7 +299,7 @@ void Player::Input ( GLFWwindow* window ) {
 	else if ( grid[ now.y ][now.x] != 0 && grid[ now.y ][ now.x ] != 3 ) {
 		Pos = _pos;
 	}
-	std::cout << "POS2" << std::endl;
+
 
 	if ( movestat == moving::run ) {
 

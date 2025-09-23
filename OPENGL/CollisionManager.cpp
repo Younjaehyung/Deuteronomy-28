@@ -25,7 +25,7 @@ void CollisionManager::Update ( std::vector<Object*>& colliders ) {
 						gameend = 2;
 					}
 				
-					std:: cout << obj1->name << " " << obj2->name << std::endl;
+					
 				}
 			}
 		}

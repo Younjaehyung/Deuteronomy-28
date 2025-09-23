@@ -1,6 +1,20 @@
 ﻿#include "Gamestart.h"
 #include "Time.h"
 #include "Sound.h"
+void Gamestart::PrintLogo ( )
+{
+
+        std::cout << "______               _                                                        " << std::endl;
+        std::cout << "|  _  \             | |                                                       " << std::endl;
+        std::cout << "| | | |  ___  _   _ | |_   ___  _ __   ___   _ __    ___   _ __ ___   _   _   " << std::endl;
+        std::cout << "| | | | / _ \| | | || __| / _ \| '__| / _ \ | '_ \  / _ \ | '_ ` _ \ | | | |  " << std::endl;
+        std::cout << "| |/ / |  __/| |_| || |_ |  __/| |   | (_) || | | || (_) || | | | | || |_| |  " << std::endl;
+        std::cout << "|___/   \___| \__,_| \__| \___||_|    \___/ |_| |_| \___/ |_| |_| |_| \__, |  " << std::endl;
+        std::cout << "                                                               __/ |          " << std::endl;
+        std::cout << "                                                              |___/           " << std::endl;
+
+
+}
 void Gamestart::Update ( )
 {
     if ( soundToggle == 0 ) {
@@ -57,6 +71,9 @@ void Gamestart::Render (  )
 
 bool Gamestart::Initialize ( )
 {
+    PrintLogo ( );
+
+
 	m_plane = Mesh::CreatePlane ( );
 
     if ( CUTEMDOE == 0 ) {
@@ -80,7 +97,7 @@ bool Gamestart::Initialize ( )
     
     m_simpleProgram = Program::Create ( "./shader/simple.vs" , "./shader/simple.fs" );
     if ( !m_simpleProgram ) {
-        std::cerr << "program UserSetError id : " << m_simpleProgram->Get ( ) << std::endl;
+       // std::cerr << "program UserSetError id : " << m_simpleProgram->Get ( ) << std::endl;
         return false;
 
 
@@ -88,7 +105,7 @@ bool Gamestart::Initialize ( )
 
     m_program = Program::Create ( "./shader/lighting.vs" , "./shader/lighting.fs" );
     if ( !m_program ) {
-        std::cerr << "program UserSetError id : " << m_program->Get ( ) << std::endl;
+        //std::cerr << "program UserSetError id : " << m_program->Get ( ) << std::endl;
         return false;
 
 
@@ -96,7 +113,7 @@ bool Gamestart::Initialize ( )
 
     m_simpleAnimationProgram = Program::Create ( "./shader/simple_animation.vs" , "./shader/simple_animation.fs" );
     if ( !m_simpleAnimationProgram ) {
-        std::cerr << "program UserSetError id : " << m_simpleAnimationProgram->Get ( ) << std::endl;
+        //std::cerr << "program UserSetError id : " << m_simpleAnimationProgram->Get ( ) << std::endl;
         return false;
 
 
@@ -104,7 +121,7 @@ bool Gamestart::Initialize ( )
 
     m_camerauiProgram = Program::Create ( "./shader/cameraUI.vs" , "./shader/cameraUI.fs" );
     if ( !m_camerauiProgram ) {
-        std::cerr << "program UserSetError id : " << m_camerauiProgram->Get ( ) << std::endl;
+       // std::cerr << "program UserSetError id : " << m_camerauiProgram->Get ( ) << std::endl;
         return false;
 
 

@@ -17,9 +17,9 @@
 
 void Context::Render ( ) {
 
-    std::cout << "PlayMode" << std::endl;
+
     //IMGUI_USER ( );
-    std::cout << "PlayMode" << std::endl;
+
     glEnable ( GL_DEPTH_TEST ); // DEPTH Buffer 사용 설정
     
     //cubebox

@@ -60,7 +60,7 @@ public:
 
     // 그래프 디버그 출력
     void print ( ) const {
-        for ( int i = 0; i < nodes.size ( ); ++i ) {
+        /*for ( int i = 0; i < nodes.size ( ); ++i ) {
             std::cout << "Node " << i << " (" << nodes[ i ].x << ", " << nodes[ i ].y << ")";
             if ( !nodes[ i ].walkable ) std::cout << " [Obstacle]";
             std::cout << " -> ";
@@ -70,7 +70,7 @@ public:
                 }
             }
             std::cout << "\n";
-        }
+        }*/
     }
 };
 

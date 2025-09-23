@@ -36,7 +36,7 @@ public:
 		if ( !m_LoadingScreenProgram ) {
 			std::cerr << "program UserSetError id : " << m_LoadingScreenProgram->Get ( ) << std::endl;
 		}
-		std::cerr << "GameLoading Start!" << std::endl;
+		//std::cerr << "GameLoading Start!" << std::endl;
 	}
 
 	int m_width{ 640 };

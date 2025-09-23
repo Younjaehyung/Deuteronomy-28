@@ -46,7 +46,7 @@ public:
 	void AddCamera (Camera* addcamera ) {
 		for ( auto& _camera : Cameras ) {
 			if ( addcamera == _camera ) {
-				std::cout << "This Camera already exists" << std::endl;
+
 				return;
 			}
 		}

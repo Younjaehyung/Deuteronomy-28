@@ -102,8 +102,8 @@ bool Door::HandleCollision ( Object* player )
 void Door::Initialize ( const std::string& strName ) {
     model = Model::Load ( strName );
     if ( !model ) {
-        std::cerr << "Failed to load model for Door: " << strName << std::endl;
+     //   std::cerr << "Failed to load model for Door: " << strName << std::endl;
         throw std::runtime_error ( "Door initialization failed" );
     }
-    std::cerr << "Door initialized: " << strName << std::endl;
+  //  std::cerr << "Door initialized: " << strName << std::endl;
 }

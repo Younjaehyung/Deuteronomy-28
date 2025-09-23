@@ -64,8 +64,8 @@ bool Item::HandleCollision ( Object* player )
 void Item::Initialize ( const std::string& strName ) {
     model = Model::Load ( strName );
     if ( !model ) {
-        std::cerr << "Failed to load model for Item: " << strName << std::endl;
+     //   std::cerr << "Failed to load model for Item: " << strName << std::endl;
         throw std::runtime_error ( "Item initialization failed" );
     }
-    std::cerr << "Item initialized: " << strName << std::endl;
+   // std::cerr << "Item initialized: " << strName << std::endl;
 }

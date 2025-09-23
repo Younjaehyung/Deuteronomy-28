@@ -26,7 +26,7 @@ public:
 	bool Check_AABB_Collision ( Object* box1 , Object* box2 );
 	bool ShouldCollide ( eLayerType type1 , eLayerType type2 );
 	int GetGameEnd () {
-		std::cout << "GameEnd:: "<< gameend << std::endl;
+
 		return gameend;
 	}
 
