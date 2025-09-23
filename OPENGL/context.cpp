@@ -409,8 +409,16 @@ bool Context::Initialize ( )
     CameraUITEXTURE = Texture::CreateFromImage ( CameraUi.get());
     CameraUi = Image::Load ( "./model/UI/CameraRec.png" , false );
     RecUITEXTURE = Texture::CreateFromImage ( CameraUi.get ( ) );
-    auto SplitUi = Image::Load ( "./model/UI/SplitUI.png" , false );
-    SplitUITEXTURE = Texture::CreateFromImage ( SplitUi.get ( ) );
+
+    if ( CUTEMDOE == 0 ) {
+        auto SplitUi = Image::Load ( "./model/UI/SplitUI.png" , false );
+        SplitUITEXTURE = Texture::CreateFromImage ( SplitUi.get ( ) );
+    }
+    else {
+        auto SplitUi = Image::Load ( "./model/UI/Cute_SplitUI.png" , false );
+        SplitUITEXTURE = Texture::CreateFromImage ( SplitUi.get ( ) );
+    }
+
 
     auto Phase1 = Image::Load ( "./model/UI/Phase1.png" , false );
     Phase1UITEXTURE = Texture::CreateFromImage ( Phase1.get ( ) );
