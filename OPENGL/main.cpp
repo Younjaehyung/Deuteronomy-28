@@ -1,5 +1,5 @@
 ﻿#include "GameManager.h"
-
+#include <iostream>
 #include <assimp/version.h> // 버전 정보를 가져오는 헤더 파일
 void OnMouseButton ( GLFWwindow* window , int button , int action , int modifier );
 void OnFramebufferSizeChange ( GLFWwindow* window , int width , int height );
@@ -29,6 +29,24 @@ int main ( )
     glfwWindowHint ( GLFW_DECORATED , GL_FALSE ); //화면 상단부 제거 (발표시 사용)
     GLFWmonitor* monitor = glfwGetPrimaryMonitor ( );
     const GLFWvidmode* mode = glfwGetVideoMode ( monitor );
+
+
+    int gamemode{};
+    std::cout << "원하는 모드를 입력" << std::endl;
+    std::cout << " 0 : 괴물모드" << std::endl;
+    std::cout << " 1 : 토끼모드" << std::endl;
+
+    std::cin >> gamemode;
+    if ( gamemode == 0 ) {
+        CUTEMDOE = 0;
+    }
+    else if ( gamemode == 1 ) {
+        CUTEMDOE = 1;
+    }
+    else {
+        exit ( 1 );
+    }
+
 
     // 전체화면 윈도우 생성
     GLFWwindow* window = glfwCreateWindow ( mode->width , mode->height , "Deuteronomy" , monitor , nullptr );
@@ -77,6 +95,8 @@ int main ( )
    
    // glfwMakeContextCurrent ( window );
     //context 객체 생성
+
+
     auto* context = new GameManager;
     context->Initialize ( );
     if ( !context ) {
@@ -104,6 +124,8 @@ int main ( )
     glfwSetMouseButtonCallback ( window , OnMouseButton );
     glfwSetCharCallback ( window , OnCharEvent );
     
+
+
 
     while ( !glfwWindowShouldClose ( window ) ) {   //윈도우가 종료되었는지 확인
            glfwPollEvents ( ); //프레임 안정화
@@ -164,7 +186,7 @@ void OnFramebufferSizeChange ( GLFWwindow* window , int width , int height ) {
 }
 
 void key_pressed ( GLFWwindow* window , int key , int scancode , int action , int mods ) {
-    if ( key == GLFW_KEY_Q && action == GLFW_PRESS ) {
+    if ( key == GLFW_KEY_ESCAPE && action == GLFW_PRESS ) {
         glfwSetWindowShouldClose ( window , GLFW_TRUE );
     }
 

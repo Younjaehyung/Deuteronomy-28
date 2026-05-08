@@ -42,18 +42,16 @@ void main() {
         return;
     }
     if(typeID==-1){
-    //노이즈
+
       vec2 uv = texCoord;
 
-    // Horizontal offset to simulate screen tearing
+
     float offset = random(vec2(uv.y, time)) * 0.01;
     uv.x += offset;
 
-    // Add noise effect
     float noise = random(uv + time);
     vec3 noisyColor = texture(tex, uv).rgb + noise * 0.5;
 
-    // Apply mosaic effect
     float blockSize = 0.001;
     uv = floor(uv / blockSize) * blockSize;
 
@@ -68,16 +66,15 @@ void main() {
         
      vec2 uv = texCoord;
     
-    // 화면 흔들림 효과
-    uv.x += sin(uv.y * 5.0 + time) * 0.0001; // 주기와 강도 조절
-    uv.y += cos(uv.x * 5.0 + time) * 0.0001; // 주기와 강도 조절
+
+    uv.x += sin(uv.y * 5.0 + time) * 0.0001; 
+    uv.y += cos(uv.x * 5.0 + time) * 0.0001; 
     
-    // 컬러 채널 왜곡
+
     float r = texture(tex, uv + vec2(0.005, 0.0)).r;
     float g = texture(tex, uv).g;
     float b = texture(tex, uv - vec2(0.005, 0.0)).b;
 
-    // 노이즈 적용
     float noise = random(uv + time) * 0.05;
     fragColor = vec4(r + noise, g + noise, b + noise, 1.0);
     return;
@@ -85,16 +82,15 @@ void main() {
     if(typeID==2){
         vec2 uv = texCoord;
     
-        // 화면 흔들림 효과
-        uv.x += sin(uv.y * 5.0 + time) * 0.0001; // 주기와 강도 조절
-        uv.y += cos(uv.x * 5.0 + time) * 0.0001; // 주기와 강도 조절
+  
+        uv.x += sin(uv.y * 5.0 + time) * 0.0001; 
+        uv.y += cos(uv.x * 5.0 + time) * 0.0001; 
     
-        // 컬러 채널 왜곡
+
         float r = texture(tex, uv + vec2(0.005, 0.0)).r;
         float g = texture(tex, uv).g;
         float b = texture(tex, uv - vec2(0.005, 0.0)).b;
 
-        // 노이즈 적용
         float noise = random(uv + time) * 0.05;
         pixel = vec4(r + noise, g + noise, b + noise, 1.0);
 
@@ -106,11 +102,11 @@ void main() {
         //}
 
         vec2 st = gl_FragCoord.xy / resolution.xy;
-        noise = random(st * time); // 랜덤 노이즈
-        float scanline = sin(st.y * resolution.y * 0.1 + time * 50.0) * 0.1; // 스캔 라인
+        noise = random(st * time); 
+        float scanline = sin(st.y * resolution.y * 0.1 + time * 50.0) * 0.1;
 
         //vec3 color = texture(screenTexture, st).rgb;
-         pixel.xyz += vec3(noise + scanline) * 0.2; // 노이즈와 스캔 라인 결합
+         pixel.xyz += vec3(noise + scanline) * 0.2; 
         //gl_FragColor = vec4( pixel.xyz, 1.0);
 
         fragColor = pixel;

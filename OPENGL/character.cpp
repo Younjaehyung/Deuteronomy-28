@@ -172,7 +172,7 @@ bool character::DynamicAlgorithm ( )
 
 	}
 	else {
-		float speed = 30.0f; // 이동 속도
+		float speed = 20.0f; // 이동 속도
 		float deltaTime = Time::DeltaTime ( );
 		float rotationSpeed = 7.0f; // 회전 속도
 

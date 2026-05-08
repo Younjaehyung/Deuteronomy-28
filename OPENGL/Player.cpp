@@ -309,7 +309,7 @@ void Player::Input ( GLFWwindow* window ) {
 		}
 	}
 	else {
-		running_stamina += Time::DeltaTime ( )/5;
+		running_stamina += Time::DeltaTime ( )/3;
 		if ( running_stamina >= 10 ) {
 			running_stamina = 10;
 		}

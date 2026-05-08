@@ -36,7 +36,7 @@ void CollisionManager::Update ( std::vector<Object*>& colliders ) {
 bool CollisionManager::ShouldCollide ( eLayerType type1 , eLayerType type2 ) {
 
 	return mCollisionLayerMatrix[ ( uint32_t ) type1 ].test ( ( uint32_t ) type2 );
-}
+} 
 
 
 

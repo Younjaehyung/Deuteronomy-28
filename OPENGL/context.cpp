@@ -445,7 +445,7 @@ bool Context::Initialize ( )
 
     m_simpleProgram = Program::Create ( "./shader/simple.vs" , "./shader/simple.fs" );
     if ( !m_simpleProgram ) {
-        std::cerr << "program UserSetError id : " << m_simpleProgram->Get ( ) << std::endl;
+     //   std::cerr << "program UserSetError id : " << m_simpleProgram->Get ( ) << std::endl;
         return false;
 
 
@@ -453,7 +453,7 @@ bool Context::Initialize ( )
 
     m_program = Program::Create ( "./shader/lighting.vs" , "./shader/lighting.fs" );
     if ( !m_program ) {
-        std::cerr << "program UserSetError id : " << m_program->Get ( ) << std::endl;
+     //   std::cerr << "program UserSetError id : " << m_program->Get ( ) << std::endl;
         return false;
 
 
@@ -461,7 +461,7 @@ bool Context::Initialize ( )
 
     m_textureProgram = Program::Create ( "./shader/texture.vs" , "./shader/texture.fs" );
     if ( !m_textureProgram ) {
-        std::cerr << "program UserSetError id : " << m_textureProgram->Get ( ) << std::endl;
+    //    std::cerr << "program UserSetError id : " << m_textureProgram->Get ( ) << std::endl;
         return false;
 
 
@@ -469,7 +469,7 @@ bool Context::Initialize ( )
   
     m_animationProgram = Program::Create ( "./shader/animation.vs" , "./shader/animation.fs" );
     if ( !m_animationProgram ) {
-        std::cerr << "program UserSetError id : " << m_animationProgram->Get ( ) << std::endl;
+    //    std::cerr << "program UserSetError id : " << m_animationProgram->Get ( ) << std::endl;
         return false;
 
 
@@ -477,7 +477,7 @@ bool Context::Initialize ( )
     
     m_assimp_Program = Program::Create ( "./shader/assimp_light.vs" , "./shader/assimp_light.fs" );
     if ( !m_animationProgram ) {
-        std::cerr << "program UserSetError id : " << m_animationProgram->Get ( ) << std::endl;
+     //   std::cerr << "program UserSetError id : " << m_animationProgram->Get ( ) << std::endl;
         return false;
 
 
@@ -485,7 +485,7 @@ bool Context::Initialize ( )
     
     m_lightingShadowProgram = Program::Create ("./shader/lighting_shadow.vs" , "./shader/lighting_shadow.fs" );
     if ( !m_lightingShadowProgram ) {
-        std::cerr << "program UserSetError id : " << m_lightingShadowProgram->Get ( ) << std::endl;
+     //   std::cerr << "program UserSetError id : " << m_lightingShadowProgram->Get ( ) << std::endl;
         return false;
 
 
@@ -493,7 +493,7 @@ bool Context::Initialize ( )
 
     m_simpleAnimationProgram = Program::Create ( "./shader/simple_animation.vs" , "./shader/simple_animation.fs" );
     if ( !m_simpleAnimationProgram ) {
-        std::cerr << "program UserSetError id : " << m_simpleAnimationProgram->Get ( ) << std::endl;
+     //   std::cerr << "program UserSetError id : " << m_simpleAnimationProgram->Get ( ) << std::endl;
         return false;
 
 
@@ -501,7 +501,7 @@ bool Context::Initialize ( )
 
     m_camerauiProgram = Program::Create ( "./shader/cameraUI.vs" , "./shader/cameraUI.fs" );
     if ( !m_camerauiProgram ) {
-        std::cerr << "program UserSetError id : " << m_camerauiProgram->Get ( ) << std::endl;
+     //   std::cerr << "program UserSetError id : " << m_camerauiProgram->Get ( ) << std::endl;
         return false;
 
 

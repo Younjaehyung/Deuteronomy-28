@@ -11,19 +11,6 @@ void Camera::Update ( ) {
 
 
 
-	if (! (m_TcameraYaw - 0.2f <= m_cameraYaw && m_cameraYaw <= m_TcameraYaw + 0.2f )) {
-		m_cameraYaw -= deltaPos.x * 0.1f;
-	}
-	else {
-		m_cameraYaw = m_TcameraYaw;
-	}
-	if (!( m_TcameraPitch - 0.2f <= m_cameraPitch && m_cameraPitch <= m_TcameraPitch + 0.2f )) {
-		m_cameraPitch -= deltaPos.y * 0.1f;
-	}
-	else {
-		m_cameraPitch = m_TcameraPitch;
-	}
-
 
 
 
@@ -47,6 +34,26 @@ void Camera::Update ( ) {
 
 
 
+	//if ( m_cameraYaw == m_TcameraYaw ) {
+
+	//}
+	//else if ( !( m_TcameraYaw - 3.f <= m_cameraYaw && m_cameraYaw <= m_TcameraYaw + 3.f ) ) {
+	//	m_cameraYaw -= deltaPos.x * 0.1f;
+	//}
+	//else {
+	//	m_cameraYaw = m_TcameraYaw;
+	//}
+
+
+	//if ( m_TcameraPitch == m_cameraPitch ) {
+
+	//}
+	//else if ( !( m_TcameraPitch - 3.f <= m_cameraPitch && m_cameraPitch <= m_TcameraPitch + 3.f ) ) {
+	//	m_cameraPitch -= deltaPos.y * 0.1f;
+	//}
+	//else {
+	//	m_cameraPitch = m_TcameraPitch;
+	//}
 
 	if ( !static_camera ) {
 		//m_cameraPitch_moving = glm::clamp ( m_cameraPitch_moving , -89.0f , 89.0f );
@@ -89,7 +96,15 @@ void Camera::MouseMove ( double x , double y ) {
 
 	const float cameraRotSpeed = 0.2f;
 	m_TcameraYaw -= deltaPos.x * cameraRotSpeed;
+	m_cameraYaw -= deltaPos.x * cameraRotSpeed;
+	m_cameraPitch -= deltaPos.y * cameraRotSpeed;
 	m_TcameraPitch -= deltaPos.y * cameraRotSpeed;
+
+	if ( m_TcameraYaw < 0.0f )   m_TcameraYaw += 360.0f;
+	if ( m_TcameraYaw > 360.0f ) m_TcameraYaw -= 360.0f;
+
+	if ( m_TcameraPitch > 89.0f )  m_TcameraPitch = 89.0f;
+	if ( m_TcameraPitch < -89.0f ) m_TcameraPitch = -89.0f;
 
 
 	if ( m_cameraYaw < 0.0f )   m_cameraYaw += 360.0f;
